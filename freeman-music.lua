@@ -304,17 +304,6 @@ muteGameSoundsButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
 
-local closeBtn = Instance.new("TextButton", logFrame)
-closeBtn.Size = UDim2.new(0, 40, 0, 40)
-closeBtn.Position = UDim2.new(1, -45, 0, 5)
-closeBtn.Text = "X"
-closeBtn.Font = Enum.Font.GothamBold
-closeBtn.TextSize = 18
-closeBtn.TextColor3 = Color3.fromRGB(255,255,255)
-closeBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-closeBtn.BorderSizePixel = 0
-Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
-
 local buttons = {}
 for _, name in ipairs({"1", "2", "3", "4", "5", "6"}) do
     local id = musicIDs[name]
@@ -576,6 +565,39 @@ local function createAudioLogUI()
     bigFrame.Draggable = true
     Instance.new("UICorner", bigFrame).CornerRadius = UDim.new(0, 15)
     createGreenBorders(bigFrame)
+
+    audioLogButton.MouseButton1Click:Connect(function()
+    showOnly(nil)
+    if _G.FreemanAudioLogUI then _G.FreemanAudioLogUI:Destroy() end
+    local logGui = Instance.new("ScreenGui",game:GetService("CoreGui"))
+    logGui.Name = "FreemanAudioLogUI"
+    logGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    logGui.ResetOnSpawn = false
+    _G.FreemanAudioLogUI = logGui
+    local logFrame = Instance.new("Frame", logGui)
+    logFrame.Size = UDim2.new(0, 550, 0, 470)
+    logFrame.Position = UDim2.new(0.5, -275, 0.5, -235)
+    logFrame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    logFrame.Active = true
+    logFrame.Draggable = true
+    Instance.new("UICorner",logFrame).CornerRadius = UDim.new(0,15)
+    if createGreenBorders then createGreenBorders(logFrame) end
+    local closeBtn = Instance.new("TextButton", logFrame)
+    closeBtn.Size = UDim2.new(0, 40, 0, 40)
+    closeBtn.Position = UDim2.new(1, -45, 0, 5)
+    closeBtn.Text = "X"
+    closeBtn.Font = Enum.Font.GothamBold
+    closeBtn.TextSize = 18
+    closeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+    closeBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    closeBtn.BorderSizePixel = 0
+    Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
+    closeBtn.MouseButton1Click:Connect(function()
+        logGui:Destroy()
+        _G.FreemanAudioLogUI = nil
+        showOnly(mainFrame, "main")
+    end)
+end)
 
     local topBar = Instance.new("Frame", bigFrame)
     topBar.Size = UDim2.new(1, 0, 0, 40)
@@ -859,7 +881,7 @@ creditsButton.MouseButton1Click:Connect(function()
 end)
 modeButton.MouseButton1Click:Connect(function()
     isClientAudio = not isClientAudio
-    modeButton.Text = isClientAudio and "❎" or "🎧"
+    modeButton.Text = isClientAudio and "❎" or "✅"
     loopButton.Visible = isClientAudio
     stopButton.Visible = isClientAudio
     volumeButton.Visible = isClientAudio
@@ -897,10 +919,4 @@ pitchButton.MouseButton1Click:Connect(function()
             pitchButton.Text = "Pitch: " .. tostring(currentPitch)
         end
     )
-end)
-
-closeBtn.MouseButton1Click:Connect(function()
-    logGui:Destroy()
-    _G.FreemanAudioLogUI = nil
-    showOnly(mainFrame) -- volta para a aba principal
 end)
