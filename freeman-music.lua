@@ -813,37 +813,44 @@ local function createAudioLogUI()
     end)
 end
 
-mainFrame.Visible = true
-musicListFrame.Visible = false
-settingsFrame.Visible = false
-creditsFrame.Visible = false
+local currentTab = "main"
+local function showOnly(frameToShow, tabName)
+    mainFrame.Visible = false
+    musicListFrame.Visible = false
+    settingsFrame.Visible = false
+    creditsFrame.Visible = false
+    if frameToShow then
+        frameToShow.Visible = true
+    end
+    currentTab = tabName or "main"
+end
 
 musicListBtn.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    musicListFrame.Visible = true
-    settingsFrame.Visible = false
-    creditsFrame.Visible = false
+    if currentTab == "musiclist" then
+        showOnly(mainFrame, "main")
+    else
+        showOnly(musicListFrame, "musiclist")
+    end
 end)
-
 settingsButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    musicListFrame.Visible = false
-    settingsFrame.Visible = true
-    creditsFrame.Visible = false
+    if currentTab == "settings" then
+        showOnly(mainFrame, "main")
+    else
+        showOnly(settingsFrame, "settings")
+    end
 end)
-
 creditsButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    musicListFrame.Visible = false
-    settingsFrame.Visible = false
-    creditsFrame.Visible = true
+    if currentTab == "credits" then
+        showOnly(mainFrame, "main")
+    else
+        showOnly(creditsFrame, "credits")
+    end
 end)
-
 modeButton.MouseButton1Click:Connect(function()
     isClientAudio = not isClientAudio
     modeButton.Text = isClientAudio and "❎" or "🎧"
-end)
-
-audioLogButton.MouseButton1Click:Connect(function()
-    createAudioLogUI()
+    loopButton.Visible = isClientAudio
+    stopButton.Visible = isClientAudio
+    volumeButton.Visible = isClientAudio
+    pitchButton.Visible = isClientAudio
 end)
