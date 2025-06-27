@@ -1105,28 +1105,22 @@ playButton.MouseButton1Click:Connect(function()
             nameGot = info.Name
         end
 
-        createNotification(nameGot.."\nIs this the correct audio?", function()
-            currentAudioId = id
-            if isClientAudio then
-                playClientAudio(id)
+        -- Mostra a notificação por 6 segundos
+        showAchievementBar("Now Playing: " .. nameGot, 6)
+
+        currentAudioId = id
+        if isClientAudio then
+            playClientAudio(id)
+        else
+            if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
+                local args = { [1] = "PlaySong", [2] = id }
+                pcall(function()
+                    player.Character.Radio.Remote:FireServer(unpack(args))
+                end)
             else
-                if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                    local args = { [1] = "PlaySong", [2] = id }
-                    pcall(function()
-                        player.Character.Radio.Remote:FireServer(unpack(args))
-                    end)
-                else
-                    warn("Radio or Remote not found!")
-                end
+                warn("Radio or Remote not found!")
             end
-        end, function()
-            local humanoid = player.Character and player.Character:FindFirstChildWhichIsA("Humanoid")
-            if humanoid then
-                humanoid.Health = 0
-            else
-                warn("Could not reset player, humanoid not found.")
-            end
-        end)
+        end
     else
         warn("INVALID ID")
     end
