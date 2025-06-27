@@ -304,6 +304,17 @@ muteGameSoundsButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
 
+local closeBtn = Instance.new("TextButton", logFrame)
+closeBtn.Size = UDim2.new(0, 40, 0, 40)
+closeBtn.Position = UDim2.new(1, -45, 0, 5)
+closeBtn.Text = "X"
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 18
+closeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+closeBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+closeBtn.BorderSizePixel = 0
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
+
 local buttons = {}
 for _, name in ipairs({"1", "2", "3", "4", "5", "6"}) do
     local id = musicIDs[name]
@@ -886,4 +897,10 @@ pitchButton.MouseButton1Click:Connect(function()
             pitchButton.Text = "Pitch: " .. tostring(currentPitch)
         end
     )
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    logGui:Destroy()
+    _G.FreemanAudioLogUI = nil
+    showOnly(mainFrame) -- volta para a aba principal
 end)
