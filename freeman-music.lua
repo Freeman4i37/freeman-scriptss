@@ -1102,8 +1102,7 @@ playButton.MouseButton1Click:Connect(function()
             nameGot = info.Name
         end
 
-        showAchievementBar("Now Playing: " .. nameGot, 6)
-
+        -- TOQUE O ÁUDIO DIRETO, sem envolver em wait/coroutine/notificação!
         currentAudioId = id
         if isClientAudio then
             playClientAudio(id)
@@ -1117,6 +1116,7 @@ playButton.MouseButton1Click:Connect(function()
                 warn("Radio or Remote not found!")
             end
         end
+        showAchievementBar("Now Playing: " .. nameGot, 6)
     else
         warn("INVALID ID")
     end
