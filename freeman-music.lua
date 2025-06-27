@@ -18,6 +18,33 @@ gui.Name = "FreemanMusicUI"
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+local function createGreenBorders(parentFrame)
+    local top = Instance.new("Frame", parentFrame)
+    top.Size = UDim2.new(1, 0, 0, 3)
+    top.Position = UDim2.new(0, 0, 0, 0)
+    top.BackgroundColor3 = Color3.fromRGB(0, 255, 80)
+    top.BorderSizePixel = 0
+    top.ZIndex = 100000
+    local bottom = Instance.new("Frame", parentFrame)
+    bottom.Size = UDim2.new(1, 0, 0, 3)
+    bottom.Position = UDim2.new(0, 0, 1, -3)
+    bottom.BackgroundColor3 = Color3.fromRGB(0, 255, 80)
+    bottom.BorderSizePixel = 0
+    bottom.ZIndex = 100000
+    local left = Instance.new("Frame", parentFrame)
+    left.Size = UDim2.new(0, 3, 1, 0)
+    left.Position = UDim2.new(0, 0, 0, 0)
+    left.BackgroundColor3 = Color3.fromRGB(0, 255, 80)
+    left.BorderSizePixel = 0
+    left.ZIndex = 100000
+    local right = Instance.new("Frame", parentFrame)
+    right.Size = UDim2.new(0, 3, 1, 0)
+    right.Position = UDim2.new(1, -3, 0, 0)
+    right.BackgroundColor3 = Color3.fromRGB(0, 255, 80)
+    right.BorderSizePixel = 0
+    right.ZIndex = 100000
+end
+
 local musicListBtnClicked = false
 local isClientAudio = false
 local isLoop = false
@@ -71,7 +98,6 @@ end
 local function showSelectorPopup(titleText, options, callback)
     if gui:FindFirstChild("SelectorPopup") then gui.SelectorPopup:Destroy() end
     if gui:FindFirstChild("SelectorPopupBlock") then gui.SelectorPopupBlock:Destroy() end
-
     local block = Instance.new("Frame", gui)
     block.Name = "SelectorPopupBlock"
     block.Size = UDim2.new(1,0,1,0)
@@ -79,7 +105,6 @@ local function showSelectorPopup(titleText, options, callback)
     block.BackgroundColor3 = Color3.fromRGB(0,0,0)
     block.ZIndex = 19999
     block.Active = true
-
     local popup = Instance.new("Frame", gui)
     popup.Name = "SelectorPopup"
     popup.Size = UDim2.new(0, 330, 0, 130)
@@ -89,7 +114,6 @@ local function showSelectorPopup(titleText, options, callback)
     popup.ZIndex = 20000
     popup.Active = true
     Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 14)
-
     local title = Instance.new("TextLabel", popup)
     title.Size = UDim2.new(1, -16, 0, 32)
     title.Position = UDim2.new(0,8,0,7)
@@ -99,9 +123,8 @@ local function showSelectorPopup(titleText, options, callback)
     title.TextSize = 16
     title.Font = Enum.Font.GothamBold
     title.ZIndex = 20001
-
     local btnCount = #options
-    local btnW = math.floor((298-(btnCount-1)*7)/btnCount) -- padding entre
+    local btnW = math.floor((298-(btnCount-1)*7)/btnCount)
     for i, opt in ipairs(options) do
         local btn = Instance.new("TextButton", popup)
         btn.Size = UDim2.new(0, btnW, 0, 38)
@@ -113,7 +136,6 @@ local function showSelectorPopup(titleText, options, callback)
         btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
         btn.ZIndex = 20001
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
-
         btn.MouseButton1Click:Connect(function()
             popup:Destroy()
             block:Destroy()
@@ -131,6 +153,7 @@ frame.Active = true
 frame.Draggable = true
 Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
 frame.BackgroundTransparency = 0
+createGreenBorders(frame)
 
 local header = Instance.new("Frame", frame)
 header.Size = UDim2.new(1, 0, 0, 35)
@@ -177,7 +200,6 @@ sideBar.BackgroundTransparency = 1
 
 local iconBtnY = 8
 local iconBtnDelta = 50
-
 local function makeIconBtn(parent, icon, y)
     local btn = Instance.new("TextButton", parent)
     btn.Size = UDim2.new(1, -8, 0, 36)
@@ -215,7 +237,6 @@ local mainFrame = Instance.new("Frame", frame)
 mainFrame.Position = UDim2.new(0, 0, 0, 35)
 mainFrame.Size = UDim2.new(1, -44, 1, -110)
 mainFrame.BackgroundTransparency = 1
-
 local grid = Instance.new("UIGridLayout", mainFrame)
 grid.CellSize = UDim2.new(0, 100, 0, 40)
 grid.CellPadding = UDim2.new(0, 10, 0, 10)
@@ -232,7 +253,7 @@ creditsFrame.Visible = false
 local creditsLabel = Instance.new("TextLabel", creditsFrame)
 creditsLabel.Size = UDim2.new(1, -20, 1, -20)
 creditsLabel.Position = UDim2.new(0, 10, 0, 10)
-creditsLabel.Text = "Made by Freeman4i37!\nThe best Roblox music GUI!\nThank you for using my script."
+creditsLabel.Text = "Created by Freeman4i37!\nThe best Roblox music GUI!\nThank you for using my script."
 creditsLabel.Font = Enum.Font.Gotham
 creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
 creditsLabel.TextSize = 14
@@ -249,7 +270,7 @@ musicListFrame.Visible = false
 local musicListLabel = Instance.new("TextLabel", musicListFrame)
 musicListLabel.Size = UDim2.new(1, -20, 1, -20)
 musicListLabel.Position = UDim2.new(0, 10, 0, 10)
-musicListLabel.Text = "[1] - Funk da Praia, added by Freeman\n[2] - Retrolam Funk, added by Freeman\n[3] - Trash Funk, added by Freeman\n[4] - 2609 (Jersey Club), added by Freeman,\n[5] - NewJeans (JerseyClub), added by Freeman\n[6] - Old Swing Funk, added by Freeman"
+musicListLabel.Text = "[1] - Funk da Praia, by Freeman\n[2] - Retrolam Funk, by Freeman\n[3] - Trash Funk, by Freeman\n[4] - 2609 (Jersey Club), by Freeman\n[5] - NewJeans (JerseyClub), by Freeman\n[6] - Old Swing Funk, by Freeman"
 musicListLabel.Font = Enum.Font.Gotham
 musicListLabel.TextColor3 = Color3.fromRGB(255,255,255)
 musicListLabel.TextSize = 15
@@ -304,8 +325,6 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6"}) do
                 pcall(function()
                     player.Character.Radio.Remote:FireServer(unpack(args))
                 end)
-            else
-                warn("Radio or Remote not found!")
             end
         end
     end)
@@ -347,6 +366,49 @@ playButton.MouseButton1Click:Connect(function()
     local input = inputBox.Text:gsub("rbxassetid://", "")
     local id = tonumber(input)
     if id then
+        local nameGot = "Audio " .. id
+        local success, info = pcall(function()
+            return MarketplaceService:GetProductInfo(id)
+        end)
+        if success and info and info.Name then
+            nameGot = info.Name
+        end
+        coroutine.wrap(function()
+            wait(0.15)
+            local bar = Instance.new("Frame", gui)
+            bar.Size = UDim2.new(0, 250, 0, 45)
+            bar.Position = UDim2.new(1, -260, 0, -50)
+            bar.BackgroundColor3 = Color3.fromRGB(30,30,30)
+            bar.BackgroundTransparency = 0.2
+            bar.BorderSizePixel = 0
+            bar.AnchorPoint = Vector2.new(0,0)
+            local uicorner = Instance.new("UICorner", bar)
+            uicorner.CornerRadius = UDim.new(0, 12)
+            local label = Instance.new("TextLabel", bar)
+            label.Size = UDim2.new(1, -16, 1, -12)
+            label.Position = UDim2.new(0, 8, 0, 6)
+            label.BackgroundTransparency = 1
+            label.Text = "Now playing: " .. nameGot
+            label.TextColor3 = Color3.fromRGB(255,255,255)
+            label.TextSize = 14
+            label.Font = Enum.Font.GothamBold
+            label.TextWrapped = true
+            bar.Position = UDim2.new(1, -260, 0, -50)
+            bar.BackgroundTransparency = 1
+            label.TextTransparency = 1
+            local tweenIn = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, 18), BackgroundTransparency = 0.2})
+            local tweenLabelIn = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 0})
+            tweenIn:Play()
+            tweenLabelIn:Play()
+            tweenIn.Completed:Wait()
+            wait(5)
+            local tweenOut = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, -50), BackgroundTransparency = 1})
+            local tweenLabelOut = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 1})
+            tweenOut:Play()
+            tweenLabelOut:Play()
+            tweenOut.Completed:Wait()
+            bar:Destroy()
+        end)()
         if isClientAudio then
             playClientAudio(id)
         else
@@ -355,329 +417,12 @@ playButton.MouseButton1Click:Connect(function()
                 pcall(function()
                     player.Character.Radio.Remote:FireServer(unpack(args))
                 end)
-            else
-                warn("Radio or Remote not found!")
-            end
-        end
-    else
-        warn("INVALID ID")
-    end
-end)
-
-local loopButton = Instance.new("TextButton", frame)
-loopButton.Text = "Loop: NO"
-loopButton.Size = UDim2.new(0, 70, 0, 25)
-loopButton.Position = UDim2.new(0, 10, 1, -35)
-loopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-loopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-loopButton.Font = Enum.Font.GothamBold
-loopButton.TextSize = 12
-Instance.new("UICorner", loopButton).CornerRadius = UDim.new(0, 10)
-loopButton.Visible = false
-
-local stopButton = Instance.new("TextButton", frame)
-stopButton.Text = "Stop"
-stopButton.Size = UDim2.new(0, 70, 0, 25)
-stopButton.Position = UDim2.new(0, 90, 1, -35)
-stopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-stopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-stopButton.Font = Enum.Font.GothamBold
-stopButton.TextSize = 12
-Instance.new("UICorner", stopButton).CornerRadius = UDim.new(0, 10)
-stopButton.Visible = false
-
-local volumeButton = Instance.new("TextButton", frame)
-volumeButton.Text = "Vol: 1"
-volumeButton.Size = UDim2.new(0, 70, 0, 25)
-volumeButton.Position = UDim2.new(0, 170, 1, -35)
-volumeButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-volumeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-volumeButton.Font = Enum.Font.GothamBold
-volumeButton.TextSize = 12
-Instance.new("UICorner", volumeButton).CornerRadius = UDim.new(0, 10)
-volumeButton.Visible = false
-
-local pitchButton = Instance.new("TextButton", frame)
-pitchButton.Text = "Pitch: 1"
-pitchButton.Size = UDim2.new(0, 70, 0, 25)
-pitchButton.Position = UDim2.new(0, 250, 1, -35)
-pitchButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-pitchButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-pitchButton.Font = Enum.Font.GothamBold
-pitchButton.TextSize = 12
-Instance.new("UICorner", pitchButton).CornerRadius = UDim.new(0, 10)
-pitchButton.Visible = false
-
-loopButton.MouseButton1Click:Connect(function()
-    isLoop = not isLoop
-    loopButton.Text = isLoop and "Loop: YES" or "Loop: NO"
-end)
-
-stopButton.MouseButton1Click:Connect(function()
-    stopAllClientSounds()
-end)
-
-volumeButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE VOLUME", {0.5,0.75,1.0,1.5,2.0,4.0,6.0}, function(vol)
-        currentVolume = vol
-        volumeButton.Text = "Vol: " .. tostring(currentVolume)
-        for _, s in ipairs(soundFolder:GetChildren()) do
-            if s:IsA("Sound") then
-                s.Volume = currentVolume
-            end
-        end
-    end)
-end)
-
-pitchButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE PITCH", {0.75,1.0,1.5,2.0}, function(pitch)
-        currentPitch = pitch
-        pitchButton.Text = "Pitch: " .. tostring(currentPitch)
-        for _, s in ipairs(soundFolder:GetChildren()) do
-            if s:IsA("Sound") then
-                s.Pitch = currentPitch
-            end
-        end
-    end)
-end)
-
-modeButton.MouseButton1Click:Connect(function()
-    isClientAudio = not isClientAudio
-    modeButton.Text = isClientAudio and "❎" or "✅"
-    loopButton.Visible = isClientAudio
-    stopButton.Visible = isClientAudio
-    volumeButton.Visible = isClientAudio
-    pitchButton.Visible = isClientAudio
-end)
-
-local inCredits = false
-creditsButton.MouseButton1Click:Connect(function()
-    inCredits = not inCredits
-    mainFrame.Visible = not inCredits
-    creditsFrame.Visible = inCredits
-    musicListFrame.Visible = false
-    settingsFrame.Visible = false
-end)
-
-local inSettings = false
-settingsButton.MouseButton1Click:Connect(function()
-    inSettings = not inSettings
-    mainFrame.Visible = not inSettings
-    creditsFrame.Visible = false
-    musicListFrame.Visible = false
-    settingsFrame.Visible = inSettings
-    muteBoomboxButton.Text = boomboxMuted and "Unmute All Boomboxes" or "Mute All Boomboxes"
-    muteGameSoundsButton.Text = gameSoundsMuted and "Unmute All GameSounds" or "Mute All GameSounds"
-end)
-
-local boomboxMuted = false
-muteBoomboxButton.MouseButton1Click:Connect(function()
-    for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
-        if plr ~= player and plr.Character then
-            local radio = plr.Character:FindFirstChild("Radio")
-            if radio then
-                for _, s in ipairs(radio:GetDescendants()) do
-                    if s:IsA("Sound") then
-                        s.Volume = not boomboxMuted and 0 or 1
-                    end
-                end
             end
         end
     end
-    boomboxMuted = not boomboxMuted
-    muteBoomboxButton.Text = boomboxMuted and "Unmute All Boomboxes" or "Mute All Boomboxes"
 end)
 
-local gameSoundsMuted = false
-local muteGameSoundsConn
-
-local function isMyBoombox(sound)
-    if sound:IsDescendantOf(soundFolder) then return true end
-    if player.Character then
-        local radio = player.Character:FindFirstChild("Radio")
-        if radio and sound:IsDescendantOf(radio) then return true end
-    end
-    return false
-end
-
-local function setGameSoundsMuted(mute)
-    if mute and not muteGameSoundsConn then
-        muteGameSoundsConn = runService.RenderStepped:Connect(function()
-            for _, s in ipairs(workspace:GetDescendants()) do
-                if s:IsA("Sound") and not isMyBoombox(s) then s.Volume = 0 end
-            end
-            for _, s in ipairs(game:GetService("SoundService"):GetDescendants()) do
-                if s:IsA("Sound") then s.Volume = 0 end
-            end
-        end)
-    elseif not mute and muteGameSoundsConn then
-        muteGameSoundsConn:Disconnect()
-        muteGameSoundsConn = nil
-        for _, s in ipairs(workspace:GetDescendants()) do
-            if s:IsA("Sound") and not isMyBoombox(s) then s.Volume = 1 end
-        end
-        for _, s in ipairs(game:GetService("SoundService"):GetDescendants()) do
-            if s:IsA("Sound") then s.Volume = 1 end
-        end
-    end
-    gameSoundsMuted = mute
-    muteGameSoundsButton.Text = mute and "Unmute All GameSounds" or "Mute All GameSounds"
-end
-
-muteGameSoundsButton.MouseButton1Click:Connect(function()
-    setGameSoundsMuted(not gameSoundsMuted)
-end)
-
-minimize.MouseButton1Click:Connect(function()
-    local tween = tweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.5, -280)})
-    tween:Play()
-    tween.Completed:Wait()
-    frame.Visible = false
-    openIcon.Visible = true
-end)
-
-openIcon.MouseButton1Click:Connect(function()
-    frame.Visible = true
-    openIcon.Visible = false
-    frame.BackgroundTransparency = 1
-    frame.Position = UDim2.new(1, -355, 0.5, -280)
-    local tween = tweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0, Position = UDim2.new(1, -355, 0.5, -180)})
-    tween:Play()
-end)
-
-close.MouseButton1Click:Connect(function()
-    destroyAllNotificationBlocks()
-    gui:Destroy()
-    if soundFolder then soundFolder:Destroy() end
-    if muteGameSoundsConn then muteGameSoundsConn:Disconnect() muteGameSoundsConn = nil end
-    if _G.FreemanAudioLogUI then _G.FreemanAudioLogUI:Destroy() end
-end)
-
-local function showAchievementBar(text, duration)
-    local bar = Instance.new("Frame", gui)
-    bar.Size = UDim2.new(0, 250, 0, 45)
-    bar.Position = UDim2.new(1, -260, 0, -50)
-    bar.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    bar.BackgroundTransparency = 0.2
-    bar.BorderSizePixel = 0
-    bar.AnchorPoint = Vector2.new(0,0)
-    local uicorner = Instance.new("UICorner", bar)
-    uicorner.CornerRadius = UDim.new(0, 12)
-    local label = Instance.new("TextLabel", bar)
-    label.Size = UDim2.new(1, -16, 1, -12)
-    label.Position = UDim2.new(0, 8, 0, 6)
-    label.BackgroundTransparency = 1
-    label.Text = text
-    label.TextColor3 = Color3.fromRGB(255,255,255)
-    label.TextSize = 14
-    label.Font = Enum.Font.GothamBold
-    label.TextWrapped = true
-    bar.Position = UDim2.new(1, -260, 0, -50)
-    bar.BackgroundTransparency = 1
-    label.TextTransparency = 1
-    local tweenIn = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, 18), BackgroundTransparency = 0.2})
-    local tweenLabelIn = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 0})
-    tweenIn:Play()
-    tweenLabelIn:Play()
-    tweenIn.Completed:Wait()
-    wait(duration or 5)
-    local tweenOut = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, -50), BackgroundTransparency = 1})
-    local tweenLabelOut = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 1})
-    tweenOut:Play()
-    tweenLabelOut:Play()
-    tweenOut.Completed:Wait()
-    bar:Destroy()
-end
-
-coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB 5.0!\nScript by Freeman4i37.",4)
-end)()
-
-local ownerUsername = "Kaua_452"
-local meetOwnerAchieved = false
-game:GetService("Players").PlayerAdded:Connect(function(plr)
-    if not meetOwnerAchieved and plr.Name == ownerUsername and player.Name ~= ownerUsername then
-        meetOwnerAchieved = true
-        coroutine.wrap(function()
-            showAchievementBar("[Meet The Owner]\nMeet the owner of Freeman's HUB.",5)
-        end)()
-    end
-end)
-for _,plr in ipairs(game:GetService("Players"):GetPlayers()) do
-    if not meetOwnerAchieved and plr.Name == ownerUsername and player.Name ~= ownerUsername then
-        meetOwnerAchieved = true
-        coroutine.wrap(function()
-            showAchievementBar("[Meet The Owner]\nMeet the owner of Freeman HUB.",5)
-        end)()
-    end
-end
-
-local function createNotification(msg, yesCallback, noCallback)
-    if _G.FreemanAudioLogPopup then _G.FreemanAudioLogPopup:Destroy() end
-    local block = Instance.new("Frame", gui)
-    block.Size = UDim2.new(1, 0, 1, 0)
-    block.BackgroundTransparency = 1
-    block.ZIndex = 10000
-    block.Active = true
-    block.Name = "block"
-
-    local popup = Instance.new("Frame", block)
-    _G.FreemanAudioLogPopup = popup
-    popup.Size = UDim2.new(0, 370, 0, 130)
-    popup.Position = UDim2.new(0.5, -185, 0.5, -65)
-    popup.BackgroundColor3 = Color3.fromRGB(0,0,0)
-    popup.BorderSizePixel = 0
-    popup.ZIndex = 10001
-    popup.Active = true
-
-    Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 16)
-    local label = Instance.new("TextLabel", popup)
-    label.Size = UDim2.new(1, -20, 0, 80)
-    label.Position = UDim2.new(0, 10, 0, 10)
-    label.BackgroundTransparency = 1
-    label.TextColor3 = Color3.fromRGB(255,255,255)
-    label.TextSize = 15
-    label.Font = Enum.Font.GothamBold
-    label.TextWrapped = true
-    label.Text = msg
-
-    local yesBtn = Instance.new("TextButton", popup)
-    yesBtn.Size = UDim2.new(0, 120, 0, 30)
-    yesBtn.Position = UDim2.new(0, 30, 1, -45)
-    yesBtn.Text = "YES"
-    yesBtn.Font = Enum.Font.GothamBold
-    yesBtn.TextColor3 = Color3.fromRGB(255,255,255)
-    yesBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    Instance.new("UICorner", yesBtn).CornerRadius = UDim.new(0,10)
-
-    local noBtn = Instance.new("TextButton", popup)
-    noBtn.Size = UDim2.new(0, 120, 0, 30)
-    noBtn.Position = UDim2.new(1, -150, 1, -45)
-    noBtn.Text = "NO"
-    noBtn.Font = Enum.Font.GothamBold
-    noBtn.TextColor3 = Color3.fromRGB(255,255,255)
-    noBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    Instance.new("UICorner", noBtn).CornerRadius = UDim.new(0,10)
-
-    yesBtn.MouseButton1Click:Connect(function()
-        block:Destroy()
-        _G.FreemanAudioLogPopup = nil
-        if yesCallback then yesCallback() end
-    end)
-    noBtn.MouseButton1Click:Connect(function()
-        block:Destroy()
-        _G.FreemanAudioLogPopup = nil
-        if noCallback then noCallback() end
-    end)
-end
-
-local function getAudioCreator(sound)
-    if typeof(sound.CreatorId) == "number" and pcall(function() return game:GetService("Players"):GetNameFromUserIdAsync(sound.CreatorId) end) then
-        return game:GetService("Players"):GetNameFromUserIdAsync(sound.CreatorId)
-    end
-    return "Unknown"
-end
-
+-- FULL AUDIO LOGGER UI WITH SCAN, AUTO SCAN, SAVE ALL, PLAY, STOP, COPY, BACK
 local function createAudioLoggerPlayer(parent, audioData, onBack)
     for _, child in ipairs(parent:GetChildren()) do
         child.Visible = false
@@ -736,7 +481,7 @@ local function createAudioLoggerPlayer(parent, audioData, onBack)
     infoLbl.Size = UDim2.new(1, -30, 0, 30)
     infoLbl.Position = UDim2.new(0, 15, 0, 55)
     infoLbl.BackgroundTransparency = 1
-    infoLbl.Text = (audioData.name or "Unknown") .. " - ID: " .. tostring(audioData.id) .. " - [".. (audioData.creator or "Unknown") .. "]"
+    infoLbl.Text = (audioData.name or "Unknown") .. " - ID: " .. tostring(audioData.id) .. " [".. (audioData.creator or "Unknown") .. "]"
     infoLbl.Font = Enum.Font.GothamBold
     infoLbl.TextColor3 = Color3.fromRGB(255,255,255)
     infoLbl.TextSize = 13
@@ -792,7 +537,6 @@ local function createAudioLoggerPlayer(parent, audioData, onBack)
     end)
     copyBtn.MouseButton1Click:Connect(function()
         setclipboard(tostring(audioData.id))
-        showAchievementBar("Audio ID copied!", 1.5)
     end)
     backBtn.MouseButton1Click:Connect(function()
         stopSound()
@@ -820,23 +564,22 @@ local function createAudioLogUI()
     bigFrame.Active = true
     bigFrame.Draggable = true
     Instance.new("UICorner", bigFrame).CornerRadius = UDim.new(0, 15)
+    createGreenBorders(bigFrame)
 
     local topBar = Instance.new("Frame", bigFrame)
     topBar.Size = UDim2.new(1, 0, 0, 40)
     topBar.BackgroundColor3 = Color3.fromRGB(25,25,25)
     topBar.BorderSizePixel = 0
     Instance.new("UICorner", topBar).CornerRadius = UDim.new(0, 15)
-
     local logTitle = Instance.new("TextLabel", topBar)
     logTitle.Size = UDim2.new(1, -90, 1, 0)
     logTitle.Position = UDim2.new(0, 10, 0, 0)
     logTitle.BackgroundTransparency = 1
-    logTitle.Text = "Freeman's Audio Logging (BETA)"
+    logTitle.Text = "Freeman's Audio Logger (BETA)"
     logTitle.TextColor3 = Color3.fromRGB(255,255,255)
     logTitle.Font = Enum.Font.FredokaOne
     logTitle.TextSize = 20
     logTitle.TextXAlignment = Enum.TextXAlignment.Left
-
     local clearBtn = Instance.new("TextButton", topBar)
     clearBtn.Size = UDim2.new(0, 65, 1, -8)
     clearBtn.Position = UDim2.new(1, -110, 0, 4)
@@ -846,22 +589,15 @@ local function createAudioLogUI()
     clearBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
     clearBtn.TextSize = 13
     Instance.new("UICorner", clearBtn).CornerRadius = UDim.new(0, 8)
-
-    local logClose = Instance.new("TextButton", topBar)
-    logClose.Size = UDim2.new(0, 40, 1, 0)
-    logClose.Position = UDim2.new(1, -45, 0, 0)
-    logClose.Text = "X"
-    logClose.Font = Enum.Font.GothamBold
-    logClose.TextSize = 18
-    logClose.TextColor3 = Color3.fromRGB(255,255,255)
-    logClose.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    Instance.new("UICorner", logClose).CornerRadius = UDim.new(0, 13)
-    logClose.MouseButton1Click:Connect(function()
-        destroyAllNotificationBlocks()
-        logGui:Destroy()
-        _G.FreemanAudioLogUI = nil
-    end)
-
+    local saveBtn = Instance.new("TextButton", topBar)
+    saveBtn.Size = UDim2.new(0, 65, 1, -8)
+    saveBtn.Position = UDim2.new(1, -185, 0, 4)
+    saveBtn.Text = "SAVE ALL"
+    saveBtn.Font = Enum.Font.GothamBold
+    saveBtn.TextColor3 = Color3.fromRGB(80,255,120)
+    saveBtn.BackgroundColor3 = Color3.fromRGB(24,60,24)
+    saveBtn.TextSize = 13
+    Instance.new("UICorner", saveBtn).CornerRadius = UDim.new(0, 8)
     local autoScanBtn = Instance.new("TextButton", bigFrame)
     autoScanBtn.Size = UDim2.new(0, 220, 0, 38)
     autoScanBtn.Position = UDim2.new(0, 35, 0, 60)
@@ -871,7 +607,6 @@ local function createAudioLogUI()
     autoScanBtn.TextColor3 = Color3.fromRGB(255,255,255)
     autoScanBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
     Instance.new("UICorner", autoScanBtn).CornerRadius = UDim.new(0,10)
-
     local completeScanBtn = Instance.new("TextButton", bigFrame)
     completeScanBtn.Size = UDim2.new(0, 220, 0, 38)
     completeScanBtn.Position = UDim2.new(0, 295, 0, 60)
@@ -881,12 +616,10 @@ local function createAudioLogUI()
     completeScanBtn.TextColor3 = Color3.fromRGB(255,255,255)
     completeScanBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
     Instance.new("UICorner", completeScanBtn).CornerRadius = UDim.new(0,10)
-
     local audioListFrame = Instance.new("Frame", bigFrame)
     audioListFrame.Position = UDim2.new(0, 25, 0, 120)
     audioListFrame.Size = UDim2.new(1, -50, 1, -140)
     audioListFrame.BackgroundTransparency = 1
-
     local scroll = Instance.new("ScrollingFrame", audioListFrame)
     scroll.Size = UDim2.new(1, 0, 1, 0)
     scroll.BackgroundColor3 = Color3.fromRGB(15,15,15)
@@ -898,7 +631,6 @@ local function createAudioLogUI()
     scroll.ZIndex = 6
     scroll.Name = "AudioLogScroll"
     Instance.new("UICorner", scroll).CornerRadius = UDim.new(0, 10)
-
     local uiList = Instance.new("UIListLayout", scroll)
     uiList.Padding = UDim.new(0,8)
     uiList.SortOrder = Enum.SortOrder.LayoutOrder
@@ -908,13 +640,11 @@ local function createAudioLogUI()
             if child:IsA("Frame") then child:Destroy() end
         end
     end
-
     clearBtn.MouseButton1Click:Connect(function()
         clearList()
     end)
 
     local foundAudios = {}
-
     local function addAudioToList(audioData)
         for _,child in ipairs(scroll:GetChildren()) do
             if child:IsA("Frame") and child.Name == tostring(audioData.id) then return end
@@ -925,7 +655,6 @@ local function createAudioLogUI()
         item.Name = tostring(audioData.id)
         item.Parent = scroll
         Instance.new("UICorner", item).CornerRadius = UDim.new(0,10)
-
         local audioNameLabel = Instance.new("TextButton", item)
         audioNameLabel.Size = UDim2.new(0.7, -10, 1, 0)
         audioNameLabel.Position = UDim2.new(0,10,0,0)
@@ -935,7 +664,6 @@ local function createAudioLogUI()
         audioNameLabel.TextXAlignment = Enum.TextXAlignment.Left
         audioNameLabel.TextSize = 13
         audioNameLabel.Font = Enum.Font.Gotham
-
         local copyBtn = Instance.new("TextButton", item)
         copyBtn.Size = UDim2.new(0.25, -8, 1, -8)
         copyBtn.Position = UDim2.new(0.75, 4, 0, 4)
@@ -945,25 +673,20 @@ local function createAudioLogUI()
         copyBtn.TextColor3 = Color3.fromRGB(255,255,255)
         copyBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
         Instance.new("UICorner", copyBtn).CornerRadius = UDim.new(0,7)
-
         copyBtn.MouseButton1Click:Connect(function()
             setclipboard(tostring(audioData.id))
-            showAchievementBar("Audio ID copied!", 1.5)
         end)
-
         audioNameLabel.MouseButton1Click:Connect(function()
             createAudioLoggerPlayer(audioListFrame, audioData, function()
                 for _,v in ipairs(audioListFrame:GetChildren()) do if v:IsA("Frame") then v.Visible = true end end
             end)
         end)
     end
-
     local function getAudioName(sound)
         if sound.Name and #sound.Name > 0 then return sound.Name end
         if sound.SoundId and sound.SoundId:match("%d+") then return "Audio "..sound.SoundId:match("%d+") end
         return "Unknown"
     end
-
     local function getAudioCreatorSafe(sound)
         local success, creator = pcall(function() return sound.CreatorId and game:GetService("Players"):GetNameFromUserIdAsync(sound.CreatorId) end)
         return (success and creator) or "Unknown"
@@ -999,7 +722,6 @@ local function createAudioLogUI()
                 end
             end
         end
-        showAchievementBar("Complete scan finished!", 2)
     end
 
     local scanning = false
@@ -1030,7 +752,6 @@ local function createAudioLogUI()
             end
         end
         scanning = true
-        showAchievementBar("Auto Scan activated!", 2)
         newConn1 = workspace.DescendantAdded:Connect(function(obj)
             if obj:IsA("Sound") and obj.SoundId and obj.SoundId:match("%d+") then
                 local id = obj.SoundId:match("%d+")
@@ -1039,7 +760,6 @@ local function createAudioLogUI()
                     local creator = getAudioCreatorSafe(obj)
                     local audioData = {id=id, name=getAudioName(obj), creator=creator}
                     addAudioToList(audioData)
-                    showAchievementBar("New audio detected!", 1)
                 end
             end
         end)
@@ -1051,7 +771,6 @@ local function createAudioLogUI()
                     local creator = getAudioCreatorSafe(obj)
                     local audioData = {id=id, name=getAudioName(obj), creator=creator}
                     addAudioToList(audioData)
-                    showAchievementBar("New audio detected!", 1)
                 end
             end
         end)
@@ -1061,73 +780,39 @@ local function createAudioLogUI()
         scanning = false
         if newConn1 then newConn1:Disconnect() newConn1 = nil end
         if newConn2 then newConn2:Disconnect() newConn2 = nil end
-        showAchievementBar("Auto Scan stopped!", 2)
     end
 
     autoScanBtn.MouseButton1Click:Connect(function()
-        if scanning then
-            stopAutoScan()
-            return
-        end
-        createNotification("AUTO SCAN: This button will start scanning all new audios that will appear on the server. Are you sure you want to activate it?", function()
+        if not scanning then
             autoScan()
-        end)
+        else
+            stopAutoScan()
+        end
     end)
     completeScanBtn.MouseButton1Click:Connect(function()
         if scanning then stopAutoScan() end
-        createNotification("COMPLETE SCAN: This button will scan all audios currently in the server (not just new ones). Are you sure you want to activate it?", function()
-            scanAllAudios()
-        end)
+        scanAllAudios()
+    end)
+    saveBtn.MouseButton1Click:Connect(function()
+        local text = "Freeman Audio Log - Saved Audios\n\n"
+        for _, child in ipairs(scroll:GetChildren()) do
+            if child:IsA("Frame") then
+                local lbl = child:FindFirstChildOfClass("TextButton")
+                if lbl and lbl.Text then
+                    local name, id = lbl.Text:match("^(.-) %[(%d+)%]$")
+                    if not name or not id then
+                        name = lbl.Text; id = "???"
+                    end
+                    text = text .. string.format("%s = %s\n", name, id)
+                end
+            end
+        end
+        if #text > 0 then
+            pcall(function() writefile("FreemanAudioLog.txt",text) end)
+        end
     end)
 end
 
 audioLogButton.MouseButton1Click:Connect(function()
     createAudioLogUI()
-end)
-
-local currentAudioId = nil
-
-playButton.MouseButton1Click:Connect(function()
-    local input = inputBox.Text:gsub("rbxassetid://", "")
-    local id = tonumber(input)
-
-    if id then
-        if id == currentAudioId then
-            warn("This audio is already playing.")
-            return
-        end
-
-        local nameGot = "Audio " .. id
-        local success, info = pcall(function()
-            return MarketplaceService:GetProductInfo(id)
-        end)
-        if success and info and info.Name then
-            nameGot = info.Name
-        end
-
-        createNotification(nameGot.."\nIs this the correct audio?", function()
-            currentAudioId = id
-            if isClientAudio then
-                playClientAudio(id)
-            else
-                if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                    local args = { [1] = "PlaySong", [2] = id }
-                    pcall(function()
-                        player.Character.Radio.Remote:FireServer(unpack(args))
-                    end)
-                else
-                    warn("Radio or Remote not found!")
-                end
-            end
-        end, function()
-            local humanoid = player.Character and player.Character:FindFirstChildWhichIsA("Humanoid")
-            if humanoid then
-                humanoid.Health = 0
-            else
-                warn("Could not reset player, humanoid not found.")
-            end
-        end)
-    else
-        warn("INVALID ID")
-    end
 end)
