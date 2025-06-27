@@ -813,6 +813,37 @@ local function createAudioLogUI()
     end)
 end
 
+mainFrame.Visible = true
+musicListFrame.Visible = false
+settingsFrame.Visible = false
+creditsFrame.Visible = false
+
+musicListBtn.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    musicListFrame.Visible = true
+    settingsFrame.Visible = false
+    creditsFrame.Visible = false
+end)
+
+settingsButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    musicListFrame.Visible = false
+    settingsFrame.Visible = true
+    creditsFrame.Visible = false
+end)
+
+creditsButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    musicListFrame.Visible = false
+    settingsFrame.Visible = false
+    creditsFrame.Visible = true
+end)
+
+modeButton.MouseButton1Click:Connect(function()
+    isClientAudio = not isClientAudio
+    modeButton.Text = isClientAudio and "❎" or "🎧"
+end)
+
 audioLogButton.MouseButton1Click:Connect(function()
     createAudioLogUI()
 end)
