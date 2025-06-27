@@ -854,3 +854,36 @@ modeButton.MouseButton1Click:Connect(function()
     volumeButton.Visible = isClientAudio
     pitchButton.Visible = isClientAudio
 end)
+
+loopButton.MouseButton1Click:Connect(function()
+    isLoop = not isLoop
+    loopButton.Text = isLoop and "Loop: YES" or "Loop: NO"
+end)
+
+stopButton.MouseButton1Click:Connect(function()
+    stopAllClientSounds()
+end)
+
+volumeButton.MouseButton1Click:Connect(function()
+    local options = {0.5, 0.75, 1, 2, 4, 6}
+    showSelectorPopup(
+        "Choose The Manual Volume:",
+        options,
+        function(chosen)
+            currentVolume = tonumber(chosen)
+            volumeButton.Text = "Vol: " .. tostring(currentVolume)
+        end
+    )
+end)
+
+pitchButton.MouseButton1Click:Connect(function()
+    local options = {0.75, 1, 2}
+    showSelectorPopup(
+        "Choose The Manual Pitch:",
+        options,
+        function(chosen)
+            currentPitch = tonumber(chosen)
+            pitchButton.Text = "Pitch: " .. tostring(currentPitch)
+        end
+    )
+end)
