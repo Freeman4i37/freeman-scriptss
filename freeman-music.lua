@@ -1094,11 +1094,6 @@ playButton.MouseButton1Click:Connect(function()
     local id = tonumber(input)
 
     if id then
-        if id == currentAudioId then
-            warn("This audio is already playing.")
-            return
-        end
-
         local nameGot = "Audio " .. id
         local success, info = pcall(function()
             return MarketplaceService:GetProductInfo(id)
@@ -1107,7 +1102,6 @@ playButton.MouseButton1Click:Connect(function()
             nameGot = info.Name
         end
 
- Freeman,
         showAchievementBar("Now Playing: " .. nameGot, 6)
 
         currentAudioId = id
