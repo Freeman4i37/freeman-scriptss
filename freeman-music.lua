@@ -5,7 +5,6 @@ local musicIDs = {
     ["4"] = 93768636184697,
     ["5"] = 93218265275853,
     ["6"] = 140296674808875,
-    ["7"] = 105770593501071,
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -250,7 +249,7 @@ musicListFrame.Visible = false
 local musicListLabel = Instance.new("TextLabel", musicListFrame)
 musicListLabel.Size = UDim2.new(1, -20, 1, -20)
 musicListLabel.Position = UDim2.new(0, 10, 0, 10)
-musicListLabel.Text = "[1] - Funk da Praia, added by Freeman\n[2] - Retrolam Funk, added by Freeman\n[3] - Trash Funk, added by Freeman\n[4] - 2609 (Jersey Club), added by Freeman,\n[5] - NewJeans (JerseyClub), added by Freeman\n[6] - Old Swing Funk, added by Freeman\n[7] - MONTAGEM DA ZONA NTJ VERSON, added by Freeman"
+musicListLabel.Text = "[1] - Funk da Praia, added by Freeman\n[2] - Retrolam Funk, added by Freeman\n[3] - Trash Funk, added by Freeman\n[4] - 2609 (Jersey Club), added by Freeman,\n[5] - NewJeans (JerseyClub), added by Freeman\n[6] - Old Swing Funk, added by Freeman"
 musicListLabel.Font = Enum.Font.Gotham
 musicListLabel.TextColor3 = Color3.fromRGB(255,255,255)
 musicListLabel.TextSize = 15
@@ -285,7 +284,7 @@ muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
@@ -1086,6 +1085,8 @@ audioLogButton.MouseButton1Click:Connect(function()
     createAudioLogUI()
 end)
 
+local currentAudioId = nil
+
 playButton.MouseButton1Click:Connect(function()
     local input = inputBox.Text:gsub("rbxassetid://", "")
     local id = tonumber(input)
@@ -1104,24 +1105,28 @@ playButton.MouseButton1Click:Connect(function()
             nameGot = info.Name
         end
 
-        -- Notificação temporária (não usa createNotification)
-        showNotification("Now Playing: " .. nameGot, 6)
-
-        currentAudioId = id
-        if isClientAudio then
-            playClientAudio(id)
-        else
-            if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                local args = { [1] = "PlaySong", [2] = id }
-                pcall(function()
-                    player.Character.Radio.Remote:FireServer(unpack(args))
-                end)
+        createNotification(nameGot.."\nIs this the correct audio?", function()
+            currentAudioId = id
+            if isClientAudio then
+                playClientAudio(id)
             else
-                warn("Radio or Remote not found!")
+                if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
+                    local args = { [1] = "PlaySong", [2] = id }
+                    pcall(function()
+                        player.Character.Radio.Remote:FireServer(unpack(args))
+                    end)
+                else
+                    warn("Radio or Remote not found!")
+                end
             end
-        end
-    end
-end)
+        end, function()
+            local humanoid = player.Character and player.Character:FindFirstChildWhichIsA("Humanoid")
+            if humanoid then
+                humanoid.Health = 0
+            else
+                warn("Could not reset player, humanoid not found.")
+            end
+        end)
     else
         warn("INVALID ID")
     end
