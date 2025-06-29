@@ -8,7 +8,6 @@ local players = game:GetService("Players")
 local tweenService = game:GetService("TweenService")
 local runService = game:GetService("RunService")
 local lighting = game:GetService("Lighting")
-
 local fps = 0
 local frameTimes = {}
 
@@ -51,7 +50,7 @@ gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0, 400, 0, 430)
 frame.Position = UDim2.new(1, -415, 0.5, -215)
-frame.BackgroundColor3 = Color3.fromRGB(36, 41, 47)
+frame.BackgroundColor3 = Color3.fromRGB(0,0,0)
 frame.BorderSizePixel = 0
 frame.Active = true
 frame.Draggable = true
@@ -59,7 +58,7 @@ Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 14)
 
 local header = Instance.new("Frame", frame)
 header.Size = UDim2.new(1, 0, 0, 38)
-header.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+header.BackgroundColor3 = Color3.fromRGB(0,0,0)
 header.BorderSizePixel = 0
 Instance.new("UICorner", header).CornerRadius = UDim.new(0, 14)
 
@@ -68,7 +67,7 @@ title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 15, 0, 0)
 title.BackgroundTransparency = 1
 title.Text = "Freeman HUB - 🗡 STK 1.0"
-title.TextColor3 = Color3.fromRGB(120, 230, 120)
+title.TextColor3 = Color3.fromRGB(255,255,255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 22
 title.TextXAlignment = Enum.TextXAlignment.Left
@@ -79,8 +78,8 @@ minimize.Position = UDim2.new(1, -76, 0, 0)
 minimize.Text = "-"
 minimize.Font = Enum.Font.GothamBold
 minimize.TextSize = 20
-minimize.TextColor3 = Color3.fromRGB(255, 255, 255)
-minimize.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+minimize.TextColor3 = Color3.fromRGB(255,255,255)
+minimize.BackgroundColor3 = Color3.fromRGB(40,40,40)
 minimize.BorderSizePixel = 0
 Instance.new("UICorner", minimize).CornerRadius = UDim.new(0, 12)
 
@@ -90,8 +89,8 @@ close.Position = UDim2.new(1, -38, 0, 0)
 close.Text = "X"
 close.Font = Enum.Font.GothamBold
 close.TextSize = 20
-close.TextColor3 = Color3.fromRGB(255, 255, 255)
-close.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+close.TextColor3 = Color3.fromRGB(255,255,255)
+close.BackgroundColor3 = Color3.fromRGB(64,64,64)
 close.BorderSizePixel = 0
 Instance.new("UICorner", close).CornerRadius = UDim.new(0, 12)
 
@@ -111,28 +110,31 @@ for i, icon in ipairs(tabIcons) do
     btn.Text = icon
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 32
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
     btn.Name = tabNames[i]
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 14)
     tabs[tabNames[i]] = btn
 end
 
+local function getChatPlusPos()
+    return UDim2.new(0, 180, 0, 90)
+end
+
 local openIcon = Instance.new("TextButton", gui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
-openIcon.Position = UDim2.new(1, -60, 1, -60)
-openIcon.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+openIcon.Position = getChatPlusPos()
+openIcon.BackgroundColor3 = Color3.fromRGB(40,40,40)
 openIcon.Text = "+"
 openIcon.Visible = false
 openIcon.TextSize = 28
 openIcon.Font = Enum.Font.GothamBold
-openIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+openIcon.TextColor3 = Color3.fromRGB(255,255,255)
 Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
 openIcon.Active = true
 openIcon.Draggable = true
 
 local tabFrames = {}
-
 for i, name in ipairs(tabNames) do
     local f = Instance.new("Frame", frame)
     f.Name = name .. "Frame"
@@ -149,57 +151,102 @@ creditsLabel.Position = UDim2.new(0, 10, 0, 10)
 creditsLabel.BackgroundTransparency = 1
 creditsLabel.Font = Enum.Font.GothamBold
 creditsLabel.TextSize = 18
-creditsLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
 creditsLabel.TextWrapped = true
-creditsLabel.Text = "This script was been made by Freeman4i37!"
+creditsLabel.Text = "This script was been made by Freeman4i37.\nUse carefully!"
 
 local mainBtnsY = 18
 local grabCoins = false
 local grabVIP = false
+local vipPartOriginalCFrame = nil
 
 local grabCoinsBtn = Instance.new("TextButton", tabFrames.Main)
 grabCoinsBtn.Size = UDim2.new(1, -60, 0, 44)
 grabCoinsBtn.Position = UDim2.new(0, 30, 0, mainBtnsY)
-grabCoinsBtn.BackgroundColor3 = Color3.fromRGB(65, 180, 90)
+grabCoinsBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
 grabCoinsBtn.Text = "Auto Grab Coins: OFF"
 grabCoinsBtn.Font = Enum.Font.GothamBold
 grabCoinsBtn.TextSize = 20
-grabCoinsBtn.TextColor3 = Color3.fromRGB(30,30,30)
+grabCoinsBtn.TextColor3 = Color3.fromRGB(255,255,255)
 Instance.new("UICorner", grabCoinsBtn).CornerRadius = UDim.new(0, 10)
 grabCoinsBtn.AutoButtonColor = true
 
 grabCoinsBtn.MouseButton1Click:Connect(function()
     grabCoins = not grabCoins
     grabCoinsBtn.Text = grabCoins and "Auto Grab Coins: ON" or "Auto Grab Coins: OFF"
-    grabCoinsBtn.BackgroundColor3 = grabCoins and Color3.fromRGB(40, 200, 70) or Color3.fromRGB(65, 180, 90)
+    grabCoinsBtn.BackgroundColor3 = grabCoins and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
 end)
 
 local grabVIPBtn = Instance.new("TextButton", tabFrames.Main)
 grabVIPBtn.Size = UDim2.new(1, -60, 0, 44)
 grabVIPBtn.Position = UDim2.new(0, 30, 0, mainBtnsY + 64)
-grabVIPBtn.BackgroundColor3 = Color3.fromRGB(230, 210, 55)
+grabVIPBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
 grabVIPBtn.Text = "Auto Grab VIP Items: OFF"
 grabVIPBtn.Font = Enum.Font.GothamBold
 grabVIPBtn.TextSize = 20
-grabVIPBtn.TextColor3 = Color3.fromRGB(30,30,30)
+grabVIPBtn.TextColor3 = Color3.fromRGB(255,255,255)
 Instance.new("UICorner", grabVIPBtn).CornerRadius = UDim.new(0, 10)
 grabVIPBtn.AutoButtonColor = true
 
 grabVIPBtn.MouseButton1Click:Connect(function()
     grabVIP = not grabVIP
     grabVIPBtn.Text = grabVIP and "Auto Grab VIP Items: ON" or "Auto Grab VIP Items: OFF"
-    grabVIPBtn.BackgroundColor3 = grabVIP and Color3.fromRGB(255, 220, 70) or Color3.fromRGB(230, 210, 55)
+    grabVIPBtn.BackgroundColor3 = grabVIP and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
+    if not grabVIP then
+        local vipFolder = ws:FindFirstChild("VIP Models")
+        if vipFolder and vipFolder:FindFirstChild("Part") and vipPartOriginalCFrame then
+            local vipPart = vipFolder.Part
+            pcall(function()
+                vipPart.CFrame = vipPartOriginalCFrame
+            end)
+        end
+        vipPartOriginalCFrame = nil
+    end
 end)
+
+local function showTPAlert()
+    local alert = Instance.new("Frame", gui)
+    alert.Size = UDim2.new(0, 420, 0, 55)
+    alert.Position = UDim2.new(0.5, -210, 0.5, -36)
+    alert.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    alert.BackgroundTransparency = 0.15
+    alert.BorderSizePixel = 0
+    alert.Active = true
+    alert.ZIndex = 9998
+    local uic = Instance.new("UICorner", alert)
+    uic.CornerRadius = UDim.new(0, 14)
+    local lbl = Instance.new("TextLabel", alert)
+    lbl.Size = UDim2.new(1, -12, 1, -10)
+    lbl.Position = UDim2.new(0, 6, 0, 5)
+    lbl.BackgroundTransparency = 1
+    lbl.Text = "ALERT\nTP Shop Items may not work well because of the game itself being broken in this part."
+    lbl.TextColor3 = Color3.fromRGB(255,255,255)
+    lbl.TextSize = 16
+    lbl.Font = Enum.Font.GothamBold
+    lbl.TextWrapped = true
+    lbl.TextYAlignment = Enum.TextYAlignment.Top
+    lbl.ZIndex = 9999
+    alert.Visible = true
+    alert.BackgroundTransparency = 0.15
+    lbl.TextTransparency = 0
+    tweenService:Create(alert, TweenInfo.new(0.18), {BackgroundTransparency = 0.15}):Play()
+    tweenService:Create(lbl, TweenInfo.new(0.18), {TextTransparency = 0}):Play()
+    wait(4)
+    tweenService:Create(alert, TweenInfo.new(0.18), {BackgroundTransparency = 1}):Play()
+    tweenService:Create(lbl, TweenInfo.new(0.18), {TextTransparency = 1}):Play()
+    wait(0.18)
+    alert:Destroy()
+end
 
 local function createTPBtn(parent, label, pos, y)
     local btn = Instance.new("TextButton", parent)
     btn.Size = UDim2.new(1, -60, 0, 38)
     btn.Position = UDim2.new(0, 30, 0, y)
-    btn.BackgroundColor3 = Color3.fromRGB(120, 170, 255)
+    btn.BackgroundColor3 = Color3.fromRGB(48,48,48)
     btn.Text = label
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 18
-    btn.TextColor3 = Color3.fromRGB(40, 40, 40)
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.MouseButton1Click:Connect(function()
         local hrp = getHRP()
@@ -215,11 +262,11 @@ local function createShopBtn(parent, display, shopName, y)
     local btn = Instance.new("TextButton", parent)
     btn.Size = UDim2.new(1, -60, 0, 34)
     btn.Position = UDim2.new(0, 30, 0, y)
-    btn.BackgroundColor3 = Color3.fromRGB(180, 140, 255)
+    btn.BackgroundColor3 = Color3.fromRGB(48,48,48)
     btn.Text = display
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 16
-    btn.TextColor3 = Color3.fromRGB(40, 40, 40)
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.MouseButton1Click:Connect(function()
         local shop = ws:FindFirstChild("Shop")
@@ -246,99 +293,114 @@ settings.FPS = false
 settings.PlayerList = false
 settings.FriendsList = false
 settings.Fullbright = false
+settings.Fog = true
+
+local fpsBtn = Instance.new("TextButton", tabFrames.Settings)
+fpsBtn.Size = UDim2.new(1, -60, 0, 36)
+fpsBtn.Position = UDim2.new(0, 30, 0, 18)
+fpsBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
+fpsBtn.Text = "Enable FPS: OFF"
+fpsBtn.Font = Enum.Font.GothamBold
+fpsBtn.TextSize = 17
+fpsBtn.TextColor3 = Color3.fromRGB(255,255,255)
+Instance.new("UICorner", fpsBtn).CornerRadius = UDim.new(0, 10)
+
+local plBtn = Instance.new("TextButton", tabFrames.Settings)
+plBtn.Size = UDim2.new(1, -60, 0, 36)
+plBtn.Position = UDim2.new(0, 30, 0, 58)
+plBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
+plBtn.Text = "Enable Player List: OFF"
+plBtn.Font = Enum.Font.GothamBold
+plBtn.TextSize = 17
+plBtn.TextColor3 = Color3.fromRGB(255,255,255)
+Instance.new("UICorner", plBtn).CornerRadius = UDim.new(0, 10)
+
+local frBtn = Instance.new("TextButton", tabFrames.Settings)
+frBtn.Size = UDim2.new(1, -60, 0, 36)
+frBtn.Position = UDim2.new(0, 30, 0, 98)
+frBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
+frBtn.Text = "Enable Friends List: OFF"
+frBtn.Font = Enum.Font.GothamBold
+frBtn.TextSize = 17
+frBtn.TextColor3 = Color3.fromRGB(255,255,255)
+Instance.new("UICorner", frBtn).CornerRadius = UDim.new(0, 10)
+
+local fbBtn = Instance.new("TextButton", tabFrames.Settings)
+fbBtn.Size = UDim2.new(1, -60, 0, 36)
+fbBtn.Position = UDim2.new(0, 30, 0, 138)
+fbBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
+fbBtn.Text = "Enable Fullbright: OFF"
+fbBtn.Font = Enum.Font.GothamBold
+fbBtn.TextSize = 17
+fbBtn.TextColor3 = Color3.fromRGB(255,255,255)
+Instance.new("UICorner", fbBtn).CornerRadius = UDim.new(0, 10)
+
+local fogBtn = Instance.new("TextButton", tabFrames.Settings)
+fogBtn.Size = UDim2.new(1, -60, 0, 36)
+fogBtn.Position = UDim2.new(0, 30, 0, 178)
+fogBtn.BackgroundColor3 = Color3.fromRGB(48,48,48)
+fogBtn.Text = "FOG: ON"
+fogBtn.Font = Enum.Font.GothamBold
+fogBtn.TextSize = 17
+fogBtn.TextColor3 = Color3.fromRGB(255,255,255)
+Instance.new("UICorner", fogBtn).CornerRadius = UDim.new(0, 10)
 
 local fpsLabel = Instance.new("TextLabel", tabFrames.Settings)
 fpsLabel.Size = UDim2.new(1, -40, 0, 24)
-fpsLabel.Position = UDim2.new(0, 20, 0, 138)
+fpsLabel.Position = UDim2.new(0, 20, 1, -80)
 fpsLabel.BackgroundTransparency = 1
 fpsLabel.Font = Enum.Font.GothamBold
 fpsLabel.TextSize = 16
-fpsLabel.TextColor3 = Color3.fromRGB(120, 255, 120)
+fpsLabel.TextColor3 = Color3.fromRGB(255,255,255)
 fpsLabel.Text = ""
 fpsLabel.Visible = false
 
 local plLabel = Instance.new("TextLabel", tabFrames.Settings)
 plLabel.Size = UDim2.new(1, -40, 0, 24)
-plLabel.Position = UDim2.new(0, 20, 0, 168)
+plLabel.Position = UDim2.new(0, 20, 1, -56)
 plLabel.BackgroundTransparency = 1
 plLabel.Font = Enum.Font.GothamBold
 plLabel.TextSize = 16
-plLabel.TextColor3 = Color3.fromRGB(240, 240, 120)
+plLabel.TextColor3 = Color3.fromRGB(255,255,255)
 plLabel.Text = ""
 plLabel.Visible = false
 
 local frLabel = Instance.new("TextLabel", tabFrames.Settings)
 frLabel.Size = UDim2.new(1, -40, 0, 24)
-frLabel.Position = UDim2.new(0, 20, 0, 198)
+frLabel.Position = UDim2.new(0, 20, 1, -32)
 frLabel.BackgroundTransparency = 1
 frLabel.Font = Enum.Font.GothamBold
 frLabel.TextSize = 16
-frLabel.TextColor3 = Color3.fromRGB(120, 220, 255)
+frLabel.TextColor3 = Color3.fromRGB(255,255,255)
 frLabel.Text = ""
 frLabel.Visible = false
 
-local fpsBtn = Instance.new("TextButton", tabFrames.Settings)
-fpsBtn.Size = UDim2.new(1, -60, 0, 36)
-fpsBtn.Position = UDim2.new(0, 30, 0, 30)
-fpsBtn.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
-fpsBtn.Text = "Enable FPS: OFF"
-fpsBtn.Font = Enum.Font.GothamBold
-fpsBtn.TextSize = 17
-fpsBtn.TextColor3 = Color3.fromRGB(30,30,30)
-Instance.new("UICorner", fpsBtn).CornerRadius = UDim.new(0, 10)
 fpsBtn.MouseButton1Click:Connect(function()
     settings.FPS = not settings.FPS
     fpsBtn.Text = settings.FPS and "Enable FPS: ON" or "Enable FPS: OFF"
-    fpsBtn.BackgroundColor3 = settings.FPS and Color3.fromRGB(80, 255, 80) or Color3.fromRGB(120, 255, 120)
+    fpsBtn.BackgroundColor3 = settings.FPS and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
     fpsLabel.Visible = settings.FPS
 end)
 
-local plBtn = Instance.new("TextButton", tabFrames.Settings)
-plBtn.Size = UDim2.new(1, -60, 0, 36)
-plBtn.Position = UDim2.new(0, 30, 0, 66)
-plBtn.BackgroundColor3 = Color3.fromRGB(240, 240, 120)
-plBtn.Text = "Enable Player List: OFF"
-plBtn.Font = Enum.Font.GothamBold
-plBtn.TextSize = 17
-plBtn.TextColor3 = Color3.fromRGB(30,30,30)
-Instance.new("UICorner", plBtn).CornerRadius = UDim.new(0, 10)
 plBtn.MouseButton1Click:Connect(function()
     settings.PlayerList = not settings.PlayerList
     plBtn.Text = settings.PlayerList and "Enable Player List: ON" or "Enable Player List: OFF"
-    plBtn.BackgroundColor3 = settings.PlayerList and Color3.fromRGB(220, 220, 80) or Color3.fromRGB(240, 240, 120)
+    plBtn.BackgroundColor3 = settings.PlayerList and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
     plLabel.Visible = settings.PlayerList
 end)
 
-local frBtn = Instance.new("TextButton", tabFrames.Settings)
-frBtn.Size = UDim2.new(1, -60, 0, 36)
-frBtn.Position = UDim2.new(0, 30, 0, 102)
-frBtn.BackgroundColor3 = Color3.fromRGB(120, 220, 255)
-frBtn.Text = "Enable Friends List: OFF"
-frBtn.Font = Enum.Font.GothamBold
-frBtn.TextSize = 17
-frBtn.TextColor3 = Color3.fromRGB(30,30,30)
-Instance.new("UICorner", frBtn).CornerRadius = UDim.new(0, 10)
 frBtn.MouseButton1Click:Connect(function()
     settings.FriendsList = not settings.FriendsList
     frBtn.Text = settings.FriendsList and "Enable Friends List: ON" or "Enable Friends List: OFF"
-    frBtn.BackgroundColor3 = settings.FriendsList and Color3.fromRGB(80, 180, 255) or Color3.fromRGB(120, 220, 255)
+    frBtn.BackgroundColor3 = settings.FriendsList and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
     frLabel.Visible = settings.FriendsList
 end)
 
-local fbBtn = Instance.new("TextButton", tabFrames.Settings)
-fbBtn.Size = UDim2.new(1, -60, 0, 36)
-fbBtn.Position = UDim2.new(0, 30, 0, 234)
-fbBtn.BackgroundColor3 = Color3.fromRGB(255, 220, 120)
-fbBtn.Text = "Enable Fullbright: OFF"
-fbBtn.Font = Enum.Font.GothamBold
-fbBtn.TextSize = 17
-fbBtn.TextColor3 = Color3.fromRGB(30,30,30)
-Instance.new("UICorner", fbBtn).CornerRadius = UDim.new(0, 10)
 local oldAmbient, oldBrightness, oldOutdoorAmbient, oldTimeOfDay
 fbBtn.MouseButton1Click:Connect(function()
     settings.Fullbright = not settings.Fullbright
     fbBtn.Text = settings.Fullbright and "Enable Fullbright: ON" or "Enable Fullbright: OFF"
-    fbBtn.BackgroundColor3 = settings.Fullbright and Color3.fromRGB(255, 255, 120) or Color3.fromRGB(255, 220, 120)
+    fbBtn.BackgroundColor3 = settings.Fullbright and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
     if settings.Fullbright then
         oldAmbient = lighting.Ambient
         oldBrightness = lighting.Brightness
@@ -353,6 +415,18 @@ fbBtn.MouseButton1Click:Connect(function()
         if oldBrightness then lighting.Brightness = oldBrightness end
         if oldOutdoorAmbient then lighting.OutdoorAmbient = oldOutdoorAmbient end
         if oldTimeOfDay then lighting.TimeOfDay = oldTimeOfDay end
+    end
+end)
+
+local fogDefault = lighting.FogEnd
+fogBtn.MouseButton1Click:Connect(function()
+    settings.Fog = not settings.Fog
+    fogBtn.Text = settings.Fog and "FOG: ON" or "FOG: OFF"
+    fogBtn.BackgroundColor3 = settings.Fog and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
+    if not settings.Fog then
+        lighting.FogEnd = 100000
+    else
+        lighting.FogEnd = fogDefault
     end
 end)
 
@@ -383,6 +457,9 @@ for i, name in ipairs(tabNames) do
     btn.MouseButton1Click:Connect(function()
         for _, f in pairs(tabFrames) do f.Visible = false end
         tabFrames[name].Visible = true
+        if name == "Shop" then
+            showTPAlert()
+        end
     end)
 end
 
@@ -391,6 +468,7 @@ minimize.MouseButton1Click:Connect(function()
     tween:Play()
     tween.Completed:Wait()
     frame.Visible = false
+    openIcon.Position = getChatPlusPos()
     openIcon.Visible = true
 end)
 
@@ -470,6 +548,9 @@ local function safeGrabVIP()
     local vipFolder = ws:FindFirstChild("VIP Models")
     if vipFolder and vipFolder:FindFirstChild("Part") then
         local vipPart = vipFolder.Part
+        if not vipPartOriginalCFrame then
+            vipPartOriginalCFrame = vipPart.CFrame
+        end
         pcall(function()
             vipPart.CFrame = hrp.CFrame + Vector3.new(0, 2, 0)
         end)
