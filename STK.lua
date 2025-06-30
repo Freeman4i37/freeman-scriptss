@@ -145,15 +145,82 @@ for i, name in ipairs(tabNames) do
     tabFrames[name] = f
 end
 
-local creditsLabel = Instance.new("TextLabel", tabFrames.Credits)
-creditsLabel.Size = UDim2.new(1, -20, 1, -20)
+-- CREDITOS + AUTO DROP BUTTONS
+local creditsFrame = tabFrames.Credits
+local creditsLabel = Instance.new("TextLabel", creditsFrame)
+creditsLabel.Size = UDim2.new(1, -20, 0, 60)
 creditsLabel.Position = UDim2.new(0, 10, 0, 10)
 creditsLabel.BackgroundTransparency = 1
-creditsLabel.Font = Enum.Font.GothamBold
+creditsLabel.Font = Enum.Font.FredokaOne
 creditsLabel.TextSize = 18
 creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
 creditsLabel.TextWrapped = true
-creditsLabel.Text = "This script was been made by Freeman4i37.\nUse carefully!"
+creditsLabel.Text = "This script was made by Freeman4i37.\nAUTO DROP: Toggle to drop tools from your backpack."
+
+local dropToggles = {
+    Saxophone = false,
+    VIPCoil = false,
+    HealingPotion = false,
+    MoonWalkPotion = false
+}
+local dropButtons = {}
+
+local dropNames = {
+    {var="Saxophone", display="AUTO DROP SAXOPHONE"},
+    {var="VIPCoil", display="AUTO DROP VIPCOIL"},
+    {var="HealingPotion", display="AUTO DROP HEALTH POTION"},
+    {var="MoonWalkPotion", display="AUTO DROP MOONWALK POTION"},
+}
+
+local function autoDropTool(toolName, toggleVar)
+    task.spawn(function()
+        while dropToggles[toggleVar] do
+            local backpack = player:FindFirstChild("Backpack")
+            local character = player.Character or player.CharacterAdded:Wait()
+            if backpack then
+                for _, tool in ipairs(backpack:GetChildren()) do
+                    if tool:IsA("Tool") and tool.Name == toolName then
+                        pcall(function()
+                            tool.Parent = character
+                        end)
+                    end
+                end
+                task.wait()
+                for _, tool in ipairs(character:GetChildren()) do
+                    if tool:IsA("Tool") and tool.Name == toolName then
+                        pcall(function()
+                            tool.Parent = workspace
+                        end)
+                    end
+                end
+            end
+            wait(0.20)
+        end
+    end)
+end
+
+for i, info in ipairs(dropNames) do
+    local btn = Instance.new("TextButton", creditsFrame)
+    btn.Size = UDim2.new(1, -60, 0, 38)
+    btn.Position = UDim2.new(0, 30, 0, 80 + (i-1)*48)
+    btn.BackgroundColor3 = Color3.fromRGB(48,48,48)
+    btn.Text = info.display .. ": OFF"
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 18
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
+    dropButtons[info.var] = btn
+    btn.MouseButton1Click:Connect(function()
+        dropToggles[info.var] = not dropToggles[info.var]
+        btn.Text = info.display .. (dropToggles[info.var] and ": ON" or ": OFF")
+        btn.BackgroundColor3 = dropToggles[info.var] and Color3.fromRGB(96,96,96) or Color3.fromRGB(48,48,48)
+        if dropToggles[info.var] then
+            autoDropTool(info.var, info.var)
+        end
+    end)
+end
+
+-- -------- RESTANTE DO SCRIPT --------
 
 local mainBtnsY = 18
 local grabCoins = false
@@ -275,7 +342,7 @@ local function createShopBtn(parent, display, shopName, y)
             if part then
                 local hrp = getHRP()
                 local old = hrp.CFrame
-                hrp.CFrame = part.CFrame + Vector3.new(0, 2, 0)
+                hrp.CFrame = part.CFrame
                 wait(0.2)
                 hrp.CFrame = old
             end
@@ -542,17 +609,22 @@ local function safeGrabCoins()
 end
 
 local function safeGrabVIP()
-    local hrp
-    pcall(function() hrp = getHRP() end)
-    if not hrp then return end
+    local char = getChar()
+    local torso = char:FindFirstChild("UpperTorso") or char:FindFirstChild("Torso") or char:FindFirstChild("HumanoidRootPart")
     local vipFolder = ws:FindFirstChild("VIP Models")
-    if vipFolder and vipFolder:FindFirstChild("Part") then
+    if vipFolder and vipFolder:FindFirstChild("Part") and torso then
         local vipPart = vipFolder.Part
         if not vipPartOriginalCFrame then
             vipPartOriginalCFrame = vipPart.CFrame
         end
         pcall(function()
-            vipPart.CFrame = hrp.CFrame + Vector3.new(0, 2, 0)
+            vipPart.CFrame = torso.CFrame
+        end)
+        wait(0.08)
+        pcall(function()
+            if vipPartOriginalCFrame then
+                vipPart.CFrame = vipPartOriginalCFrame
+            end
         end)
     end
 end
@@ -571,6 +643,6 @@ task.spawn(function()
         if grabVIP then
             safeGrabVIP()
         end
-        wait(0.5)
+        wait(0.15)
     end
 end)
