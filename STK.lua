@@ -155,7 +155,7 @@ creditsLabel.Font = Enum.Font.FredokaOne
 creditsLabel.TextSize = 18
 creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
 creditsLabel.TextWrapped = true
-creditsLabel.Text = "This script was made by Freeman4i37.\nAUTO DROP: Toggle to drop tools from your backpack."
+creditsLabel.Text = "This script was made by Freeman4i37.\n"
 
 local dropToggles = {
     Saxophone = false,
@@ -219,8 +219,6 @@ for i, info in ipairs(dropNames) do
         end
     end)
 end
-
--- -------- RESTANTE DO SCRIPT --------
 
 local mainBtnsY = 18
 local grabCoins = false
