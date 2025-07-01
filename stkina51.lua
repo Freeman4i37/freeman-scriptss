@@ -1,11 +1,11 @@
 local cg = game:GetService("CoreGui")
-local old = cg:FindFirstChild("FMAN_HUB_SAKTKA51")
-if old then old:Destroy() end
-
 local player = game.Players.LocalPlayer
 local ws = game:GetService("Workspace")
 local rs = game:GetService("RunService")
 local tween = game:GetService("TweenService")
+
+local old = cg:FindFirstChild("FMAN_HUB_SAKTKA51")
+if old then old:Destroy() end
 
 local gui = Instance.new("ScreenGui", cg)
 gui.Name = "FMAN_HUB_SAKTKA51"
@@ -22,16 +22,16 @@ local notifyText = Instance.new("TextLabel", notifyFrame)
 notifyText.Size = UDim2.new(1,0,1,0)
 notifyText.BackgroundTransparency = 1
 notifyText.Font = Enum.Font.FredokaOne
-notifyText.Text = "This script is still under development, expect errors in the script."
+notifyText.Text = "This script is abandoned, expect errors in this script."
 notifyText.TextColor3 = Color3.fromRGB(255,170,44)
 notifyText.TextScaled = true
 notifyText.TextStrokeTransparency = 0.2
 notifyText.TextStrokeColor3 = Color3.new(0,0,0)
-spawn(function()
-	wait(3.5)
-	tween:Create(notifyFrame, TweenInfo.new(.7),{BackgroundTransparency=1, Position=notifyFrame.Position + UDim2.new(0,0,-.09,0)}):Play()
-	wait(.68)
-	notifyFrame:Destroy()
+task.spawn(function()
+    wait(3.5)
+    tween:Create(notifyFrame, TweenInfo.new(.7),{BackgroundTransparency=1, Position=notifyFrame.Position + UDim2.new(0,0,-.09,0)}):Play()
+    wait(.68)
+    notifyFrame:Destroy()
 end)
 
 local frame = Instance.new("Frame", gui)
@@ -133,17 +133,23 @@ for i, name in ipairs(tabNames) do
 end
 
 local weaponsFrame = tabFrames.Weapons
+
 local grabBtn = Instance.new("TextButton", weaponsFrame)
 grabBtn.Size = UDim2.new(1, -44, 0, 40)
 grabBtn.Position = UDim2.new(0, 16, 0, 20)
 grabBtn.BackgroundColor3 = Color3.fromRGB(44,44,44)
-grabBtn.Text = "Bring All Weapons"
+grabBtn.Text = "Grab All Weapons"
 grabBtn.TextColor3 = Color3.fromRGB(255,255,255)
 grabBtn.Font = Enum.Font.GothamBold
 grabBtn.TextSize = 19
 grabBtn.AutoButtonColor = true
 Instance.new("UICorner", grabBtn).CornerRadius = UDim.new(0, 12)
-
+grabBtn.MouseEnter:Connect(function()
+    tween:Create(grabBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(64,64,64)}):Play()
+end)
+grabBtn.MouseLeave:Connect(function()
+    grabBtn.BackgroundColor3 = Color3.fromRGB(44,44,44)
+end)
 grabBtn.MouseButton1Click:Connect(function()
     local lqG_YI0E_2X = {}
     for _, v in pairs(ws:FindFirstChild("Weapons"):GetDescendants()) do
@@ -157,32 +163,6 @@ grabBtn.MouseButton1Click:Connect(function()
     end
 end)
 
-local tpBtn = Instance.new("TextButton", weaponsFrame)
-tpBtn.Size = UDim2.new(1, -44, 0, 38)
-tpBtn.Position = UDim2.new(0, 16, 0, 70)
-tpBtn.BackgroundColor3 = Color3.fromRGB(44,44,44)
-tpBtn.Text = "TP Pack a Punch (WIP)"
-tpBtn.TextColor3 = Color3.fromRGB(255,255,255)
-tpBtn.Font = Enum.Font.GothamBold
-tpBtn.TextSize = 18
-tpBtn.AutoButtonColor = true
-Instance.new("UICorner", tpBtn).CornerRadius = UDim.new(0, 12)
-
-tpBtn.MouseButton1Click:Connect(function()
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(110.22671508789062, 335.4999084472656, 70.36436462402344)
-    end
-end)
-
-for _,btn in pairs({grabBtn, tpBtn}) do
-    btn.MouseEnter:Connect(function()
-        tween:Create(btn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(64,64,64)}):Play()
-    end)
-    btn.MouseLeave:Connect(function()
-        btn.BackgroundColor3 = Color3.fromRGB(44,44,44)
-    end)
-end
-
 local modsFrame = tabFrames.Mods
 local scroll = Instance.new("ScrollingFrame", modsFrame)
 scroll.Position = UDim2.new(0,0,0,0)
@@ -191,7 +171,6 @@ scroll.CanvasSize = UDim2.new(0,0,0,380)
 scroll.BackgroundTransparency = 1
 scroll.ScrollBarThickness = 8
 scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
 local layout = Instance.new("UIListLayout", scroll)
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Padding = UDim.new(0, 10)
@@ -218,7 +197,7 @@ local function MakeBtn(text)
     return btn
 end
 
-local infAmmoBtn = MakeBtn("INF Ammo")
+local infAmmoBtn = MakeBtn("Infinite Ammo (WIP)")
 infAmmoBtn.MouseButton1Click:Connect(function()
     for i,v in next,getgc(true)do
         if type(v)=='table'and rawget(v,'ammo')then
@@ -228,7 +207,7 @@ infAmmoBtn.MouseButton1Click:Connect(function()
     end
 end)
 
-local giveAmmoBtn = MakeBtn("Give Ammo")
+local giveAmmoBtn = MakeBtn("Give Ammo (WIP)")
 giveAmmoBtn.MouseButton1Click:Connect(function()
     for i,v in next,getgc(true)do
         if type(v)=='table'and rawget(v,'ammo')then
@@ -237,7 +216,7 @@ giveAmmoBtn.MouseButton1Click:Connect(function()
     end
 end)
 
-local antiAfkBtn = MakeBtn("Anti-Afk")
+local antiAfkBtn = MakeBtn("Anti-Afk (ON/OFF)")
 local antiAfkState = false
 antiAfkBtn.MouseButton1Click:Connect(function()
     antiAfkState = not antiAfkState
@@ -256,12 +235,11 @@ antiAfkBtn.MouseButton1Click:Connect(function()
     end
 end)
 
-local espKillersBtn = MakeBtn("ESP Killers (bugged but work)")
+local espKillersBtn = MakeBtn("ESP Killers (ON/OFF)")
 local espState = false
 local killerEsps = {}
 local killerCon = nil
 local killerNewCon = nil
-
 local function addKillerEsp(v)
     if v:IsDescendantOf(workspace) and not v:FindFirstChild("KillerEspGreen") then
         local gui = Instance.new("BillboardGui")
@@ -281,18 +259,45 @@ local function addKillerEsp(v)
         killerEsps[v] = {gui = gui, label = esp}
     end
 end
-
 local function clearAllEsps()
     for v, data in pairs(killerEsps) do
         if data.gui and data.gui.Parent then data.gui:Destroy() end
     end
     killerEsps = {}
 end
-
 espKillersBtn.MouseButton1Click:Connect(function()
     espState = not espState
     espKillersBtn.Text = espState and "ESP Killers (ON)" or "ESP Killers (OFF)"
     if espState then
+        local alert = Instance.new("Frame", gui)
+        alert.Size = UDim2.new(0, 340, 0, 80)
+        alert.Position = UDim2.new(0.5, -170, 0.25, 0)
+        alert.BackgroundColor3 = Color3.fromRGB(20,20,20)
+        alert.BorderSizePixel = 0
+        alert.ZIndex = 3000
+        Instance.new("UICorner", alert).CornerRadius = UDim.new(0, 16)
+        local title = Instance.new("TextLabel", alert)
+        title.BackgroundTransparency = 1
+        title.Position = UDim2.new(0, 0, 0, 5)
+        title.Size = UDim2.new(1, 0, 0, 32)
+        title.Font = Enum.Font.FredokaOne
+        title.Text = "Credits"
+        title.TextColor3 = Color3.fromRGB(255,255,255)
+        title.TextStrokeTransparency = 0.2
+        title.TextScaled = true
+        local msg = Instance.new("TextLabel", alert)
+        msg.BackgroundTransparency = 1
+        msg.Position = UDim2.new(0, 0, 0, 37)
+        msg.Size = UDim2.new(1, 0, 0, 36)
+        msg.Font = Enum.Font.FredokaOne
+        msg.Text = "ESP Killers made by Ghostmode65!"
+        msg.TextColor3 = Color3.fromRGB(255,0,0)
+        msg.TextStrokeTransparency = 0.2
+        msg.TextScaled = true
+        task.spawn(function()
+            wait(5)
+            alert:Destroy()
+        end)
         local killers = ws:FindFirstChild("Killers")
         if killers then
             for _,v in pairs(killers:GetDescendants()) do
@@ -322,11 +327,11 @@ espKillersBtn.MouseButton1Click:Connect(function()
     end
 end)
 
-local firerateBtn = MakeBtn("Firerate")
+local firerateBtn = MakeBtn("Firerate (Low/Medium/High)")
 local firerateLevel = 1
-local firerateLevels = {"V1","V2","V3"}
+local firerateLevels = {"Low","Medium","High"}
 local firerateVals = {.18,.0000001,.03}
-firerateBtn.Text = "Firerate (...)"
+firerateBtn.Text = "Firerate (Low)"
 firerateBtn.MouseButton1Click:Connect(function()
     firerateLevel = firerateLevel % 3 + 1
     local XBullet = firerateVals[firerateLevel]
@@ -347,7 +352,6 @@ minimize.MouseButton1Click:Connect(function()
     frame.Visible = false
     openIcon.Visible = true
 end)
-
 openIcon.MouseButton1Click:Connect(function()
     frame.Visible = true
     openIcon.Visible = false
@@ -356,7 +360,6 @@ openIcon.MouseButton1Click:Connect(function()
     local tweenIn = tween:Create(frame, TweenInfo.new(0.18, Enum.EasingStyle.Quad), {BackgroundTransparency = 0, Position = UDim2.new(0, 60, 0.5, -185)})
     tweenIn:Play()
 end)
-
 close.MouseButton1Click:Connect(function()
     gui:Destroy()
 end)
