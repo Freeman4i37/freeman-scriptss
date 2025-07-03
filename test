@@ -132,3 +132,97 @@ end
 close.MouseButton1Click:Connect(function()
     gui:Destroy()
 end)
+
+-- Freeman Music HUB - Modern Green UI Remake (PART 2: Songs Tab & Notifications)
+
+-- Helper function for beautiful notifications
+local function showNotification(text, duration)
+    duration = duration or 3
+    local notif = Instance.new("Frame", gui)
+    notif.BackgroundColor3 = PRIMARY
+    notif.Size = UDim2.new(0, 0, 0, 0)
+    notif.Position = UDim2.new(0.5, 0, 0.1, 0)
+    notif.AnchorPoint = Vector2.new(0.5, 0)
+    notif.ZIndex = 100
+    notif.BackgroundTransparency = 0
+    Instance.new("UICorner", notif).CornerRadius = UDim.new(0, 16)
+
+    local label = Instance.new("TextLabel", notif)
+    label.Size = UDim2.new(1, -24, 1, -16)
+    label.Position = UDim2.new(0, 12, 0, 8)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = WHITE
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 17
+    label.TextWrapped = true
+    label.ZIndex = 101
+
+    -- Animate in
+    notif.Size = UDim2.new(0, 0, 0, 0)
+    TweenService:Create(notif, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = UDim2.new(0, 280, 0, 50)}):Play()
+    TweenService:Create(notif, TweenInfo.new(0.2), {BackgroundTransparency = 0}):Play()
+
+    -- Wait and animate out
+    delay(duration, function()
+        TweenService:Create(notif, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = UDim2.new(0, 0, 0, 0)}):Play()
+        TweenService:Create(notif, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+        wait(0.3)
+        notif:Destroy()
+    end)
+end
+
+-- SONGS TAB CONTENT
+local songsFrame = tabFrames["Songs"]
+local grid = Instance.new("UIGridLayout", songsFrame)
+grid.CellSize = UDim2.new(0, 120, 0, 46)
+grid.CellPadding = UDim2.new(0, 12, 0, 12)
+grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+grid.VerticalAlignment = Enum.VerticalAlignment.Top
+grid.FillDirectionMaxCells = 2
+
+local soundFolder = workspace:FindFirstChild("FreemanClientSounds")
+if not soundFolder then
+    soundFolder = Instance.new("Folder", workspace)
+    soundFolder.Name = "FreemanClientSounds"
+end
+
+for i = 1, 9 do
+    local name = tostring(i)
+    local id = musicIDs[name]
+    local btn = Instance.new("TextButton", songsFrame)
+    btn.Size = UDim2.new(0, 120, 0, 46)
+    btn.Text = "Play ["..name.."]"
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 18
+    btn.TextColor3 = WHITE
+    btn.BackgroundColor3 = Color3.fromRGB(38, 60, 38)
+    btn.AutoButtonColor = false
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 12)
+
+    btn.MouseEnter:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.18), {BackgroundColor3 = PRIMARY}):Play()
+    end)
+    btn.MouseLeave:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(38, 60, 38)}):Play()
+    end)
+
+    btn.MouseButton1Click:Connect(function()
+        -- Play sound with animation
+        for _, s in ipairs(soundFolder:GetChildren()) do
+            if s:IsA("Sound") then s:Destroy() end
+        end
+        local s = Instance.new("Sound", soundFolder)
+        s.SoundId = "rbxassetid://"..id
+        s.Volume = 1
+        s.Looped = false
+        s:Play()
+        s.Ended:Connect(function() s:Destroy() end)
+
+        -- Button animation feedback
+        TweenService:Create(btn, TweenInfo.new(0.08), {TextSize = 15}):Play()
+        wait(0.08)
+        TweenService:Create(btn, TweenInfo.new(0.15), {TextSize = 18}):Play()
+        showNotification("Now Playing: ["..name.."]", 2.5)
+    end)
+end
