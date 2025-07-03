@@ -1,0 +1,134 @@
+-- Freeman Music HUB - Modern Green UI Remake (PART 1: Setup & Main Structure)
+local PRIMARY = Color3.fromRGB(32, 200, 84)
+local SECONDARY = Color3.fromRGB(36, 44, 40)
+local BG = Color3.fromRGB(20, 24, 20)
+local WHITE = Color3.fromRGB(255,255,255)
+local SHADOW = Color3.fromRGB(20, 32, 20)
+local player = game:GetService("Players").LocalPlayer
+
+local musicIDs = {
+    ["1"] = 89907278904871,
+    ["2"] = 99409598156364,
+    ["3"] = 133900561957103,
+    ["4"] = 93768636184697,
+    ["5"] = 93218265275853,
+    ["6"] = 140296674808875,
+    ["7"] = 105770593501071,
+    ["8"] = 16831105312,
+    ["9"] = 87783857221289,
+}
+
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local old = CoreGui:FindFirstChild("FreemanMusicUI")
+if old then old:Destroy() end
+
+local gui = Instance.new("ScreenGui", CoreGui)
+gui.Name = "FreemanMusicUI"
+gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Shadow effect for the main frame
+local shadow = Instance.new("ImageLabel", gui)
+shadow.BackgroundTransparency = 1
+shadow.Size = UDim2.new(0, 460, 0, 410)
+shadow.Position = UDim2.new(0.5, -230, 0.5, -205)
+shadow.Image = "rbxassetid://1316045217"
+shadow.ImageTransparency = 0.7
+shadow.ScaleType = Enum.ScaleType.Slice
+shadow.SliceCenter = Rect.new(10, 10, 118, 118)
+shadow.ZIndex = 0
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 420, 0, 370)
+frame.Position = UDim2.new(0.5, -210, 0.5, -185)
+frame.BackgroundColor3 = BG
+frame.Active = true
+frame.Draggable = true
+frame.BorderSizePixel = 0
+frame.ZIndex = 1
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 16)
+
+local header = Instance.new("Frame", frame)
+header.Size = UDim2.new(1, 0, 0, 54)
+header.BackgroundColor3 = PRIMARY
+header.BorderSizePixel = 0
+header.ZIndex = 2
+Instance.new("UICorner", header).CornerRadius = UDim.new(0, 16)
+
+local title = Instance.new("TextLabel", header)
+title.Size = UDim2.new(1, -56, 1, 0)
+title.Position = UDim2.new(0, 22, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Freeman Music HUB"
+title.TextColor3 = WHITE
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Font = Enum.Font.FredokaOne
+title.TextSize = 22
+title.ZIndex = 3
+
+local close = Instance.new("TextButton", header)
+close.Size = UDim2.new(0, 38, 1, 0)
+close.Position = UDim2.new(1, -38, 0, 0)
+close.Text = "✕"
+close.Font = Enum.Font.GothamBold
+close.TextSize = 22
+close.TextColor3 = WHITE
+close.BackgroundColor3 = Color3.fromRGB(60, 30, 30)
+close.BorderSizePixel = 0
+close.ZIndex = 3
+Instance.new("UICorner", close).CornerRadius = UDim.new(0, 14)
+
+-- Sidebar with tab buttons
+local sidebar = Instance.new("Frame", frame)
+sidebar.Size = UDim2.new(0, 62, 1, -54)
+sidebar.Position = UDim2.new(0, 0, 0, 54)
+sidebar.BackgroundColor3 = SECONDARY
+sidebar.ZIndex = 2
+Instance.new("UICorner", sidebar).CornerRadius = UDim.new(0, 13)
+
+-- Tab system
+local tabIcons = {"🎵", "🔢", "⚙️", "👤"}
+local tabNames = {"Songs", "By ID", "Settings", "Credits"}
+local tabs, tabFrames = {}, {}
+
+for i, icon in ipairs(tabIcons) do
+    local btn = Instance.new("TextButton", sidebar)
+    btn.Size = UDim2.new(1, -12, 0, 48)
+    btn.Position = UDim2.new(0, 6, 0, 12 + (i-1)*60)
+    btn.Text = icon
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 28
+    btn.TextColor3 = WHITE
+    btn.BackgroundColor3 = (i==1) and PRIMARY or SECONDARY
+    btn.BorderSizePixel = 0
+    btn.ZIndex = 3
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1,0)
+    tabs[tabNames[i]] = btn
+
+    local f = Instance.new("Frame", frame)
+    f.Name = tabNames[i].."Frame"
+    f.Position = UDim2.new(0, 74, 0, 62)
+    f.Size = UDim2.new(1, -82, 1, -74)
+    f.BackgroundTransparency = 1
+    f.Visible = (i==1)
+    f.ZIndex = 2
+    tabFrames[tabNames[i]] = f
+end
+
+for i, name in ipairs(tabNames) do
+    tabs[name].MouseButton1Click:Connect(function()
+        for j, f in pairs(tabFrames) do
+            f.Visible = false
+            tabs[j].BackgroundColor3 = SECONDARY
+        end
+        tabFrames[name].Visible = true
+        tabs[name].BackgroundColor3 = PRIMARY
+    end)
+end
+
+close.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
