@@ -129,10 +129,6 @@ for i, name in ipairs(tabNames) do
     end)
 end
 
-close.MouseButton1Click:Connect(function()
-    gui:Destroy()
-end)
-
 -- Freeman Music HUB - Modern Green UI Remake (PART 2: Songs Tab & Notifications)
 
 -- Helper function for beautiful notifications
@@ -399,4 +395,46 @@ volPlus.MouseButton1Click:Connect(function()
         end
         showNotification("Volume: " .. tostring(volume), 0.8)
     end
+end)
+
+-- Freeman Music HUB - Modern Green UI Remake (PART 5: Credits Tab)
+
+local creditsFrame = tabFrames["Credits"]
+
+local creditsTitle = Instance.new("TextLabel", creditsFrame)
+creditsTitle.Size = UDim2.new(1, 0, 0, 38)
+creditsTitle.Position = UDim2.new(0, 0, 0.25, 0)
+creditsTitle.BackgroundTransparency = 1
+creditsTitle.Text = "Credits"
+creditsTitle.TextColor3 = PRIMARY
+creditsTitle.Font = Enum.Font.FredokaOne
+creditsTitle.TextSize = 28
+creditsTitle.TextWrapped = true
+creditsTitle.TextXAlignment = Enum.TextXAlignment.Center
+
+local creditsAuthor = Instance.new("TextLabel", creditsFrame)
+creditsAuthor.Size = UDim2.new(1, 0, 0, 25)
+creditsAuthor.Position = UDim2.new(0, 0, 0.25, 42)
+creditsAuthor.BackgroundTransparency = 1
+creditsAuthor.Text = "Made by Freeman4i37"
+creditsAuthor.TextColor3 = WHITE
+creditsAuthor.Font = Enum.Font.GothamBold
+creditsAuthor.TextSize = 22
+creditsAuthor.TextWrapped = true
+creditsAuthor.TextXAlignment = Enum.TextXAlignment.Center
+
+local creditsDesc = Instance.new("TextLabel", creditsFrame)
+creditsDesc.Size = UDim2.new(1, -30, 0, 70)
+creditsDesc.Position = UDim2.new(0, 15, 0.25, 74)
+creditsDesc.BackgroundTransparency = 1
+creditsDesc.Text = "A modern, animated music GUI for Roblox.\nThank you for using this script!"
+creditsDesc.TextColor3 = PRIMARY
+creditsDesc.Font = Enum.Font.Gotham
+creditsDesc.TextSize = 16
+creditsDesc.TextWrapped = true
+creditsDesc.TextXAlignment = Enum.TextXAlignment.Center
+creditsDesc.TextYAlignment = Enum.TextYAlignment.Top
+
+close.MouseButton1Click:Connect(function()
+    gui:Destroy()
 end)
