@@ -226,3 +226,62 @@ for i = 1, 9 do
         showNotification("Now Playing: ["..name.."]", 2.5)
     end)
 end
+
+-- Freeman Music HUB - Modern Green UI Remake (PART 3: By ID Tab)
+
+local byidFrame = tabFrames["By ID"]
+
+local byidBox = Instance.new("TextBox", byidFrame)
+byidBox.Size = UDim2.new(1, -30, 0, 46)
+byidBox.Position = UDim2.new(0, 15, 0, 34)
+byidBox.BackgroundColor3 = Color3.fromRGB(38, 60, 38)
+byidBox.TextColor3 = WHITE
+byidBox.PlaceholderText = "Enter Audio ID here..."
+byidBox.Font = Enum.Font.GothamBold
+byidBox.TextSize = 17
+byidBox.Text = ""
+byidBox.ClearTextOnFocus = false
+byidBox.TextXAlignment = Enum.TextXAlignment.Left
+Instance.new("UICorner", byidBox).CornerRadius = UDim.new(0, 10)
+
+local playIdBtn = Instance.new("TextButton", byidFrame)
+playIdBtn.Text = "PLAY"
+playIdBtn.Size = UDim2.new(1, -30, 0, 42)
+playIdBtn.Position = UDim2.new(0, 15, 0, 94)
+playIdBtn.BackgroundColor3 = PRIMARY
+playIdBtn.TextColor3 = WHITE
+playIdBtn.Font = Enum.Font.GothamBold
+playIdBtn.TextSize = 18
+playIdBtn.AutoButtonColor = false
+Instance.new("UICorner", playIdBtn).CornerRadius = UDim.new(0, 10)
+
+playIdBtn.MouseEnter:Connect(function()
+    TweenService:Create(playIdBtn, TweenInfo.new(0.17), {BackgroundColor3 = Color3.fromRGB(48, 230, 98)}):Play()
+end)
+playIdBtn.MouseLeave:Connect(function()
+    TweenService:Create(playIdBtn, TweenInfo.new(0.17), {BackgroundColor3 = PRIMARY}):Play()
+end)
+
+playIdBtn.MouseButton1Click:Connect(function()
+    local raw = byidBox.Text:gsub("rbxassetid://", "")
+    local id = tonumber(raw)
+    if id then
+        for _, s in ipairs(soundFolder:GetChildren()) do
+            if s:IsA("Sound") then s:Destroy() end
+        end
+        local s = Instance.new("Sound", soundFolder)
+        s.SoundId = "rbxassetid://"..id
+        s.Volume = 1
+        s.Looped = false
+        s:Play()
+        s.Ended:Connect(function() s:Destroy() end)
+
+        -- Animated feedback
+        TweenService:Create(playIdBtn, TweenInfo.new(0.09), {TextSize = 15}):Play()
+        wait(0.09)
+        TweenService:Create(playIdBtn, TweenInfo.new(0.16), {TextSize = 18}):Play()
+        showNotification("Now Playing: " .. id, 2.5)
+    else
+        showNotification("Invalid Audio ID!", 2)
+    end
+end)
