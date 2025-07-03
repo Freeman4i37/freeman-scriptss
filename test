@@ -285,3 +285,118 @@ playIdBtn.MouseButton1Click:Connect(function()
         showNotification("Invalid Audio ID!", 2)
     end
 end)
+
+-- Freeman Music HUB - Modern Green UI Remake (PART 4: Settings Tab)
+
+local settingsFrame = tabFrames["Settings"]
+
+local loopToggle = false
+local volume = 1
+
+-- Loop Button
+local loopBtn = Instance.new("TextButton", settingsFrame)
+loopBtn.Text = "Loop: OFF"
+loopBtn.Size = UDim2.new(1, -30, 0, 44)
+loopBtn.Position = UDim2.new(0, 15, 0, 24)
+loopBtn.BackgroundColor3 = Color3.fromRGB(38, 60, 38)
+loopBtn.TextColor3 = WHITE
+loopBtn.Font = Enum.Font.GothamBold
+loopBtn.TextSize = 16
+loopBtn.AutoButtonColor = false
+Instance.new("UICorner", loopBtn).CornerRadius = UDim.new(0, 10)
+
+loopBtn.MouseEnter:Connect(function()
+    TweenService:Create(loopBtn, TweenInfo.new(0.17), {BackgroundColor3 = PRIMARY}):Play()
+end)
+loopBtn.MouseLeave:Connect(function()
+    TweenService:Create(loopBtn, TweenInfo.new(0.17), {BackgroundColor3 = Color3.fromRGB(38, 60, 38)}):Play()
+end)
+loopBtn.MouseButton1Click:Connect(function()
+    loopToggle = not loopToggle
+    loopBtn.Text = "Loop: " .. (loopToggle and "ON" or "OFF")
+    for _, s in ipairs(soundFolder:GetChildren()) do
+        if s:IsA("Sound") then
+            s.Looped = loopToggle
+        end
+    end
+    showNotification("Loop " .. (loopToggle and "enabled" or "disabled") .. "!", 1.5)
+end)
+
+-- Stop Button
+local stopBtn = Instance.new("TextButton", settingsFrame)
+stopBtn.Text = "STOP ALL"
+stopBtn.Size = UDim2.new(1, -30, 0, 44)
+stopBtn.Position = UDim2.new(0, 15, 0, 80)
+stopBtn.BackgroundColor3 = Color3.fromRGB(60,30,30)
+stopBtn.TextColor3 = WHITE
+stopBtn.Font = Enum.Font.GothamBold
+stopBtn.TextSize = 16
+stopBtn.AutoButtonColor = false
+Instance.new("UICorner", stopBtn).CornerRadius = UDim.new(0, 10)
+
+stopBtn.MouseEnter:Connect(function()
+    TweenService:Create(stopBtn, TweenInfo.new(0.17), {BackgroundColor3 = Color3.fromRGB(200,60,60)}):Play()
+end)
+stopBtn.MouseLeave:Connect(function()
+    TweenService:Create(stopBtn, TweenInfo.new(0.17), {BackgroundColor3 = Color3.fromRGB(60,30,30)}):Play()
+end)
+stopBtn.MouseButton1Click:Connect(function()
+    for _, s in ipairs(soundFolder:GetChildren()) do
+        if s:IsA("Sound") then s:Destroy() end
+    end
+    showNotification("All sounds stopped.", 1.2)
+end)
+
+-- Volume Slider (simple stepper, since Roblox GUIs don't have native sliders)
+local volumeLabel = Instance.new("TextLabel", settingsFrame)
+volumeLabel.Text = "Volume: " .. tostring(volume)
+volumeLabel.Size = UDim2.new(0.6, -10, 0, 32)
+volumeLabel.Position = UDim2.new(0, 15, 0, 138)
+volumeLabel.BackgroundTransparency = 1
+volumeLabel.TextColor3 = WHITE
+volumeLabel.Font = Enum.Font.Gotham
+volumeLabel.TextSize = 15
+volumeLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local volMinus = Instance.new("TextButton", settingsFrame)
+volMinus.Text = "-"
+volMinus.Size = UDim2.new(0, 34, 0, 32)
+volMinus.Position = UDim2.new(0.6, 10, 0, 138)
+volMinus.BackgroundColor3 = PRIMARY
+volMinus.TextColor3 = WHITE
+volMinus.Font = Enum.Font.GothamBold
+volMinus.TextSize = 22
+Instance.new("UICorner", volMinus).CornerRadius = UDim.new(0, 8)
+
+local volPlus = Instance.new("TextButton", settingsFrame)
+volPlus.Text = "+"
+volPlus.Size = UDim2.new(0, 34, 0, 32)
+volPlus.Position = UDim2.new(0.6, 50, 0, 138)
+volPlus.BackgroundColor3 = PRIMARY
+volPlus.TextColor3 = WHITE
+volPlus.Font = Enum.Font.GothamBold
+volPlus.TextSize = 22
+Instance.new("UICorner", volPlus).CornerRadius = UDim.new(0, 8)
+
+volMinus.MouseButton1Click:Connect(function()
+    if volume > 0.1 then
+        volume = math.max(0.1, volume - 0.1)
+        volume = math.floor(volume*10)/10
+        volumeLabel.Text = "Volume: " .. tostring(volume)
+        for _, s in ipairs(soundFolder:GetChildren()) do
+            if s:IsA("Sound") then s.Volume = volume end
+        end
+        showNotification("Volume: " .. tostring(volume), 0.8)
+    end
+end)
+volPlus.MouseButton1Click:Connect(function()
+    if volume < 2 then
+        volume = math.min(2, volume + 0.1)
+        volume = math.floor(volume*10)/10
+        volumeLabel.Text = "Volume: " .. tostring(volume)
+        for _, s in ipairs(soundFolder:GetChildren()) do
+            if s:IsA("Sound") then s.Volume = volume end
+        end
+        showNotification("Volume: " .. tostring(volume), 0.8)
+    end
+end)
