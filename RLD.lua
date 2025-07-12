@@ -214,7 +214,7 @@ task.spawn(function()
                 end
             end
         end
-        wait(0.6)
+        wait(0.3)
     end
 end)
 
@@ -341,14 +341,14 @@ if not getgenv().RLD_AutoDoorsLock then
                             for _, obj in pairs(room:GetDescendants()) do
                                 if obj:IsA("ProximityPrompt") and obj.ActionText == "Open" and obj.MaxActivationDistance >= 0 then
                                     fireproximityprompt(obj)
-                                    wait(0.5)
+                                    wait(0.02)
                                 end
                             end
                         end
                     end
                 end
             end
-            wait(0.5)
+            wait(0.02)
         end
     end)
 end
@@ -407,7 +407,7 @@ task.spawn(function()
                                 if heartbeat then heartbeat:Disconnect() end
                             end
                         end)
-                        delay(3.5, function() if guiAlert and guiAlert.Parent then guiAlert:Destroy() end if heartbeat then heartbeat:Disconnect() end end)
+                        delay(5, function() if guiAlert and guiAlert.Parent then guiAlert:Destroy() end if heartbeat then heartbeat:Disconnect() end end)
                     end
                 end
             end
