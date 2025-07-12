@@ -341,14 +341,14 @@ if not getgenv().RLD_AutoDoorsLock then
                             for _, obj in pairs(room:GetDescendants()) do
                                 if obj:IsA("ProximityPrompt") and obj.ActionText == "Open" and obj.MaxActivationDistance >= 0 then
                                     fireproximityprompt(obj)
-                                    wait(0.02)
+                                    wait(0.1)
                                 end
                             end
                         end
                     end
                 end
             end
-            wait(0.02)
+            wait(0.1)
         end
     end)
 end
