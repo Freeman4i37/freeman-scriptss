@@ -146,7 +146,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB 🎵 5.5"
+title.Text = "Freeman HUB 🎵"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -196,9 +196,9 @@ local function makeIconBtn(parent, icon, y)
     return btn
 end
 
-local musicListBtn = makeIconBtn(sideBar, "📜", iconBtnY)
+local musicListBtn = makeIconBtn(sideBar, "🎶", iconBtnY)
 local settingsButton = makeIconBtn(sideBar, "⚙️", iconBtnY + iconBtnDelta*1)
-local modeButton = makeIconBtn(sideBar, isClientAudio and "❎" or "✅", iconBtnY + iconBtnDelta*2)
+local modeButton = makeIconBtn(sideBar, isClientAudio and "CA" or "RA", iconBtnY + iconBtnDelta*2)
 local creditsButton = makeIconBtn(sideBar, "👤", iconBtnY + iconBtnDelta*3)
 local audioLogButton = makeIconBtn(sideBar, "🔎", iconBtnY + iconBtnDelta*4)
 
@@ -369,7 +369,7 @@ playButton.MouseButton1Click:Connect(function()
 end)
 
 local loopButton = Instance.new("TextButton", frame)
-loopButton.Text = "Loop: NO"
+loopButton.Text = "🔁"
 loopButton.Size = UDim2.new(0, 70, 0, 25)
 loopButton.Position = UDim2.new(0, 10, 1, -35)
 loopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -380,7 +380,7 @@ Instance.new("UICorner", loopButton).CornerRadius = UDim.new(0, 10)
 loopButton.Visible = false
 
 local stopButton = Instance.new("TextButton", frame)
-stopButton.Text = "Stop"
+stopButton.Text = "⏹"
 stopButton.Size = UDim2.new(0, 70, 0, 25)
 stopButton.Position = UDim2.new(0, 90, 1, -35)
 stopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -391,7 +391,7 @@ Instance.new("UICorner", stopButton).CornerRadius = UDim.new(0, 10)
 stopButton.Visible = false
 
 local volumeButton = Instance.new("TextButton", frame)
-volumeButton.Text = "Vol: 1"
+volumeButton.Text = "🔊: 1"
 volumeButton.Size = UDim2.new(0, 70, 0, 25)
 volumeButton.Position = UDim2.new(0, 170, 1, -35)
 volumeButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -402,7 +402,7 @@ Instance.new("UICorner", volumeButton).CornerRadius = UDim.new(0, 10)
 volumeButton.Visible = false
 
 local pitchButton = Instance.new("TextButton", frame)
-pitchButton.Text = "Pitch: 1"
+pitchButton.Text = "🎼: 1"
 pitchButton.Size = UDim2.new(0, 70, 0, 25)
 pitchButton.Position = UDim2.new(0, 250, 1, -35)
 pitchButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -414,7 +414,7 @@ pitchButton.Visible = false
 
 loopButton.MouseButton1Click:Connect(function()
     isLoop = not isLoop
-    loopButton.Text = isLoop and "Loop: YES" or "Loop: NO"
+    loopButton.Text = isLoop and "🔁" or "🔁❌"
 end)
 
 stopButton.MouseButton1Click:Connect(function()
@@ -422,9 +422,9 @@ stopButton.MouseButton1Click:Connect(function()
 end)
 
 volumeButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE VOLUME", {0.5,0.75,1.0,1.5,2.0,4.0,6.0}, function(vol)
+    showSelectorPopup("CHOOSE THE VOLUME", {0.5,0.75,1.0,2.0,6.0}, function(vol)
         currentVolume = vol
-        volumeButton.Text = "Vol: " .. tostring(currentVolume)
+        volumeButton.Text = "🔊: " .. tostring(currentVolume)
         for _, s in ipairs(soundFolder:GetChildren()) do
             if s:IsA("Sound") then
                 s.Volume = currentVolume
@@ -434,9 +434,9 @@ volumeButton.MouseButton1Click:Connect(function()
 end)
 
 pitchButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE PITCH", {0.75,1.0,1.5,2.0}, function(pitch)
+    showSelectorPopup("CHOOSE THE PITCH", {0.5,0.75,1.0}, function(pitch)
         currentPitch = pitch
-        pitchButton.Text = "Pitch: " .. tostring(currentPitch)
+        pitchButton.Text = "🎼: " .. tostring(currentPitch)
         for _, s in ipairs(soundFolder:GetChildren()) do
             if s:IsA("Sound") then
                 s.Pitch = currentPitch
@@ -447,7 +447,7 @@ end)
 
 modeButton.MouseButton1Click:Connect(function()
     isClientAudio = not isClientAudio
-    modeButton.Text = isClientAudio and "❎" or "✅"
+    modeButton.Text = isClientAudio and "CA" or "RA"
     loopButton.Visible = isClientAudio
     stopButton.Visible = isClientAudio
     volumeButton.Visible = isClientAudio
@@ -482,7 +482,7 @@ muteBoomboxButton.MouseButton1Click:Connect(function()
             if radio then
                 for _, s in ipairs(radio:GetDescendants()) do
                     if s:IsA("Sound") then
-                        s.Volume = not boomboxMuted and 0 or 1
+                        s.Volume = boomboxMuted and 1 or 0.01
                     end
                 end
             end
@@ -493,7 +493,6 @@ muteBoomboxButton.MouseButton1Click:Connect(function()
 end)
 
 local gameSoundsMuted = false
-local muteGameSoundsConn
 
 local function isMyBoombox(sound)
     if sound:IsDescendantOf(soundFolder) then return true end
@@ -505,23 +504,14 @@ local function isMyBoombox(sound)
 end
 
 local function setGameSoundsMuted(mute)
-    if mute and not muteGameSoundsConn then
-        muteGameSoundsConn = runService.RenderStepped:Connect(function()
-            for _, s in ipairs(workspace:GetDescendants()) do
-                if s:IsA("Sound") and not isMyBoombox(s) then s.Volume = 0 end
-            end
-            for _, s in ipairs(game:GetService("SoundService"):GetDescendants()) do
-                if s:IsA("Sound") then s.Volume = 0 end
-            end
-        end)
-    elseif not mute and muteGameSoundsConn then
-        muteGameSoundsConn:Disconnect()
-        muteGameSoundsConn = nil
-        for _, s in ipairs(workspace:GetDescendants()) do
-            if s:IsA("Sound") and not isMyBoombox(s) then s.Volume = 1 end
+    for _, s in ipairs(workspace:GetDescendants()) do
+        if s:IsA("Sound") and not isMyBoombox(s) then
+            s.Volume = mute and 0.01 or 1
         end
-        for _, s in ipairs(game:GetService("SoundService"):GetDescendants()) do
-            if s:IsA("Sound") then s.Volume = 1 end
+    end
+    for _, s in ipairs(game:GetService("SoundService"):GetDescendants()) do
+        if s:IsA("Sound") then
+            s.Volume = mute and 0.01 or 1
         end
     end
     gameSoundsMuted = mute
@@ -699,7 +689,7 @@ local function createAudioLoggerPlayer(parent, audioData, onBack)
     local backBtn = Instance.new("TextButton", panel)
     backBtn.Size = UDim2.new(0, 70, 0, 30)
     backBtn.Position = UDim2.new(0, 15, 0, 15)
-    backBtn.Text = "BACK"
+    backBtn.Text = "🔙"
     backBtn.Font = Enum.Font.GothamBold
     backBtn.TextColor3 = Color3.fromRGB(255,255,255)
     backBtn.TextSize = 14
@@ -709,7 +699,7 @@ local function createAudioLoggerPlayer(parent, audioData, onBack)
     local stopBtn = Instance.new("TextButton", panel)
     stopBtn.Size = UDim2.new(0, 70, 0, 30)
     stopBtn.Position = UDim2.new(0, 95, 0, 15)
-    stopBtn.Text = "STOP"
+    stopBtn.Text = "⏹"
     stopBtn.Font = Enum.Font.GothamBold
     stopBtn.TextColor3 = Color3.fromRGB(255,255,255)
     stopBtn.TextSize = 14
@@ -719,7 +709,7 @@ local function createAudioLoggerPlayer(parent, audioData, onBack)
     local playBtn = Instance.new("TextButton", panel)
     playBtn.Size = UDim2.new(0, 70, 0, 30)
     playBtn.Position = UDim2.new(0, 175, 0, 15)
-    playBtn.Text = "PLAY"
+    playBtn.Text = "▶"
     playBtn.Font = Enum.Font.GothamBold
     playBtn.TextColor3 = Color3.fromRGB(255,255,255)
     playBtn.TextSize = 14
@@ -729,7 +719,7 @@ local function createAudioLoggerPlayer(parent, audioData, onBack)
     local copyBtn = Instance.new("TextButton", panel)
     copyBtn.Size = UDim2.new(0, 70, 0, 30)
     copyBtn.Position = UDim2.new(0, 255, 0, 15)
-    copyBtn.Text = "COPY"
+    copyBtn.Text = "📋"
     copyBtn.Font = Enum.Font.GothamBold
     copyBtn.TextColor3 = Color3.fromRGB(255,255,255)
     copyBtn.TextSize = 14
@@ -869,7 +859,7 @@ local function createAudioLogUI()
     local autoScanBtn = Instance.new("TextButton", bigFrame)
     autoScanBtn.Size = UDim2.new(0, 220, 0, 38)
     autoScanBtn.Position = UDim2.new(0, 35, 0, 60)
-    autoScanBtn.Text = "AUTO SCAN"
+    autoScanBtn.Text = "🔎"
     autoScanBtn.Font = Enum.Font.GothamBold
     autoScanBtn.TextSize = 16
     autoScanBtn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -879,7 +869,7 @@ local function createAudioLogUI()
     local completeScanBtn = Instance.new("TextButton", bigFrame)
     completeScanBtn.Size = UDim2.new(0, 220, 0, 38)
     completeScanBtn.Position = UDim2.new(0, 295, 0, 60)
-    completeScanBtn.Text = "COMPLETE SCAN"
+    completeScanBtn.Text = " 🔍"
     completeScanBtn.Font = Enum.Font.GothamBold
     completeScanBtn.TextSize = 16
     completeScanBtn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -943,7 +933,7 @@ local function createAudioLogUI()
         local copyBtn = Instance.new("TextButton", item)
         copyBtn.Size = UDim2.new(0.25, -8, 1, -8)
         copyBtn.Position = UDim2.new(0.75, 4, 0, 4)
-        copyBtn.Text = "COPY"
+        copyBtn.Text = "📋"
         copyBtn.Font = Enum.Font.GothamBold
         copyBtn.TextSize = 12
         copyBtn.TextColor3 = Color3.fromRGB(255,255,255)
