@@ -16,7 +16,7 @@ local musicNames = {
     ["4"] = "2609 (Jersey Club)",
     ["5"] = "NewJeans (Jersey Club)",
     ["6"] = "Shake That Thing",
-    ["7"] = "Temptation (Jersey Club)",
+    ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
 }
 
@@ -248,6 +248,7 @@ creditsLabel.TextWrapped = true
 creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
 creditsLabel.BackgroundTransparency = 1
 
+-- MUSIC LIST PANEL (LISTADO VERTICAL)
 local musicListFrame = Instance.new("Frame", frame)
 musicListFrame.Position = UDim2.new(0, 0, 0, 35)
 musicListFrame.Size = UDim2.new(1, -44, 1, -110)
@@ -267,11 +268,12 @@ local musicListLayout = Instance.new("UIListLayout", musicScroll)
 musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-for i=1,10 do
+-- Only valid indices
+for _, k in ipairs({"1","2","3","4","5","6","7","8"}) do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
-    lbl.Text = "["..i.."] - "..musicNames[tostring(i)]
+    lbl.Text = "["..k.."] - "..musicNames[k]
     lbl.Font = Enum.Font.GothamBold
     lbl.TextColor3 = Color3.fromRGB(255,255,255)
     lbl.TextSize = 15
@@ -329,7 +331,7 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
                 warn("Radio or Remote not found!")
             end
         end
-        "Now Playing:" aqui!
+        -- NÃO MOSTRA "Now Playing:" aqui!
     end)
     table.insert(buttons, btn)
 end
