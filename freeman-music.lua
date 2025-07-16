@@ -628,5 +628,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB 6.0!\nScript by Freeman4i37.",4)
+    showAchievementBar("Welcome to Freeman HUB 6.0!\nThanks for the 10K Visits!",4)
 end)()
