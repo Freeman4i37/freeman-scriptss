@@ -43,8 +43,8 @@ local function UpdatePlayerLight()
         playerLight = Instance.new("PointLight")
         playerLight.Name = "RLD_Light"
         playerLight.Parent = player.Character.HumanoidRootPart
-        playerLight.Range = 50
-        playerLight.Brightness = 8
+        playerLight.Range = 80
+        playerLight.Brightness = 4
     end
     playerLight.Color = lightColorTable[currentLightColor] or lightColorTable.white
 end
@@ -214,7 +214,7 @@ task.spawn(function()
                 end
             end
         end
-        wait(0.3)
+        wait(1)
     end
 end)
 
@@ -341,14 +341,14 @@ if not getgenv().RLD_AutoDoorsLock then
                             for _, obj in pairs(room:GetDescendants()) do
                                 if obj:IsA("ProximityPrompt") and obj.ActionText == "Open" and obj.MaxActivationDistance >= 0 then
                                     fireproximityprompt(obj)
-                                    wait(0.1)
+                                    wait(0.01)
                                 end
                             end
                         end
                     end
                 end
             end
-            wait(0.1)
+            wait(0.01)
         end
     end)
 end
