@@ -1,9 +1,9 @@
 local musicIDs = {
     ["1"] = 89907278904871,
-    ["2"] = 99409598156364,
+    ["2"] = 92209428926055,
     ["3"] = 133900561957103,
     ["4"] = 93768636184697,
-    ["5"] = 93218265275853,
+    ["5"] = 92062588329352,
     ["6"] = 16831105312,
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
@@ -11,11 +11,11 @@ local musicIDs = {
 
 local musicNames = {
     ["1"] = "Funk da Praia",
-    ["2"] = "Retrolam Funk",
+    ["2"] = "Switch The Colors (Jersey Club)",
     ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)",
-    ["5"] = "NewJeans (Jersey Club)",
-    ["6"] = "Shake That Thing",
+    ["5"] = "Spooky Scary Sunday (Jersey Club)",
+    ["6"] = "Copyrighted Song",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
 }
@@ -148,7 +148,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB 🎵 6.0"
+title.Text = "Freeman HUB 🎵 6.5"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -628,5 +628,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB 6.0!\nThanks for the 10K Visits!",4)
+    showAchievementBar("Welcome to Freeman HUB 6.5!\nThanks for the 18K Visits!",4)
 end)()
