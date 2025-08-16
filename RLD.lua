@@ -67,28 +67,72 @@ local function shouldShowForEntity(entName)
 end
 
 local colorTable = {
-    ["happyman"] = strongRed, ["sadman"] = strongRed, ["angryman"] = strongRed,
-    ["nerdman"] = strongPink, ["c-25"] = strongPink, ["a-75"] = strongPink, ["smartman"] = strongPink,
-    ["scaredman"] = Color3.fromRGB(128,0,128), ["shortman"] = Color3.fromRGB(0,0,255), ["mushman"] = Color3.fromRGB(0,0,255),
-    ["bigman"] = Color3.fromRGB(0,255,0), ["a-25"] = Color3.fromRGB(0,255,0), ["c-60"] = Color3.fromRGB(0,255,0), ["a-105"] = Color3.fromRGB(0,255,0),
-    ["tallman"] = strongOrange, ["a-45"] = strongOrange, ["1-a"] = strongOrange,
-    ["joyfulman"] = Color3.fromRGB(255,255,0), ["a-120"] = Color3.fromRGB(255,255,0), ["a-275"] = Color3.fromRGB(255,255,0),
+    -- Entidades antigas/padrão (exemplo, ajuste conforme necessário)
+    ["happyman"] = strongRed,
+    ["sadman"] = strongRed,
+    ["angryman"] = strongRed,
+    ["nerdman"] = strongPink,
+    ["c-25"] = strongPink,
+    ["a-75"] = strongPink,
+    ["smartman"] = strongPink,
+    ["scaredman"] = Color3.fromRGB(128,0,128),
+    ["shortman"] = Color3.fromRGB(0,0,255),
+    ["mushman"] = Color3.fromRGB(0,0,255),
+    ["bigman"] = Color3.fromRGB(0,255,0),
+    ["a-25"] = Color3.fromRGB(0,255,0),
+    ["c-60"] = Color3.fromRGB(0,255,0),
+    ["a-105"] = Color3.fromRGB(0,255,0),
+    ["tallman"] = strongOrange,
+    ["a-45"] = strongOrange,
+    ["1-a"] = strongOrange,
+    ["joyfulman"] = Color3.fromRGB(255,255,0),
+    ["a-120"] = Color3.fromRGB(255,255,0),
+    ["a-275"] = Color3.fromRGB(255,255,0),
     ["glee"] = Color3.fromRGB(0,150,255),
-    ["a-1"] = "graywhite", ["c-1"] = "rainbow",
-    ["sn-1"] = Color3.fromRGB(48,0,64), ["jb-1"] = Color3.fromRGB(0,96,0),
-    ["a-60"] = strongRed, ["a-150"] = Color3.fromRGB(80,180,255), ["a-185"] = Color3.fromRGB(40,80,180),
-    ["a-200"] = Color3.fromRGB(255,255,255), ["a-225"] = Color3.fromRGB(0,0,100), ["mournfulman"] = Color3.fromRGB(0,0,100),
+
+    -- Efeitos dinâmicos clássicos
+    ["a-1"] = "graywhite",
+    ["c-1"] = "rainbow",
+
+    ["sn-1"] = Color3.fromRGB(48,0,64),
+    ["jb-1"] = Color3.fromRGB(0,96,0),
+
+    ["a-60"] = strongRed,
+    ["a-150"] = Color3.fromRGB(80,180,255),
+    ["a-185"] = Color3.fromRGB(40,80,180),
+    ["a-200"] = Color3.fromRGB(255,255,255),
+    ["a-225"] = Color3.fromRGB(0,0,100),
+    ["mournfulman"] = Color3.fromRGB(0,0,100),
     ["a-250"] = Color3.fromRGB(120,0,0),
-    ["a-300"] = "orangered", ["wideglee"] = strongPink, ["cv-300"] = "whiteorange",
-    ["b-5"] = Color3.fromRGB(0,255,0), ["b-15"] = Color3.fromRGB(44,74,188), ["b-25"] = strongCyan, ["b-40"] = Color3.fromRGB(128,40,40),
-    ["b-60"] = Color3.fromRGB(64,0,90), ["b-85"] = "blackwhite", ["b-100"] = Color3.fromRGB(0,40,90), ["b-120"] = Color3.fromRGB(120,120,120),
-    ["b-140"] = Color3.fromRGB(120,255,120), ["mob-1"] = Color3.fromRGB(120,255,120), ["mob-2"] = Color3.fromRGB(120,255,120),
-    ["b-170"] = Color3.fromRGB(70,140,70), ["b-200"] = "whitered", ["b-244"] = Color3.fromRGB(255,0,0), ["b-270"] = Color3.fromRGB(128,0,255),
+    ["a-300"] = "orangered",
+    ["wideglee"] = strongPink,
+    ["cv-300"] = "whiteorange",
+
+    ["b-5"] = Color3.fromRGB(0,255,0),
+    ["b-15"] = Color3.fromRGB(44,74,188),
+    ["b-25"] = strongCyan,
+    ["b-40"] = Color3.fromRGB(128,40,40),
+    ["b-60"] = Color3.fromRGB(64,0,90),
+    ["b-85"] = "blackwhite",
+    ["b-100"] = Color3.fromRGB(0,40,90),
+    ["b-120"] = Color3.fromRGB(120,120,120),
+    ["b-140"] = Color3.fromRGB(120,255,120),
+    ["mob-1"] = Color3.fromRGB(120,255,120),
+    ["mob-2"] = Color3.fromRGB(120,255,120),
+    ["b-170"] = Color3.fromRGB(70,140,70),
+    ["b-200"] = "whitered",
+    ["b-244"] = Color3.fromRGB(255,0,0),
+    ["b-270"] = Color3.fromRGB(128,0,255),
     ["b-300"] = Color3.fromRGB(50,255,90),
+
+    -- G-entities
     ["g-3"] = Color3.fromRGB(0, 80, 0),
     ["g-26"] = "g26bw",
     ["g-55"] = "g55wgb",
-    ["cg-55"] = "cg55wgb",
+    ["cg-55"] = "cg55wgb", -- igual ao g55
+    ["gta-55"] = "g55wgb", -- alias, caso nome usado seja assim
+    ["cgta-55"] = "g55wgb", -- igual ao g55
+
     ["g-60"] = strongCyan,
     ["g-88"] = strongRed,
     ["g-100"] = "greendarkred",
@@ -100,7 +144,20 @@ local colorTable = {
     ["g-222"] = "bluewhite",
     ["g-235"] = strongYellow,
     ["g-250"] = strongOrange,
-    ["g-300"] = "g300multi"
+    ["g-300"] = "g300multi",
+
+    -- Especiais pedidos:
+    ["c-45"] = Color3.fromRGB(128,0,255), -- Roxo
+    ["cc-45"] = Color3.fromRGB(0,255,255), -- Ciano
+    ["c-105"] = "shadesofblue",          -- Tons de azul
+    ["cc-105"] = "orangetones",          -- Tons de laranja
+    ["car-25"] = "bluered",              -- Azul e vermelho juntos
+    ["g-45"] = "bwgray",                 -- Preto + cinza
+    ["cc-25"] = Color3.fromRGB(0,255,255), -- Ciano
+    ["bagc-60"] = "bagc60multi",         -- Mistura roxo/ciano/vermelho/verde
+    ["cc-60"] = Color3.fromRGB(190,0,255),-- Roxo muito forte
+    ["ccc-60"] = "greencyan",            -- Verde com tons de ciano
+    ["cgta-55"] = "g55wgb",           -- já adicionado acima
 }
 local function getEntityColor(entity)
     local name = entity.Name:lower()
