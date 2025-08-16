@@ -63,7 +63,7 @@ local function getMultiTransitionColor(colors, speed, interval)
     return Color3.new(c1.R + (c2.R - c1.R)*frac, c1.G + (c2.G - c1.G)*frac, c1.B + (c2.B - c1.B)*frac)
 end
 local function shouldShowForEntity(entName)
-    return entName and (entName:match("^[AaBbGg]%-") or entName:upper() == "CG-55")
+    return entName and (entName:match("^[AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz]%-") or entName:upper() == "CG-55")
 end
 
 local colorTable = {
@@ -161,8 +161,13 @@ local colorTable = {
 }
 local function getEntityColor(entity)
     local name = entity.Name:lower()
-    if name == "cg-55" then
-        return getMultiTransitionColor({Color3.fromRGB(255,255,255),Color3.fromRGB(180,180,180),Color3.fromRGB(0,0,0)},35,1)
+    -- CG-55 e CGTA-55 usam o efeito g55wgb
+    if name == "cg-55" or name == "cgta-55" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(255,255,255),
+            Color3.fromRGB(180,180,180),
+            Color3.fromRGB(0,0,0)
+        }, 7, 1)
     end
     local color = colorTable[name]
     if not color then
@@ -174,11 +179,18 @@ local function getEntityColor(entity)
         end
     end
     if not color then return Color3.fromRGB(255,255,255) end
+
+    -- EFEITOS DINÂMICOS PADRÃO
     if color == "graywhite" then
         local v = math.abs(math.sin(tick()*2))
         return Color3.new(v,v,v)
     elseif color == "rainbow" then
-        local rainbow = {Color3.fromRGB(255,0,0), Color3.fromRGB(255,127,0), Color3.fromRGB(255,255,0), Color3.fromRGB(0,255,0), Color3.fromRGB(0,0,255), Color3.fromRGB(75,0,130), Color3.fromRGB(148,0,211)}
+        local rainbow = {
+            Color3.fromRGB(255,0,0), Color3.fromRGB(255,127,0),
+            Color3.fromRGB(255,255,0), Color3.fromRGB(0,255,0),
+            Color3.fromRGB(0,0,255), Color3.fromRGB(75,0,130),
+            Color3.fromRGB(148,0,211)
+        }
         local t = tick()*8
         local i = math.floor(t)%#rainbow+1
         return rainbow[i]
@@ -206,12 +218,54 @@ local function getEntityColor(entity)
             return Color3.fromRGB(255,255,255)
         end
     elseif color == "g55wgb" then
-        return getMultiTransitionColor({Color3.fromRGB(255,255,255),Color3.fromRGB(180,180,180),Color3.fromRGB(0,0,0)},7,1)
+        return getMultiTransitionColor({
+            Color3.fromRGB(255,255,255),
+            Color3.fromRGB(180,180,180),
+            Color3.fromRGB(0,0,0)
+        }, 7, 1)
     elseif color == "g300multi" then
-        return getMultiTransitionColor({strongRed, strongOrange, Color3.fromRGB(0,30,80), Color3.fromRGB(0,255,0), strongYellow}, 2, 1)
-    else
-        return color
+        return getMultiTransitionColor({
+            strongRed, strongOrange, Color3.fromRGB(0,30,80),
+            Color3.fromRGB(0,255,0), strongYellow
+        }, 2, 1)
+
+    -- ----------- EFEITOS NOVOS/ESPECIAIS -------------
+    -- Tons de azul
+    elseif color == "shadesofblue" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(80,150,255),
+            Color3.fromRGB(0,40,255),
+            Color3.fromRGB(0,120,255),
+            Color3.fromRGB(0,200,255)
+        }, 2, 1)
+    -- Tons de laranja
+    elseif color == "orangetones" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(255,150,0),
+            Color3.fromRGB(255,200,80),
+            Color3.fromRGB(255,120,30)
+        }, 2, 1)
+    -- Azul e vermelho juntos
+    elseif color == "bluered" then
+        return getTransitionColor(Color3.fromRGB(0,120,255), Color3.fromRGB(255,0,0), 6)
+    -- Preto + cinza
+    elseif color == "bwgray" then
+        return getTransitionColor(Color3.fromRGB(0,0,0), Color3.fromRGB(150,150,150), 2)
+    -- Mistura roxo, ciano, vermelho, verde
+    elseif color == "bagc60multi" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(160,0,255), -- purple
+            Color3.fromRGB(0,255,255), -- cyan
+            Color3.fromRGB(255,0,0),   -- red
+            Color3.fromRGB(0,255,0),   -- green
+        }, 2, 1)
+    -- Verde com tons de ciano
+    elseif color == "greencyan" then
+        return getTransitionColor(Color3.fromRGB(0,255,0), Color3.fromRGB(0,255,255), 2)
     end
+
+    -- Cores fixas
+    return color
 end
 
 local ESPFolder = Instance.new("Folder", game.CoreGui)
@@ -229,18 +283,18 @@ local function CreateESP(part, entity)
     Billboard.AlwaysOnTop = true
     local Label = Instance.new("TextLabel")
     Label.Size = UDim2.new(1, 0, 1, 0)
-    Label.BackgroundTransparency = 1
+    Label.BackgroundTransparency = 0.7
     Label.TextStrokeTransparency = 0
     Label.TextScaled = true
     Label.Font = Enum.Font.GothamBold
-    Label.Text = entity.Name .. " | 0m"
+    Label.Text = entity.Name .. " | 0M"
     Label.Parent = Billboard
     Billboard.Parent = ESPFolder
     local connection
     connection = game:GetService("RunService").RenderStepped:Connect(function()
         if Billboard and Billboard.Adornee and espEnabled and not espBlocked[entity] then
             local distance = (player.Character.HumanoidRootPart.Position - Billboard.Adornee.Position).Magnitude
-            Label.Text = entity.Name .. " | " .. math.floor(distance) .. "m"
+            Label.Text = entity.Name .. " | " .. math.floor(distance) .. "M"
             Label.TextColor3 = getEntityColor(entity)
             Billboard.Enabled = true
         else
@@ -271,7 +325,7 @@ task.spawn(function()
                 end
             end
         end
-        wait(1)
+        wait(0.7)
     end
 end)
 
