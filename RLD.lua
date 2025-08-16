@@ -63,7 +63,7 @@ local function getMultiTransitionColor(colors, speed, interval)
     return Color3.new(c1.R + (c2.R - c1.R)*frac, c1.G + (c2.G - c1.G)*frac, c1.B + (c2.B - c1.B)*frac)
 end
 local function shouldShowForEntity(entName)
-    return entName and (entName:match("^[AaBbCcDdGg]%-") or entName:upper() == "CG-55")
+    return entName and (entName:match("^[AaBbGg]%-") or entName:upper() == "CG-55")
 end
 
 local colorTable = {
@@ -287,7 +287,7 @@ local function CreateESP(part, entity)
     Label.TextStrokeTransparency = 0
     Label.TextScaled = true
     Label.Font = Enum.Font.GothamBold
-    Label.Text = entity.Name .. " | 0M"
+    Label.Text = entity.Name .. " | 0m"
     Label.Parent = Billboard
     Billboard.Parent = ESPFolder
     local connection
