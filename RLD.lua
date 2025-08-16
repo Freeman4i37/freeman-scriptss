@@ -63,7 +63,7 @@ local function getMultiTransitionColor(colors, speed, interval)
     return Color3.new(c1.R + (c2.R - c1.R)*frac, c1.G + (c2.G - c1.G)*frac, c1.B + (c2.B - c1.B)*frac)
 end
 local function shouldShowForEntity(entName)
-    return entName and (entName:match("^[AaBbCcDdGg]%-") or entName:upper() == "CG-55", "CC-")
+    return entName and (entName:match("^[AaBbCcDdGg]%-") or entName:upper() == "CG-55")
 end
 
 local colorTable = {
