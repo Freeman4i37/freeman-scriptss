@@ -284,14 +284,75 @@ local function getEntityColor(entity)
     -- Mistura roxo, ciano, vermelho, verde
     elseif color == "bagc60multi" then
         return getMultiTransitionColor({
-            Color3.fromRGB(160,0,255), -- purple
-            Color3.fromRGB(0,255,255), -- cyan
-            Color3.fromRGB(255,0,0),   -- red
-            Color3.fromRGB(0,255,0),   -- green
+            Color3.fromRGB(160,0,255),
+            Color3.fromRGB(0,255,255),
+            Color3.fromRGB(255,0,0),
+            Color3.fromRGB(0,255,0),
         }, 2, 1)
     -- Verde com tons de ciano
     elseif color == "greencyan" then
         return getTransitionColor(Color3.fromRGB(0,255,0), Color3.fromRGB(0,255,255), 2)
+
+    -- ==== NOVOS EFEITOS DINÂMICOS ====
+
+    -- G-88: OrangeT, PinkT, RedT, YellowT transition
+    elseif color == "g88transition" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(255, 120, 30), -- OrangeT
+            Color3.fromRGB(255, 65, 195), -- PinkT
+            Color3.fromRGB(255, 0, 0),    -- RedT
+            Color3.fromRGB(255, 255, 40), -- YellowT
+        }, 2.5, 1)
+    -- G-Eighty Eight: PinkT, RedT, YellowT
+    elseif color == "g88nopink" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(255, 65, 195), -- PinkT
+            Color3.fromRGB(255, 0, 0),    -- RedT
+            Color3.fromRGB(255, 255, 40), -- YellowT
+        }, 2.5, 1)
+    -- Billy-140: blue and purple tones, mix
+    elseif color == "billy140mix" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(80, 150, 255),
+            Color3.fromRGB(0, 40, 255),
+            Color3.fromRGB(128, 0, 255),
+            Color3.fromRGB(200, 60, 180)
+        }, 2, 1)
+    -- G-140: Orange tones, fire type
+    elseif color == "g140fire" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(255, 120, 30),
+            Color3.fromRGB(255, 165, 0),
+            Color3.fromRGB(255, 60, 0)
+        }, 3, 1)
+    -- Omg-40: All colors, crazy transition every 0.5s
+    elseif color == "crazyall" then
+        return getMultiTransitionColor({
+            Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 127, 0),
+            Color3.fromRGB(255, 255, 0), Color3.fromRGB(0, 255, 0),
+            Color3.fromRGB(0, 0, 255), Color3.fromRGB(75, 0, 130),
+            Color3.fromRGB(148, 0, 211), Color3.fromRGB(255,255,255)
+        }, 12, 0.5)
+    -- GUH: White, then orange every 1s
+    elseif color == "guhwhiteorange" then
+        if math.floor(tick()) % 2 == 0 then
+            return Color3.fromRGB(255,255,255)
+        else
+            return Color3.fromRGB(255, 120, 30)
+        end
+    -- Holay Molay.. : White for 5s, then Purple flashing for 5s
+    elseif color == "holaymolay" then
+        local t = math.floor(tick() / 5) % 2
+        if t == 0 then
+            return Color3.fromRGB(255,255,255)
+        else
+            local flash = (math.floor(tick()*4) % 2 == 0)
+            if flash then
+                return Color3.fromRGB(128,0,255)
+            else
+                return Color3.fromRGB(255,255,255)
+            end
+        end
     end
 
     -- Cores fixas
