@@ -43,8 +43,8 @@ local function UpdatePlayerLight()
         playerLight = Instance.new("PointLight")
         playerLight.Name = "RLD_Light"
         playerLight.Parent = player.Character.HumanoidRootPart
-        playerLight.Range = 80
-        playerLight.Brightness = 4
+        playerLight.Range = 130
+        playerLight.Brightness = 2
     end
     playerLight.Color = lightColorTable[currentLightColor] or lightColorTable.white
 end
