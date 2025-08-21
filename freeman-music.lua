@@ -15,7 +15,7 @@ local musicNames = {
     ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)",
     ["5"] = "Spooky Scary Sunday (Jersey Club)",
-    ["6"] = "Dark Piano Jersey Drill",
+    ["6"] = "Dark Piano (Jersey Drill)",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
 }
@@ -248,6 +248,7 @@ creditsLabel.TextWrapped = true
 creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
 creditsLabel.BackgroundTransparency = 1
 
+-- MUSIC LIST PANEL (LISTADO VERTICAL)
 local musicListFrame = Instance.new("Frame", frame)
 musicListFrame.Position = UDim2.new(0, 0, 0, 35)
 musicListFrame.Size = UDim2.new(1, -44, 1, -110)
@@ -330,7 +331,7 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
                 warn("Radio or Remote not found!")
             end
         end
-        "Now Playing:" error!
+        -- NÃO MOSTRA "Now Playing:" aqui!
     end)
     table.insert(buttons, btn)
 end
