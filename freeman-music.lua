@@ -15,7 +15,7 @@ local musicNames = {
     ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)",
     ["5"] = "Spooky Scary Sunday (Jersey Club)",
-    ["6"] = "Dark Piano (Jersey Drill)",
+    ["6"] = "Dark Piano",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
 }
@@ -148,7 +148,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB 🎵 6.8"
+title.Text = "Freeman HUB 🎵"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -628,5 +628,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB 6.8!\nThanks for the 18K Visits!",4)
+    showAchievementBar("Welcome to Freeman HUB!\nThanks for the 18K Visits!",4)
 end)()
