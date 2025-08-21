@@ -4,7 +4,7 @@ local musicIDs = {
     ["3"] = 133900561957103,
     ["4"] = 93768636184697,
     ["5"] = 92062588329352,
-    ["6"] = 16831105312,
+    ["6"] = 122966944593870,
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
 }
@@ -15,7 +15,7 @@ local musicNames = {
     ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)",
     ["5"] = "Spooky Scary Sunday (Jersey Club)",
-    ["6"] = "Copyrighted Song",
+    ["6"] = "Dark Piano Jersey Drill",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
 }
@@ -148,7 +148,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB 🎵 6.5"
+title.Text = "Freeman HUB 🎵 6.8"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -248,7 +248,6 @@ creditsLabel.TextWrapped = true
 creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
 creditsLabel.BackgroundTransparency = 1
 
--- MUSIC LIST PANEL (LISTADO VERTICAL)
 local musicListFrame = Instance.new("Frame", frame)
 musicListFrame.Position = UDim2.new(0, 0, 0, 35)
 musicListFrame.Size = UDim2.new(1, -44, 1, -110)
@@ -331,7 +330,7 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
                 warn("Radio or Remote not found!")
             end
         end
-        -- NÃO MOSTRA "Now Playing:" aqui!
+        "Now Playing:" error!
     end)
     table.insert(buttons, btn)
 end
@@ -628,5 +627,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB 6.5!\nThanks for the 18K Visits!",4)
+    showAchievementBar("Welcome to Freeman HUB 6.8!\nThanks for the 18K Visits!",4)
 end)()
