@@ -242,12 +242,12 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.Parent = mainFrame
     btn.MouseButton1Click:Connect(function()
-        showSelectorPopup("Choose the type:", {"Motorcycle", "Scooter", "Vehicle"}, function(selected)
-            if selected == "Motorcycle" then
+        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Motorcycle"}, function(selected)
+            if selected == "Vehicle" then
                 playMotorcycleMusic(id)
             elseif selected == "Scooter" then
                 playScooterMusic(id)
-            elseif selected == "Vehicle" then
+            elseif selected == "Motorcycle" then
                 playVehicleMusic(id)
             end
         end)
@@ -296,12 +296,12 @@ playButton.MouseButton1Click:Connect(function()
         if success and info and info.Name and not foundName then
             nameGot = info.Name
         end
-        showSelectorPopup("Choose the type:", {"Motorcycle", "Scooter", "Vehicle"}, function(selected)
-            if selected == "Motorcycle" then
+        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Motorcycle"}, function(selected)
+            if selected == "Vehicle" then
                 playMotorcycleMusic(id)
             elseif selected == "Scooter" then
                 playScooterMusic(id)
-            elseif selected == "Vehicle" then
+            elseif selected == "Motorcycle" then
                 playVehicleMusic(id)
             end
         end)
