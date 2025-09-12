@@ -19,7 +19,7 @@ local musicNames = {
     ["6"] = "Dark Piano",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
-    ["9"] = "Montagem Lua Infrator",
+    ["9"] = "MONTAGEM LUA INFRATOR",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -203,6 +203,7 @@ end
 local musicListBtn = makeIconBtn(sideBar, "📜", iconBtnY)
 local settingsButton = makeIconBtn(sideBar, "⚙️", iconBtnY + iconBtnDelta*1)
 local modeButton = makeIconBtn(sideBar, isClientAudio and "C.A" or "R.A", iconBtnY + iconBtnDelta*2)
+local creditsButton = makeIconBtn(sideBar, "👤", iconBtnY + iconBtnDelta*3)
 
 local openIcon = Instance.new("TextButton", gui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
@@ -232,6 +233,24 @@ grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 grid.VerticalAlignment = Enum.VerticalAlignment.Top
 grid.FillDirectionMaxCells = 2
 
+local creditsFrame = Instance.new("Frame", frame)
+creditsFrame.Position = UDim2.new(0, 0, 0, 35)
+creditsFrame.Size = UDim2.new(1, -44, 1, -110)
+creditsFrame.BackgroundTransparency = 1
+creditsFrame.Visible = false
+
+local creditsLabel = Instance.new("TextLabel", creditsFrame)
+creditsLabel.Size = UDim2.new(1, -20, 1, -20)
+creditsLabel.Position = UDim2.new(0, 10, 0, 10)
+creditsLabel.Text = "Made by Freeman4i37!\nThe best Roblox music GUI!\nThank you for using my script."
+creditsLabel.Font = Enum.Font.Gotham
+creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
+creditsLabel.TextSize = 14
+creditsLabel.TextWrapped = true
+creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
+creditsLabel.BackgroundTransparency = 1
+
+-- MUSIC LIST PANEL (LISTADO VERTICAL)
 local musicListFrame = Instance.new("Frame", frame)
 musicListFrame.Position = UDim2.new(0, 0, 0, 35)
 musicListFrame.Size = UDim2.new(1, -44, 1, -110)
@@ -611,5 +630,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB!",3)
+    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 7.0.",4)
 end)()
