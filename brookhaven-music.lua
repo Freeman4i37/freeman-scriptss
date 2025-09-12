@@ -7,6 +7,7 @@ local musicIDs = {
     ["6"] = 122966944593870,
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
+    ["9"] = 126960081879615,
 }
 
 local musicNames = {
@@ -18,6 +19,7 @@ local musicNames = {
     ["6"] = "Dark Piano",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
+    ["9"] = "MONTAGEM LUA INFRATOR",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -109,6 +111,16 @@ local function playVehicleMusic(id)
     game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer(unpack(args))
 end
 
+local function playRadioMusic(id)
+    local args = { [1] = "ToolMusicText", [2] = id }
+    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("PlayerToolEvent"):FireServer(unpack(args))
+end
+
+local function playHouseMusic(id)
+    local args = { [1] = "PickHouseMusicText", [2] = id }
+    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sHous1e"):FireServer(unpack(args))
+end
+
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0, 340, 0, 360)
 frame.Position = UDim2.new(1, -355, 0.5, -180)
@@ -129,7 +141,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB 🎵 - Brookhaven"
+title.Text = "Freeman Music - Brookhaven"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -182,9 +194,9 @@ local openIcon = Instance.new("TextButton", gui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -50, 1, -50)
 openIcon.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-openIcon.Text = "+"
+openIcon.Text = "OPEN"
 openIcon.Visible = false
-openIcon.TextSize = 24
+openIcon.TextSize = 15
 openIcon.Font = Enum.Font.GothamBold
 openIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
@@ -230,7 +242,7 @@ settingsFrame.BackgroundTransparency = 1
 settingsFrame.Visible = false
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
@@ -242,13 +254,17 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.Parent = mainFrame
     btn.MouseButton1Click:Connect(function()
-        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Motorcycle"}, function(selected)
+        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Others", "Radio", "House"}, function(selected)
             if selected == "Vehicle" then
                 playMotorcycleMusic(id)
             elseif selected == "Scooter" then
                 playScooterMusic(id)
             elseif selected == "Motorcycle" then
                 playVehicleMusic(id)
+            elseif selected == "Radio" then
+                playRadioMusic(id)
+            elseif selected == "House" then
+                playHouseMusic(id)
             end
         end)
     end)
@@ -296,13 +312,17 @@ playButton.MouseButton1Click:Connect(function()
         if success and info and info.Name and not foundName then
             nameGot = info.Name
         end
-        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Motorcycle"}, function(selected)
+        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Others", "Radio", "House"}, function(selected)
             if selected == "Vehicle" then
                 playMotorcycleMusic(id)
             elseif selected == "Scooter" then
                 playScooterMusic(id)
-            elseif selected == "Motorcycle" then
+            elseif selected == "Others" then
                 playVehicleMusic(id)
+            elseif selected == "Radio" then
+                playRadioMusic(id)
+            elseif selected == "House" then
+                playHouseMusic(id)
             end
         end)
         showAchievementBar("Now Playing: " .. nameGot, 6)
