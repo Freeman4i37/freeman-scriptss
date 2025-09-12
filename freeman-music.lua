@@ -7,6 +7,7 @@ local musicIDs = {
     ["6"] = 122966944593870,
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
+    ["9"] = 126960081879615,
 }
 
 local musicNames = {
@@ -18,6 +19,7 @@ local musicNames = {
     ["6"] = "Dark Piano",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
+    ["9"] = "Montagem Lua Infrator",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -148,7 +150,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB 🎵"
+title.Text = "Freeman HUB - MUSIC"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -200,8 +202,7 @@ end
 
 local musicListBtn = makeIconBtn(sideBar, "📜", iconBtnY)
 local settingsButton = makeIconBtn(sideBar, "⚙️", iconBtnY + iconBtnDelta*1)
-local modeButton = makeIconBtn(sideBar, isClientAudio and "❎" or "✅", iconBtnY + iconBtnDelta*2)
-local creditsButton = makeIconBtn(sideBar, "👤", iconBtnY + iconBtnDelta*3)
+local modeButton = makeIconBtn(sideBar, isClientAudio and "C.A" or "R.A", iconBtnY + iconBtnDelta*2)
 
 local openIcon = Instance.new("TextButton", gui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
@@ -231,24 +232,6 @@ grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 grid.VerticalAlignment = Enum.VerticalAlignment.Top
 grid.FillDirectionMaxCells = 2
 
-local creditsFrame = Instance.new("Frame", frame)
-creditsFrame.Position = UDim2.new(0, 0, 0, 35)
-creditsFrame.Size = UDim2.new(1, -44, 1, -110)
-creditsFrame.BackgroundTransparency = 1
-creditsFrame.Visible = false
-
-local creditsLabel = Instance.new("TextLabel", creditsFrame)
-creditsLabel.Size = UDim2.new(1, -20, 1, -20)
-creditsLabel.Position = UDim2.new(0, 10, 0, 10)
-creditsLabel.Text = "Made by Freeman4i37!\nThe best Roblox music GUI!\nThank you for using my script."
-creditsLabel.Font = Enum.Font.Gotham
-creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
-creditsLabel.TextSize = 14
-creditsLabel.TextWrapped = true
-creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
-creditsLabel.BackgroundTransparency = 1
-
--- MUSIC LIST PANEL (LISTADO VERTICAL)
 local musicListFrame = Instance.new("Frame", frame)
 musicListFrame.Position = UDim2.new(0, 0, 0, 35)
 musicListFrame.Size = UDim2.new(1, -44, 1, -110)
@@ -269,7 +252,7 @@ musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 -- Only valid indices
-for _, k in ipairs({"1","2","3","4","5","6","7","8"}) do
+for _, k in ipairs({"1","2","3","4","5","6","7","8","9"}) do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
@@ -307,7 +290,7 @@ muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
@@ -457,7 +440,7 @@ stopButton.MouseButton1Click:Connect(function()
 end)
 
 volumeButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE VOLUME", {0.5,0.75,1.0,1.5,2.0,4.0,6.0}, function(vol)
+    showSelectorPopup("CHOOSE THE VOLUME", {0.5,0.75,1.0,1.5,2.0}, function(vol)
         currentVolume = vol
         volumeButton.Text = "Vol: " .. tostring(currentVolume)
         for _, s in ipairs(soundFolder:GetChildren()) do
@@ -469,7 +452,7 @@ volumeButton.MouseButton1Click:Connect(function()
 end)
 
 pitchButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE PITCH", {0.75,1.0,1.5,2.0}, function(pitch)
+    showSelectorPopup("CHOOSE THE PITCH", {0.75,1.0,1.5}, function(pitch)
         currentPitch = pitch
         pitchButton.Text = "Pitch: " .. tostring(currentPitch)
         for _, s in ipairs(soundFolder:GetChildren()) do
@@ -482,7 +465,7 @@ end)
 
 modeButton.MouseButton1Click:Connect(function()
     isClientAudio = not isClientAudio
-    modeButton.Text = isClientAudio and "❎" or "✅"
+    modeButton.Text = isClientAudio and "C.A" or "R.A"
     loopButton.Visible = isClientAudio
     stopButton.Visible = isClientAudio
     volumeButton.Visible = isClientAudio
@@ -628,5 +611,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB!\nThanks for the 18K Visits!",4)
+    showAchievementBar("Welcome to Freeman HUB!",3)
 end)()
