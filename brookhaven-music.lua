@@ -8,6 +8,10 @@ local musicIDs = {
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
     ["9"] = 126960081879615,
+    ["10"] = 93058983119992,
+    ["11"] = 92492039534399,
+    ["12"] = 134035788881796,
+
 }
 
 local musicNames = {
@@ -20,6 +24,9 @@ local musicNames = {
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
     ["9"] = "MONTAGEM LUA INFRATOR",
+    ["10"] = "MONTAGEM ECLIPSE ESTRELAR",
+    ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
+    ["12"] = "Esquema Confirmado - Arrocha",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -242,7 +249,7 @@ settingsFrame.BackgroundTransparency = 1
 settingsFrame.Visible = false
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
