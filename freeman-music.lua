@@ -8,6 +8,10 @@ local musicIDs = {
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
     ["9"] = 126960081879615,
+    ["10"] = 93058983119992,
+    ["11"] = 92492039534399,
+    ["12"] = 134035788881796,
+
 }
 
 local musicNames = {
@@ -20,6 +24,9 @@ local musicNames = {
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
     ["9"] = "MONTAGEM LUA INFRATOR",
+    ["10"] = "MONTAGEM ECLIPSE ESTRELAR",
+    ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
+    ["12"] = "Esquema Confirmado - Arrocha",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -250,7 +257,6 @@ creditsLabel.TextWrapped = true
 creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
 creditsLabel.BackgroundTransparency = 1
 
--- MUSIC LIST PANEL (LISTADO VERTICAL)
 local musicListFrame = Instance.new("Frame", frame)
 musicListFrame.Position = UDim2.new(0, 0, 0, 35)
 musicListFrame.Size = UDim2.new(1, -44, 1, -110)
@@ -271,7 +277,7 @@ musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 -- Only valid indices
-for _, k in ipairs({"1","2","3","4","5","6","7","8","9"}) do
+for _, k in ipairs({"1","2","3","4","5","6","7","8","9","10","11","12"}) do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
@@ -309,7 +315,7 @@ muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
@@ -630,5 +636,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 7.0.",4)
+    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 7.2.",4)
 end)()
