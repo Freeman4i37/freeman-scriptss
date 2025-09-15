@@ -636,5 +636,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 7.2.",4)
+    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 7.5.",4)
 end)()
