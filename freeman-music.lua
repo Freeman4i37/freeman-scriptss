@@ -1,10 +1,10 @@
 local musicIDs = {
-    ["1"] = 89907278904871,
+    ["1"] = 140268583413209,
     ["2"] = 92209428926055,
     ["3"] = 133900561957103,
     ["4"] = 93768636184697,
     ["5"] = 92062588329352,
-    ["6"] = 122966944593870,
+    ["6"] = 84773737820526,
     ["7"] = 87783857221289,
     ["8"] = 80164463388144,
     ["9"] = 126960081879615,
@@ -15,12 +15,12 @@ local musicIDs = {
 }
 
 local musicNames = {
-    ["1"] = "Funk da Praia",
+    ["1"] = "Meepcity x Jersey Club",
     ["2"] = "Switch The Colors (Jersey Club)",
     ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)",
     ["5"] = "Spooky Scary Sunday (Jersey Club)",
-    ["6"] = "Dark Piano",
+    ["6"] = "ANOTE AÍ",
     ["7"] = "Temptation",
     ["8"] = "One Two Step (Jersey Club)",
     ["9"] = "MONTAGEM LUA INFRATOR",
