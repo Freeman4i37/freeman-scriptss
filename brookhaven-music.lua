@@ -11,6 +11,8 @@ local musicIDs = {
     ["10"] = 93058983119992,
     ["11"] = 92492039534399,
     ["12"] = 134035788881796,
+    ["13"] = 18841893567,
+    ["14"] = 73962723234161,
 
 }
 
@@ -27,6 +29,8 @@ local musicNames = {
     ["10"] = "MONTAGEM ECLIPSE ESTRELAR",
     ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
     ["12"] = "Esquema Confirmado - Arrocha",
+    ["13"] = "JERSEY WAVE",
+    ["14"] = "Arrepia XL 2",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -249,7 +253,7 @@ settingsFrame.BackgroundTransparency = 1
 settingsFrame.Visible = false
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
@@ -261,7 +265,7 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", 
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.Parent = mainFrame
     btn.MouseButton1Click:Connect(function()
-        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Others", "Radio", "House"}, function(selected)
+        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Motorcycle", "Radio", "House"}, function(selected)
             if selected == "Vehicle" then
                 playMotorcycleMusic(id)
             elseif selected == "Scooter" then
@@ -319,12 +323,12 @@ playButton.MouseButton1Click:Connect(function()
         if success and info and info.Name and not foundName then
             nameGot = info.Name
         end
-        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Others", "Radio", "House"}, function(selected)
+        showSelectorPopup("Choose the type:", {"Vehicle", "Scooter", "Motorcycle", "Radio", "House"}, function(selected)
             if selected == "Vehicle" then
                 playMotorcycleMusic(id)
             elseif selected == "Scooter" then
                 playScooterMusic(id)
-            elseif selected == "Others" then
+            elseif selected == "Motorcycle" then
                 playVehicleMusic(id)
             elseif selected == "Radio" then
                 playRadioMusic(id)
@@ -416,5 +420,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB for Brookhaven!",4)
+    showAchievementBar("Welcome to Freeman HUB - Brookhaven RP!",4)
 end)()
