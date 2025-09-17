@@ -11,6 +11,8 @@ local musicIDs = {
     ["10"] = 93058983119992,
     ["11"] = 92492039534399,
     ["12"] = 134035788881796,
+    ["13"] = 18841893567,
+    ["14"] = 73962723234161,
 
 }
 
@@ -27,6 +29,8 @@ local musicNames = {
     ["10"] = "MONTAGEM ECLIPSE ESTRELAR",
     ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
     ["12"] = "Esquema Confirmado - Arrocha",
+    ["13"] = "JERSEY WAVE",
+    ["14"] = "Arrepia XL 2",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -277,7 +281,7 @@ musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 -- Only valid indices
-for _, k in ipairs({"1","2","3","4","5","6","7","8","9","10","11","12"}) do
+for _, k in ipairs({"1","2","3","4","5","6","7","8","9","10","11","12","13","14"}) do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
@@ -315,7 +319,7 @@ muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
@@ -636,5 +640,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 7.5.",4)
+    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 8.0.",4)
 end)()
