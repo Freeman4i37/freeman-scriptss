@@ -1,3 +1,4 @@
+-- IDs e nomes das músicas
 local musicIDs = {
     ["1"] = 140268583413209,
     ["2"] = 92209428926055,
@@ -13,9 +14,7 @@ local musicIDs = {
     ["12"] = 134035788881796,
     ["13"] = 18841893567,
     ["14"] = 73962723234161,
-
 }
-
 local musicNames = {
     ["1"] = "Meepcity x Jersey Club",
     ["2"] = "Switch The Colors (Jersey Club)",
@@ -106,7 +105,6 @@ local function showSelectorPopup(titleText, options, callback)
     end
 end
 
--- Funções para tocar músicas em diferentes veículos/modos
 local function playMotorcycleMusic(id)
     local args = { [1] = "VehicleMusicPlay", [2] = id }
     game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer(unpack(args))
@@ -201,6 +199,20 @@ local creditsButton = (function()
     return btn
 end)()
 
+local scriptExecButton = (function()
+    local btn = Instance.new("TextButton", sideBar)
+    btn.Size = UDim2.new(1, -8, 0, 36)
+    btn.Position = UDim2.new(0, 4, 0, iconBtnY + 36 + 10)
+    btn.Text = "🔎"
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 24
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
+    btn.BorderSizePixel = 0
+    return btn
+end)()
+
 local openIcon = Instance.new("TextButton", gui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -50, 1, -50)
@@ -251,6 +263,48 @@ settingsFrame.Position = UDim2.new(0, 0, 0, 35)
 settingsFrame.Size = UDim2.new(1, -44, 1, -110)
 settingsFrame.BackgroundTransparency = 1
 settingsFrame.Visible = false
+
+local otherScriptsFrame = Instance.new("Frame", frame)
+otherScriptsFrame.Position = UDim2.new(0, 0, 0, 35)
+otherScriptsFrame.Size = UDim2.new(1, -44, 1, -110)
+otherScriptsFrame.BackgroundTransparency = 1
+otherScriptsFrame.Visible = false
+
+local otherScriptsLabel = Instance.new("TextLabel", otherScriptsFrame)
+otherScriptsLabel.Size = UDim2.new(1, -20, 0, 34)
+otherScriptsLabel.Position = UDim2.new(0, 10, 0, 10)
+otherScriptsLabel.Text = "OTHER SCRIPTS"
+otherScriptsLabel.Font = Enum.Font.GothamBold
+otherScriptsLabel.TextColor3 = Color3.fromRGB(255,255,255)
+otherScriptsLabel.TextSize = 18
+otherScriptsLabel.TextWrapped = true
+otherScriptsLabel.BackgroundTransparency = 1
+otherScriptsLabel.TextYAlignment = Enum.TextYAlignment.Top
+
+local yBtn = 54
+local function createScriptButton(btnText, notification, scriptUrl)
+    local btn = Instance.new("TextButton", otherScriptsFrame)
+    btn.Size = UDim2.new(1, -20, 0, 32)
+    btn.Position = UDim2.new(0, 10, 0, yBtn)
+    btn.Text = btnText
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 16
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    btn.BorderSizePixel = 0
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
+    btn.MouseButton1Click:Connect(function()
+        pcall(function()
+            loadstring(game:HttpGet(scriptUrl))()
+        end)
+        showAchievementBar(notification, 4)
+    end)
+    yBtn = yBtn + 38
+end
+
+createScriptButton("Drip Client", "Drip Client executed.", "https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784")
+createScriptButton("AFEM", "AFEM executed.", "https://rawscripts.net/raw/Universal-Script-AFEM-14048")
+createScriptButton("Nameless Admin", "Nameless Admin executed.", "https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502")
 
 local buttons = {}
 for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}) do
@@ -354,11 +408,24 @@ Instance.new("UICorner", stopButton).CornerRadius = UDim.new(0, 10)
 stopButton.Visible = false
 
 local inCredits = false
+local inOtherScripts = false
+
 creditsButton.MouseButton1Click:Connect(function()
     inCredits = not inCredits
-    mainFrame.Visible = not inCredits
+    mainFrame.Visible = not inCredits and not inOtherScripts
     creditsFrame.Visible = inCredits
     settingsFrame.Visible = false
+    otherScriptsFrame.Visible = false
+    inOtherScripts = false
+end)
+
+scriptExecButton.MouseButton1Click:Connect(function()
+    inOtherScripts = not inOtherScripts
+    mainFrame.Visible = not inCredits and not inOtherScripts
+    creditsFrame.Visible = false
+    settingsFrame.Visible = false
+    otherScriptsFrame.Visible = inOtherScripts
+    inCredits = false
 end)
 
 minimize.MouseButton1Click:Connect(function()
