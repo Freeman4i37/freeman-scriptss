@@ -13,7 +13,6 @@ local musicIDs = {
     ["12"] = 134035788881796,
     ["13"] = 18841893567,
     ["14"] = 73962723234161,
-
 }
 
 local musicNames = {
@@ -74,6 +73,39 @@ local function playClientAudio(id, parent)
     sound.Name = tostring(id)
     sound:Play()
     return sound
+end
+
+-- UNIVERSAL: Detecção de remotes de boombox em qualquer jogo
+local function findBoomboxRemotes()
+    local remotes = {}
+    if player.Character then
+        for _, obj in ipairs(player.Character:GetDescendants()) do
+            if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
+                table.insert(remotes, obj)
+            end
+        end
+    end
+    return remotes
+end
+
+local function tryPlayBoombox(remotes, audioId)
+    for _, remote in ipairs(remotes) do
+        local argsList = {
+            {audioId},
+            {"PlaySong", audioId},
+            {"Play", audioId},
+            {audioId, true},
+        }
+        for _, args in ipairs(argsList) do
+            pcall(function()
+                if remote:IsA("RemoteEvent") then
+                    remote:FireServer(unpack(args))
+                elseif remote:IsA("RemoteFunction") then
+                    remote:InvokeServer(unpack(args))
+                end
+            end)
+        end
+    end
 end
 
 local function destroyAllNotificationBlocks()
@@ -161,7 +193,7 @@ local title = Instance.new("TextLabel", header)
 title.Size = UDim2.new(1, -110, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Freeman HUB - MUSIC"
+title.Text = "Freeman Hub - Music 🇱🇷"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.FredokaOne
 title.TextSize = 18
@@ -220,9 +252,9 @@ local openIcon = Instance.new("TextButton", gui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -50, 1, -50)
 openIcon.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-openIcon.Text = "+"
+openIcon.Text = "Open"
 openIcon.Visible = false
-openIcon.TextSize = 24
+openIcon.TextSize = 14
 openIcon.Font = Enum.Font.GothamBold
 openIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
@@ -253,7 +285,7 @@ creditsFrame.Visible = false
 local creditsLabel = Instance.new("TextLabel", creditsFrame)
 creditsLabel.Size = UDim2.new(1, -20, 1, -20)
 creditsLabel.Position = UDim2.new(0, 10, 0, 10)
-creditsLabel.Text = "Made by Freeman4i37!\nThe best Roblox music GUI!\nThank you for using my script."
+creditsLabel.Text = "Made by Freeman4i37!\nThanks for using the script!"
 creditsLabel.Font = Enum.Font.Gotham
 creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
 creditsLabel.TextSize = 14
@@ -280,8 +312,7 @@ local musicListLayout = Instance.new("UIListLayout", musicScroll)
 musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
--- Only valid indices
-for _, k in ipairs({"1","2","3","4","5","6","7","8","9","10","11","12","13","14"}) do
+for _, k in ipairs({"1","2","3","4","5","6","7","8","9","10","11","12","13", "14"}) do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
@@ -301,9 +332,9 @@ settingsFrame.Visible = false
 local muteBoomboxButton = Instance.new("TextButton", settingsFrame)
 muteBoomboxButton.Size = UDim2.new(1, 0, 0, 40)
 muteBoomboxButton.Position = UDim2.new(0, 0, 0, 10)
-muteBoomboxButton.Text = "Mute All Boomboxes"
+muteBoomboxButton.Text = "Disable All Boomboxes"
 muteBoomboxButton.Font = Enum.Font.GothamBold
-muteBoomboxButton.TextSize = 16
+muteBoomboxButton.TextSize = 13
 muteBoomboxButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 muteBoomboxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteBoomboxButton).CornerRadius = UDim.new(0, 10)
@@ -311,9 +342,9 @@ Instance.new("UICorner", muteBoomboxButton).CornerRadius = UDim.new(0, 10)
 local muteGameSoundsButton = Instance.new("TextButton", settingsFrame)
 muteGameSoundsButton.Size = UDim2.new(1, 0, 0, 40)
 muteGameSoundsButton.Position = UDim2.new(0, 0, 0, 60)
-muteGameSoundsButton.Text = "Mute All GameSounds"
+muteGameSoundsButton.Text = "Disable All Gamesounds"
 muteGameSoundsButton.Font = Enum.Font.GothamBold
-muteGameSoundsButton.TextSize = 16
+muteGameSoundsButton.TextSize = 13
 muteGameSoundsButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 muteGameSoundsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(0, 10)
@@ -334,16 +365,13 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", 
         if isClientAudio then
             playClientAudio(id)
         else
-            if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                local args = { [1] = "PlaySong", [2] = id }
-                pcall(function()
-                    player.Character.Radio.Remote:FireServer(unpack(args))
-                end)
+            local remotes = findBoomboxRemotes()
+            if #remotes > 0 then
+                tryPlayBoombox(remotes, id)
             else
-                warn("Radio or Remote not found!")
+                warn("Nenhum Remote de Boombox encontrado!")
             end
         end
-        -- NÃO MOSTRA "Now Playing:" aqui!
     end)
     table.insert(buttons, btn)
 end
@@ -357,14 +385,14 @@ musicListBtn.MouseButton1Click:Connect(function()
 end)
 
 local inputBox = Instance.new("TextBox", frame)
-inputBox.PlaceholderText = "Audio ID here..."
+inputBox.PlaceholderText = "Put ID here..."
 inputBox.Size = UDim2.new(0.6, -10, 0, 35)
 inputBox.Position = UDim2.new(0, 10, 1, -70)
 inputBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 inputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 inputBox.PlaceholderColor3 = Color3.fromRGB(200, 200, 200)
 inputBox.Font = Enum.Font.Gotham
-inputBox.TextSize = 16
+inputBox.TextSize = 13
 inputBox.Text = ""
 inputBox.ClearTextOnFocus = false
 Instance.new("UICorner", inputBox).CornerRadius = UDim.new(0, 10)
@@ -376,7 +404,7 @@ playButton.Position = UDim2.new(0.6, 0, 1, -70)
 playButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 playButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 playButton.Font = Enum.Font.GothamBold
-playButton.TextSize = 18
+playButton.TextSize = 15
 Instance.new("UICorner", playButton).CornerRadius = UDim.new(0, 10)
 
 playButton.MouseButton1Click:Connect(function()
@@ -400,18 +428,16 @@ playButton.MouseButton1Click:Connect(function()
         if isClientAudio then
             playClientAudio(id)
         else
-            if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                local args = { [1] = "PlaySong", [2] = id }
-                pcall(function()
-                    player.Character.Radio.Remote:FireServer(unpack(args))
-                end)
+            local remotes = findBoomboxRemotes()
+            if #remotes > 0 then
+                tryPlayBoombox(remotes, id)
             else
-                warn("Radio or Remote not found!")
+                warn("Nenhum Remote de Boombox encontrado!")
             end
         end
-        showAchievementBar("Now Playing: " .. nameGot, 6)
+        showAchievementBar("Playing: " .. nameGot, 6)
     else
-        warn("INVALID ID")
+        warn("ID INVALID")
     end
 end)
 
@@ -422,7 +448,7 @@ loopButton.Position = UDim2.new(0, 10, 1, -35)
 loopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 loopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 loopButton.Font = Enum.Font.GothamBold
-loopButton.TextSize = 12
+loopButton.TextSize = 11
 Instance.new("UICorner", loopButton).CornerRadius = UDim.new(0, 10)
 loopButton.Visible = false
 
@@ -433,7 +459,7 @@ stopButton.Position = UDim2.new(0, 90, 1, -35)
 stopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 stopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 stopButton.Font = Enum.Font.GothamBold
-stopButton.TextSize = 12
+stopButton.TextSize = 11
 Instance.new("UICorner", stopButton).CornerRadius = UDim.new(0, 10)
 stopButton.Visible = false
 
@@ -469,7 +495,7 @@ stopButton.MouseButton1Click:Connect(function()
 end)
 
 volumeButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE VOLUME", {0.5,0.75,1.0,1.5,2.0}, function(vol)
+    showSelectorPopup("Choose Volume:", {0.5,0.75,1.0,1.5,2.0}, function(vol)
         currentVolume = vol
         volumeButton.Text = "Vol: " .. tostring(currentVolume)
         for _, s in ipairs(soundFolder:GetChildren()) do
@@ -481,7 +507,7 @@ volumeButton.MouseButton1Click:Connect(function()
 end)
 
 pitchButton.MouseButton1Click:Connect(function()
-    showSelectorPopup("CHOOSE THE PITCH", {0.75,1.0,1.5}, function(pitch)
+    showSelectorPopup("Choose Pitch:", {0.75,1.0,1.5}, function(pitch)
         currentPitch = pitch
         pitchButton.Text = "Pitch: " .. tostring(currentPitch)
         for _, s in ipairs(soundFolder:GetChildren()) do
@@ -517,8 +543,8 @@ settingsButton.MouseButton1Click:Connect(function()
     creditsFrame.Visible = false
     musicListFrame.Visible = false
     settingsFrame.Visible = inSettings
-    muteBoomboxButton.Text = boomboxMuted and "Unmute All Boomboxes" or "Mute All Boomboxes"
-    muteGameSoundsButton.Text = gameSoundsMuted and "Unmute All GameSounds" or "Mute All GameSounds"
+    muteBoomboxButton.Text = boomboxMuted and "Enable All Boomboxes" or " Disable All Boomboxes"
+    muteGameSoundsButton.Text = gameSoundsMuted and "Enable All GameSounds" or "Disable All GameSounds"
 end)
 
 local boomboxMuted = false
@@ -536,7 +562,7 @@ muteBoomboxButton.MouseButton1Click:Connect(function()
         end
     end
     boomboxMuted = not boomboxMuted
-    muteBoomboxButton.Text = boomboxMuted and "Unmute All Boomboxes" or "Mute All Boomboxes"
+    muteBoomboxButton.Text = boomboxMuted and "Enable All Boomboxes" or "Disable All Boomboxes"
 end)
 
 local gameSoundsMuted = false
@@ -572,7 +598,7 @@ local function setGameSoundsMuted(mute)
         end
     end
     gameSoundsMuted = mute
-    muteGameSoundsButton.Text = mute and "Unmute All GameSounds" or "Mute All GameSounds"
+    muteGameSoundsButton.Text = mute and "Enable All GameSounds" or "Disable All GameSounds"
 end
 
 muteGameSoundsButton.MouseButton1Click:Connect(function()
@@ -640,5 +666,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB!\nVERSION: 8.0.",4)
+    showAchievementBar("Welcome to Freeman Hub - Music 8.5!",4)
 end)()
