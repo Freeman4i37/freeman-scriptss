@@ -1,6 +1,6 @@
 -- IDs e nomes das músicas
 local musicIDs = {
-    ["1"] = 140268583413209,
+    ["1"] = 94718473830640,
     ["2"] = 92209428926055,
     ["3"] = 133900561957103,
     ["4"] = 93768636184697,
@@ -16,7 +16,7 @@ local musicIDs = {
     ["14"] = 73962723234161,
 }
 local musicNames = {
-    ["1"] = "Meepcity x Jersey Club",
+    ["1"] = "Funk da Febre",
     ["2"] = "Switch The Colors (Jersey Club)",
     ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)",
@@ -487,5 +487,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB - Brookhaven RP!",4)
+    showAchievementBar("Welcome to Freeman HUB Brookhaven - Music 8.55!",4)
 end)()
