@@ -76,6 +76,40 @@ local function playClientAudio(id, parent)
     return sound
 end
 
+-- Função genérica para encontrar remotes de boombox
+local function findBoomboxRemotes()
+    local remotes = {}
+    if player.Character then
+        for _, obj in ipairs(player.Character:GetDescendants()) do
+            if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
+                table.insert(remotes, obj)
+            end
+        end
+    end
+    return remotes
+end
+
+-- Função para tentar tocar a música em todos os remotes
+local function tryPlayBoombox(remotes, audioId)
+    for _, remote in ipairs(remotes) do
+        local argsList = {
+            {audioId}, 
+            {"PlaySong", audioId}, 
+            {"Play", audioId},
+            {audioId, true},
+        }
+        for _, args in ipairs(argsList) do
+            pcall(function()
+                if remote:IsA("RemoteEvent") then
+                    remote:FireServer(unpack(args))
+                elseif remote:IsA("RemoteFunction") then
+                    remote:InvokeServer(unpack(args))
+                end
+            end)
+        end
+    end
+end
+
 local function destroyAllNotificationBlocks()
     for _, guiObj in ipairs(game:GetService("CoreGui"):GetChildren()) do
         if guiObj:IsA("ScreenGui") or guiObj:IsA("Frame") then
