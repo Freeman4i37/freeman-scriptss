@@ -365,22 +365,18 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", 
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.Parent = mainFrame
     btn.MouseButton1Click:Connect(function()
-        if isClientAudio then
-            playClientAudio(id)
+    if isClientAudio then
+        playClientAudio(id)
+    else
+        local remotes = findBoomboxRemotes()
+        if #remotes > 0 then
+            tryPlayBoombox(remotes, id)
         else
-            if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                local args = { [1] = "PlaySong", [2] = id }
-                pcall(function()
-                    player.Character.Radio.Remote:FireServer(unpack(args))
-                end)
-            else
-                warn("Radio or Remote not found!")
-            end
+            warn("Nenhum Remote de Boombox encontrado!")
         end
-        -- NÃO MOSTRA "Escutando:" aqui!
-    end)
-    table.insert(buttons, btn)
-end
+    end
+    -- NÃO MOSTRA "Escutando:" aqui!
+end)
 
 musicListBtn.MouseButton1Click:Connect(function()
     musicListBtnClicked = not musicListBtnClicked
