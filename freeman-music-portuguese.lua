@@ -430,13 +430,11 @@ playButton.MouseButton1Click:Connect(function()
         if isClientAudio then
             playClientAudio(id)
         else
-            if player.Character and player.Character:FindFirstChild("Radio") and player.Character.Radio:FindFirstChild("Remote") then
-                local args = { [1] = "PlaySong", [2] = id }
-                pcall(function()
-                    player.Character.Radio.Remote:FireServer(unpack(args))
-                end)
+            local remotes = findBoomboxRemotes()
+            if #remotes > 0 then
+                tryPlayBoombox(remotes, id)
             else
-                warn("Radio or Remote not found!")
+                warn("Nenhum Remote de Boombox encontrado!")
             end
         end
         showAchievementBar("Escutando: " .. nameGot, 6)
