@@ -76,7 +76,6 @@ local function playClientAudio(id, parent)
     return sound
 end
 
--- Função genérica para encontrar remotes de boombox
 local function findBoomboxRemotes()
     local remotes = {}
     if player.Character then
@@ -89,7 +88,6 @@ local function findBoomboxRemotes()
     return remotes
 end
 
--- Função para tentar tocar a música em todos os remotes
 local function tryPlayBoombox(remotes, audioId)
     for _, remote in ipairs(remotes) do
         local argsList = {
