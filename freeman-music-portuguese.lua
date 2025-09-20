@@ -13,7 +13,6 @@ local musicIDs = {
     ["12"] = 134035788881796,
     ["13"] = 18841893567,
     ["14"] = 73962723234161,
-
 }
 
 local musicNames = {
@@ -76,6 +75,7 @@ local function playClientAudio(id, parent)
     return sound
 end
 
+-- UNIVERSAL: Detecção de remotes de boombox em qualquer jogo
 local function findBoomboxRemotes()
     local remotes = {}
     if player.Character then
@@ -91,8 +91,8 @@ end
 local function tryPlayBoombox(remotes, audioId)
     for _, remote in ipairs(remotes) do
         local argsList = {
-            {audioId}, 
-            {"PlaySong", audioId}, 
+            {audioId},
+            {"PlaySong", audioId},
             {"Play", audioId},
             {audioId, true},
         }
@@ -312,7 +312,6 @@ local musicListLayout = Instance.new("UIListLayout", musicScroll)
 musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
--- Only valid indices
 for _, k in ipairs({"1","2","3","4","5","6","7","8","9","10","11","12","13", "14"}) do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
@@ -363,18 +362,19 @@ for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", 
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
     btn.Parent = mainFrame
     btn.MouseButton1Click:Connect(function()
-    if isClientAudio then
-        playClientAudio(id)
-    else
-        local remotes = findBoomboxRemotes()
-        if #remotes > 0 then
-            tryPlayBoombox(remotes, id)
+        if isClientAudio then
+            playClientAudio(id)
         else
-            warn("Nenhum Remote de Boombox encontrado!")
+            local remotes = findBoomboxRemotes()
+            if #remotes > 0 then
+                tryPlayBoombox(remotes, id)
+            else
+                warn("Nenhum Remote de Boombox encontrado!")
+            end
         end
-    end
-    -- NÃO MOSTRA "Escutando:" aqui!
-end)
+    end)
+    table.insert(buttons, btn)
+end
 
 musicListBtn.MouseButton1Click:Connect(function()
     musicListBtnClicked = not musicListBtnClicked
@@ -666,5 +666,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 8.0.",4)
+    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 8.5.",4)
 end)()
