@@ -24,7 +24,6 @@ soundFolder.Name = "FreemanClientSounds"
 local runService = game:GetService("RunService")
 local tweenService = game:GetService("TweenService")
 
--- UI ROOT
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FreemanMusicHub"
 screenGui.ResetOnSpawn = false
@@ -41,13 +40,11 @@ mainFrame.Parent = screenGui
 mainFrame.Active = true
 mainFrame.Draggable = true
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
--- Borda verde fina e semi-transparente para NÃO formar círculo/halo
 local mainStroke = Instance.new("UIStroke", mainFrame)
 mainStroke.Color = green
 mainStroke.Thickness = 2
 mainStroke.Transparency = 0.7
 
--- HEADER
 local header = Instance.new("Frame", mainFrame)
 header.Size = UDim2.new(1, 0, 0, 44)
 header.BackgroundTransparency = 1
@@ -106,7 +103,6 @@ minimizeBtnStroke.Color = green
 minimizeBtnStroke.Thickness = 1.25
 minimizeBtnStroke.Transparency = 0.7
 
--- SIDEBAR
 local sideBar = Instance.new("Frame", mainFrame)
 sideBar.Size = UDim2.new(0, 44, 1, -54)
 sideBar.Position = UDim2.new(1, -44, 0, 44)
@@ -140,7 +136,6 @@ local settingsButton = makeIconBtn(sideBar, "⚙️", yDelta+50)
 local modeButton = makeIconBtn(sideBar, "🎵", yDelta+100)
 local creditsButton = makeIconBtn(sideBar, "👤", yDelta+150)
 
--- MAIN MUSIC BUTTONS
 local mainScroll = Instance.new("ScrollingFrame", mainFrame)
 mainScroll.Position = UDim2.new(0, 12, 0, 54)
 mainScroll.Size = UDim2.new(1, -68, 1, -128)
@@ -157,7 +152,6 @@ grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 grid.VerticalAlignment = Enum.VerticalAlignment.Top
 grid.FillDirectionMaxCells = 2
 
--- MUSIC BUTTONS
 local isClientAudio = false
 local isLoop = false
 local currentVolume = 1
@@ -248,7 +242,6 @@ for i = 1, 17 do
     end)
 end
 
--- FRAMES: CREDITS, MUSIC LIST, SETTINGS
 local function makeSubFrame()
     local f = Instance.new("Frame")
     f.Size = UDim2.new(1, -68, 1, -128)
@@ -305,7 +298,6 @@ end
 local settingsFrame = makeSubFrame()
 settingsFrame.Parent = mainFrame
 
--- INPUTS & ADVANCED BUTTONS
 local inputBox = Instance.new("TextBox", mainFrame)
 inputBox.PlaceholderText = "Coloque o ID aqui..."
 inputBox.Size = UDim2.new(0.62, -10, 0, 36)
@@ -405,7 +397,6 @@ pitchBtnStroke.Color = green
 pitchBtnStroke.Thickness = 1.25
 pitchBtnStroke.Transparency = 0.7
 
--- FRAMES TOGGLE
 local musicListBtnClicked = false
 
 musicListBtn.MouseButton1Click:Connect(function()
@@ -476,7 +467,6 @@ pitchButton.MouseButton1Click:Connect(function()
     end)
 end)
 
--- SETTINGS: BOOMBOX/GAMESOUNDS
 local boomboxMuted = false
 local muteBoomboxButton = Instance.new("TextButton", settingsFrame)
 muteBoomboxButton.Size = UDim2.new(1, 0, 0, 40)
@@ -564,7 +554,6 @@ muteGameSoundsButton.MouseButton1Click:Connect(function()
     setGameSoundsMuted(not gameSoundsMuted)
 end)
 
--- ABRIR/MINIMIZAR
 local openIcon = Instance.new("TextButton", screenGui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -50, 1, -50)
@@ -734,5 +723,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 9.0!",4)
+    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 9.1!",4)
 end)()
