@@ -34,6 +34,9 @@ local musicNames = {
     ["12"] = "Esquema Confirmado - Arrocha",
     ["13"] = "JERSEY WAVE",
     ["14"] = "Arrepia XL 2",
+    ["15"] = "Meepcity (Jersey Club)",
+    ["16"] = "Manda Meu Passinho",
+    ["17"] = "Lembro até hoje",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -311,7 +314,7 @@ createScriptButton("AFEM", "AFEM executed.", "https://rawscripts.net/raw/Univers
 createScriptButton("Nameless Admin", "Nameless Admin executed.", "https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502")
 
 local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}) do
+for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"}) do
     local id = musicIDs[name]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 100, 0, 40)
