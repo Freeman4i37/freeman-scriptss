@@ -7,7 +7,7 @@ local musicIDs = {
     ["1"] = 94718473830640, ["2"] = 92209428926055, ["3"] = 133900561957103, ["4"] = 93768636184697,
     ["5"] = 92062588329352, ["6"] = 84773737820526, ["7"] = 87783857221289, ["8"] = 80164463388144,
     ["9"] = 126960081879615, ["10"] = 93058983119992, ["11"] = 92492039534399, ["12"] = 134035788881796,
-    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899, 
+    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899,
 }
 local musicNames = {
     ["1"] = "Funk da Febre", ["2"] = "Switch The Colors (Jersey Club)", ["3"] = "Trash Funk",
@@ -27,7 +27,8 @@ local tweenService = game:GetService("TweenService")
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FreemanMusicHub"
 screenGui.ResetOnSpawn = false
-screenGui.Parent = game:GetService("CoreGui")
+local parentUi = game:GetService("Players").LocalPlayer:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
+screenGui.Parent = parentUi
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "FreemanMusicMain"
@@ -120,6 +121,7 @@ local function makeIconBtn(parent, icon, y)
     btn.BackgroundColor3 = accentBg
     btn.BorderSizePixel = 0
     btn.ZIndex = 3
+    btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
     btnStroke.Color = green
@@ -156,6 +158,7 @@ local isClientAudio = false
 local isLoop = false
 local currentVolume = 1
 local currentPitch = 1
+local playingSound
 
 local function stopAllClientSounds()
     for _, s in ipairs(soundFolder:GetChildren()) do
@@ -164,6 +167,7 @@ local function stopAllClientSounds()
             s:Destroy()
         end
     end
+    playingSound = nil
 end
 
 local function playClientAudio(id)
@@ -175,6 +179,7 @@ local function playClientAudio(id)
     sound.Pitch = currentPitch
     sound.Name = tostring(id)
     sound:Play()
+    playingSound = sound
     return sound
 end
 
@@ -219,6 +224,7 @@ for i = 1, 17 do
     btn.TextColor3 = white
     btn.BackgroundColor3 = accentBg
     btn.ZIndex = 3
+    btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
     btnStroke.Color = green
@@ -310,6 +316,8 @@ inputBox.TextSize = 15
 inputBox.Text = ""
 inputBox.ClearTextOnFocus = false
 inputBox.ZIndex = 4
+inputBox.ClearTextOnFocus = false
+inputBox.AutoLocalize = false
 Instance.new("UICorner", inputBox).CornerRadius = UDim.new(1, 0)
 local inputBoxStroke = Instance.new("UIStroke", inputBox)
 inputBoxStroke.Color = green
@@ -325,6 +333,7 @@ playBtn.TextColor3 = white
 playBtn.Font = Enum.Font.GothamBold
 playBtn.TextSize = 16
 playBtn.ZIndex = 4
+playBtn.AutoButtonColor = true
 Instance.new("UICorner", playBtn).CornerRadius = UDim.new(1, 0)
 local playBtnStroke = Instance.new("UIStroke", playBtn)
 playBtnStroke.Color = green
@@ -343,6 +352,7 @@ loopButton.Font = Enum.Font.GothamBold
 loopButton.TextSize = 12
 loopButton.ZIndex = 4
 loopButton.Visible = false
+loopButton.AutoButtonColor = true
 Instance.new("UICorner", loopButton).CornerRadius = UDim.new(1, 0)
 local loopBtnStroke = Instance.new("UIStroke", loopButton)
 loopBtnStroke.Color = green
@@ -359,6 +369,7 @@ stopButton.Font = Enum.Font.GothamBold
 stopButton.TextSize = 12
 stopButton.ZIndex = 4
 stopButton.Visible = false
+stopButton.AutoButtonColor = true
 Instance.new("UICorner", stopButton).CornerRadius = UDim.new(1, 0)
 local stopBtnStroke = Instance.new("UIStroke", stopButton)
 stopBtnStroke.Color = green
@@ -375,6 +386,7 @@ volumeButton.Font = Enum.Font.GothamBold
 volumeButton.TextSize = 12
 volumeButton.ZIndex = 4
 volumeButton.Visible = false
+volumeButton.AutoButtonColor = true
 Instance.new("UICorner", volumeButton).CornerRadius = UDim.new(1, 0)
 local volumeBtnStroke = Instance.new("UIStroke", volumeButton)
 volumeBtnStroke.Color = green
@@ -391,11 +403,83 @@ pitchButton.Font = Enum.Font.GothamBold
 pitchButton.TextSize = 12
 pitchButton.ZIndex = 4
 pitchButton.Visible = false
+pitchButton.AutoButtonColor = true
 Instance.new("UICorner", pitchButton).CornerRadius = UDim.new(1, 0)
 local pitchBtnStroke = Instance.new("UIStroke", pitchButton)
 pitchBtnStroke.Color = green
 pitchBtnStroke.Thickness = 1.25
 pitchBtnStroke.Transparency = 0.7
+
+local verticalBarFrame = Instance.new("Frame", screenGui)
+verticalBarFrame.Size = UDim2.new(0, 36, 0, 260)
+verticalBarFrame.Position = UDim2.new(0, mainFrame.AbsolutePosition.X + mainFrame.AbsoluteSize.X + 16, 0, mainFrame.AbsolutePosition.Y + 54)
+verticalBarFrame.BackgroundTransparency = 1
+verticalBarFrame.ZIndex = 1000
+verticalBarFrame.Visible = true
+
+local function updateBarPosition()
+    verticalBarFrame.Position = UDim2.new(0, mainFrame.AbsolutePosition.X + mainFrame.AbsoluteSize.X + 16, 0, mainFrame.AbsolutePosition.Y + 54)
+end
+
+mainFrame:GetPropertyChangedSignal("AbsolutePosition"):Connect(updateBarPosition)
+mainFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateBarPosition)
+screenGui:GetPropertyChangedSignal("Parent"):Connect(updateBarPosition)
+updateBarPosition()
+
+local timeLabel = Instance.new("TextLabel", verticalBarFrame)
+timeLabel.Size = UDim2.new(1, 0, 0, 20)
+timeLabel.Position = UDim2.new(0,0,0,0)
+timeLabel.BackgroundTransparency = 1
+timeLabel.Text = "00:00"
+timeLabel.TextColor3 = green
+timeLabel.Font = Enum.Font.GothamBold
+timeLabel.TextSize = 13
+timeLabel.TextXAlignment = Enum.TextXAlignment.Center
+timeLabel.ZIndex = 1010
+
+local durLabel = Instance.new("TextLabel", verticalBarFrame)
+durLabel.Size = UDim2.new(1, 0, 0, 20)
+durLabel.Position = UDim2.new(0,0,1,-9) -- espaçamento extra de 9px
+durLabel.AnchorPoint = Vector2.new(0,1)
+durLabel.BackgroundTransparency = 1
+durLabel.Text = "00:00"
+durLabel.TextColor3 = green
+durLabel.Font = Enum.Font.GothamBold
+durLabel.TextSize = 13
+durLabel.TextXAlignment = Enum.TextXAlignment.Center
+durLabel.ZIndex = 1010
+
+local barBg = Instance.new("Frame", verticalBarFrame)
+barBg.Size = UDim2.new(0.3, 0, 1, -45)
+barBg.Position = UDim2.new(0.35, 0, 0, 24)
+barBg.BackgroundColor3 = accentBg
+barBg.ZIndex = 1011
+barBg.BorderSizePixel = 0
+Instance.new("UICorner", barBg).CornerRadius = UDim.new(0.5, 4)
+
+local bar = Instance.new("Frame", barBg)
+bar.Size = UDim2.new(1, 0, 0, 0)
+bar.Position = UDim2.new(0,0,0,0)
+bar.BackgroundColor3 = green
+bar.ZIndex = 1012
+bar.BorderSizePixel = 0
+Instance.new("UICorner", bar).CornerRadius = UDim.new(0.5, 4)
+
+runService.RenderStepped:Connect(function()
+    updateBarPosition()
+    if playingSound and playingSound.IsPlaying and playingSound.TimeLength > 0 then
+        timeLabel.Text = string.format("%02d:%02d", math.floor(playingSound.TimePosition/60), math.floor(playingSound.TimePosition%60))
+        durLabel.Text = string.format("%02d:%02d", math.floor(playingSound.TimeLength/60), math.floor(playingSound.TimeLength%60))
+        local progress = math.clamp(playingSound.TimePosition / playingSound.TimeLength,0,1)
+        bar.Size = UDim2.new(1,0,progress,0)
+        verticalBarFrame.Visible = true
+    else
+        timeLabel.Text = "00:00"
+        durLabel.Text = "00:00"
+        bar.Size = UDim2.new(1,0,0,0)
+        verticalBarFrame.Visible = false
+    end
+end)
 
 local musicListBtnClicked = false
 
@@ -404,15 +488,6 @@ musicListBtn.MouseButton1Click:Connect(function()
     mainScroll.Visible = not musicListBtnClicked
     musicListFrame.Visible = musicListBtnClicked
     creditsFrame.Visible = false
-    settingsFrame.Visible = false
-end)
-
-local inCredits = false
-creditsButton.MouseButton1Click:Connect(function()
-    inCredits = not inCredits
-    mainScroll.Visible = not inCredits
-    creditsFrame.Visible = inCredits
-    musicListFrame.Visible = false
     settingsFrame.Visible = false
 end)
 
@@ -427,6 +502,15 @@ settingsButton.MouseButton1Click:Connect(function()
     muteGameSoundsButton.Text = gameSoundsMuted and "Ativar todos os Gamesounds" or "Silenciar todos os Gamesounds"
 end)
 
+local inCredits = false
+creditsButton.MouseButton1Click:Connect(function()
+    inCredits = not inCredits
+    mainScroll.Visible = not inCredits
+    creditsFrame.Visible = inCredits
+    musicListFrame.Visible = false
+    settingsFrame.Visible = false
+end)
+
 modeButton.MouseButton1Click:Connect(function()
     isClientAudio = not isClientAudio
     modeButton.Text = isClientAudio and "C.A" or "R.A"
@@ -436,33 +520,32 @@ modeButton.MouseButton1Click:Connect(function()
     pitchButton.Visible = isClientAudio
 end)
 
+mainScroll.Visible = true
+musicListFrame.Visible = false
+creditsFrame.Visible = false
+settingsFrame.Visible = false
+
 loopButton.MouseButton1Click:Connect(function()
     isLoop = not isLoop
     loopButton.Text = isLoop and "Loop: SIM" or "Loop: NÃO"
+    if playingSound then playingSound.Looped = isLoop end
 end)
-
 stopButton.MouseButton1Click:Connect(stopAllClientSounds)
-
 volumeButton.MouseButton1Click:Connect(function()
     showSelectorPopup("Escolha o Volume:", {0.5,0.75,1.0,1.5,2.0}, function(vol)
         currentVolume = vol
         volumeButton.Text = "Vol: " .. tostring(currentVolume)
         for _, s in ipairs(soundFolder:GetChildren()) do
-            if s:IsA("Sound") then
-                s.Volume = currentVolume
-            end
+            if s:IsA("Sound") then s.Volume = currentVolume end
         end
     end)
 end)
-
 pitchButton.MouseButton1Click:Connect(function()
     showSelectorPopup("Escolha o tom:", {0.75,1.0,1.5}, function(pitch)
         currentPitch = pitch
         pitchButton.Text = "Tom: " .. tostring(currentPitch)
         for _, s in ipairs(soundFolder:GetChildren()) do
-            if s:IsA("Sound") then
-                s.Pitch = currentPitch
-            end
+            if s:IsA("Sound") then s.Pitch = currentPitch end
         end
     end)
 end)
@@ -521,7 +604,9 @@ local function isMyBoombox(sound)
     if sound:IsDescendantOf(soundFolder) then return true end
     if player.Character then
         local radio = player.Character:FindFirstChild("Radio")
-        if radio and sound:IsDescendantOf(radio) then return true end
+        if radio then
+            if sound:IsDescendantOf(radio) then return true end
+        end
     end
     return false
 end
@@ -568,11 +653,12 @@ openIcon.Active = true
 openIcon.Draggable = true
 
 minimizeBtn.MouseButton1Click:Connect(function()
-    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.5, -280)})
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.1, -280)})
     tween:Play()
     tween.Completed:Wait()
     mainFrame.Visible = false
     openIcon.Visible = true
+    verticalBarFrame.Visible = false
 end)
 openIcon.MouseButton1Click:Connect(function()
     mainFrame.Visible = true
@@ -585,6 +671,7 @@ end)
 
 closeBtn.MouseButton1Click:Connect(function()
     screenGui:Destroy()
+    verticalBarFrame:Destroy()
     if soundFolder then soundFolder:Destroy() end
     if muteGameSoundsConn then muteGameSoundsConn:Disconnect() muteGameSoundsConn = nil end
 end)
@@ -723,5 +810,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 9.1!",4)
+    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 9.5!",4)
 end)()
