@@ -1,9 +1,45 @@
 local musicIDs = {
-    -- ... (Sem alteração nos IDs)
+    ["1"] = 94718473830640,
+    ["2"] = 92209428926055,
+    ["3"] = 133900561957103,
+    ["4"] = 93768636184697,
+    ["5"] = 92062588329352,
+    ["6"] = 84773737820526,
+    ["7"] = 87783857221289,
+    ["8"] = 80164463388144,
+    ["9"] = 126960081879615,
+    ["10"] = 93058983119992,
+    ["11"] = 92492039534399,
+    ["12"] = 134035788881796,
+    ["13"] = 18841893567,
+    ["14"] = 73962723234161,
+    ["15"] = 140268583413209,
+    ["16"] = 77741294709660,
+    ["17"] = 71531533552899,
+    ["18"] = 16190782181,
+    ["19"] = 117169209277972,
 }
 
 local musicNames = {
-    -- ... (Sem alteração nos nomes)
+    ["1"] = "Funk da Febre",
+    ["2"] = "Switch The Colors (Jersey Club)",
+    ["3"] = "Trash Funk",
+    ["4"] = "2609 (Jersey Club)",
+    ["5"] = "Spooky Scary Sunday (Jersey Club)",
+    ["6"] = "ANOTE AÍ",
+    ["7"] = "Temptation",
+    ["8"] = "One Two Step (Jersey Club)",
+    ["9"] = "MONTAGEM LUA INFRATOR",
+    ["10"] = "MONTAGEM ECLIPSE ESTRELAR",
+    ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
+    ["12"] = "Esquema Confirmado - Arrocha",
+    ["13"] = "JERSEY WAVE",
+    ["14"] = "Arrepia XL 2",
+    ["15"] = "Meepcity (Jersey Club)",
+    ["16"] = "Manda Meu Passinho",
+    ["17"] = "Lembro até hoje",
+    ["18"] = "HR - EEYUH!",
+    ["19"] = "I love ha",
 }
 
 local player = game:GetService("Players").LocalPlayer
