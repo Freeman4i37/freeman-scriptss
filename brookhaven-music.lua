@@ -76,8 +76,8 @@ local function showSelectorPopup(titleText, options, callback)
 
     local popup = Instance.new("Frame", gui)
     popup.Name = "SelectorPopup"
-    popup.Size = UDim2.new(0, 330, 0, 130)
-    popup.Position = UDim2.new(0.5, -165, 0.5, -65)
+    popup.Size = UDim2.new(0, 400, 0, 160)
+    popup.Position = UDim2.new(0.5, -200, 0.5, -80)
     popup.BackgroundColor3 = Color3.fromRGB(25,25,25)
     popup.BorderSizePixel = 0
     popup.ZIndex = 20000
@@ -94,12 +94,17 @@ local function showSelectorPopup(titleText, options, callback)
     title.Font = Enum.Font.GothamBold
     title.ZIndex = 20001
 
+    -- Ajuste: largura e espaçamento
     local btnCount = #options
-    local btnW = math.floor((298-(btnCount-1)*7)/btnCount)
+    local totalSpacing = (btnCount - 1) * 16
+    local btnW = math.floor((popup.Size.X.Offset - 32 - totalSpacing) / btnCount)
+    local btnH = 45
+    local btnY = 55
+
     for i, opt in ipairs(options) do
         local btn = Instance.new("TextButton", popup)
-        btn.Size = UDim2.new(0, btnW, 0, 38)
-        btn.Position = UDim2.new(0, 16+((btnW+7)*(i-1)), 0, 50)
+        btn.Size = UDim2.new(0, btnW, 0, btnH)
+        btn.Position = UDim2.new(0, 16 + ((btnW + 16) * (i-1)), 0, btnY)
         btn.Text = tostring(opt)
         btn.Font = Enum.Font.GothamBold
         btn.TextSize = 16
