@@ -497,5 +497,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman HUB Brookhaven - Music 8.55!",4)
+    showAchievementBar("Welcome to Freeman HUB Brookhaven - Music 10.0!",4)
 end)()
