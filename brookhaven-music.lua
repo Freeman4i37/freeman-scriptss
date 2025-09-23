@@ -1,30 +1,3 @@
-local args = {
-    [1] = "RolePlayName",
-    [2] = "Freeman Hub - Brookhaven!"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eTex1t"):FireServer(unpack(args))
-
-local args = {
-    [1] = "PickingRPNameColor",
-    [2] = Color3.new(0, 1, 0.12638115882873535)
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
-
-local args = {
-    [1] = "RolePlayBio",
-    [2] = "By Freeman4i37!"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eTex1t"):FireServer(unpack(args))
-
-local args = {
-    [1] = "PickingRPBioColor",
-    [2] = Color3.new(1, 0.07847380638122559, 0)
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1RPNam1eColo1r"):FireServer(unpack(args))
-
-
 local musicIDs = {
     ["1"] = 94718473830640,
     ["2"] = 92209428926055,
