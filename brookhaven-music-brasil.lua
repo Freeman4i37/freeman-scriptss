@@ -1,72 +1,216 @@
-local musicIDs = {
-    ["1"] = 94718473830640,
-    ["2"] = 92209428926055,
-    ["3"] = 133900561957103,
-    ["4"] = 93768636184697,
-    ["5"] = 92062588329352,
-    ["6"] = 84773737820526,
-    ["7"] = 87783857221289,
-    ["8"] = 80164463388144,
-    ["9"] = 126960081879615,
-    ["10"] = 93058983119992,
-    ["11"] = 92492039534399,
-    ["12"] = 134035788881796,
-    ["13"] = 18841893567,
-    ["14"] = 73962723234161,
-    ["15"] = 140268583413209,
-    ["16"] = 77741294709660,
-    ["17"] = 71531533552899,
-    ["18"] = 16190782181,
-    ["19"] = 117169209277972,
-}
+-- CORES E NOMES
+local green = Color3.fromRGB(0,255,0)
+local white = Color3.fromRGB(255,255,255)
+local darkBg = Color3.fromRGB(15,15,15)
+local accentBg = Color3.fromRGB(30,30,30)
 
+local musicIDs = {
+    ["1"] = 94718473830640, ["2"] = 92209428926055, ["3"] = 133900561957103, ["4"] = 93768636184697,
+    ["5"] = 92062588329352, ["6"] = 84773737820526, ["7"] = 87783857221289, ["8"] = 80164463388144,
+    ["9"] = 126960081879615, ["10"] = 93058983119992, ["11"] = 92492039534399, ["12"] = 134035788881796,
+    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899, ["18"] = 16190782181, ["19"] = 117169209277972,
+}
 local musicNames = {
-    ["1"] = "Funk da Febre",
-    ["2"] = "Switch The Colors (Jersey Club)",
-    ["3"] = "Trash Funk",
-    ["4"] = "2609 (Jersey Club)",
-    ["5"] = "Spooky Scary Sunday (Jersey Club)",
-    ["6"] = "ANOTE AÍ",
-    ["7"] = "Temptation",
-    ["8"] = "One Two Step (Jersey Club)",
-    ["9"] = "MONTAGEM LUA INFRATOR",
-    ["10"] = "MONTAGEM ECLIPSE ESTRELAR",
-    ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
-    ["12"] = "Esquema Confirmado - Arrocha",
-    ["13"] = "JERSEY WAVE",
-    ["14"] = "Arrepia XL 2",
-    ["15"] = "Meepcity (Jersey Club)",
-    ["16"] = "Manda Meu Passinho",
-    ["17"] = "Lembro até hoje",
-    ["18"] = "HR - EEYUH!",
-    ["19"] = "I love ha",
+    ["1"] = "Funk da Febre", ["2"] = "Switch The Colors (Jersey Club)", ["3"] = "Trash Funk",
+    ["4"] = "2609 (Jersey Club)", ["5"] = "Spooky Scary Sunday (Jersey Club)", ["6"] = "ANOTE AÍ",
+    ["7"] = "Temptation", ["8"] = "One Two Step (Jersey Club)", ["9"] = "MONTAGEM LUA INFRATOR",
+    ["10"] = "MONTAGEM ECLIPSE ESTRELAR", ["11"] = "Em Dezembro de 81 - Flamengo (Lxz)",
+    ["12"] = "Esquema Confirmado - Arrocha", ["13"] = "JERSEY WAVE", ["14"] = "Arrepia XL 2", ["15"] = "Meepcity (Jersey Club)", ["16"] = "Manda Meu Passinho", ["17"] = "Lembro até hoje", ["18"] = "HR - EEYUH!", ["19"] = "I love ha",
 }
 
 local player = game:GetService("Players").LocalPlayer
 local MarketplaceService = game:GetService("MarketplaceService")
 local tweenService = game:GetService("TweenService")
-local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
-gui.Name = "FreemanMusicUI"
-gui.ResetOnSpawn = false
-gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local runService = game:GetService("RunService")
 
-local function destroyAllNotificationBlocks()
-    for _, guiObj in ipairs(game:GetService("CoreGui"):GetChildren()) do
-        if guiObj:IsA("ScreenGui") or guiObj:IsA("Frame") then
-            for _, frame in ipairs(guiObj:GetDescendants()) do
-                if frame.Name == "block" or (frame:IsA("Frame") and frame.ZIndex == 10000) then
-                    pcall(function() frame:Destroy() end)
-                end
-            end
-        end
+-- UI BASE
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "FreemanMusicHub"
+screenGui.ResetOnSpawn = false
+local parentUi = player:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
+screenGui.Parent = parentUi
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "FreemanMusicMain"
+mainFrame.Size = UDim2.new(0, 360, 0, 430)
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.BackgroundColor3 = darkBg
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+mainFrame.Active = true
+mainFrame.Draggable = true
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
+local mainStroke = Instance.new("UIStroke", mainFrame)
+mainStroke.Color = green
+mainStroke.Thickness = 2
+mainStroke.Transparency = 0.7
+
+local header = Instance.new("Frame", mainFrame)
+header.Size = UDim2.new(1, 0, 0, 44)
+header.BackgroundTransparency = 1
+header.Position = UDim2.new(0,0,0,0)
+header.Name = "Header"
+header.ZIndex = 2
+
+local divider = Instance.new("Frame", mainFrame)
+divider.Name = "Divider"
+divider.Size = UDim2.new(0.85, 0, 0, 2)
+divider.Position = UDim2.new(0.075, 0, 0, 42)
+divider.BackgroundColor3 = green
+divider.BorderSizePixel = 0
+local dividerGradient = Instance.new("UIGradient", divider)
+dividerGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, green),
+    ColorSequenceKeypoint.new(0.5, white),
+    ColorSequenceKeypoint.new(1, green)
+})
+
+local headerTitle = Instance.new("TextLabel", header)
+headerTitle.Text = "Freeman Hub - Brookhaven"
+headerTitle.Font = Enum.Font.GothamBold
+headerTitle.TextSize = 20
+headerTitle.TextColor3 = white
+headerTitle.BackgroundTransparency = 1
+headerTitle.Size = UDim2.new(1, -90, 1, 0)
+headerTitle.Position = UDim2.new(0, 10, 0, 0)
+headerTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local closeBtn = Instance.new("TextButton", header)
+closeBtn.Size = UDim2.new(0, 36, 0, 36)
+closeBtn.Position = UDim2.new(1, -44, 0, 4)
+closeBtn.BackgroundColor3 = accentBg
+closeBtn.Text = "X"
+closeBtn.TextColor3 = white
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 20
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
+local closeBtnStroke = Instance.new("UIStroke", closeBtn)
+closeBtnStroke.Color = green
+closeBtnStroke.Thickness = 1.25
+closeBtnStroke.Transparency = 0.7
+
+local minimizeBtn = Instance.new("TextButton", header)
+minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
+minimizeBtn.Position = UDim2.new(1, -88, 0, 4)
+minimizeBtn.BackgroundColor3 = accentBg
+minimizeBtn.Text = "-"
+minimizeBtn.TextColor3 = white
+minimizeBtn.Font = Enum.Font.GothamBold
+minimizeBtn.TextSize = 20
+Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
+local minimizeBtnStroke = Instance.new("UIStroke", minimizeBtn)
+minimizeBtnStroke.Color = green
+minimizeBtnStroke.Thickness = 1.25
+minimizeBtnStroke.Transparency = 0.7
+
+local sideBar = Instance.new("Frame", mainFrame)
+sideBar.Size = UDim2.new(0, 44, 1, -54)
+sideBar.Position = UDim2.new(1, -44, 0, 44)
+sideBar.BackgroundTransparency = 1
+sideBar.ZIndex = 2
+
+local function makeIconBtn(parent, icon, y)
+    local btn = Instance.new("TextButton", parent)
+    btn.Size = UDim2.new(1, -8, 0, 36)
+    btn.Position = UDim2.new(0, 4, 0, y)
+    btn.Text = icon
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 25
+    btn.TextColor3 = white
+    btn.BackgroundColor3 = accentBg
+    btn.BorderSizePixel = 0
+    btn.ZIndex = 3
+    btn.AutoButtonColor = true
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+    local btnStroke = Instance.new("UIStroke", btn)
+    btnStroke.Color = green
+    btnStroke.Thickness = 1.25
+    btnStroke.Transparency = 0.7
+    return btn
+end
+
+local yDelta = 0
+local musicListBtn = makeIconBtn(sideBar, "📜", yDelta)
+local settingsButton = makeIconBtn(sideBar, "⚙️", yDelta+50)
+local scriptsButton = makeIconBtn(sideBar, "🔍", yDelta+100)
+local creditsButton = makeIconBtn(sideBar, "👤", yDelta+150)
+
+-- OPEN ICON (aparece após minimizar)
+local openIcon = Instance.new("TextButton", screenGui)
+openIcon.Size = UDim2.new(0, 40, 0, 40)
+openIcon.Position = UDim2.new(1, -55, 1, -55)
+openIcon.BackgroundColor3 = green
+openIcon.Text = "ABRIR"
+openIcon.TextSize = 13
+openIcon.Font = Enum.Font.GothamBold
+openIcon.TextColor3 = darkBg
+Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
+openIcon.Visible = false
+openIcon.Active = true
+openIcon.Draggable = true
+
+local mainScroll = Instance.new("ScrollingFrame", mainFrame)
+mainScroll.Position = UDim2.new(0, 12, 0, 54)
+mainScroll.Size = UDim2.new(1, -68, 1, -128)
+mainScroll.BackgroundTransparency = 1
+mainScroll.CanvasSize = UDim2.new(0,0,0,0)
+mainScroll.ScrollBarThickness = 7
+mainScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+mainScroll.ZIndex = 2
+
+local grid = Instance.new("UIGridLayout", mainScroll)
+grid.CellSize = UDim2.new(0, 105, 0, 44)
+grid.CellPadding = UDim2.new(0, 10, 0, 10)
+grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+grid.VerticalAlignment = Enum.VerticalAlignment.Top
+grid.FillDirectionMaxCells = 2
+
+-- Tocar música (Brookhaven)
+local function playMusicRemote(tipo, id)
+    local rep = game:GetService("ReplicatedStorage")
+    if tipo == "Veículo" then
+        rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("VehicleMusicPlay", id)
+    elseif tipo == "Scooter" then
+        rep:WaitForChild("RE"):WaitForChild("1NoMoto1rVehicle1s"):FireServer("PickingScooterMusicText", id)
+    elseif tipo == "Moto" then
+        rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("PickingCarMusicText", id)
+    elseif tipo == "Rádio" then
+        rep:WaitForChild("RE"):WaitForChild("PlayerToolEvent"):FireServer("ToolMusicText", id)
+    elseif tipo == "Casa" then
+        rep:WaitForChild("RE"):WaitForChild("1Player1sHous1e"):FireServer("PickHouseMusicText", id)
     end
 end
 
-local function showSelectorPopup(titleText, options, callback)
-    if gui:FindFirstChild("SelectorPopup") then gui.SelectorPopup:Destroy() end
-    if gui:FindFirstChild("SelectorPopupBlock") then gui.SelectorPopupBlock:Destroy() end
+for i = 1, 19 do
+    local id = musicIDs[tostring(i)]
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 105, 0, 44)
+    btn.Text = tostring(i)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 20
+    btn.TextColor3 = white
+    btn.BackgroundColor3 = accentBg
+    btn.ZIndex = 3
+    btn.AutoButtonColor = true
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+    local btnStroke = Instance.new("UIStroke", btn)
+    btnStroke.Color = green
+    btnStroke.Thickness = 1.25
+    btnStroke.Transparency = 0.7
+    btn.Parent = mainScroll
+    btn.MouseButton1Click:Connect(function()
+        showSelectorPopup("Escolha o tipo:", {"Veículo", "Scooter", "Moto", "Rádio", "Casa"}, function(tipo)
+            playMusicRemote(tipo, id)
+        end)
+    end)
+end
 
-    local block = Instance.new("Frame", gui)
+function showSelectorPopup(titleText, options, callback)
+    if screenGui:FindFirstChild("SelectorPopup") then screenGui.SelectorPopup:Destroy() end
+    if screenGui:FindFirstChild("SelectorPopupBlock") then screenGui.SelectorPopupBlock:Destroy() end
+
+    local block = Instance.new("Frame", screenGui)
     block.Name = "SelectorPopupBlock"
     block.Size = UDim2.new(1,0,1,0)
     block.BackgroundTransparency = 0.35
@@ -74,44 +218,47 @@ local function showSelectorPopup(titleText, options, callback)
     block.ZIndex = 19999
     block.Active = true
 
-    local popup = Instance.new("Frame", gui)
+    local popup = Instance.new("Frame", screenGui)
     popup.Name = "SelectorPopup"
-    popup.Size = UDim2.new(0, 400, 0, 160)
-    popup.Position = UDim2.new(0.5, -200, 0.5, -80)
-    popup.BackgroundColor3 = Color3.fromRGB(25,25,25)
+    popup.Size = UDim2.new(0, 330, 0, 130)
+    popup.Position = UDim2.new(0.5, -165, 0.5, -65)
+    popup.BackgroundColor3 = darkBg
     popup.BorderSizePixel = 0
     popup.ZIndex = 20000
     popup.Active = true
     Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 14)
+    local popupStroke = Instance.new("UIStroke", popup)
+    popupStroke.Color = green
+    popupStroke.Thickness = 1.25
+    popupStroke.Transparency = 0.7
 
     local title = Instance.new("TextLabel", popup)
     title.Size = UDim2.new(1, -16, 0, 32)
     title.Position = UDim2.new(0,8,0,7)
     title.BackgroundTransparency = 1
     title.Text = titleText
-    title.TextColor3 = Color3.fromRGB(255,255,255)
+    title.TextColor3 = white
     title.TextSize = 16
     title.Font = Enum.Font.GothamBold
     title.ZIndex = 20001
 
-    -- Ajuste: largura e espaçamento
     local btnCount = #options
-    local totalSpacing = (btnCount - 1) * 16
-    local btnW = math.floor((popup.Size.X.Offset - 32 - totalSpacing) / btnCount)
-    local btnH = 45
-    local btnY = 55
-
+    local btnW = math.floor((298-(btnCount-1)*7)/btnCount)
     for i, opt in ipairs(options) do
         local btn = Instance.new("TextButton", popup)
-        btn.Size = UDim2.new(0, btnW, 0, btnH)
-        btn.Position = UDim2.new(0, 16 + ((btnW + 16) * (i-1)), 0, btnY)
+        btn.Size = UDim2.new(0, btnW, 0, 38)
+        btn.Position = UDim2.new(0, 16+((btnW+7)*(i-1)), 0, 50)
         btn.Text = tostring(opt)
         btn.Font = Enum.Font.GothamBold
         btn.TextSize = 16
-        btn.TextColor3 = Color3.fromRGB(255,255,255)
-        btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+        btn.TextColor3 = white
+        btn.BackgroundColor3 = accentBg
         btn.ZIndex = 20001
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
+        local btnStroke = Instance.new("UIStroke", btn)
+        btnStroke.Color = green
+        btnStroke.Thickness = 1.25
+        btnStroke.Transparency = 0.7
         btn.MouseButton1Click:Connect(function()
             popup:Destroy()
             block:Destroy()
@@ -120,263 +267,42 @@ local function showSelectorPopup(titleText, options, callback)
     end
 end
 
-local function playMotorcycleMusic(id)
-    local args = { [1] = "VehicleMusicPlay", [2] = id }
-    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer(unpack(args))
-end
-
-local function playScooterMusic(id)
-    local args = { [1] = "PickingScooterMusicText", [2] = id }
-    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1NoMoto1rVehicle1s"):FireServer(unpack(args))
-end
-
-local function playVehicleMusic(id)
-    local args = { [1] = "PickingCarMusicText", [2] = id }
-    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer(unpack(args))
-end
-
-local function playRadioMusic(id)
-    local args = { [1] = "ToolMusicText", [2] = id }
-    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("PlayerToolEvent"):FireServer(unpack(args))
-end
-
-local function playHouseMusic(id)
-    local args = { [1] = "PickHouseMusicText", [2] = id }
-    game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("1Player1sHous1e"):FireServer(unpack(args))
-end
-
-local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0, 340, 0, 360)
-frame.Position = UDim2.new(1, -355, 0.5, -180)
-frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-frame.BorderSizePixel = 0
-frame.Active = true
-frame.Draggable = true
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
-frame.BackgroundTransparency = 0
-
-local header = Instance.new("Frame", frame)
-header.Size = UDim2.new(1, 0, 0, 35)
-header.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-header.BorderSizePixel = 0
-Instance.new("UICorner", header).CornerRadius = UDim.new(0, 12)
-
-local title = Instance.new("TextLabel", header)
-title.Size = UDim2.new(1, -110, 1, 0)
-title.Position = UDim2.new(0, 10, 0, 0)
-title.BackgroundTransparency = 1
-title.Text = "Freeman Música - Brookhaven"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.Font = Enum.Font.FredokaOne
-title.TextSize = 18
-title.TextXAlignment = Enum.TextXAlignment.Left
-
-local minimize = Instance.new("TextButton", header)
-minimize.Size = UDim2.new(0, 35, 1, 0)
-minimize.Position = UDim2.new(1, -70, 0, 0)
-minimize.Text = "-"
-minimize.Font = Enum.Font.GothamBold
-minimize.TextSize = 18
-minimize.TextColor3 = Color3.fromRGB(255, 255, 255)
-minimize.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-minimize.BorderSizePixel = 0
-Instance.new("UICorner", minimize).CornerRadius = UDim.new(0, 12)
-
-local close = Instance.new("TextButton", header)
-close.Size = UDim2.new(0, 35, 1, 0)
-close.Position = UDim2.new(1, -35, 0, 0)
-close.Text = "X"
-close.Font = Enum.Font.GothamBold
-close.TextSize = 18
-close.TextColor3 = Color3.fromRGB(255, 255, 255)
-close.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-close.BorderSizePixel = 0
-Instance.new("UICorner", close).CornerRadius = UDim.new(0, 12)
-
-local sideBar = Instance.new("Frame", frame)
-sideBar.Size = UDim2.new(0, 44, 1, -35)
-sideBar.Position = UDim2.new(1, -44, 0, 35)
-sideBar.BackgroundTransparency = 1
-
-local iconBtnY = 8
-
-local creditsButton = (function()
-    local btn = Instance.new("TextButton", sideBar)
-    btn.Size = UDim2.new(1, -8, 0, 36)
-    btn.Position = UDim2.new(0, 4, 0, iconBtnY)
-    btn.Text = "👤"
-    btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 24
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
-    btn.BorderSizePixel = 0
-    btn.Name = "btnCreditos"
-    return btn
-end)()
-
-local scriptExecButton = (function()
-    local btn = Instance.new("TextButton", sideBar)
-    btn.Size = UDim2.new(1, -8, 0, 36)
-    btn.Position = UDim2.new(0, 4, 0, iconBtnY + 36 + 10)
-    btn.Text = "🔎"
-    btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 24
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
-    btn.BorderSizePixel = 0
-    btn.Name = "btnOutrosScripts"
-    return btn
-end)()
-
-local openIcon = Instance.new("TextButton", gui)
-openIcon.Size = UDim2.new(0, 40, 0, 40)
-openIcon.Position = UDim2.new(1, -50, 1, -50)
-openIcon.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-openIcon.Text = "ABRIR"
-openIcon.Visible = false
-openIcon.TextSize = 15
-openIcon.Font = Enum.Font.GothamBold
-openIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
-openIcon.Active = true
-openIcon.Draggable = true
-
-local mainFrame = Instance.new("ScrollingFrame", frame)
-mainFrame.Position = UDim2.new(0, 0, 0, 35)
-mainFrame.Size = UDim2.new(1, -44, 1, -110)
-mainFrame.BackgroundTransparency = 1
-mainFrame.CanvasSize = UDim2.new(0,0,0,0)
-mainFrame.ScrollBarThickness = 6
-mainFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
-local grid = Instance.new("UIGridLayout", mainFrame)
-grid.CellSize = UDim2.new(0, 100, 0, 40)
-grid.CellPadding = UDim2.new(0, 10, 0, 10)
-grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
-grid.VerticalAlignment = Enum.VerticalAlignment.Top
-grid.FillDirectionMaxCells = 2
-
-local creditsFrame = Instance.new("Frame", frame)
-creditsFrame.Position = UDim2.new(0, 0, 0, 35)
-creditsFrame.Size = UDim2.new(1, -44, 1, -110)
-creditsFrame.BackgroundTransparency = 1
-creditsFrame.Visible = false
-
-local creditsLabel = Instance.new("TextLabel", creditsFrame)
-creditsLabel.Size = UDim2.new(1, -20, 1, -20)
-creditsLabel.Position = UDim2.new(0, 10, 0, 10)
-creditsLabel.Text = "Feito por Freeman4i37!"
-creditsLabel.Font = Enum.Font.Gotham
-creditsLabel.TextColor3 = Color3.fromRGB(255,255,255)
-creditsLabel.TextSize = 14
-creditsLabel.TextWrapped = true
-creditsLabel.TextYAlignment = Enum.TextYAlignment.Top
-creditsLabel.BackgroundTransparency = 1
-
-local settingsFrame = Instance.new("Frame", frame)
-settingsFrame.Position = UDim2.new(0, 0, 0, 35)
-settingsFrame.Size = UDim2.new(1, -44, 1, -110)
-settingsFrame.BackgroundTransparency = 1
-settingsFrame.Visible = false
-
-local otherScriptsFrame = Instance.new("Frame", frame)
-otherScriptsFrame.Position = UDim2.new(0, 0, 0, 35)
-otherScriptsFrame.Size = UDim2.new(1, -44, 1, -110)
-otherScriptsFrame.BackgroundTransparency = 1
-otherScriptsFrame.Visible = false
-
-local otherScriptsLabel = Instance.new("TextLabel", otherScriptsFrame)
-otherScriptsLabel.Size = UDim2.new(1, -20, 0, 34)
-otherScriptsLabel.Position = UDim2.new(0, 10, 0, 10)
-otherScriptsLabel.Text = "OUTROS SCRIPTS"
-otherScriptsLabel.Font = Enum.Font.GothamBold
-otherScriptsLabel.TextColor3 = Color3.fromRGB(255,255,255)
-otherScriptsLabel.TextSize = 18
-otherScriptsLabel.TextWrapped = true
-otherScriptsLabel.BackgroundTransparency = 1
-otherScriptsLabel.TextYAlignment = Enum.TextYAlignment.Top
-
-local yBtn = 54
-local function createScriptButton(btnText, notification, scriptUrl)
-    local btn = Instance.new("TextButton", otherScriptsFrame)
-    btn.Size = UDim2.new(1, -20, 0, 32)
-    btn.Position = UDim2.new(0, 10, 0, yBtn)
-    btn.Text = btnText
-    btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 16
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-    btn.BorderSizePixel = 0
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
-    btn.MouseButton1Click:Connect(function()
-        pcall(function()
-            loadstring(game:HttpGet(scriptUrl))()
-        end)
-        showAchievementBar(notification, 4)
-    end)
-    yBtn = yBtn + 38
-end
-
-createScriptButton("Drip Client", "Drip Client executado.", "https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784")
-createScriptButton("AFEM", "AFEM executado.", "https://rawscripts.net/raw/Universal-Script-AFEM-14048")
-createScriptButton("Nameless Admin", "Nameless Admin executado.", "https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502")
-
-local buttons = {}
-for _, name in ipairs({"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}) do
-    local id = musicIDs[name]
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0, 100, 0, 40)
-    btn.Text = name
-    btn.Font = Enum.Font.GothamBold
-    btn.TextScaled = true
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
-    btn.Parent = mainFrame
-    btn.MouseButton1Click:Connect(function()
-        showSelectorPopup("Escolha o tipo:", {"Veículo", "Scooter", "Moto", "Rádio", "Casa"}, function(selected)
-            if selected == "Veículo" then
-                playMotorcycleMusic(id)
-            elseif selected == "Scooter" then
-                playScooterMusic(id)
-            elseif selected == "Moto" then
-                playVehicleMusic(id)
-            elseif selected == "Rádio" then
-                playRadioMusic(id)
-            elseif selected == "Casa" then
-                playHouseMusic(id)
-            end
-        end)
-    end)
-    table.insert(buttons, btn)
-end
-
-local inputBox = Instance.new("TextBox", frame)
+local inputBox = Instance.new("TextBox", mainFrame)
 inputBox.PlaceholderText = "ID do Áudio aqui..."
-inputBox.Size = UDim2.new(0.6, -10, 0, 35)
-inputBox.Position = UDim2.new(0, 10, 1, -70)
-inputBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-inputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-inputBox.PlaceholderColor3 = Color3.fromRGB(200, 200, 200)
+inputBox.Size = UDim2.new(0.62, -10, 0, 36)
+inputBox.Position = UDim2.new(0, 14, 1, -70)
+inputBox.BackgroundColor3 = accentBg
+inputBox.TextColor3 = white
+inputBox.PlaceholderColor3 = Color3.fromRGB(200,200,200)
 inputBox.Font = Enum.Font.Gotham
-inputBox.TextSize = 16
+inputBox.TextSize = 15
 inputBox.Text = ""
 inputBox.ClearTextOnFocus = false
-Instance.new("UICorner", inputBox).CornerRadius = UDim.new(0, 10)
+inputBox.ZIndex = 4
+inputBox.AutoLocalize = false
+Instance.new("UICorner", inputBox).CornerRadius = UDim.new(1, 0)
+local inputBoxStroke = Instance.new("UIStroke", inputBox)
+inputBoxStroke.Color = green
+inputBoxStroke.Thickness = 1.25
+inputBoxStroke.Transparency = 0.7
 
-local playButton = Instance.new("TextButton", frame)
-playButton.Text = "TOCAR"
-playButton.Size = UDim2.new(0.4, -10, 0, 35)
-playButton.Position = UDim2.new(0.6, 0, 1, -70)
-playButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-playButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-playButton.Font = Enum.Font.GothamBold
-playButton.TextSize = 18
-Instance.new("UICorner", playButton).CornerRadius = UDim.new(0, 10)
+local playBtn = Instance.new("TextButton", mainFrame)
+playBtn.Text = "TOCAR"
+playBtn.Size = UDim2.new(0.36, -10, 0, 36)
+playBtn.Position = UDim2.new(0.62, 0, 1, -70)
+playBtn.BackgroundColor3 = accentBg
+playBtn.TextColor3 = white
+playBtn.Font = Enum.Font.GothamBold
+playBtn.TextSize = 16
+playBtn.ZIndex = 4
+playBtn.AutoButtonColor = true
+Instance.new("UICorner", playBtn).CornerRadius = UDim.new(1, 0)
+local playBtnStroke = Instance.new("UIStroke", playBtn)
+playBtnStroke.Color = green
+playBtnStroke.Thickness = 1.25
+playBtnStroke.Transparency = 0.7
 
-playButton.MouseButton1Click:Connect(function()
+playBtn.MouseButton1Click:Connect(function()
     local input = inputBox.Text:gsub("rbxassetid://", "")
     local id = tonumber(input)
     local foundName = nil
@@ -394,18 +320,8 @@ playButton.MouseButton1Click:Connect(function()
         if success and info and info.Name and not foundName then
             nameGot = info.Name
         end
-        showSelectorPopup("Escolha o tipo:", {"Veículo", "Scooter", "Moto", "Rádio", "Casa"}, function(selected)
-            if selected == "Veículo" then
-                playMotorcycleMusic(id)
-            elseif selected == "Scooter" then
-                playScooterMusic(id)
-            elseif selected == "Moto" then
-                playVehicleMusic(id)
-            elseif selected == "Rádio" then
-                playRadioMusic(id)
-            elseif selected == "Casa" then
-                playHouseMusic(id)
-            end
+        showSelectorPopup("Escolha o tipo:", {"Veículo", "Scooter", "Moto", "Rádio", "Casa"}, function(tipo)
+            playMusicRemote(tipo, id)
         end)
         showAchievementBar("Tocando agora: " .. nameGot, 6)
     else
@@ -413,66 +329,12 @@ playButton.MouseButton1Click:Connect(function()
     end
 end)
 
-local stopButton = Instance.new("TextButton", frame)
-stopButton.Text = "Parar"
-stopButton.Size = UDim2.new(0, 70, 0, 25)
-stopButton.Position = UDim2.new(0, 10, 1, -35)
-stopButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-stopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-stopButton.Font = Enum.Font.GothamBold
-stopButton.TextSize = 12
-Instance.new("UICorner", stopButton).CornerRadius = UDim.new(0, 10)
-stopButton.Visible = false
-
-local inCredits = false
-local inOtherScripts = false
-
-creditsButton.MouseButton1Click:Connect(function()
-    inCredits = not inCredits
-    mainFrame.Visible = not inCredits and not inOtherScripts
-    creditsFrame.Visible = inCredits
-    settingsFrame.Visible = false
-    otherScriptsFrame.Visible = false
-    inOtherScripts = false
-end)
-
-scriptExecButton.MouseButton1Click:Connect(function()
-    inOtherScripts = not inOtherScripts
-    mainFrame.Visible = not inCredits and not inOtherScripts
-    creditsFrame.Visible = false
-    settingsFrame.Visible = false
-    otherScriptsFrame.Visible = inOtherScripts
-    inCredits = false
-end)
-
-minimize.MouseButton1Click:Connect(function()
-    local tween = tweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.5, -280)})
-    tween:Play()
-    tween.Completed:Wait()
-    frame.Visible = false
-    openIcon.Visible = true
-end)
-
-openIcon.MouseButton1Click:Connect(function()
-    frame.Visible = true
-    openIcon.Visible = false
-    frame.BackgroundTransparency = 1
-    frame.Position = UDim2.new(1, -355, 0.5, -280)
-    local tween = tweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0, Position = UDim2.new(1, -355, 0.5, -180)})
-    tween:Play()
-end)
-
-close.MouseButton1Click:Connect(function()
-    destroyAllNotificationBlocks()
-    gui:Destroy()
-end)
-
 function showAchievementBar(text, duration)
-    local bar = Instance.new("Frame", gui)
+    local bar = Instance.new("Frame", screenGui)
     bar.Size = UDim2.new(0, 250, 0, 45)
     bar.Position = UDim2.new(1, -260, 0, -50)
-    bar.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    bar.BackgroundTransparency = 0.2
+    bar.BackgroundColor3 = accentBg
+    bar.BackgroundTransparency = 0.15
     bar.BorderSizePixel = 0
     bar.AnchorPoint = Vector2.new(0,0)
     local uicorner = Instance.new("UICorner", bar)
@@ -482,14 +344,14 @@ function showAchievementBar(text, duration)
     label.Position = UDim2.new(0, 8, 0, 6)
     label.BackgroundTransparency = 1
     label.Text = text
-    label.TextColor3 = Color3.fromRGB(255,255,255)
+    label.TextColor3 = white
     label.TextSize = 14
     label.Font = Enum.Font.GothamBold
     label.TextWrapped = true
     bar.Position = UDim2.new(1, -260, 0, -50)
     bar.BackgroundTransparency = 1
     label.TextTransparency = 1
-    local tweenIn = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, 18), BackgroundTransparency = 0.2})
+    local tweenIn = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, 18), BackgroundTransparency = 0.15})
     local tweenLabelIn = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 0})
     tweenIn:Play()
     tweenLabelIn:Play()
@@ -504,5 +366,250 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Bem-vindo ao Freeman HUB Brookhaven - Música 10.0!",4)
+    showAchievementBar("Bem-vindo ao Freeman HUB Brookhaven - Música V11!",4)
 end)()
+
+-- SUBFRAMES
+local function makeSubFrame()
+    local f = Instance.new("Frame")
+    f.Size = UDim2.new(1, -68, 1, -128)
+    f.Position = UDim2.new(0, 12, 0, 54)
+    f.BackgroundColor3 = darkBg
+    f.BackgroundTransparency = 0
+    f.Visible = false
+    f.ZIndex = 3
+    Instance.new("UICorner", f).CornerRadius = UDim.new(1, 0)
+    local stroke = Instance.new("UIStroke", f)
+    stroke.Color = green
+    stroke.Thickness = 1.25
+    stroke.Transparency = 0.7
+    return f
+end
+
+-- FRAME: LISTA DE MÚSICAS
+local musicListFrame = makeSubFrame()
+musicListFrame.Parent = mainFrame
+local musicScroll = Instance.new("ScrollingFrame", musicListFrame)
+musicScroll.Size = UDim2.new(1, 0, 1, 0)
+musicScroll.BackgroundTransparency = 1
+musicScroll.CanvasSize = UDim2.new(0,0,0,0)
+musicScroll.ScrollBarThickness = 6
+musicScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+musicScroll.Name = "musicScroll"
+musicScroll.ZIndex = 4
+local musicListLayout = Instance.new("UIListLayout", musicScroll)
+musicListLayout.Padding = UDim.new(0,8)
+musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+for k = 1, 19 do
+    local lbl = Instance.new("TextLabel", musicScroll)
+    lbl.Size = UDim2.new(1, -10, 0, 28)
+    lbl.BackgroundTransparency = 1
+    lbl.Text = k.."- "..musicNames[tostring(k)]
+    lbl.Font = Enum.Font.GothamBold
+    lbl.TextColor3 = white
+    lbl.TextSize = 15
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.ZIndex = 4
+end
+
+-- FRAME: CRÉDITOS
+local creditsFrame = makeSubFrame()
+creditsFrame.Parent = mainFrame
+local creditsLabel = Instance.new("TextLabel", creditsFrame)
+creditsLabel.Size = UDim2.new(1, -16, 1, -16)
+creditsLabel.Position = UDim2.new(0, 8, 0, 8)
+creditsLabel.Text = "Feito por Freeman4i37\nObrigado por usar o script."
+creditsLabel.Font = Enum.Font.GothamBold
+creditsLabel.TextColor3 = white
+creditsLabel.TextSize = 16
+creditsLabel.BackgroundTransparency = 1
+creditsLabel.ZIndex = 3
+
+-- FRAME: SETTINGS ⚙️
+local settingsFrame = makeSubFrame()
+settingsFrame.Parent = mainFrame
+
+local mutePlayersBtn = Instance.new("TextButton", settingsFrame)
+mutePlayersBtn.Size = UDim2.new(1, 0, 0, 40)
+mutePlayersBtn.Position = UDim2.new(0, 0, 0, 10)
+mutePlayersBtn.Text = "Mutar sons dos jogadores (BETA)"
+mutePlayersBtn.Font = Enum.Font.GothamBold
+mutePlayersBtn.TextSize = 13
+mutePlayersBtn.BackgroundColor3 = accentBg
+mutePlayersBtn.TextColor3 = white
+mutePlayersBtn.ZIndex = 4
+Instance.new("UICorner", mutePlayersBtn).CornerRadius = UDim.new(1, 0)
+local mutePlayersBtnStroke = Instance.new("UIStroke", mutePlayersBtn)
+mutePlayersBtnStroke.Color = green
+mutePlayersBtnStroke.Thickness = 1.25
+mutePlayersBtnStroke.Transparency = 0.7
+
+local isMutingPlayers = false
+local muteConn
+
+local function isMyMusic(sound)
+    local myId = player.UserId
+    -- Checa se o som é proveniente de uma instância do jogador local, verificando o Parent em Vehicles, Scooter, House, etc
+    if sound:IsDescendantOf(player.Character) then return true end
+    if sound.Parent and sound.Parent:FindFirstChildWhichIsA("Humanoid") and sound.Parent == player.Character then return true end
+    -- House: geralmente em workspace.Houses ou similar, pode ser aprimorado conforme o sistema do Brookhaven
+    return false
+end
+
+local function setMutePlayers(val)
+    if val and not muteConn then
+        muteConn = runService.RenderStepped:Connect(function()
+            for _, plr in ipairs(game.Players:GetPlayers()) do
+                if plr ~= player and plr.Character then
+                    for _, obj in ipairs(plr.Character:GetDescendants()) do
+                        if obj:IsA("Sound") then
+                            obj.Volume = 0
+                        end
+                    end
+                end
+            end
+            for _, s in ipairs(workspace:GetDescendants()) do
+                if s:IsA("Sound") and not isMyMusic(s) then
+                    s.Volume = 0
+                end
+            end
+        end)
+    elseif not val and muteConn then
+        muteConn:Disconnect()
+        muteConn = nil
+        for _, plr in ipairs(game.Players:GetPlayers()) do
+            if plr ~= player and plr.Character then
+                for _, obj in ipairs(plr.Character:GetDescendants()) do
+                    if obj:IsA("Sound") then
+                        obj.Volume = 1
+                    end
+                end
+            end
+        end
+        for _, s in ipairs(workspace:GetDescendants()) do
+            if s:IsA("Sound") then
+                s.Volume = 1
+            end
+        end
+    end
+    isMutingPlayers = val
+    mutePlayersBtn.Text = val and "Ativar sons dos Jogadores (BETA)" or "Mutar sons dos jogadores (BETA)"
+end
+
+mutePlayersBtn.MouseButton1Click:Connect(function()
+    setMutePlayers(not isMutingPlayers)
+end)
+
+-- FRAME: OUTROS SCRIPTS ÚTEIS 🔍
+local scriptsFrame = makeSubFrame()
+scriptsFrame.Parent = mainFrame
+
+local scriptsTitle = Instance.new("TextLabel", scriptsFrame)
+scriptsTitle.Size = UDim2.new(1, -16, 0, 32)
+scriptsTitle.Position = UDim2.new(0, 8, 0, 8)
+scriptsTitle.Text = "Outros scripts úteis:"
+scriptsTitle.TextColor3 = white
+scriptsTitle.BackgroundTransparency = 1
+scriptsTitle.Font = Enum.Font.GothamBold
+scriptsTitle.TextSize = 16
+scriptsTitle.ZIndex = 4
+
+local yScriptBtn = 50
+local scriptList = {
+    {name="Executar Drip Client", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
+    {name="Executar AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
+    {name="Executar Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
+}
+for _, data in ipairs(scriptList) do
+    local btn = Instance.new("TextButton", scriptsFrame)
+    btn.Size = UDim2.new(1, -16, 0, 36)
+    btn.Position = UDim2.new(0, 8, 0, yScriptBtn)
+    btn.Text = data.name
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 15
+    btn.TextColor3 = white
+    btn.BackgroundColor3 = accentBg
+    btn.ZIndex = 4
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+    local btnStroke = Instance.new("UIStroke", btn)
+    btnStroke.Color = green
+    btnStroke.Thickness = 1.25
+    btnStroke.Transparency = 0.7
+    btn.MouseButton1Click:Connect(function()
+        if data.url and data.url ~= "" then
+            pcall(function()
+                loadstring(game:HttpGet(data.url))()
+            end)
+            showAchievementBar(data.name .. " executado.", 4)
+        else
+            showAchievementBar("Script não disponível!", 3)
+        end
+    end)
+    yScriptBtn = yScriptBtn + 44
+end
+
+mainScroll.Visible = true
+musicListFrame.Visible = false
+creditsFrame.Visible = false
+settingsFrame.Visible = false
+scriptsFrame.Visible = false
+
+local inSettings = false
+local musicListBtnClicked = false
+local inScripts = false
+local inCredits = false
+
+musicListBtn.MouseButton1Click:Connect(function()
+    musicListBtnClicked = not musicListBtnClicked
+    mainScroll.Visible = not musicListBtnClicked
+    musicListFrame.Visible = musicListBtnClicked
+    creditsFrame.Visible = false
+    settingsFrame.Visible = false
+    scriptsFrame.Visible = false
+end)
+settingsButton.MouseButton1Click:Connect(function()
+    inSettings = not inSettings
+    mainScroll.Visible = not inSettings
+    musicListFrame.Visible = false
+    creditsFrame.Visible = false
+    settingsFrame.Visible = inSettings
+    scriptsFrame.Visible = false
+end)
+scriptsButton.MouseButton1Click:Connect(function()
+    inScripts = not inScripts
+    mainScroll.Visible = not inScripts
+    musicListFrame.Visible = false
+    creditsFrame.Visible = false
+    settingsFrame.Visible = false
+    scriptsFrame.Visible = inScripts
+end)
+creditsButton.MouseButton1Click:Connect(function()
+    inCredits = not inCredits
+    mainScroll.Visible = not inCredits
+    musicListFrame.Visible = false
+    creditsFrame.Visible = inCredits
+    settingsFrame.Visible = false
+    scriptsFrame.Visible = false
+end)
+
+-- Minimizar e restaurar
+minimizeBtn.MouseButton1Click:Connect(function()
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.1, -280)})
+    tween:Play()
+    tween.Completed:Wait()
+    mainFrame.Visible = false
+    openIcon.Visible = true
+end)
+openIcon.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    openIcon.Visible = false
+    mainFrame.BackgroundTransparency = 1
+    mainFrame.Position = UDim2.new(1, -355, 0.5, -280)
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0, Position = UDim2.new(0.5, 0, 0.5, 0)})
+    tween:Play()
+end)
+closeBtn.MouseButton1Click:Connect(function()
+    if muteConn then muteConn:Disconnect() muteConn = nil end
+    screenGui:Destroy()
+end)
