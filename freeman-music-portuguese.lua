@@ -7,14 +7,14 @@ local musicIDs = {
     ["1"] = 94718473830640, ["2"] = 92209428926055, ["3"] = 133900561957103, ["4"] = 93768636184697,
     ["5"] = 92062588329352, ["6"] = 84773737820526, ["7"] = 87783857221289, ["8"] = 80164463388144,
     ["9"] = 126960081879615, ["10"] = 93058983119992, ["11"] = 92492039534399, ["12"] = 134035788881796,
-    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899, ["18"] = 16190782181, ["19"] = 117169209277972,
+    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899, ["18"] = 16190782181, ["19"] = 117169209277972, ["20"] = 81299332131868, ["21"] = 77147911349059, ["22"] = 124092830839928,
 }
 local musicNames = {
     ["1"] = "Funk da Febre", ["2"] = "Switch The Colors (Jersey Club)", ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)", ["5"] = "Spooky Scary Sunday (Jersey Club)", ["6"] = "ANOTE AÍ",
     ["7"] = "Temptation", ["8"] = "One Two Step (Jersey Club)", ["9"] = "MONTAGEM LUA INFRATOR",
     ["10"] = "MONTAGEM ECLIPSE ESTRELAR", ["11"] = "Em Dezembro de 81 - Flamengo",
-    ["12"] = "Esquema Confirmado - Arrocha", ["13"] = "JERSEY WAVE", ["14"] = "Arrepia XL 2", ["15"] = "Meepcity (Jersey Club)", ["16"] = "Manda Meu Passinho", ["17"] = "Lembro até hoje", ["18"] = "HR - EEYUH!", ["19"] = "I love ha",
+    ["12"] = "Esquema Confirmado - Arrocha", ["13"] = "JERSEY WAVE", ["14"] = "Arrepia XL 2", ["15"] = "Meepcity (Jersey Club)", ["16"] = "Manda Meu Passinho", ["17"] = "Lembro até hoje", ["18"] = "HR - EEYUH!", ["19"] = "I love ha", ["20"] = "SHE DON'T - Lonelybwoi", ["21"] = "NY Drill Ritual", ["22"] = "It Doesn't Matter (Jersey Club)",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -215,7 +215,7 @@ local function tryPlayBoombox(remotes, audioId)
     end
 end
 
-for i = 1, 19 do
+for i = 1, 22 do
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 105, 0, 44)
     btn.Text = tostring(i)
@@ -289,7 +289,7 @@ musicScroll.ZIndex = 4
 local musicListLayout = Instance.new("UIListLayout", musicScroll)
 musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-for k = 1, 19 do
+for k = 1, 22 do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
@@ -810,5 +810,5 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Bem-vindo(a) ao Freeman Hub!\nVersão: 10.0!",4)
+    showAchievementBar("Bem-vindo(a) ao Freeman Hub - V11!",4)
 end)()
