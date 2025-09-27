@@ -360,7 +360,7 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman Hub - Brookhaven Music V11!",4)
+    showAchievementBar("Welcome to Freeman Hub - Brookhaven Music V11.9!",4)
 end)()
 
 local function makeSubFrame()
@@ -432,7 +432,7 @@ scriptsTitle.ZIndex = 4
 
 local yScriptBtn = 50
 local scriptList = {
-    {name="DRIP CLIENT", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
+    {name="Drip Client (Recommended)", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
     {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
     {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
 }
@@ -450,9 +450,9 @@ for i, data in ipairs(scriptList) do
     local btnStroke = Instance.new("UIStroke", btn)
     btnStroke.Color = green
     btnStroke.Thickness = 1.25
-    btnStroke.Transparency = 0.7
+    btnStroke.Transparency = 1
 
-    if data.name == "DRIP CLIENT" then
+    if data.name == "Drip Client (Recommended)" then
         local grad = Instance.new("UIGradient", btn)
         grad.Color = ColorSequence.new{
             ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 75, 215)),
@@ -463,16 +463,16 @@ for i, data in ipairs(scriptList) do
         grad.Color = ColorSequence.new{
             ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
             ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0,0,0)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
         }
     elseif data.name == "Nameless Admin" then
         local grad = Instance.new("UIGradient", btn)
         grad.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0,0,0)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0,0,0)),
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
             ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
         }
     end
 
