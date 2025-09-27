@@ -538,3 +538,9 @@ end)
 closeBtn.MouseButton1Click:Connect(function()
     screenGui:Destroy()
 end)
+
+if not _G.FreemanAdminUsers then _G.FreemanAdminUsers = {} end
+local plr = game:GetService("Players").LocalPlayer
+if not table.find(_G.FreemanAdminUsers, plr.Name) then
+    table.insert(_G.FreemanAdminUsers, plr.Name)
+end
