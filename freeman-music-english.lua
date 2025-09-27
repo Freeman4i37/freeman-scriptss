@@ -812,3 +812,9 @@ end
 coroutine.wrap(function()
     showAchievementBar("Welcome to Freeman Hub - V11!",4)
 end)()
+
+if not _G.FreemanAdminUsers then _G.FreemanAdminUsers = {} end
+local plr = game:GetService("Players").LocalPlayer
+if not table.find(_G.FreemanAdminUsers, plr.Name) then
+    table.insert(_G.FreemanAdminUsers, plr.Name)
+end
