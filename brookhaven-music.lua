@@ -169,15 +169,15 @@ grid.FillDirectionMaxCells = 2
 -- Tocar música (Brookhaven)
 local function playMusicRemote(tipo, id)
     local rep = game:GetService("ReplicatedStorage")
-    if tipo == "Vehicle" then
+    if tipo == "🚗" then
         rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("VehicleMusicPlay", id)
-    elseif tipo == "Scooter" then
+    elseif tipo == "🛴" then
         rep:WaitForChild("RE"):WaitForChild("1NoMoto1rVehicle1s"):FireServer("PickingScooterMusicText", id)
-    elseif tipo == "Motorcycle" then
+    elseif tipo == "🛵" then
         rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("PickingCarMusicText", id)
-    elseif tipo == "Radio" then
+    elseif tipo == "📻" then
         rep:WaitForChild("RE"):WaitForChild("PlayerToolEvent"):FireServer("ToolMusicText", id)
-    elseif tipo == "House" then
+    elseif tipo == "🏠" then
         rep:WaitForChild("RE"):WaitForChild("1Player1sHous1e"):FireServer("PickHouseMusicText", id)
     end
 end
@@ -200,7 +200,7 @@ for i = 1, 22 do
     btnStroke.Transparency = 0.7
     btn.Parent = mainScroll
     btn.MouseButton1Click:Connect(function()
-        showSelectorPopup("Choose type:", {"Vehicle", "Scooter", "Motorcycle", "Radio", "House"}, function(tipo)
+        showSelectorPopup("Choose type:", {"🚗", "🛴", "🛵", "📻", "🏠"}, function(tipo)
             playMusicRemote(tipo, id)
         end)
     end)
@@ -320,7 +320,7 @@ playBtn.MouseButton1Click:Connect(function()
         if success and info and info.Name and not foundName then
             nameGot = info.Name
         end
-        showSelectorPopup("Choose type:", {"Vehicle", "Scooter", "Motorcycle", "Radio", "House"}, function(tipo)
+        showSelectorPopup("Choose type:", {"🚗", "🛴", "🛵", "📻", "🏠"}, function(tipo)
             playMusicRemote(tipo, id)
         end)
         showAchievementBar("Playing: " .. nameGot, 6)
@@ -517,9 +517,9 @@ scriptsTitle.ZIndex = 4
 
 local yScriptBtn = 50
 local scriptList = {
-    {name="Execute Drip Client", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
-    {name="Execute AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
-    {name="Execute Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
+    {name="DRIP CLIENT", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
+    {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
+    {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
 }
 for _, data in ipairs(scriptList) do
     local btn = Instance.new("TextButton", scriptsFrame)
