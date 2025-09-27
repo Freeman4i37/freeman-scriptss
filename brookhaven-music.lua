@@ -1,4 +1,3 @@
--- CORES E NOMES
 local green = Color3.fromRGB(0,255,0)
 local white = Color3.fromRGB(255,255,255)
 local darkBg = Color3.fromRGB(15,15,15)
@@ -21,9 +20,7 @@ local musicNames = {
 local player = game:GetService("Players").LocalPlayer
 local MarketplaceService = game:GetService("MarketplaceService")
 local tweenService = game:GetService("TweenService")
-local runService = game:GetService("RunService")
 
--- UI BASE
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FreemanMusicHub"
 screenGui.ResetOnSpawn = false
@@ -132,11 +129,9 @@ end
 
 local yDelta = 0
 local musicListBtn = makeIconBtn(sideBar, "📜", yDelta)
-local settingsButton = makeIconBtn(sideBar, "⚙️", yDelta+50)
-local scriptsButton = makeIconBtn(sideBar, "🔍", yDelta+100)
-local creditsButton = makeIconBtn(sideBar, "👤", yDelta+150)
+local scriptsButton = makeIconBtn(sideBar, "🔍", yDelta+50)
+local creditsButton = makeIconBtn(sideBar, "👤", yDelta+100)
 
--- OPEN ICON (aparece após minimizar)
 local openIcon = Instance.new("TextButton", screenGui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -55, 1, -55)
@@ -166,7 +161,6 @@ grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 grid.VerticalAlignment = Enum.VerticalAlignment.Top
 grid.FillDirectionMaxCells = 2
 
--- Tocar música (Brookhaven)
 local function playMusicRemote(tipo, id)
     local rep = game:GetService("ReplicatedStorage")
     if tipo == "🚗" then
@@ -369,7 +363,6 @@ coroutine.wrap(function()
     showAchievementBar("Welcome to Freeman Hub - Brookhaven Music V11!",4)
 end)()
 
--- SUBFRAMES
 local function makeSubFrame()
     local f = Instance.new("Frame")
     f.Size = UDim2.new(1, -68, 1, -128)
@@ -386,7 +379,6 @@ local function makeSubFrame()
     return f
 end
 
--- FRAME: LISTA DE MÚSICAS
 local musicListFrame = makeSubFrame()
 musicListFrame.Parent = mainFrame
 local musicScroll = Instance.new("ScrollingFrame", musicListFrame)
@@ -413,102 +405,25 @@ for k = 1, 22 do
     lbl.ZIndex = 4
 end
 
--- FRAME: CRÉDITOS
 local creditsFrame = makeSubFrame()
 creditsFrame.Parent = mainFrame
 local creditsLabel = Instance.new("TextLabel", creditsFrame)
 creditsLabel.Size = UDim2.new(1, -16, 1, -16)
 creditsLabel.Position = UDim2.new(0, 8, 0, 8)
-creditsLabel.Text = "Made by Freeman4i37!"
+creditsLabel.Text = "Created by Freeman4i37\nThank you for using the script."
 creditsLabel.Font = Enum.Font.GothamBold
 creditsLabel.TextColor3 = white
 creditsLabel.TextSize = 16
 creditsLabel.BackgroundTransparency = 1
 creditsLabel.ZIndex = 3
 
--- FRAME: SETTINGS ⚙️
-local settingsFrame = makeSubFrame()
-settingsFrame.Parent = mainFrame
-
-local mutePlayersBtn = Instance.new("TextButton", settingsFrame)
-mutePlayersBtn.Size = UDim2.new(1, 0, 0, 40)
-mutePlayersBtn.Position = UDim2.new(0, 0, 0, 10)
-mutePlayersBtn.Text = "Mute player sounds (BETA)"
-mutePlayersBtn.Font = Enum.Font.GothamBold
-mutePlayersBtn.TextSize = 13
-mutePlayersBtn.BackgroundColor3 = accentBg
-mutePlayersBtn.TextColor3 = white
-mutePlayersBtn.ZIndex = 4
-Instance.new("UICorner", mutePlayersBtn).CornerRadius = UDim.new(1, 0)
-local mutePlayersBtnStroke = Instance.new("UIStroke", mutePlayersBtn)
-mutePlayersBtnStroke.Color = green
-mutePlayersBtnStroke.Thickness = 1.25
-mutePlayersBtnStroke.Transparency = 0.7
-
-local isMutingPlayers = false
-local muteConn
-
-local function isMyMusic(sound)
-    local myId = player.UserId
-    -- Checa se o som é proveniente de uma instância do jogador local, verificando o Parent em Vehicles, Scooter, House, etc
-    if sound:IsDescendantOf(player.Character) then return true end
-    if sound.Parent and sound.Parent:FindFirstChildWhichIsA("Humanoid") and sound.Parent == player.Character then return true end
-    -- House: geralmente em workspace.Houses ou similar, pode ser aprimorado conforme o sistema do Brookhaven
-    return false
-end
-
-local function setMutePlayers(val)
-    if val and not muteConn then
-        muteConn = runService.RenderStepped:Connect(function()
-            for _, plr in ipairs(game.Players:GetPlayers()) do
-                if plr ~= player and plr.Character then
-                    for _, obj in ipairs(plr.Character:GetDescendants()) do
-                        if obj:IsA("Sound") then
-                            obj.Volume = 0
-                        end
-                    end
-                end
-            end
-            for _, s in ipairs(workspace:GetDescendants()) do
-                if s:IsA("Sound") and not isMyMusic(s) then
-                    s.Volume = 0
-                end
-            end
-        end)
-    elseif not val and muteConn then
-        muteConn:Disconnect()
-        muteConn = nil
-        for _, plr in ipairs(game.Players:GetPlayers()) do
-            if plr ~= player and plr.Character then
-                for _, obj in ipairs(plr.Character:GetDescendants()) do
-                    if obj:IsA("Sound") then
-                        obj.Volume = 1
-                    end
-                end
-            end
-        end
-        for _, s in ipairs(workspace:GetDescendants()) do
-            if s:IsA("Sound") then
-                s.Volume = 1
-            end
-        end
-    end
-    isMutingPlayers = val
-    mutePlayersBtn.Text = val and "Unmute player sounds (BETA)" or "Mute player sounds (BETA)"
-end
-
-mutePlayersBtn.MouseButton1Click:Connect(function()
-    setMutePlayers(not isMutingPlayers)
-end)
-
--- FRAME: OUTROS SCRIPTS ÚTEIS 🔍
 local scriptsFrame = makeSubFrame()
 scriptsFrame.Parent = mainFrame
 
 local scriptsTitle = Instance.new("TextLabel", scriptsFrame)
 scriptsTitle.Size = UDim2.new(1, -16, 0, 32)
 scriptsTitle.Position = UDim2.new(0, 8, 0, 8)
-scriptsTitle.Text = "Outros scripts úteis:"
+scriptsTitle.Text = "Other useful scripts:"
 scriptsTitle.TextColor3 = white
 scriptsTitle.BackgroundTransparency = 1
 scriptsTitle.Font = Enum.Font.GothamBold
@@ -521,7 +436,7 @@ local scriptList = {
     {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
     {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
 }
-for _, data in ipairs(scriptList) do
+for i, data in ipairs(scriptList) do
     local btn = Instance.new("TextButton", scriptsFrame)
     btn.Size = UDim2.new(1, -16, 0, 36)
     btn.Position = UDim2.new(0, 8, 0, yScriptBtn)
@@ -529,13 +444,38 @@ for _, data in ipairs(scriptList) do
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 15
     btn.TextColor3 = white
-    btn.BackgroundColor3 = accentBg
     btn.ZIndex = 4
+    btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
     btnStroke.Color = green
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
+
+    if data.name == "DRIP CLIENT" then
+        local grad = Instance.new("UIGradient", btn)
+        grad.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 75, 215)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(176, 64, 255))
+        }
+    elseif data.name == "AFEM" then
+        local grad = Instance.new("UIGradient", btn)
+        grad.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0,0,0)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
+        }
+    elseif data.name == "Nameless Admin" then
+        local grad = Instance.new("UIGradient", btn)
+        grad.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(0,0,0)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0,0,0)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
+        }
+    end
+
     btn.MouseButton1Click:Connect(function()
         if data.url and data.url ~= "" then
             pcall(function()
@@ -543,7 +483,7 @@ for _, data in ipairs(scriptList) do
             end)
             showAchievementBar(data.name .. " executed.", 4)
         else
-            showAchievementBar("Script not available.", 3)
+            showAchievementBar("Script not available!", 3)
         end
     end)
     yScriptBtn = yScriptBtn + 44
@@ -552,10 +492,8 @@ end
 mainScroll.Visible = true
 musicListFrame.Visible = false
 creditsFrame.Visible = false
-settingsFrame.Visible = false
 scriptsFrame.Visible = false
 
-local inSettings = false
 local musicListBtnClicked = false
 local inScripts = false
 local inCredits = false
@@ -565,15 +503,6 @@ musicListBtn.MouseButton1Click:Connect(function()
     mainScroll.Visible = not musicListBtnClicked
     musicListFrame.Visible = musicListBtnClicked
     creditsFrame.Visible = false
-    settingsFrame.Visible = false
-    scriptsFrame.Visible = false
-end)
-settingsButton.MouseButton1Click:Connect(function()
-    inSettings = not inSettings
-    mainScroll.Visible = not inSettings
-    musicListFrame.Visible = false
-    creditsFrame.Visible = false
-    settingsFrame.Visible = inSettings
     scriptsFrame.Visible = false
 end)
 scriptsButton.MouseButton1Click:Connect(function()
@@ -581,7 +510,6 @@ scriptsButton.MouseButton1Click:Connect(function()
     mainScroll.Visible = not inScripts
     musicListFrame.Visible = false
     creditsFrame.Visible = false
-    settingsFrame.Visible = false
     scriptsFrame.Visible = inScripts
 end)
 creditsButton.MouseButton1Click:Connect(function()
@@ -589,11 +517,9 @@ creditsButton.MouseButton1Click:Connect(function()
     mainScroll.Visible = not inCredits
     musicListFrame.Visible = false
     creditsFrame.Visible = inCredits
-    settingsFrame.Visible = false
     scriptsFrame.Visible = false
 end)
 
--- Minimizar e restaurar
 minimizeBtn.MouseButton1Click:Connect(function()
     local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.1, -280)})
     tween:Play()
@@ -610,6 +536,5 @@ openIcon.MouseButton1Click:Connect(function()
     tween:Play()
 end)
 closeBtn.MouseButton1Click:Connect(function()
-    if muteConn then muteConn:Disconnect() muteConn = nil end
     screenGui:Destroy()
 end)
