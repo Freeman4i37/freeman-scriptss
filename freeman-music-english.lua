@@ -1,4 +1,4 @@
-local green = Color3.fromRGB(0,255,0)
+local orange = Color3.fromRGB(255,140,0)
 local white = Color3.fromRGB(255,255,255)
 local darkBg = Color3.fromRGB(15,15,15)
 local accentBg = Color3.fromRGB(30,30,30)
@@ -42,71 +42,91 @@ mainFrame.Active = true
 mainFrame.Draggable = true
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
 local mainStroke = Instance.new("UIStroke", mainFrame)
-mainStroke.Color = green
+mainStroke.Color = orange
 mainStroke.Thickness = 2
 mainStroke.Transparency = 0.7
 
 local header = Instance.new("Frame", mainFrame)
-header.Size = UDim2.new(1, 0, 0, 44)
+header.Size = UDim2.new(1, 0, 0, 54)
 header.BackgroundTransparency = 1
 header.Position = UDim2.new(0,0,0,0)
 header.Name = "Header"
 header.ZIndex = 2
 
-local divider = Instance.new("Frame", mainFrame)
-divider.Name = "Divider"
-divider.Size = UDim2.new(0.85, 0, 0, 2)
-divider.Position = UDim2.new(0.075, 0, 0, 42)
-divider.BackgroundColor3 = green
-divider.BorderSizePixel = 0
-local dividerGradient = Instance.new("UIGradient", divider)
-dividerGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, green),
-    ColorSequenceKeypoint.new(0.5, white),
-    ColorSequenceKeypoint.new(1, green)
-})
+-- Pumpkin icon and Halloween label
+local pumpkinIcon = Instance.new("TextLabel", header)
+pumpkinIcon.Text = "🎃"
+pumpkinIcon.Font = Enum.Font.GothamBlack
+pumpkinIcon.TextSize = 34
+pumpkinIcon.TextColor3 = orange
+pumpkinIcon.Size = UDim2.new(0, 44, 0, 44)
+pumpkinIcon.Position = UDim2.new(0, 0, 0, 0)
+pumpkinIcon.BackgroundTransparency = 1
 
 local headerTitle = Instance.new("TextLabel", header)
 headerTitle.Text = "Freeman Hub - Music"
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 20
+headerTitle.TextSize = 17
 headerTitle.TextColor3 = white
 headerTitle.BackgroundTransparency = 1
-headerTitle.Size = UDim2.new(1, -90, 1, 0)
-headerTitle.Position = UDim2.new(0, 10, 0, 0)
+headerTitle.Size = UDim2.new(1, -90, 0, 28)
+headerTitle.Position = UDim2.new(0, 44, 0, 0)
 headerTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local halloweenLabel = Instance.new("TextLabel", header)
+halloweenLabel.Text = "Halloween Update!"
+halloweenLabel.Font = Enum.Font.GothamBold
+halloweenLabel.TextSize = 17
+halloweenLabel.TextColor3 = orange
+halloweenLabel.BackgroundTransparency = 1
+halloweenLabel.Size = UDim2.new(1, -90, 0, 24)
+halloweenLabel.Position = UDim2.new(0, 44, 0, 28)
+halloweenLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local divider = Instance.new("Frame", mainFrame)
+divider.Name = "Divider"
+divider.Size = UDim2.new(0.85, 0, 0, 2)
+divider.Position = UDim2.new(0.075, 0, 0, 52)
+divider.BackgroundColor3 = orange
+divider.BorderSizePixel = 0
+local dividerGradient = Instance.new("UIGradient", divider)
+dividerGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.5, white),
+    ColorSequenceKeypoint.new(1, orange)
+})
 
 local closeBtn = Instance.new("TextButton", header)
 closeBtn.Size = UDim2.new(0, 36, 0, 36)
-closeBtn.Position = UDim2.new(1, -44, 0, 4)
+closeBtn.Position = UDim2.new(1, -44, 0, 8)
 closeBtn.BackgroundColor3 = accentBg
 closeBtn.Text = "X"
-closeBtn.TextColor3 = white
+closeBtn.TextColor3 = orange
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.TextSize = 20
 Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
 local closeBtnStroke = Instance.new("UIStroke", closeBtn)
-closeBtnStroke.Color = green
+closeBtnStroke.Color = orange
 closeBtnStroke.Thickness = 1.25
 closeBtnStroke.Transparency = 0.7
 
 local minimizeBtn = Instance.new("TextButton", header)
 minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
-minimizeBtn.Position = UDim2.new(1, -88, 0, 4)
+minimizeBtn.Position = UDim2.new(1, -88, 0, 8)
 minimizeBtn.BackgroundColor3 = accentBg
 minimizeBtn.Text = "-"
-minimizeBtn.TextColor3 = white
+minimizeBtn.TextColor3 = orange
 minimizeBtn.Font = Enum.Font.GothamBold
 minimizeBtn.TextSize = 20
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
 local minimizeBtnStroke = Instance.new("UIStroke", minimizeBtn)
-minimizeBtnStroke.Color = green
+minimizeBtnStroke.Color = orange
 minimizeBtnStroke.Thickness = 1.25
 minimizeBtnStroke.Transparency = 0.7
 
 local sideBar = Instance.new("Frame", mainFrame)
-sideBar.Size = UDim2.new(0, 44, 1, -54)
-sideBar.Position = UDim2.new(1, -44, 0, 44)
+sideBar.Size = UDim2.new(0, 44, 1, -64)
+sideBar.Position = UDim2.new(1, -44, 0, 54)
 sideBar.BackgroundTransparency = 1
 sideBar.ZIndex = 2
 
@@ -117,18 +137,18 @@ local function makeIconBtn(parent, icon, y)
     btn.Text = icon
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 25
-    btn.TextColor3 = white
+    btn.TextColor3 = orange
     btn.BackgroundColor3 = accentBg
     btn.BorderSizePixel = 0
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = orange
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
-    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = green btn.TextColor3 = darkBg end)
-    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = white end)
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     return btn
 end
 
@@ -139,8 +159,8 @@ local modeButton = makeIconBtn(sideBar, "🎵", yDelta+100)
 local creditsButton = makeIconBtn(sideBar, "👤", yDelta+150)
 
 local mainScroll = Instance.new("ScrollingFrame", mainFrame)
-mainScroll.Position = UDim2.new(0, 12, 0, 54)
-mainScroll.Size = UDim2.new(1, -68, 1, -128)
+mainScroll.Position = UDim2.new(0, 12, 0, 64)
+mainScroll.Size = UDim2.new(1, -68, 1, -138)
 mainScroll.BackgroundTransparency = 1
 mainScroll.CanvasSize = UDim2.new(0,0,0,0)
 mainScroll.ScrollBarThickness = 7
@@ -221,17 +241,17 @@ for i = 1, 29 do
     btn.Text = tostring(i)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 20
-    btn.TextColor3 = white
+    btn.TextColor3 = orange
     btn.BackgroundColor3 = accentBg
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = orange
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
-    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = green btn.TextColor3 = darkBg end)
-    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = white end)
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     btn.Parent = mainScroll
     btn.MouseButton1Click:Connect(function()
         local id = musicIDs[tostring(i)]
@@ -250,15 +270,15 @@ end
 
 local function makeSubFrame()
     local f = Instance.new("Frame")
-    f.Size = UDim2.new(1, -68, 1, -128)
-    f.Position = UDim2.new(0, 12, 0, 54)
+    f.Size = UDim2.new(1, -68, 1, -138)
+    f.Position = UDim2.new(0, 12, 0, 64)
     f.BackgroundColor3 = darkBg
     f.BackgroundTransparency = 0
     f.Visible = false
     f.ZIndex = 3
     Instance.new("UICorner", f).CornerRadius = UDim.new(1, 0)
     local stroke = Instance.new("UIStroke", f)
-    stroke.Color = green
+    stroke.Color = orange
     stroke.Thickness = 1.25
     stroke.Transparency = 0.7
     return f
@@ -269,9 +289,9 @@ creditsFrame.Parent = mainFrame
 local creditsLabel = Instance.new("TextLabel", creditsFrame)
 creditsLabel.Size = UDim2.new(1, -16, 1, -16)
 creditsLabel.Position = UDim2.new(0, 8, 0, 8)
-creditsLabel.Text = "Made by Freeman4i37\nThanks for using the script."
+creditsLabel.Text = "Made by Freeman4i37\nThanks for using the script.\n🎃 Happy Halloween!"
 creditsLabel.Font = Enum.Font.GothamBold
-creditsLabel.TextColor3 = white
+creditsLabel.TextColor3 = orange
 creditsLabel.TextSize = 16
 creditsLabel.BackgroundTransparency = 1
 creditsLabel.ZIndex = 3
@@ -295,7 +315,7 @@ for k = 1, 29 do
     lbl.BackgroundTransparency = 1
     lbl.Text = "["..k.."] - "..musicNames[tostring(k)]
     lbl.Font = Enum.Font.GothamBold
-    lbl.TextColor3 = white
+    lbl.TextColor3 = orange
     lbl.TextSize = 15
     lbl.TextXAlignment = Enum.TextXAlignment.Left
     lbl.ZIndex = 4
@@ -307,9 +327,9 @@ settingsFrame.Parent = mainFrame
 local inputBox = Instance.new("TextBox", mainFrame)
 inputBox.PlaceholderText = "Put ID here..."
 inputBox.Size = UDim2.new(0.62, -10, 0, 36)
-inputBox.Position = UDim2.new(0, 14, 1, -70)
+inputBox.Position = UDim2.new(0, 14, 1, -80)
 inputBox.BackgroundColor3 = accentBg
-inputBox.TextColor3 = white
+inputBox.TextColor3 = orange
 inputBox.PlaceholderColor3 = Color3.fromRGB(200,200,200)
 inputBox.Font = Enum.Font.Gotham
 inputBox.TextSize = 15
@@ -320,34 +340,34 @@ inputBox.ClearTextOnFocus = false
 inputBox.AutoLocalize = false
 Instance.new("UICorner", inputBox).CornerRadius = UDim.new(1, 0)
 local inputBoxStroke = Instance.new("UIStroke", inputBox)
-inputBoxStroke.Color = green
+inputBoxStroke.Color = orange
 inputBoxStroke.Thickness = 1.25
 inputBoxStroke.Transparency = 0.7
 
 local playBtn = Instance.new("TextButton", mainFrame)
 playBtn.Text = "PLAY"
 playBtn.Size = UDim2.new(0.36, -10, 0, 36)
-playBtn.Position = UDim2.new(0.62, 0, 1, -70)
+playBtn.Position = UDim2.new(0.62, 0, 1, -80)
 playBtn.BackgroundColor3 = accentBg
-playBtn.TextColor3 = white
+playBtn.TextColor3 = orange
 playBtn.Font = Enum.Font.GothamBold
 playBtn.TextSize = 16
 playBtn.ZIndex = 4
 playBtn.AutoButtonColor = true
 Instance.new("UICorner", playBtn).CornerRadius = UDim.new(1, 0)
 local playBtnStroke = Instance.new("UIStroke", playBtn)
-playBtnStroke.Color = green
+playBtnStroke.Color = orange
 playBtnStroke.Thickness = 1.25
 playBtnStroke.Transparency = 0.7
-playBtn.MouseEnter:Connect(function() playBtn.BackgroundColor3 = green playBtn.TextColor3 = darkBg end)
-playBtn.MouseLeave:Connect(function() playBtn.BackgroundColor3 = accentBg playBtn.TextColor3 = white end)
+playBtn.MouseEnter:Connect(function() playBtn.BackgroundColor3 = orange playBtn.TextColor3 = darkBg end)
+playBtn.MouseLeave:Connect(function() playBtn.BackgroundColor3 = accentBg playBtn.TextColor3 = orange end)
 
 local loopButton = Instance.new("TextButton", mainFrame)
 loopButton.Text = "Loop: No"
 loopButton.Size = UDim2.new(0, 70, 0, 25)
-loopButton.Position = UDim2.new(0, 10, 1, -34)
+loopButton.Position = UDim2.new(0, 10, 1, -44)
 loopButton.BackgroundColor3 = accentBg
-loopButton.TextColor3 = white
+loopButton.TextColor3 = orange
 loopButton.Font = Enum.Font.GothamBold
 loopButton.TextSize = 12
 loopButton.ZIndex = 4
@@ -355,16 +375,16 @@ loopButton.Visible = false
 loopButton.AutoButtonColor = true
 Instance.new("UICorner", loopButton).CornerRadius = UDim.new(1, 0)
 local loopBtnStroke = Instance.new("UIStroke", loopButton)
-loopBtnStroke.Color = green
+loopBtnStroke.Color = orange
 loopBtnStroke.Thickness = 1.25
 loopBtnStroke.Transparency = 0.7
 
 local stopButton = Instance.new("TextButton", mainFrame)
 stopButton.Text = "Stop"
 stopButton.Size = UDim2.new(0, 70, 0, 25)
-stopButton.Position = UDim2.new(0, 90, 1, -34)
+stopButton.Position = UDim2.new(0, 90, 1, -44)
 stopButton.BackgroundColor3 = accentBg
-stopButton.TextColor3 = white
+stopButton.TextColor3 = orange
 stopButton.Font = Enum.Font.GothamBold
 stopButton.TextSize = 12
 stopButton.ZIndex = 4
@@ -372,16 +392,16 @@ stopButton.Visible = false
 stopButton.AutoButtonColor = true
 Instance.new("UICorner", stopButton).CornerRadius = UDim.new(1, 0)
 local stopBtnStroke = Instance.new("UIStroke", stopButton)
-stopBtnStroke.Color = green
+stopBtnStroke.Color = orange
 stopBtnStroke.Thickness = 1.25
 stopBtnStroke.Transparency = 0.7
 
 local volumeButton = Instance.new("TextButton", mainFrame)
 volumeButton.Text = "Vol: 1"
 volumeButton.Size = UDim2.new(0, 70, 0, 25)
-volumeButton.Position = UDim2.new(0, 170, 1, -34)
+volumeButton.Position = UDim2.new(0, 170, 1, -44)
 volumeButton.BackgroundColor3 = accentBg
-volumeButton.TextColor3 = white
+volumeButton.TextColor3 = orange
 volumeButton.Font = Enum.Font.GothamBold
 volumeButton.TextSize = 12
 volumeButton.ZIndex = 4
@@ -389,16 +409,16 @@ volumeButton.Visible = false
 volumeButton.AutoButtonColor = true
 Instance.new("UICorner", volumeButton).CornerRadius = UDim.new(1, 0)
 local volumeBtnStroke = Instance.new("UIStroke", volumeButton)
-volumeBtnStroke.Color = green
+volumeBtnStroke.Color = orange
 volumeBtnStroke.Thickness = 1.25
 volumeBtnStroke.Transparency = 0.7
 
 local pitchButton = Instance.new("TextButton", mainFrame)
 pitchButton.Text = "Pitch: 1"
 pitchButton.Size = UDim2.new(0, 70, 0, 25)
-pitchButton.Position = UDim2.new(0, 250, 1, -34)
+pitchButton.Position = UDim2.new(0, 250, 1, -44)
 pitchButton.BackgroundColor3 = accentBg
-pitchButton.TextColor3 = white
+pitchButton.TextColor3 = orange
 pitchButton.Font = Enum.Font.GothamBold
 pitchButton.TextSize = 12
 pitchButton.ZIndex = 4
@@ -406,7 +426,7 @@ pitchButton.Visible = false
 pitchButton.AutoButtonColor = true
 Instance.new("UICorner", pitchButton).CornerRadius = UDim.new(1, 0)
 local pitchBtnStroke = Instance.new("UIStroke", pitchButton)
-pitchBtnStroke.Color = green
+pitchBtnStroke.Color = orange
 pitchBtnStroke.Thickness = 1.25
 pitchBtnStroke.Transparency = 0.7
 
@@ -431,7 +451,7 @@ timeLabel.Size = UDim2.new(1, 0, 0, 20)
 timeLabel.Position = UDim2.new(0,0,0,0)
 timeLabel.BackgroundTransparency = 1
 timeLabel.Text = "00:00"
-timeLabel.TextColor3 = green
+timeLabel.TextColor3 = orange
 timeLabel.Font = Enum.Font.GothamBold
 timeLabel.TextSize = 13
 timeLabel.TextXAlignment = Enum.TextXAlignment.Center
@@ -439,11 +459,11 @@ timeLabel.ZIndex = 1010
 
 local durLabel = Instance.new("TextLabel", verticalBarFrame)
 durLabel.Size = UDim2.new(1, 0, 0, 20)
-durLabel.Position = UDim2.new(0,0,1,-9) -- espaçamento extra de 9px
+durLabel.Position = UDim2.new(0,0,1,-9)
 durLabel.AnchorPoint = Vector2.new(0,1)
 durLabel.BackgroundTransparency = 1
 durLabel.Text = "00:00"
-durLabel.TextColor3 = green
+durLabel.TextColor3 = orange
 durLabel.Font = Enum.Font.GothamBold
 durLabel.TextSize = 13
 durLabel.TextXAlignment = Enum.TextXAlignment.Center
@@ -460,7 +480,7 @@ Instance.new("UICorner", barBg).CornerRadius = UDim.new(0.5, 4)
 local bar = Instance.new("Frame", barBg)
 bar.Size = UDim2.new(1, 0, 0, 0)
 bar.Position = UDim2.new(0,0,0,0)
-bar.BackgroundColor3 = green
+bar.BackgroundColor3 = orange
 bar.ZIndex = 1012
 bar.BorderSizePixel = 0
 Instance.new("UICorner", bar).CornerRadius = UDim.new(0.5, 4)
@@ -558,11 +578,11 @@ muteBoomboxButton.Text = "Disable All Boomboxes"
 muteBoomboxButton.Font = Enum.Font.GothamBold
 muteBoomboxButton.TextSize = 13
 muteBoomboxButton.BackgroundColor3 = accentBg
-muteBoomboxButton.TextColor3 = white
+muteBoomboxButton.TextColor3 = orange
 muteBoomboxButton.ZIndex = 4
 Instance.new("UICorner", muteBoomboxButton).CornerRadius = UDim.new(1, 0)
 local muteBoomboxBtnStroke = Instance.new("UIStroke", muteBoomboxButton)
-muteBoomboxBtnStroke.Color = green
+muteBoomboxBtnStroke.Color = orange
 muteBoomboxBtnStroke.Thickness = 1.25
 muteBoomboxBtnStroke.Transparency = 0.7
 
@@ -592,11 +612,11 @@ muteGameSoundsButton.Text = "Disable All Gamesounds"
 muteGameSoundsButton.Font = Enum.Font.GothamBold
 muteGameSoundsButton.TextSize = 13
 muteGameSoundsButton.BackgroundColor3 = accentBg
-muteGameSoundsButton.TextColor3 = white
+muteGameSoundsButton.TextColor3 = orange
 muteGameSoundsButton.ZIndex = 4
 Instance.new("UICorner", muteGameSoundsButton).CornerRadius = UDim.new(1, 0)
 local muteGameSoundsBtnStroke = Instance.new("UIStroke", muteGameSoundsButton)
-muteGameSoundsBtnStroke.Color = green
+muteGameSoundsBtnStroke.Color = orange
 muteGameSoundsBtnStroke.Thickness = 1.25
 muteGameSoundsBtnStroke.Transparency = 0.7
 
@@ -642,7 +662,7 @@ end)
 local openIcon = Instance.new("TextButton", screenGui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -50, 1, -50)
-openIcon.BackgroundColor3 = green
+openIcon.BackgroundColor3 = orange
 openIcon.Text = "+"
 openIcon.Visible = false
 openIcon.TextSize = 13
@@ -732,7 +752,7 @@ function showSelectorPopup(titleText, options, callback)
     popup.Active = true
     Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 14)
     local popupStroke = Instance.new("UIStroke", popup)
-    popupStroke.Color = green
+    popupStroke.Color = orange
     popupStroke.Thickness = 1.25
     popupStroke.Transparency = 0.7
 
@@ -741,7 +761,7 @@ function showSelectorPopup(titleText, options, callback)
     title.Position = UDim2.new(0,8,0,7)
     title.BackgroundTransparency = 1
     title.Text = titleText
-    title.TextColor3 = white
+    title.TextColor3 = orange
     title.TextSize = 16
     title.Font = Enum.Font.GothamBold
     title.ZIndex = 20001
@@ -755,16 +775,16 @@ function showSelectorPopup(titleText, options, callback)
         btn.Text = tostring(opt)
         btn.Font = Enum.Font.GothamBold
         btn.TextSize = 16
-        btn.TextColor3 = white
+        btn.TextColor3 = orange
         btn.BackgroundColor3 = accentBg
         btn.ZIndex = 20001
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
         local btnStroke = Instance.new("UIStroke", btn)
-        btnStroke.Color = green
+        btnStroke.Color = orange
         btnStroke.Thickness = 1.25
         btnStroke.Transparency = 0.7
-        btn.MouseEnter:Connect(function() btn.BackgroundColor3 = green btn.TextColor3 = darkBg end)
-        btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = white end)
+        btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+        btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
         btn.MouseButton1Click:Connect(function()
             popup:Destroy()
             block:Destroy()
@@ -788,7 +808,7 @@ function showAchievementBar(text, duration)
     label.Position = UDim2.new(0, 8, 0, 6)
     label.BackgroundTransparency = 1
     label.Text = text
-    label.TextColor3 = white
+    label.TextColor3 = orange
     label.TextSize = 14
     label.Font = Enum.Font.GothamBold
     label.TextWrapped = true
@@ -810,7 +830,7 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Welcome to Freeman Hub - V12!",4)
+    showAchievementBar("Welcome to Freeman Hub 🎵 🎃 V13!",4)
 end)()
 
 if not _G.FreemanAdminUsers then _G.FreemanAdminUsers = {} end
