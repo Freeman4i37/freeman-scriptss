@@ -1,20 +1,20 @@
-local green = Color3.fromRGB(0,255,0)
+local orange = Color3.fromRGB(255,140,0)
 local white = Color3.fromRGB(255,255,255)
 local darkBg = Color3.fromRGB(15,15,15)
 local accentBg = Color3.fromRGB(30,30,30)
 
 local musicIDs = {
     ["1"] = 94718473830640, ["2"] = 92209428926055, ["3"] = 133900561957103, ["4"] = 93768636184697,
-    ["5"] = 92062588329352, ["6"] = 84773737820526, ["7"] = 87783857221289, ["8"] = 80164463388144,
-    ["9"] = 126960081879615, ["10"] = 93058983119992, ["11"] = 92492039534399, ["12"] = 134035788881796,
-    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899, ["18"] = 16190782181, ["19"] = 117169209277972, ["20"] = 81299332131868, ["21"] = 77147911349059, ["22"] = 124092830839928, ["23"] = 122854357582130, ["24"] = 112748273890049, ["25"] = 88339486019486, ["26"] = 97765714111493, ["27"] = 92446612272052, ["28"] = 74366765967475, ["29"] = 112068892721408,
+    ["5"] = 92062588329352, ["6"] = 84773737820526, ["7"] = 87783857221289, ["8"] = 88342296270082,
+    ["9"] = 85342086082111, ["10"] = 93058983119992, ["11"] = 92492039534399, ["12"] = 134035788881796,
+    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660, ["17"] = 71531533552899, ["18"] = 16190782181, ["19"] = 117169209277972, ["20"] = 81299332131868, ["21"] = 77147911349059, ["22"] = 124092830839928, ["23"] = 122854357582130, ["24"] = 88094479399489, ["25"] = 88339486019486, ["26"] = 97765714111493, ["27"] = 92446612272052, ["28"] = 74366765967475, ["29"] = 112068892721408,
 }
 local musicNames = {
     ["1"] = "Funk da Febre", ["2"] = "Switch The Colors (Jersey Club)", ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)", ["5"] = "Spooky Scary Sunday (Jersey Club)", ["6"] = "ANOTE AÍ",
-    ["7"] = "Temptation", ["8"] = "One Two Step (Jersey Club)", ["9"] = "MONTAGEM LUA INFRATOR",
+    ["7"] = "Temptation", ["8"] = "Ela Tano", ["9"] = "Seu fã",
     ["10"] = "MONTAGEM ECLIPSE ESTRELAR", ["11"] = "Em Dezembro de 81 - Flamengo",
-    ["12"] = "Esquema Confirmado - Arrocha", ["13"] = "JERSEY WAVE", ["14"] = "Arrepia XL 2", ["15"] = "Meepcity (Jersey Club)", ["16"] = "Manda Meu Passinho", ["17"] = "Lembro até hoje", ["18"] = "HR - EEYUH!", ["19"] = "I love ha", ["20"] = "SHE DON'T - Lonelybwoi", ["21"] = "NY Drill Ritual", ["22"] = "It Doesn't Matter (Jersey Club)", ["23"] = "69 PHONK", ["24"] = "No era Amor", ["25"] = "Montagem Pose", ["26"] = "Trem Fantasma Funk", ["27"] = "MTG ZUM ZUM ZUM", ["28"] = "EU NÃO ESTOU LOUCO", ["29"] = "FUNK DA PRAIA (SLOWED)",
+    ["12"] = "Esquema Confirmado - Arrocha", ["13"] = "JERSEY WAVE", ["14"] = "Arrepia XL 2", ["15"] = "Meepcity (Jersey Club)", ["16"] = "Manda Meu Passinho", ["17"] = "Lembro até hoje", ["18"] = "HR - EEYUH!", ["19"] = "I love ha", ["20"] = "SHE DON'T - Lonelybwoi", ["21"] = "NY Drill Ritual", ["22"] = "It Doesn't Matter (Jersey Club)", ["23"] = "69 PHONK", ["24"] = "Ela se envolveu", ["25"] = "Montagem Pose", ["26"] = "Trem Fantasma Funk", ["27"] = "MTG ZUM ZUM ZUM", ["28"] = "EU NÃO ESTOU LOUCO", ["29"] = "FUNK DA PRAIA (SLOWED)",
 }
 
 local player = game:GetService("Players").LocalPlayer
@@ -39,71 +39,91 @@ mainFrame.Active = true
 mainFrame.Draggable = true
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
 local mainStroke = Instance.new("UIStroke", mainFrame)
-mainStroke.Color = green
+mainStroke.Color = orange
 mainStroke.Thickness = 2
 mainStroke.Transparency = 0.7
 
+-- Header
 local header = Instance.new("Frame", mainFrame)
-header.Size = UDim2.new(1, 0, 0, 44)
+header.Size = UDim2.new(1, 0, 0, 54)
 header.BackgroundTransparency = 1
 header.Position = UDim2.new(0,0,0,0)
 header.Name = "Header"
 header.ZIndex = 2
 
-local divider = Instance.new("Frame", mainFrame)
-divider.Name = "Divider"
-divider.Size = UDim2.new(0.85, 0, 0, 2)
-divider.Position = UDim2.new(0.075, 0, 0, 42)
-divider.BackgroundColor3 = green
-divider.BorderSizePixel = 0
-local dividerGradient = Instance.new("UIGradient", divider)
-dividerGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, green),
-    ColorSequenceKeypoint.new(0.5, white),
-    ColorSequenceKeypoint.new(1, green)
-})
+local pumpkinIcon = Instance.new("TextLabel", header)
+pumpkinIcon.Text = "🎃"
+pumpkinIcon.Font = Enum.Font.GothamBlack
+pumpkinIcon.TextSize = 34
+pumpkinIcon.TextColor3 = orange
+pumpkinIcon.Size = UDim2.new(0, 44, 0, 44)
+pumpkinIcon.Position = UDim2.new(0, 0, 0, 0)
+pumpkinIcon.BackgroundTransparency = 1
 
 local headerTitle = Instance.new("TextLabel", header)
 headerTitle.Text = "Freeman Hub - Brookhaven"
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 20
+headerTitle.TextSize = 17
 headerTitle.TextColor3 = white
 headerTitle.BackgroundTransparency = 1
-headerTitle.Size = UDim2.new(1, -90, 1, 0)
-headerTitle.Position = UDim2.new(0, 10, 0, 0)
+headerTitle.Size = UDim2.new(1, -90, 0, 28)
+headerTitle.Position = UDim2.new(0, 44, 0, 0)
 headerTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local halloweenLabel = Instance.new("TextLabel", header)
+halloweenLabel.Text = "Atualização de Halloween!"
+halloweenLabel.Font = Enum.Font.GothamBold
+halloweenLabel.TextSize = 17
+halloweenLabel.TextColor3 = orange
+halloweenLabel.BackgroundTransparency = 1
+halloweenLabel.Size = UDim2.new(1, -90, 0, 24)
+halloweenLabel.Position = UDim2.new(0, 44, 0, 28)
+halloweenLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local divider = Instance.new("Frame", mainFrame)
+divider.Name = "Divider"
+divider.Size = UDim2.new(0.85, 0, 0, 2)
+divider.Position = UDim2.new(0.075, 0, 0, 52)
+divider.BackgroundColor3 = orange
+divider.BorderSizePixel = 0
+local dividerGradient = Instance.new("UIGradient", divider)
+dividerGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.5, white),
+    ColorSequenceKeypoint.new(1, orange)
+})
 
 local closeBtn = Instance.new("TextButton", header)
 closeBtn.Size = UDim2.new(0, 36, 0, 36)
-closeBtn.Position = UDim2.new(1, -44, 0, 4)
+closeBtn.Position = UDim2.new(1, -44, 0, 8)
 closeBtn.BackgroundColor3 = accentBg
 closeBtn.Text = "X"
-closeBtn.TextColor3 = white
+closeBtn.TextColor3 = orange
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.TextSize = 20
 Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
 local closeBtnStroke = Instance.new("UIStroke", closeBtn)
-closeBtnStroke.Color = green
+closeBtnStroke.Color = orange
 closeBtnStroke.Thickness = 1.25
 closeBtnStroke.Transparency = 0.7
 
 local minimizeBtn = Instance.new("TextButton", header)
 minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
-minimizeBtn.Position = UDim2.new(1, -88, 0, 4)
+minimizeBtn.Position = UDim2.new(1, -88, 0, 8)
 minimizeBtn.BackgroundColor3 = accentBg
 minimizeBtn.Text = "-"
-minimizeBtn.TextColor3 = white
+minimizeBtn.TextColor3 = orange
 minimizeBtn.Font = Enum.Font.GothamBold
 minimizeBtn.TextSize = 20
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
 local minimizeBtnStroke = Instance.new("UIStroke", minimizeBtn)
-minimizeBtnStroke.Color = green
+minimizeBtnStroke.Color = orange
 minimizeBtnStroke.Thickness = 1.25
 minimizeBtnStroke.Transparency = 0.7
 
 local sideBar = Instance.new("Frame", mainFrame)
 sideBar.Size = UDim2.new(0, 44, 1, -54)
-sideBar.Position = UDim2.new(1, -44, 0, 44)
+sideBar.Position = UDim2.new(1, -44, 0, 54)
 sideBar.BackgroundTransparency = 1
 sideBar.ZIndex = 2
 
@@ -114,16 +134,18 @@ local function makeIconBtn(parent, icon, y)
     btn.Text = icon
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 25
-    btn.TextColor3 = white
+    btn.TextColor3 = orange
     btn.BackgroundColor3 = accentBg
     btn.BorderSizePixel = 0
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = orange
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     return btn
 end
 
@@ -135,7 +157,7 @@ local creditsButton = makeIconBtn(sideBar, "👤", yDelta+100)
 local openIcon = Instance.new("TextButton", screenGui)
 openIcon.Size = UDim2.new(0, 40, 0, 40)
 openIcon.Position = UDim2.new(1, -55, 1, -55)
-openIcon.BackgroundColor3 = green
+openIcon.BackgroundColor3 = orange
 openIcon.Text = "+"
 openIcon.TextSize = 13
 openIcon.Font = Enum.Font.GothamBold
@@ -183,15 +205,17 @@ for i = 1, 29 do
     btn.Text = tostring(i)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 20
-    btn.TextColor3 = white
+    btn.TextColor3 = orange
     btn.BackgroundColor3 = accentBg
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = orange
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     btn.Parent = mainScroll
     btn.MouseButton1Click:Connect(function()
         showSelectorPopup("Escolha o tipo:", {"🚘", "🛹", "🏍️", "📻", "🏡"}, function(tipo)
@@ -222,7 +246,7 @@ function showSelectorPopup(titleText, options, callback)
     popup.Active = true
     Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 14)
     local popupStroke = Instance.new("UIStroke", popup)
-    popupStroke.Color = green
+    popupStroke.Color = orange
     popupStroke.Thickness = 1.25
     popupStroke.Transparency = 0.7
 
@@ -231,7 +255,7 @@ function showSelectorPopup(titleText, options, callback)
     title.Position = UDim2.new(0,8,0,7)
     title.BackgroundTransparency = 1
     title.Text = titleText
-    title.TextColor3 = white
+    title.TextColor3 = orange
     title.TextSize = 16
     title.Font = Enum.Font.GothamBold
     title.ZIndex = 20001
@@ -245,14 +269,16 @@ function showSelectorPopup(titleText, options, callback)
         btn.Text = tostring(opt)
         btn.Font = Enum.Font.GothamBold
         btn.TextSize = 16
-        btn.TextColor3 = white
+        btn.TextColor3 = orange
         btn.BackgroundColor3 = accentBg
         btn.ZIndex = 20001
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
         local btnStroke = Instance.new("UIStroke", btn)
-        btnStroke.Color = green
+        btnStroke.Color = orange
         btnStroke.Thickness = 1.25
         btnStroke.Transparency = 0.7
+        btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+        btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
         btn.MouseButton1Click:Connect(function()
             popup:Destroy()
             block:Destroy()
@@ -266,7 +292,7 @@ inputBox.PlaceholderText = "ID do Áudio aqui..."
 inputBox.Size = UDim2.new(0.62, -10, 0, 36)
 inputBox.Position = UDim2.new(0, 14, 1, -70)
 inputBox.BackgroundColor3 = accentBg
-inputBox.TextColor3 = white
+inputBox.TextColor3 = orange
 inputBox.PlaceholderColor3 = Color3.fromRGB(200,200,200)
 inputBox.Font = Enum.Font.Gotham
 inputBox.TextSize = 15
@@ -276,7 +302,7 @@ inputBox.ZIndex = 4
 inputBox.AutoLocalize = false
 Instance.new("UICorner", inputBox).CornerRadius = UDim.new(1, 0)
 local inputBoxStroke = Instance.new("UIStroke", inputBox)
-inputBoxStroke.Color = green
+inputBoxStroke.Color = orange
 inputBoxStroke.Thickness = 1.25
 inputBoxStroke.Transparency = 0.7
 
@@ -285,16 +311,18 @@ playBtn.Text = "TOCAR"
 playBtn.Size = UDim2.new(0.36, -10, 0, 36)
 playBtn.Position = UDim2.new(0.62, 0, 1, -70)
 playBtn.BackgroundColor3 = accentBg
-playBtn.TextColor3 = white
+playBtn.TextColor3 = orange
 playBtn.Font = Enum.Font.GothamBold
 playBtn.TextSize = 16
 playBtn.ZIndex = 4
 playBtn.AutoButtonColor = true
 Instance.new("UICorner", playBtn).CornerRadius = UDim.new(1, 0)
 local playBtnStroke = Instance.new("UIStroke", playBtn)
-playBtnStroke.Color = green
+playBtnStroke.Color = orange
 playBtnStroke.Thickness = 1.25
 playBtnStroke.Transparency = 0.7
+playBtn.MouseEnter:Connect(function() playBtn.BackgroundColor3 = orange playBtn.TextColor3 = darkBg end)
+playBtn.MouseLeave:Connect(function() playBtn.BackgroundColor3 = accentBg playBtn.TextColor3 = orange end)
 
 playBtn.MouseButton1Click:Connect(function()
     local input = inputBox.Text:gsub("rbxassetid://", "")
@@ -338,7 +366,7 @@ function showAchievementBar(text, duration)
     label.Position = UDim2.new(0, 8, 0, 6)
     label.BackgroundTransparency = 1
     label.Text = text
-    label.TextColor3 = white
+    label.TextColor3 = orange
     label.TextSize = 14
     label.Font = Enum.Font.GothamBold
     label.TextWrapped = true
@@ -360,7 +388,7 @@ function showAchievementBar(text, duration)
 end
 
 coroutine.wrap(function()
-    showAchievementBar("Bem-vindo ao Freeman HUB Brookhaven - Música V12!",4)
+    showAchievementBar("Bem-vindo ao Freeman HUB 🎃 Brookhaven - V13!",4)
 end)()
 
 local function makeSubFrame()
@@ -373,7 +401,7 @@ local function makeSubFrame()
     f.ZIndex = 3
     Instance.new("UICorner", f).CornerRadius = UDim.new(1, 0)
     local stroke = Instance.new("UIStroke", f)
-    stroke.Color = green
+    stroke.Color = orange
     stroke.Thickness = 1.25
     stroke.Transparency = 0.7
     return f
@@ -399,7 +427,7 @@ for k = 1, 29 do
     lbl.BackgroundTransparency = 1
     lbl.Text = k.."- "..musicNames[tostring(k)]
     lbl.Font = Enum.Font.GothamBold
-    lbl.TextColor3 = white
+    lbl.TextColor3 = orange
     lbl.TextSize = 15
     lbl.TextXAlignment = Enum.TextXAlignment.Left
     lbl.ZIndex = 4
@@ -410,9 +438,9 @@ creditsFrame.Parent = mainFrame
 local creditsLabel = Instance.new("TextLabel", creditsFrame)
 creditsLabel.Size = UDim2.new(1, -16, 1, -16)
 creditsLabel.Position = UDim2.new(0, 8, 0, 8)
-creditsLabel.Text = "Feito por Freeman4i37\nObrigado por usar o script."
+creditsLabel.Text = "Feito por Freeman4i37\nObrigado por usar o script.\n🎃"
 creditsLabel.Font = Enum.Font.GothamBold
-creditsLabel.TextColor3 = white
+creditsLabel.TextColor3 = orange
 creditsLabel.TextSize = 16
 creditsLabel.BackgroundTransparency = 1
 creditsLabel.ZIndex = 3
@@ -424,7 +452,7 @@ local scriptsTitle = Instance.new("TextLabel", scriptsFrame)
 scriptsTitle.Size = UDim2.new(1, -16, 0, 32)
 scriptsTitle.Position = UDim2.new(0, 8, 0, 8)
 scriptsTitle.Text = "Outros scripts úteis:"
-scriptsTitle.TextColor3 = white
+scriptsTitle.TextColor3 = orange
 scriptsTitle.BackgroundTransparency = 1
 scriptsTitle.Font = Enum.Font.GothamBold
 scriptsTitle.TextSize = 16
@@ -443,47 +471,26 @@ for i, data in ipairs(scriptList) do
     btn.Text = data.name
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 15
-    btn.TextColor3 = white
+    btn.TextColor3 = orange
     btn.ZIndex = 4
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = orange
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 1
 
-    if data.name == "Drip Client (Recomendado)" then
-        local grad = Instance.new("UIGradient", btn)
-        grad.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 75, 215)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(176, 64, 255))
-        }
-    elseif data.name == "AFEM" then
-        local grad = Instance.new("UIGradient", btn)
-        grad.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
-        }
-    elseif data.name == "Nameless Admin" then
-        local grad = Instance.new("UIGradient", btn)
-        grad.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255,255,255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
-        }
-    end
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
 
     btn.MouseButton1Click:Connect(function()
         if data.url and data.url ~= "" then
             pcall(function()
                 loadstring(game:HttpGet(data.url))()
             end)
-            showAchievementBar(data.name .. " executed.", 4)
+            showAchievementBar(data.name .. " executado.", 4)
         else
-            showAchievementBar("Script not available!", 3)
+            showAchievementBar("Script indisponível!", 3)
         end
     end)
     yScriptBtn = yScriptBtn + 44
