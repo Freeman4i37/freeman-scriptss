@@ -1,3 +1,16 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+if not ReplicatedStorage:FindFirstChild("FreemanScriptUsers") then
+    local folder = Instance.new("Folder", ReplicatedStorage)
+    folder.Name = "FreemanScriptUsers"
+end
+
+local tag = Instance.new("BoolValue", ReplicatedStorage.FreemanScriptUsers)
+tag.Name = LocalPlayer.Name
+tag.Value = true
+
 local orange = Color3.fromRGB(255,140,0)
 local white = Color3.fromRGB(255,255,255)
 local darkBg = Color3.fromRGB(15,15,15)
