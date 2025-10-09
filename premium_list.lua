@@ -1,6 +1,10 @@
 return {
-    Premium5 = {},
-    Premium4 = {},
+    Premium5 = {
+        ["Kaua_452"] = true,
+    },
+    Premium4 = {
+        ["Kaua_452"] = true,
+    },
     Premium3 = {},
     Premium2 = {},
     Premium1 = {},
