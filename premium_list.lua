@@ -6,7 +6,6 @@ return {
     Premium1 = {},
     OWNER = {
         ["Kaua_452"] = true,
-
     },
     OWNER2 = {
         ["pedro312jee"] = true,
