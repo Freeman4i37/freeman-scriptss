@@ -1,8 +1,9 @@
-local green = Color3.fromRGB(0,255,0)
-local red = Color3.fromRGB(220,40,40)
+-- Freeman Audio Logger - Premium GOLD Edition
+
+local gold = Color3.fromRGB(255,215,0)
+local darkBg = Color3.fromRGB(20,20,20)
+local accentBg = Color3.fromRGB(40,40,20)
 local white = Color3.fromRGB(255,255,255)
-local darkBg = Color3.fromRGB(15,15,15)
-local accentBg = Color3.fromRGB(30,30,30)
 local grayBtn = Color3.fromRGB(70,70,70)
 
 local player = game:GetService("Players").LocalPlayer
@@ -26,7 +27,7 @@ mainFrame.Active = true
 mainFrame.Draggable = true
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
 local mainStroke = Instance.new("UIStroke", mainFrame)
-mainStroke.Color = green
+mainStroke.Color = gold
 mainStroke.Thickness = 2
 mainStroke.Transparency = 0.7
 
@@ -41,20 +42,20 @@ local divider = Instance.new("Frame", mainFrame)
 divider.Name = "Divider"
 divider.Size = UDim2.new(0.85, 0, 0, 2)
 divider.Position = UDim2.new(0.075, 0, 0, 42)
-divider.BackgroundColor3 = green
+divider.BackgroundColor3 = gold
 divider.BorderSizePixel = 0
 local dividerGradient = Instance.new("UIGradient", divider)
 dividerGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, green),
+    ColorSequenceKeypoint.new(0, gold),
     ColorSequenceKeypoint.new(0.5, white),
-    ColorSequenceKeypoint.new(1, green)
+    ColorSequenceKeypoint.new(1, gold)
 })
 
 local headerTitle = Instance.new("TextLabel", header)
-headerTitle.Text = "Freeman Hub - Audio Logger"
+headerTitle.Text = "Freeman Hub - Audio Logger (PREMIUM)"
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 20
-headerTitle.TextColor3 = white
+headerTitle.TextSize = 16
+headerTitle.TextColor3 = gold
 headerTitle.BackgroundTransparency = 1
 headerTitle.Size = UDim2.new(1, -90, 1, 0)
 headerTitle.Position = UDim2.new(0, 18, 0, 0)
@@ -65,12 +66,12 @@ closeBtn.Size = UDim2.new(0, 36, 0, 36)
 closeBtn.Position = UDim2.new(1, -44, 0, 4)
 closeBtn.BackgroundColor3 = accentBg
 closeBtn.Text = "X"
-closeBtn.TextColor3 = white
+closeBtn.TextColor3 = gold
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.TextSize = 20
 Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
 local closeBtnStroke = Instance.new("UIStroke", closeBtn)
-closeBtnStroke.Color = green
+closeBtnStroke.Color = gold
 closeBtnStroke.Thickness = 1.25
 closeBtnStroke.Transparency = 0.7
 
@@ -79,12 +80,12 @@ minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
 minimizeBtn.Position = UDim2.new(1, -88, 0, 4)
 minimizeBtn.BackgroundColor3 = accentBg
 minimizeBtn.Text = "-"
-minimizeBtn.TextColor3 = white
+minimizeBtn.TextColor3 = gold
 minimizeBtn.Font = Enum.Font.GothamBold
 minimizeBtn.TextSize = 20
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
 local minimizeBtnStroke = Instance.new("UIStroke", minimizeBtn)
-minimizeBtnStroke.Color = green
+minimizeBtnStroke.Color = gold
 minimizeBtnStroke.Thickness = 1.25
 minimizeBtnStroke.Transparency = 0.7
 
@@ -101,25 +102,29 @@ local function makeActionBtn(parent, text, posX, posY, sizX, sizY)
     btn.Text = text
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 15
-    btn.TextColor3 = white
+    btn.TextColor3 = gold
     btn.BackgroundColor3 = accentBg
     btn.BorderSizePixel = 0
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = gold
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
     return btn
 end
 
-local scanGameBtn = makeActionBtn(actionBar, "Scan - Game", 8, 3, 145, 32)
-local scanWorkspaceBtn = makeActionBtn(actionBar, "Scan - Workspace", 161, 3, 145, 32)
-local scanLightingBtn = makeActionBtn(actionBar, "Scan - Lighting", 314, 3, 145, 32)
-local scanSoundServiceBtn = makeActionBtn(actionBar, "Scan - SoundService", 467, 3, 145, 32)
-local autoScanBtn = makeActionBtn(actionBar, "Auto Scan (Use)", 620, 3, 110, 32)
+local scanGameBtn = makeActionBtn(actionBar, "Scan Game", 8, 3, 145, 32)
+local scanWorkspaceBtn = makeActionBtn(actionBar, "Scan Workspace", 161, 3, 145, 32)
+local scanLightingBtn = makeActionBtn(actionBar, "Scan Lighting", 314, 3, 145, 32)
+local scanSoundServiceBtn = makeActionBtn(actionBar, "Scan SoundService", 467, 3, 145, 32)
+local autoScanBtn = makeActionBtn(actionBar, "Auto Scan", 620, 3, 110, 32)
 autoScanBtn.BackgroundColor3 = grayBtn
+
+-- NOVO: Botão para carregar IDs salvos
+local loadSavedBtn = makeActionBtn(actionBar, "IDs Salvos", 740, 3, 110, 32)
+loadSavedBtn.BackgroundColor3 = accentBg
 
 local logsFrame = Instance.new("ScrollingFrame", mainFrame)
 logsFrame.Name = "Logs"
@@ -155,31 +160,68 @@ local function makeSideBtn(text)
     btn.Text = text
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 15
-    btn.TextColor3 = white
+    btn.TextColor3 = gold
     btn.BackgroundColor3 = accentBg
     btn.AutoButtonColor = true
     btn.ZIndex = 4
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = green
+    btnStroke.Color = gold
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
     btnY = btnY + 44
     return btn
 end
 
-local listenBtn = makeSideBtn("Listen Selected")
-local copyBtn = makeSideBtn("Copy Selected ID")
-local saveBtn = makeSideBtn("Save Selected")
-local clearUnselectedBtn = makeSideBtn("Clear Unselected")
-local clearSelectedBtn = makeSideBtn("Clear Selected")
+local listenBtn = makeSideBtn("LISTEN SELECTED")
+local copyBtn = makeSideBtn("COPY SELECTED ID")
+local saveBtn = makeSideBtn("SALVAR IDS SELECIONADOS")
+local clearUnselectedBtn = makeSideBtn("CLEAR UNSELECTED")
+local clearSelectedBtn = makeSideBtn("CLEAR SELECTED")
+
+-- NOVO: Frame para mostrar os IDs salvos carregados
+local loadedIdsFrame = Instance.new("ScrollingFrame", mainFrame)
+loadedIdsFrame.Name = "LoadedIds"
+loadedIdsFrame.Position = UDim2.new(0, 200, 0, 100)
+loadedIdsFrame.Size = UDim2.new(0, 420, 0, 300)
+loadedIdsFrame.BackgroundColor3 = darkBg
+loadedIdsFrame.Visible = false
+loadedIdsFrame.ZIndex = 50
+loadedIdsFrame.BorderSizePixel = 0
+loadedIdsFrame.CanvasSize = UDim2.new(0,0,0,0)
+loadedIdsFrame.ScrollBarThickness = 6
+loadedIdsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+Instance.new("UICorner", loadedIdsFrame).CornerRadius = UDim.new(0, 14)
+local loadedIdsLayout = Instance.new("UIListLayout", loadedIdsFrame)
+loadedIdsLayout.Padding = UDim.new(0,5)
+loadedIdsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+local loadedClose = Instance.new("TextButton", loadedIdsFrame)
+loadedClose.Text = "Fechar"
+loadedClose.Size = UDim2.new(1, -12, 0, 28)
+loadedClose.Position = UDim2.new(0, 6, 0, 6)
+loadedClose.BackgroundColor3 = accentBg
+loadedClose.TextColor3 = gold
+loadedClose.Font = Enum.Font.GothamBold
+loadedClose.TextSize = 16
+loadedClose.ZIndex = 51
+loadedClose.AutoButtonColor = true
+Instance.new("UICorner", loadedClose).CornerRadius = UDim.new(1, 0)
+local loadedCloseStroke = Instance.new("UIStroke", loadedClose)
+loadedCloseStroke.Color = gold
+loadedCloseStroke.Thickness = 1.25
+loadedCloseStroke.Transparency = 0.7
+
+loadedClose.MouseButton1Click:Connect(function()
+    loadedIdsFrame.Visible = false
+end)
 
 local detailsLabel = Instance.new("TextLabel", logSideBar)
 detailsLabel.Name = "Details"
 detailsLabel.Position = UDim2.new(0, 12, 0, btnY + 8)
 detailsLabel.Size = UDim2.new(1, -24, 1, -(btnY+20))
-detailsLabel.Text = "Select an audio to see details!\nAuto Scan is recommended."
-detailsLabel.TextColor3 = white
+detailsLabel.Text = "Selecione um áudio para ver detalhes!\nAuto Scan é recomendado."
+detailsLabel.TextColor3 = gold
 detailsLabel.BackgroundTransparency = 1
 detailsLabel.TextSize = 15
 detailsLabel.TextWrapped = true
@@ -246,10 +288,10 @@ local function addLog(sound)
     local audioBtn = Instance.new("TextButton")
     audioBtn.Size = UDim2.new(1, -6, 0, 38)
     audioBtn.Position = UDim2.new(0, 0, 0, 0)
-    audioBtn.BackgroundColor3 = grayBtn
+    audioBtn.BackgroundColor3 = accentBg
     audioBtn.Text = assetName
     audioBtn.Font = Enum.Font.GothamBold
-    audioBtn.TextColor3 = white
+    audioBtn.TextColor3 = gold
     audioBtn.TextSize = 16
     audioBtn.TextXAlignment = Enum.TextXAlignment.Left
     audioBtn.TextYAlignment = Enum.TextYAlignment.Center
@@ -259,7 +301,7 @@ local function addLog(sound)
     audioBtn.Parent = logsFrame
     Instance.new("UICorner", audioBtn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", audioBtn)
-    btnStroke.Color = green
+    btnStroke.Color = gold
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
 
@@ -295,7 +337,7 @@ scanSoundServiceBtn.MouseButton1Click:Connect(function() scanAudios(game:GetServ
 local autoscan = false
 autoScanBtn.MouseButton1Click:Connect(function()
     autoscan = not autoscan
-    autoScanBtn.BackgroundColor3 = autoscan and green or grayBtn
+    autoScanBtn.BackgroundColor3 = autoscan and gold or grayBtn
 end)
 
 game.DescendantAdded:Connect(function(obj)
@@ -357,11 +399,13 @@ copyBtn.MouseButton1Click:Connect(function()
         end
     end
 end)
+
+-- SALVAR IDS SELECIONADOS
 saveBtn.MouseButton1Click:Connect(function()
     if not writefile then
         game:GetService('StarterGui'):SetCore('SendNotification', {
             Title = 'Audio Logger',
-            Text = 'Your exploit does not support writefile.',
+            Text = 'Seu exploit não suporta writefile.',
             Duration = 5,
         })
         return
@@ -369,22 +413,66 @@ saveBtn.MouseButton1Click:Connect(function()
     local lines = {}
     for _, v in pairs(AudioLogs) do
         if Selected[v[1]] then
-            table.insert(lines, string.format("Name: %s\nID: %s\nParent: %s\n", v[2], v[1], v[3]))
+            table.insert(lines, string.format("%s|%s|%s", v[2], v[1], v[3]))
         end
     end
+    if #lines == 0 then return end
     local filename = "FmanAudioLogger"..os.time()..".txt"
     writefile(filename, table.concat(lines, "\n"))
     game:GetService('StarterGui'):SetCore('SendNotification', {
         Title = 'Audio Logger',
-        Text = 'Saved: '..filename,
+        Text = 'IDs salvos: '..filename,
         Duration = 5,
     })
+end)
+
+-- CARREGAR IDS SALVOS
+loadSavedBtn.MouseButton1Click:Connect(function()
+    loadedIdsFrame.Visible = true
+    -- Limpa antigos
+    for _,v in pairs(loadedIdsFrame:GetChildren()) do
+        if v:IsA("TextButton") and v ~= loadedClose then
+            v:Destroy()
+        end
+    end
+    -- Pega todos arquivos logger
+    local files = listfiles and listfiles("") or {}
+    for _,file in ipairs(files) do
+        if file:match("^FmanAudioLogger%d+%.txt$") or file:match("FmanAudioLogger%d+%.txt$") then
+            local lines = readfile(file):split("\n")
+            for _,line in ipairs(lines) do
+                local name,id,parent = line:match("^(.-)|(.-)|(.*)$")
+                if id and id ~= "" then
+                    local btn = Instance.new("TextButton", loadedIdsFrame)
+                    btn.Size = UDim2.new(1, -12, 0, 34)
+                    btn.Text = (name or "?").." | "..id
+                    btn.BackgroundColor3 = accentBg
+                    btn.TextColor3 = gold
+                    btn.Font = Enum.Font.GothamBold
+                    btn.TextSize = 15
+                    btn.ZIndex = 52
+                    btn.AutoButtonColor = true
+                    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+                    local btnStroke = Instance.new("UIStroke", btn)
+                    btnStroke.Color = gold
+                    btnStroke.Thickness = 1.25
+                    btnStroke.Transparency = 0.7
+                    btn.MouseButton1Click:Connect(function()
+                        if setclipboard then setclipboard(id) end
+                        btn.Text = "Copiado!"
+                        wait(1)
+                        btn.Text = (name or "?").." | "..id
+                    end)
+                end
+            end
+        end
+    end
 end)
 
 local openIcon = Instance.new("TextButton", screenGui)
 openIcon.Size = UDim2.new(0, 48, 0, 48)
 openIcon.Position = UDim2.new(1, -60, 1, -60)
-openIcon.BackgroundColor3 = green
+openIcon.BackgroundColor3 = gold
 openIcon.Text = "+"
 openIcon.TextSize = 14
 openIcon.Font = Enum.Font.GothamBold
