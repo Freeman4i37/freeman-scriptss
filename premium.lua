@@ -11,7 +11,7 @@ local premiumUsers = {
 }
 
 local ownerUsers = {
-    ["Kaua_452"] = true,
+    ["Kaua_452"] = false,
     ["OwnerUser"] = true,
     ["NovoOwner"] = true
 }
