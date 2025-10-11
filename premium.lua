@@ -3,13 +3,44 @@ local tweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
 
-local premiumUsers = {["PremiumUser"]=true, ["PremiumUser1"]=true, ["PremiumUser2"]=true}
-local ownerUsers = {["Kaua_452"]=false, ["OwnerUser"]=true}
-local subOwnerUsers = {["pedro312jee"]=true, ["thiagojuniorgamer12"]=true}
-local modderUsers = {["Itz_Mariena"]=true}
-local staffUsers = {["xes_jsok"]=true}
-local advancedUsers = {["Advanced"]=true}
-local managerUsers = {["ManagerUser"]=true}
+local premiumUsers = {
+    ["PremiumUser"] = true,
+    ["PremiumUser1"] = true,
+    ["PremiumUser2"] = true,
+    ["NovoPremium"] = true
+}
+
+local ownerUsers = {
+    ["Kaua_452"] = false,
+    ["OwnerUser"] = true,
+    ["NovoOwner"] = true
+}
+
+local subOwnerUsers = {
+    ["pedro312jee"] = true,
+    ["thiagojuniorgamer12"] = true,
+    ["NovoSubOwner"] = true
+}
+
+local modderUsers = {
+    ["Itz_Mariena"] = true,
+    ["NovoModder"] = true
+}
+
+local staffUsers = {
+    ["xes_jsok"] = true,
+    ["NovoStaff"] = true
+}
+
+local advancedUsers = {
+    ["Advanced"] = true,
+    ["NovoAdvanced"] = true
+}
+
+local managerUsers = {
+    ["ManagerUser"] = true,
+    ["NovoManager"] = true
+}
 
 local tagMap = {
     ["Owner 👑"] = {users=ownerUsers, color=nil},
