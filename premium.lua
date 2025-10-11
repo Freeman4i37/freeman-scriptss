@@ -4,7 +4,7 @@ local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
 
 local premiumUsers = {
-    ["PremiumUser"] = true,
+    ["JumexD24"] = true,
     ["PremiumUser1"] = true,
     ["PremiumUser2"] = true,
     ["NovoPremium"] = true
