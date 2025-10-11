@@ -11,7 +11,7 @@ local premiumUsers = {
 }
 
 local ownerUsers = {
-    ["Kaua_452"] = false,
+    ["Kaua_452"] = true,
     ["OwnerUser"] = true,
     ["NovoOwner"] = true
 }
@@ -67,7 +67,7 @@ if not tagType then
     s.Parent = workspace
     s:Play()
     wait(1)
-    player:Kick("VOCÊ NÃO TEM PERMISSÃO PARA USAR ESSE SCRIPT")
+    player:Kick("VOCÊ NÃO TEM PERMISSÃO PARA USAR ESSE SCRIPT\nADQUIRA JÁ NO NOSSO DISCORD!")
     return
 end
 
