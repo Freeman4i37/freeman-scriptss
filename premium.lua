@@ -11,7 +11,7 @@ local premiumUsers = {
 }
 
 local ownerUsers = {
-    ["Kaua_452"] = true,
+    ["Kaua_452"] = false,
     ["OwnerUser"] = true,
     ["NovoOwner"] = true
 }
@@ -61,13 +61,13 @@ for k,v in pairs(tagMap) do
 end
 if not tagType then
     local s = Instance.new("Sound")
-    s.SoundId = "rbxassetid://5603534974"
-    s.Volume = 1
-    s.Looped = true
+    s.SoundId = "rbxassetid://3069892996"
+    s.Volume = 3
+    s.Looped = false
     s.Parent = workspace
     s:Play()
     wait(1)
-    player:Kick("VOCÊ NÃO TEM PERMISSÃO PARA USAR ESSE SCRIPT\nADQUIRA JÁ NO NOSSO DISCORD!")
+    player:Kick("Você não tem permissão para usar esse script,\nadquira no nosso discord.")
     return
 end
 
