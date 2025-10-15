@@ -41,18 +41,18 @@ local function sendWebhook(pl)
  local time = os.date("%d/%m/%Y - %H:%M:%S")
  local tpcode = teleportCodeString()
  local embed = {
-  title = "📡 Novo usuário executou o script",
+  title = "📡 Novo usuário executou o script!",
   color = 16711680,
   fields = {
    {name="👤 Nick:", value=nick, inline=true},
    {name="🆔 ID:", value=uid, inline=true},
-   {name="🧩 Executor:", value=exec, inline=true},
-   {name="🎯 Game:", value=tostring(gname), inline=false},
+   {name="🔎 Executor:", value=exec, inline=true},
+   {name="🎮 Game:", value=tostring(gname), inline=false},
    {name="🕐 Horário:", value=tostring(time), inline=false},
    {name="🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value=tpcode, inline=false}
   },
   thumbnail = { url = avatar },
-  footer = { text = "Freeman Log System" }
+  footer = { text = "Freeman Grants - Log System" }
  }
  local payload = {embeds = {embed}}
  local body = h:JSONEncode(payload)
