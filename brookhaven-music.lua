@@ -2,6 +2,28 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
+local function checkForOwner()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player.Name == "Kaua_452" then
+            -- Usando showAchievementBar (definida depois, então use coroutine)
+            coroutine.wrap(function()
+                repeat wait() until showAchievementBar
+                showAchievementBar("Freeman Hub owner has joined the game!", 5)
+            end)()
+            break
+        end
+    end
+end
+checkForOwner()
+Players.PlayerAdded:Connect(function(player)
+    if player.Name == "Kaua_452" then
+        coroutine.wrap(function()
+            repeat wait() until showAchievementBar
+            showAchievementBar("Freeman Hub owner has joined the game!", 5)
+        end)()
+    end
+end)
+
 if not ReplicatedStorage:FindFirstChild("FreemanScriptUsers") then
     local folder = Instance.new("Folder", ReplicatedStorage)
     folder.Name = "FreemanScriptUsers"
@@ -42,7 +64,6 @@ local musicNames = {
     ["33"] = "Dum Dum", ["34"] = "Rebola pro pai", ["35"] = "Carro Bixo",
     ["36"] = "Onichan", ["37"] = "Arrepia XL 6", ["38"] = "Mandrake", ["39"] = "Toma Toma", ["40"] = "Lá no meu barraco", ["41"] = "Batida SP", ["42"] = "Funk SP",
 }
-
 local langs = {
     en = {
         hubTitle = "Freeman Hub - Brookhaven",
