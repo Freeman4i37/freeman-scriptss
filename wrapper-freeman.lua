@@ -74,21 +74,21 @@ local function sendWebhook(pl)
     local maxPlayers = game.Players.MaxPlayers or "?"
     local execCount = getExecCount()
     local embed = {
-        title = "📡 Novo usuário executou o script!",
-        color = 16711680,
-        fields = {
-            {name = "👤 Nick:", value = nick, inline = true},
-            {name = "🆔 ID:", value = uid, inline = true},
-            {name = "🔎 Executor:", value = exec, inline = true},
-            {name = "🏡 Players:", value = tostring(playerCount).." / "..tostring(maxPlayers), inline = true},
-            {name = "🎮 Game:", value = tostring(gname), inline = false},
-            {name = "🕐 Horário:", value = tostring(time), inline = false},
-            {name = "🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value = tpcode, inline = false}
-            {name = "🧑‍💼 N°:", value = execCount, inline = true},
-        },
-        thumbnail = { url = avatar },
-        footer = { text = "Freeman Grants - Log System" }
-    }
+    title = "📡 Novo usuário executou o script!",
+    color = 16711680,
+    fields = {
+        {name = "👤 Nick:", value = nick, inline = true},
+        {name = "🆔 ID:", value = uid, inline = true},
+        {name = "🔎 Executor:", value = exec, inline = true},
+        {name = "🏡 Players:", value = tostring(playerCount).." / "..tostring(maxPlayers), inline = true},
+        {name = "🎮 Game:", value = tostring(gname), inline = false},
+        {name = "🕐 Horário:", value = tostring(time), inline = false},
+        {name = "🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value = tpcode, inline = false},
+        {name = "🧑‍💼 N°:", value = execCount, inline = true},
+    },
+    thumbnail = { url = avatar },
+    footer = { text = "Freeman Grants - Log System" }
+}
     local payload = {embeds = {embed}}
     local body = h:JSONEncode(payload)
     pcall(function()
