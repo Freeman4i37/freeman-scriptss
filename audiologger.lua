@@ -377,7 +377,7 @@ listenBtn.MouseButton1Click:Connect(function()
             if sampleSound then sampleSound:Destroy() sampleSound = nil listenBtn.Text = "Listen Selected" return end
             sampleSound = Instance.new("Sound", player.PlayerGui)
             sampleSound.SoundId = v[1]
-            sampleSound.Volume = 2
+            sampleSound.Volume = 1.3
             sampleSound.Looped = true
             sampleSound:Play()
             listenBtn.Text = "Stop"
