@@ -1,4 +1,4 @@
--- Freeman Audio Logger - Premium GOLD Edition
+-- Freeman Audio Logger - Premium GOLD Edition (Correção: IDs não somem e lixeira funcional)
 
 local gold = Color3.fromRGB(255,215,0)
 local darkBg = Color3.fromRGB(20,20,20)
@@ -17,7 +17,7 @@ screenGui.Parent = player:FindFirstChildOfClass("PlayerGui") or game:GetService(
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "FreemanAudioLoggerMain"
-mainFrame.Size = UDim2.new(0, 860, 0, 540)
+mainFrame.Size = UDim2.new(0, 600, 0, 340)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3 = darkBg
@@ -25,14 +25,14 @@ mainFrame.BorderSizePixel = 0
 mainFrame.Parent = screenGui
 mainFrame.Active = true
 mainFrame.Draggable = true
-Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 16)
 local mainStroke = Instance.new("UIStroke", mainFrame)
 mainStroke.Color = gold
 mainStroke.Thickness = 2
 mainStroke.Transparency = 0.7
 
 local header = Instance.new("Frame", mainFrame)
-header.Size = UDim2.new(1, 0, 0, 44)
+header.Size = UDim2.new(1, 0, 0, 38)
 header.BackgroundTransparency = 1
 header.Position = UDim2.new(0,0,0,0)
 header.Name = "Header"
@@ -41,7 +41,7 @@ header.ZIndex = 2
 local divider = Instance.new("Frame", mainFrame)
 divider.Name = "Divider"
 divider.Size = UDim2.new(0.85, 0, 0, 2)
-divider.Position = UDim2.new(0.075, 0, 0, 42)
+divider.Position = UDim2.new(0.075, 0, 0, 36)
 divider.BackgroundColor3 = gold
 divider.BorderSizePixel = 0
 local dividerGradient = Instance.new("UIGradient", divider)
@@ -52,7 +52,7 @@ dividerGradient.Color = ColorSequence.new({
 })
 
 local headerTitle = Instance.new("TextLabel", header)
-headerTitle.Text = "Freeman Hub - Audio Logger (PREMIUM)"
+headerTitle.Text = "Freeman Hub - Audio Logger 💎"
 headerTitle.Font = Enum.Font.GothamBold
 headerTitle.TextSize = 16
 headerTitle.TextColor3 = gold
@@ -62,8 +62,8 @@ headerTitle.Position = UDim2.new(0, 18, 0, 0)
 headerTitle.TextXAlignment = Enum.TextXAlignment.Left
 
 local closeBtn = Instance.new("TextButton", header)
-closeBtn.Size = UDim2.new(0, 36, 0, 36)
-closeBtn.Position = UDim2.new(1, -44, 0, 4)
+closeBtn.Size = UDim2.new(0, 32, 0, 32)
+closeBtn.Position = UDim2.new(1, -40, 0, 3)
 closeBtn.BackgroundColor3 = accentBg
 closeBtn.Text = "X"
 closeBtn.TextColor3 = gold
@@ -76,8 +76,8 @@ closeBtnStroke.Thickness = 1.25
 closeBtnStroke.Transparency = 0.7
 
 local minimizeBtn = Instance.new("TextButton", header)
-minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
-minimizeBtn.Position = UDim2.new(1, -88, 0, 4)
+minimizeBtn.Size = UDim2.new(0, 32, 0, 32)
+minimizeBtn.Position = UDim2.new(1, -80, 0, 3)
 minimizeBtn.BackgroundColor3 = accentBg
 minimizeBtn.Text = "-"
 minimizeBtn.TextColor3 = gold
@@ -90,18 +90,18 @@ minimizeBtnStroke.Thickness = 1.25
 minimizeBtnStroke.Transparency = 0.7
 
 local actionBar = Instance.new("Frame", mainFrame)
-actionBar.Position = UDim2.new(0, 0, 0, 54)
-actionBar.Size = UDim2.new(1, 0, 0, 38)
+actionBar.Position = UDim2.new(0, 0, 0, 46)
+actionBar.Size = UDim2.new(1, 0, 0, 32)
 actionBar.BackgroundTransparency = 1
 actionBar.Name = "ActionBar"
 
-local function makeActionBtn(parent, text, posX, posY, sizX, sizY)
+local function makeActionBtn(parent, text, posX, sizX)
     local btn = Instance.new("TextButton", parent)
-    btn.Size = UDim2.new(0, sizX or 145, 0, sizY or 32)
-    btn.Position = UDim2.new(0, posX, 0, posY)
+    btn.Size = UDim2.new(0, sizX or 130, 0, 26)
+    btn.Position = UDim2.new(0, posX, 0, 3)
     btn.Text = text
     btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 15
+    btn.TextSize = 14
     btn.TextColor3 = gold
     btn.BackgroundColor3 = accentBg
     btn.BorderSizePixel = 0
@@ -115,51 +115,46 @@ local function makeActionBtn(parent, text, posX, posY, sizX, sizY)
     return btn
 end
 
-local scanGameBtn = makeActionBtn(actionBar, "Scan Game", 8, 3, 145, 32)
-local scanWorkspaceBtn = makeActionBtn(actionBar, "Scan Workspace", 161, 3, 145, 32)
-local scanLightingBtn = makeActionBtn(actionBar, "Scan Lighting", 314, 3, 145, 32)
-local scanSoundServiceBtn = makeActionBtn(actionBar, "Scan SoundService", 467, 3, 145, 32)
-local autoScanBtn = makeActionBtn(actionBar, "Auto Scan", 620, 3, 110, 32)
+local scanGameBtn = makeActionBtn(actionBar, "Scan Game", 8, 130)
+local scanWorkspaceBtn = makeActionBtn(actionBar, "Scan Workspace", 146, 130)
+local autoScanBtn = makeActionBtn(actionBar, "Auto Scan", 284, 86)
 autoScanBtn.BackgroundColor3 = grayBtn
-
--- NOVO: Botão para carregar IDs salvos
-local loadSavedBtn = makeActionBtn(actionBar, "IDs Salvos", 740, 3, 110, 32)
+local loadSavedBtn = makeActionBtn(actionBar, "Saved IDs", 380, 86)
 loadSavedBtn.BackgroundColor3 = accentBg
 
 local logsFrame = Instance.new("ScrollingFrame", mainFrame)
 logsFrame.Name = "Logs"
-logsFrame.Position = UDim2.new(0, 14, 0, 98)
-logsFrame.Size = UDim2.new(0, 500, 1, -152)
+logsFrame.Position = UDim2.new(0, 14, 0, 80)
+logsFrame.Size = UDim2.new(0, 330, 1, -124)
 logsFrame.BackgroundColor3 = accentBg
 logsFrame.BackgroundTransparency = 0.03
 logsFrame.BorderSizePixel = 0
 logsFrame.CanvasSize = UDim2.new(0,0,0,0)
-logsFrame.ScrollBarThickness = 10
+logsFrame.ScrollBarThickness = 8
 logsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 logsFrame.ZIndex = 2
-Instance.new("UICorner", logsFrame).CornerRadius = UDim.new(0, 14)
-
+Instance.new("UICorner", logsFrame).CornerRadius = UDim.new(0, 12)
 local logsLayout = Instance.new("UIListLayout", logsFrame)
 logsLayout.Padding = UDim.new(0,4)
 logsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 local logSideBar = Instance.new("Frame", mainFrame)
-logSideBar.Position = UDim2.new(0, 530, 0, 98)
-logSideBar.Size = UDim2.new(0, 310, 1, -152)
+logSideBar.Position = UDim2.new(0, 360, 0, 80)
+logSideBar.Size = UDim2.new(0, 220, 1, -124)
 logSideBar.BackgroundColor3 = accentBg
 logSideBar.BackgroundTransparency = 0.04
 logSideBar.BorderSizePixel = 0
 logSideBar.ZIndex = 2
-Instance.new("UICorner", logSideBar).CornerRadius = UDim.new(0, 14)
+Instance.new("UICorner", logSideBar).CornerRadius = UDim.new(0, 12)
 
-local btnY = 20
+local btnY = 14
 local function makeSideBtn(text)
     local btn = Instance.new("TextButton", logSideBar)
-    btn.Size = UDim2.new(1, -24, 0, 36)
-    btn.Position = UDim2.new(0, 12, 0, btnY)
+    btn.Size = UDim2.new(1, -18, 0, 28)
+    btn.Position = UDim2.new(0, 9, 0, btnY)
     btn.Text = text
     btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 15
+    btn.TextSize = 13
     btn.TextColor3 = gold
     btn.BackgroundColor3 = accentBg
     btn.AutoButtonColor = true
@@ -169,21 +164,20 @@ local function makeSideBtn(text)
     btnStroke.Color = gold
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
-    btnY = btnY + 44
+    btnY = btnY + 32
     return btn
 end
 
 local listenBtn = makeSideBtn("LISTEN SELECTED")
-local copyBtn = makeSideBtn("COPY SELECTED ID")
-local saveBtn = makeSideBtn("SALVAR IDS SELECIONADOS")
+local copyBtn = makeSideBtn("COPY SELECTED IDs")
+local saveBtn = makeSideBtn("SAVE SELECTED IDs")
 local clearUnselectedBtn = makeSideBtn("CLEAR UNSELECTED")
 local clearSelectedBtn = makeSideBtn("CLEAR SELECTED")
 
--- NOVO: Frame para mostrar os IDs salvos carregados
 local loadedIdsFrame = Instance.new("ScrollingFrame", mainFrame)
 loadedIdsFrame.Name = "LoadedIds"
-loadedIdsFrame.Position = UDim2.new(0, 200, 0, 100)
-loadedIdsFrame.Size = UDim2.new(0, 420, 0, 300)
+loadedIdsFrame.Position = UDim2.new(0.5, -210, 0.5, -120)
+loadedIdsFrame.Size = UDim2.new(0, 420, 0, 240)
 loadedIdsFrame.BackgroundColor3 = darkBg
 loadedIdsFrame.Visible = false
 loadedIdsFrame.ZIndex = 50
@@ -191,13 +185,13 @@ loadedIdsFrame.BorderSizePixel = 0
 loadedIdsFrame.CanvasSize = UDim2.new(0,0,0,0)
 loadedIdsFrame.ScrollBarThickness = 6
 loadedIdsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-Instance.new("UICorner", loadedIdsFrame).CornerRadius = UDim.new(0, 14)
+Instance.new("UICorner", loadedIdsFrame).CornerRadius = UDim.new(0, 10)
 local loadedIdsLayout = Instance.new("UIListLayout", loadedIdsFrame)
 loadedIdsLayout.Padding = UDim.new(0,5)
 loadedIdsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 local loadedClose = Instance.new("TextButton", loadedIdsFrame)
-loadedClose.Text = "Fechar"
+loadedClose.Text = "Close"
 loadedClose.Size = UDim2.new(1, -12, 0, 28)
 loadedClose.Position = UDim2.new(0, 6, 0, 6)
 loadedClose.BackgroundColor3 = accentBg
@@ -219,11 +213,11 @@ end)
 local detailsLabel = Instance.new("TextLabel", logSideBar)
 detailsLabel.Name = "Details"
 detailsLabel.Position = UDim2.new(0, 12, 0, btnY + 8)
-detailsLabel.Size = UDim2.new(1, -24, 1, -(btnY+20))
-detailsLabel.Text = "Selecione um áudio para ver detalhes!\nAuto Scan é recomendado."
+detailsLabel.Size = UDim2.new(1, -24, 1, -(btnY+12))
+detailsLabel.Text = "Select an audio to see details."
 detailsLabel.TextColor3 = gold
 detailsLabel.BackgroundTransparency = 1
-detailsLabel.TextSize = 15
+detailsLabel.TextSize = 14
 detailsLabel.TextWrapped = true
 detailsLabel.TextYAlignment = Enum.TextYAlignment.Top
 detailsLabel.Font = Enum.Font.Gotham
@@ -261,7 +255,7 @@ local function clearLogs(onlySelected)
     Selected = {}
 end
 local function refreshLogs()
-    logsFrame.CanvasSize = UDim2.new(0,0,0,math.max(#AudioLogs * 42,410))
+    logsFrame.CanvasSize = UDim2.new(0,0,0,math.max(#AudioLogs * 36,220))
 end
 
 local function addLog(sound)
@@ -285,14 +279,15 @@ local function addLog(sound)
         assetName = sound.Name or "(Unknown)"
     end
 
+    local displayText = assetName .. " - " .. (numberId or id)
     local audioBtn = Instance.new("TextButton")
-    audioBtn.Size = UDim2.new(1, -6, 0, 38)
+    audioBtn.Size = UDim2.new(1, -6, 0, 30)
     audioBtn.Position = UDim2.new(0, 0, 0, 0)
     audioBtn.BackgroundColor3 = accentBg
-    audioBtn.Text = assetName
+    audioBtn.Text = displayText
     audioBtn.Font = Enum.Font.GothamBold
     audioBtn.TextColor3 = gold
-    audioBtn.TextSize = 16
+    audioBtn.TextSize = 14
     audioBtn.TextXAlignment = Enum.TextXAlignment.Left
     audioBtn.TextYAlignment = Enum.TextYAlignment.Center
     audioBtn.TextTruncate = Enum.TextTruncate.AtEnd
@@ -310,10 +305,10 @@ local function addLog(sound)
         selected = not selected
         if selected then
             Selected[id] = true
-            audioBtn.Text = "✅ "..assetName
+            audioBtn.Text = "✅ "..displayText
         else
             Selected[id] = nil
-            audioBtn.Text = assetName
+            audioBtn.Text = displayText
         end
         detailsLabel.Text = "Name: "..assetName.."\nID: "..id.."\nParent: "..(sound.Parent and sound.Parent.Name or "Unknown")
     end)
@@ -331,8 +326,6 @@ end
 
 scanGameBtn.MouseButton1Click:Connect(function() scanAudios(game) end)
 scanWorkspaceBtn.MouseButton1Click:Connect(function() scanAudios(workspace) end)
-scanLightingBtn.MouseButton1Click:Connect(function() scanAudios(game:GetService("Lighting")) end)
-scanSoundServiceBtn.MouseButton1Click:Connect(function() scanAudios(game:GetService("SoundService")) end)
 
 local autoscan = false
 autoScanBtn.MouseButton1Click:Connect(function()
@@ -384,7 +377,7 @@ listenBtn.MouseButton1Click:Connect(function()
             if sampleSound then sampleSound:Destroy() sampleSound = nil listenBtn.Text = "Listen Selected" return end
             sampleSound = Instance.new("Sound", player.PlayerGui)
             sampleSound.SoundId = v[1]
-            sampleSound.Volume = 6
+            sampleSound.Volume = 2
             sampleSound.Looped = true
             sampleSound:Play()
             listenBtn.Text = "Stop"
@@ -400,7 +393,6 @@ copyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- SALVAR IDS SELECIONADOS
 saveBtn.MouseButton1Click:Connect(function()
     if not writefile then
         game:GetService('StarterGui'):SetCore('SendNotification', {
@@ -421,47 +413,68 @@ saveBtn.MouseButton1Click:Connect(function()
     writefile(filename, table.concat(lines, "\n"))
     game:GetService('StarterGui'):SetCore('SendNotification', {
         Title = 'Audio Logger',
-        Text = 'IDs salvos: '..filename,
+        Text = 'Saved IDs: '..filename,
         Duration = 5,
     })
 end)
 
--- CARREGAR IDS SALVOS
+-- CARREGAR IDS SALVOS + LIXEIRA FUNCIONAL
 loadSavedBtn.MouseButton1Click:Connect(function()
     loadedIdsFrame.Visible = true
-    -- Limpa antigos
     for _,v in pairs(loadedIdsFrame:GetChildren()) do
         if v:IsA("TextButton") and v ~= loadedClose then
             v:Destroy()
         end
     end
-    -- Pega todos arquivos logger
     local files = listfiles and listfiles("") or {}
     for _,file in ipairs(files) do
         if file:match("^FmanAudioLogger%d+%.txt$") or file:match("FmanAudioLogger%d+%.txt$") then
             local lines = readfile(file):split("\n")
-            for _,line in ipairs(lines) do
+            for idx,line in ipairs(lines) do
                 local name,id,parent = line:match("^(.-)|(.-)|(.*)$")
                 if id and id ~= "" then
                     local btn = Instance.new("TextButton", loadedIdsFrame)
-                    btn.Size = UDim2.new(1, -12, 0, 34)
-                    btn.Text = (name or "?").." | "..id
+                    btn.Size = UDim2.new(1, -12, 0, 30)
+                    btn.Text = (name or "?").." - "..id.."   "
                     btn.BackgroundColor3 = accentBg
                     btn.TextColor3 = gold
                     btn.Font = Enum.Font.GothamBold
-                    btn.TextSize = 15
+                    btn.TextSize = 14
                     btn.ZIndex = 52
                     btn.AutoButtonColor = true
+                    btn.TextXAlignment = Enum.TextXAlignment.Left
                     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
                     local btnStroke = Instance.new("UIStroke", btn)
                     btnStroke.Color = gold
                     btnStroke.Thickness = 1.25
                     btnStroke.Transparency = 0.7
+
+                    -- Botão de copiar (texto principal)
                     btn.MouseButton1Click:Connect(function()
                         if setclipboard then setclipboard(id) end
-                        btn.Text = "Copiado!"
+                        btn.Text = "Copied!"
                         wait(1)
-                        btn.Text = (name or "?").." | "..id
+                        btn.Text = (name or "?").." - "..id.."   "
+                    end)
+
+                    -- Botão de lixeira embutido (TextButton dentro do btn)
+                    local trashBtn = Instance.new("TextButton", btn)
+                    trashBtn.Size = UDim2.new(0,24,0,24)
+                    trashBtn.Position = UDim2.new(1, -28, 0.5, -12)
+                    trashBtn.BackgroundTransparency = 1
+                    trashBtn.Text = "🗑"
+                    trashBtn.TextColor3 = gold
+                    trashBtn.Font = Enum.Font.GothamBold
+                    trashBtn.TextSize = 18
+                    trashBtn.ZIndex = 53
+                    trashBtn.AutoButtonColor = true
+
+                    trashBtn.MouseButton1Click:Connect(function()
+                        -- Remove só esse id do arquivo
+                        local allLines = readfile(file):split("\n")
+                        table.remove(allLines, idx)
+                        writefile(file, table.concat(allLines, "\n"))
+                        btn:Destroy()
                     end)
                 end
             end
@@ -470,8 +483,8 @@ loadSavedBtn.MouseButton1Click:Connect(function()
 end)
 
 local openIcon = Instance.new("TextButton", screenGui)
-openIcon.Size = UDim2.new(0, 48, 0, 48)
-openIcon.Position = UDim2.new(1, -60, 1, -60)
+openIcon.Size = UDim2.new(0, 38, 0, 38)
+openIcon.Position = UDim2.new(1, -50, 1, -50)
 openIcon.BackgroundColor3 = gold
 openIcon.Text = "+"
 openIcon.TextSize = 14
@@ -483,7 +496,7 @@ openIcon.Active = true
 openIcon.Draggable = true
 
 minimizeBtn.MouseButton1Click:Connect(function()
-    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -860, 0.1, -320)})
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -600, 0.1, -180)})
     tween:Play()
     tween.Completed:Wait()
     mainFrame.Visible = false
@@ -493,7 +506,7 @@ openIcon.MouseButton1Click:Connect(function()
     mainFrame.Visible = true
     openIcon.Visible = false
     mainFrame.BackgroundTransparency = 1
-    mainFrame.Position = UDim2.new(1, -860, 0.5, -320)
+    mainFrame.Position = UDim2.new(1, -600, 0.5, -180)
     local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0, Position = UDim2.new(0.5, 0, 0.5, 0)})
     tween:Play()
 end)
