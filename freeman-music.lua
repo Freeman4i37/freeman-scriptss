@@ -183,7 +183,7 @@ local function showDiscordPopup(onClose)
     closeCorner.CornerRadius = UDim.new(0, 13)
 
     discordBtn.MouseButton1Click:Connect(function()
-        local url = "https://discord.gg/G2Nha2W98"
+        local url = "non available"
         setclipboard(url)
         if syn and syn.openurl then
             syn.openurl(url)
