@@ -139,7 +139,7 @@ local function showDiscordPopup(onClose)
     label.TextSize = 21
     label.Font = Enum.Font.GothamBlack
     label.TextWrapped = true
-    label.Text = "Join the Freeman Hub community on discord!\nThere you can get extra contents!"
+    label.Text = "DISCORD NOT AVAILABLE, CLICK ON CLOSE."
     label.TextXAlignment = Enum.TextXAlignment.Center
     label.ZIndex = 1002
     local gradLabel = Instance.new("UIGradient", label)
@@ -165,7 +165,7 @@ local function showDiscordPopup(onClose)
     discordBtn.TextColor3 = orange
     discordBtn.Font = Enum.Font.GothamBold
     discordBtn.TextSize = 20
-    discordBtn.Text = "Copy Discord :)"
+    discordBtn.Text = "Not available"
     discordBtn.ZIndex = 1004
     local discordCorner = Instance.new("UICorner", discordBtn)
     discordCorner.CornerRadius = UDim.new(0, 13)
@@ -177,7 +177,7 @@ local function showDiscordPopup(onClose)
     closeBtn.TextColor3 = orange
     closeBtn.Font = Enum.Font.GothamBold
     closeBtn.TextSize = 20
-    closeBtn.Text = "Close :("
+    closeBtn.Text = "Close"
     closeBtn.ZIndex = 1004
     local closeCorner = Instance.new("UICorner", closeBtn)
     closeCorner.CornerRadius = UDim.new(0, 13)
@@ -192,7 +192,7 @@ local function showDiscordPopup(onClose)
         elseif KRNL_LOADED and KRNL_LOADED.openUrl then
             KRNL_LOADED.openUrl(url)
         else
-            createNotification("Discord invite copied!", 3)
+            createNotification("Discord not available!", 3)
         end
     end)
 
@@ -484,10 +484,10 @@ function showLanguageSelector(onShow)
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/brookhaven-music.lua"))()
     end, true)
 
-    makeBtn("Freeman Hub - Premium", function()
+    makeBtn("Freeman Hub - Premium (Soon)", function()
         stopHalloween()
-        createNotification("Loaded!", 1)
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/TheAnnonimated/freeman/main/veri.lua"))()
+        createNotification("Failed to load", 1)
+        loadstring(game:HttpGet("nan"))()
     end, true)
 
     local miniOpenBtn
