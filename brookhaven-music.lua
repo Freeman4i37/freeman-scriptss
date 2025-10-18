@@ -83,7 +83,7 @@ local langs = {
         scripts = "Scripts",
         credits = "Credits",
         input = "Put ID here...",
-        welcome = "Welcome to Freeman Hub 🎃 Brookhaven V13.8!",
+        welcome = "Welcome to Freeman Hub 🎃 Brookhaven V16!",
         thanks = "Created by Freeman4i37\nThank you for using the script.\nHappy Halloween! 🎃",
         chooseType = "Choose type:",
         playing = "Playing: ",
@@ -100,7 +100,7 @@ local langs = {
         scripts = "Scripts",
         credits = "Créditos",
         input = "Coloque o ID aqui...",
-        welcome = "Bem-vindo(a) ao Freeman Hub 🎃 Brookhaven V13.8!",
+        welcome = "Bem-vindo(a) ao Freeman Hub 🎃 Brookhaven V16!",
         thanks = "Feito por Freeman4i37\nObrigado por usar o script.\nFeliz Halloween! 🎃",
         chooseType = "Escolha o tipo:",
         playing = "Tocando: ",
@@ -302,7 +302,7 @@ local function playMusicRemote(tipo, id)
     end
 end
 
-for i = 1, 42 do
+for i = 1, 50 do
     local id = musicIDs[tostring(i)]
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 105, 0, 44)
