@@ -99,6 +99,109 @@ local function createNotification(text, duration)
     end)
 end
 
+local function showDiscordPopup(onClose)
+    local popup = Instance.new("Frame")
+    popup.Name = "DiscordPopup"
+    popup.Size = UDim2.new(0, 390, 0, 185)
+    popup.AnchorPoint = Vector2.new(0.5, 0.5)
+    popup.Position = UDim2.new(0.5, 0, 0.5, 0)
+    popup.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    popup.BackgroundTransparency = 0.07
+    popup.ZIndex = 1001
+    popup.Parent = screenGui
+
+    local uiCorner = Instance.new("UICorner", popup)
+    uiCorner.CornerRadius = UDim.new(0, 18)
+
+    local uiStroke = Instance.new("UIStroke", popup)
+    uiStroke.Thickness = 4
+    uiStroke.Color = orange
+    local grad = Instance.new("UIGradient", uiStroke)
+    grad.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, orange),
+        ColorSequenceKeypoint.new(0.5, purple),
+        ColorSequenceKeypoint.new(1, orange)
+    }
+    spawn(function()
+        local t0 = tick()
+        while grad.Parent do
+            grad.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.2),0)
+            wait(0.03)
+        end
+    end)
+
+    local label = Instance.new("TextLabel", popup)
+    label.Size = UDim2.new(1, -30, 0, 76)
+    label.Position = UDim2.new(0, 15, 0, 18)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(255,255,255)
+    label.TextStrokeTransparency = 0.7
+    label.TextSize = 21
+    label.Font = Enum.Font.GothamBlack
+    label.TextWrapped = true
+    label.Text = "Click below to join our discord!"
+    label.TextXAlignment = Enum.TextXAlignment.Center
+    label.ZIndex = 1002
+    local gradLabel = Instance.new("UIGradient", label)
+    gradLabel.Color = grad.Color
+    spawn(function()
+        local t0 = tick()
+        while gradLabel.Parent do
+            gradLabel.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.13),0)
+            wait(0.03)
+        end
+    end)
+
+    local btnPanel = Instance.new("Frame", popup)
+    btnPanel.Size = UDim2.new(1, 0, 0, 60)
+    btnPanel.Position = UDim2.new(0, 0, 1, -68)
+    btnPanel.BackgroundTransparency = 1
+    btnPanel.ZIndex = 1003
+
+    local discordBtn = Instance.new("TextButton", btnPanel)
+    discordBtn.Size = UDim2.new(0, 150, 0, 40)
+    discordBtn.Position = UDim2.new(0.5, -158, 0.5, -20)
+    discordBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    discordBtn.TextColor3 = orange
+    discordBtn.Font = Enum.Font.GothamBold
+    discordBtn.TextSize = 20
+    discordBtn.Text = "COPY DISCORD"
+    discordBtn.ZIndex = 1004
+    local discordCorner = Instance.new("UICorner", discordBtn)
+    discordCorner.CornerRadius = UDim.new(0, 13)
+
+    local closeBtn = Instance.new("TextButton", btnPanel)
+    closeBtn.Size = UDim2.new(0, 150, 0, 40)
+    closeBtn.Position = UDim2.new(0.5, 8, 0.5, -20)
+    closeBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    closeBtn.TextColor3 = orange
+    closeBtn.Font = Enum.Font.GothamBold
+    closeBtn.TextSize = 20
+    closeBtn.Text = "CLOSE"
+    closeBtn.ZIndex = 1004
+    local closeCorner = Instance.new("UICorner", closeBtn)
+    closeCorner.CornerRadius = UDim.new(0, 13)
+
+    discordBtn.MouseButton1Click:Connect(function()
+        local url = "https://discord.gg/MWP6gUbCu"
+        setclipboard(url)
+        if syn and syn.openurl then
+            syn.openurl(url)
+        elseif getrenv and getrenv().openurl then
+            getrenv().openurl(url)
+        elseif KRNL_LOADED and KRNL_LOADED.openUrl then
+            KRNL_LOADED.openUrl(url)
+        else
+            createNotification("Copied!", 3)
+        end
+    end)
+
+    closeBtn.MouseButton1Click:Connect(function()
+        popup:Destroy()
+        if onClose then onClose() end
+    end)
+end
+
 local function loadingScreen()
     local size0 = UDim2.new(0, 370, 0, 110)
     local size1 = UDim2.new(0, 88, 0, 35)
@@ -243,6 +346,11 @@ function showLanguageSelector(onShow)
     wait(0.65)
     if onShow then onShow() end
 
+    showDiscordPopup(function()
+        mainFrame.Visible = true
+    end)
+    mainFrame.Visible = false
+
     local titleLabel = Instance.new("TextLabel", mainFrame)
     titleLabel.Name = "TitleLabel"
     titleLabel.Size = UDim2.new(1, -92, 0, 44)
@@ -374,6 +482,12 @@ function showLanguageSelector(onShow)
         stopHalloween()
         createNotification("Loaded!", 4)
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/brookhaven-music.lua"))()
+    end, true)
+
+    makeBtn("Freeman Hub - Premium", function()
+        stopHalloween()
+        createNotification("Loaded!", 1)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/TheAnnonimated/freeman/main/veri.lua"))()
     end, true)
 
     local miniOpenBtn
