@@ -138,7 +138,7 @@ langBtn.MouseButton1Click:Connect(function()
 end)
 
 exitBtn.MouseButton1Click:Connect(function()
-	local discordLink = "https://discord.gg/seulink" -- 🔗 coloque seu link aqui
+	local discordLink = "https://discord.gg/aqjca9xb3"
 	if setclipboard then
 		setclipboard(discordLink)
 	end
