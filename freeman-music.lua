@@ -1,18 +1,19 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
+local setclipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FreemanWarningGUI"
 screenGui.ResetOnSpawn = false
 
 if syn then
-    syn.protect_gui(screenGui)
-    screenGui.Parent = game:GetService("CoreGui")
+	syn.protect_gui(screenGui)
+	screenGui.Parent = game:GetService("CoreGui")
 elseif gethui then
-    screenGui.Parent = gethui()
+	screenGui.Parent = gethui()
 else
-    screenGui.Parent = player:WaitForChild("PlayerGui")
+	screenGui.Parent = player:WaitForChild("PlayerGui")
 end
 
 local background = Instance.new("Frame", screenGui)
@@ -76,34 +77,34 @@ langCorner.CornerRadius = UDim.new(0, 8)
 langBtn.ZIndex = 50
 
 local languages = {
-    pt = {
-        title = "⚠️ Aviso Importante ⚠️",
-        message = "Este script foi encerrado ou está temporariamente desativado.\n\nPressione o botão abaixo para sair.",
-        exit = "Sair",
-        langLabel = "PT"
-    },
-    en = {
-        title = "⚠️ Important Notice ⚠️",
-        message = "This script has been closed or is temporarily disabled.\n\nPress the button below to exit.",
-        exit = "Exit",
-        langLabel = "EN"
-    }
+	pt = {
+		title = "⚠️ Aviso Importante ⚠️",
+		message = "Este script foi encerrado ou está temporariamente desativado.\n\nPressione o botão abaixo para sair, e entre no nosso discord para mais informações.",
+		exit = "Sair",
+		langLabel = "PT"
+	},
+	en = {
+		title = "⚠️ Important Notice ⚠️",
+		message = "This script has been closed or is temporarily disabled.\n\nPress the button below to exit, and join on our discord for more information.",
+		exit = "Exit",
+		langLabel = "EN"
+	}
 }
 
 local currentLang = "pt"
 
 local function applyLanguage(key)
-    local data = languages[key]
-    title.Text = data.title
-    message.Text = data.message
-    exitBtn.Text = data.exit
-    langBtn.Text = data.langLabel
+	local data = languages[key]
+	title.Text = data.title
+	message.Text = data.message
+	exitBtn.Text = data.exit
+	langBtn.Text = data.langLabel
 end
 
 applyLanguage(currentLang)
 
 local function fadeIn(obj, prop, target, time)
-    TweenService:Create(obj, TweenInfo.new(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {[prop] = target}):Play()
+	TweenService:Create(obj, TweenInfo.new(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {[prop] = target}):Play()
 end
 
 fadeIn(background, "BackgroundTransparency", 0.3, 0.5)
@@ -114,41 +115,47 @@ fadeIn(exitBtn, "BackgroundTransparency", 0, 1)
 fadeIn(exitBtn, "TextTransparency", 0, 1)
 
 exitBtn.MouseEnter:Connect(function()
-    TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(255, 100, 100)}):Play()
+	TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(255, 100, 100)}):Play()
 end)
 exitBtn.MouseLeave:Connect(function()
-    TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(255, 80, 80)}):Play()
+	TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(255, 80, 80)}):Play()
 end)
 
 langBtn.MouseEnter:Connect(function()
-    TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}):Play()
+	TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}):Play()
 end)
 langBtn.MouseLeave:Connect(function()
-    TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
+	TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
 end)
 
 langBtn.MouseButton1Click:Connect(function()
-    if currentLang == "pt" then
-        currentLang = "en"
-    else
-        currentLang = "pt"
-    end
-    applyLanguage(currentLang)
+	if currentLang == "pt" then
+		currentLang = "en"
+	else
+		currentLang = "pt"
+	end
+	applyLanguage(currentLang)
 end)
 
 exitBtn.MouseButton1Click:Connect(function()
-    TweenService:Create(background, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
-    wait(0.45)
-    if syn and syn.exit then
-        syn.exit()
-    elseif fluxus and fluxus.shutdown then
-        fluxus.shutdown()
-    else
-        local ok, id = pcall(function() return identifyexecutor() end)
-        if ok and id and string.find(string.lower(id), "krnl") then
-            pcall(function() game:Shutdown() end)
-        else
-            while true do end
-        end
-    end
+	local discordLink = "https://discord.gg/seulink" -- 🔗 coloque seu link aqui
+	if setclipboard then
+		setclipboard(discordLink)
+	end
+
+	TweenService:Create(background, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
+	wait(0.45)
+
+	if syn and syn.exit then
+		syn.exit()
+	elseif fluxus and fluxus.shutdown then
+		fluxus.shutdown()
+	else
+		local ok, id = pcall(function() return identifyexecutor() end)
+		if ok and id and string.find(string.lower(id), "krnl") then
+			pcall(function() game:Shutdown() end)
+		else
+			while true do end
+		end
+	end
 end)
