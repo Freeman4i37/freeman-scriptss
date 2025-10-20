@@ -5,7 +5,6 @@ local LocalPlayer = Players.LocalPlayer
 local function checkForOwner()
     for _, player in pairs(Players:GetPlayers()) do
         if player.Name == "Kaua_452" then
-            -- Usando showAchievementBar (definida depois, então use coroutine)
             coroutine.wrap(function()
                 repeat wait() until showAchievementBar
                 showAchievementBar("Freeman Hub owner has joined the game!", 5)
@@ -28,7 +27,6 @@ if not ReplicatedStorage:FindFirstChild("FreemanScriptUsers") then
     local folder = Instance.new("Folder", ReplicatedStorage)
     folder.Name = "FreemanScriptUsers"
 end
-
 local tag = Instance.new("BoolValue", ReplicatedStorage.FreemanScriptUsers)
 tag.Name = LocalPlayer.Name
 tag.Value = true
@@ -55,7 +53,6 @@ local musicIDs = {
     ["51"] = 132082397247824, ["52"] = 106958630419629, ["53"] = 86685635786943, ["54"] = 101456813429584,
     ["55"] = 100533213305793,
 }
-
 local musicNames = {
     ["1"] = "Funk da Febre", ["2"] = "Switch The Colors (Jersey Club)", ["3"] = "Trash Funk",
     ["4"] = "2609 (Jersey Club)", ["5"] = "Spooky Scary Sunday (Jersey Club)", ["6"] = "ANOTE AÍ",
@@ -77,6 +74,7 @@ local musicNames = {
     ["52"] = "Digitei seu número (Sertanejo)", ["53"] = "Auto toma", ["54"] = "Montagem Balanço",
     ["55"] = "Piseiro com sertanejo",
 }
+
 local langs = {
     en = {
         hubTitle = "Freeman Hub - Brookhaven",
@@ -86,7 +84,7 @@ local langs = {
         scripts = "Scripts",
         credits = "Credits",
         input = "Put ID here...",
-        welcome = "Welcome to Freeman Hub 🎃 Brookhaven V16!",
+        welcome = "Welcome to Freeman Hub 🎃 Brookhaven",
         thanks = "Created by Freeman4i37\nThank you for using the script.\nHappy Halloween! 🎃",
         chooseType = "Choose type:",
         playing = "Playing: ",
@@ -103,7 +101,7 @@ local langs = {
         scripts = "Scripts",
         credits = "Créditos",
         input = "Coloque o ID aqui...",
-        welcome = "Bem-vindo(a) ao Freeman Hub 🎃 Brookhaven V16!",
+        welcome = "Bem-vindo(a) ao Freeman Hub 🎃 Brookhaven",
         thanks = "Feito por Freeman4i37\nObrigado por usar o script.\nFeliz Halloween! 🎃",
         chooseType = "Escolha o tipo:",
         playing = "Tocando: ",
@@ -293,7 +291,7 @@ grid.FillDirectionMaxCells = 2
 local function playMusicRemote(tipo, id)
     local rep = game:GetService("ReplicatedStorage")
     if tipo == "🚗" then
-        rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("VehicleMusicPlay", id)
+        rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("PickingVehicleMusicText", id)
     elseif tipo == "🛴" then
         rep:WaitForChild("RE"):WaitForChild("1NoMoto1rVehicle1s"):FireServer("PickingScooterMusicText", id)
     elseif tipo == "🛵" then
@@ -535,7 +533,7 @@ musicScroll.ZIndex = 4
 local musicListLayout = Instance.new("UIListLayout", musicScroll)
 musicListLayout.Padding = UDim.new(0,8)
 musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-for k = 1, 42 do
+for k = 1, 55 do
     local lbl = Instance.new("TextLabel", musicScroll)
     lbl.Size = UDim2.new(1, -10, 0, 28)
     lbl.BackgroundTransparency = 1
