@@ -136,10 +136,10 @@ local function showDiscordPopup(onClose)
     label.BackgroundTransparency = 1
     label.TextColor3 = Color3.fromRGB(255,255,255)
     label.TextStrokeTransparency = 0.7
-    label.TextSize = 19
+    label.TextSize = 24
     label.Font = Enum.Font.GothamBlack
     label.TextWrapped = true
-    label.Text = "Click below to join our discord!\nThe first 20 people to join the Discord server will get Premium for 3 months!"
+    label.Text = "Click below to join our discord!"
     label.TextXAlignment = Enum.TextXAlignment.Center
     label.ZIndex = 1002
     local gradLabel = Instance.new("UIGradient", label)
