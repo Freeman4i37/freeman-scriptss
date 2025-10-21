@@ -13,7 +13,7 @@ else
 end
 
 local orange = Color3.fromRGB(255, 140, 0)
-local purple = Color3.fromRGB(170, 0, 255)
+local yellowOrange = Color3.fromRGB(255, 200, 40)
 
 local halloweenSound = Instance.new("Sound")
 halloweenSound.Name = "HalloweenTheme"
@@ -49,7 +49,7 @@ local function createNotification(text, duration)
     local grad = Instance.new("UIGradient", uiStroke)
     grad.Color = ColorSequence.new{
         ColorSequenceKeypoint.new(0, orange),
-        ColorSequenceKeypoint.new(0.5, purple),
+        ColorSequenceKeypoint.new(0.5, yellowOrange),
         ColorSequenceKeypoint.new(1, orange)
     }
     spawn(function()
@@ -119,7 +119,7 @@ local function showDiscordPopup(onClose)
     local grad = Instance.new("UIGradient", uiStroke)
     grad.Color = ColorSequence.new{
         ColorSequenceKeypoint.new(0, orange),
-        ColorSequenceKeypoint.new(0.5, purple),
+        ColorSequenceKeypoint.new(0.5, yellowOrange),
         ColorSequenceKeypoint.new(1, orange)
     }
     spawn(function()
@@ -131,15 +131,15 @@ local function showDiscordPopup(onClose)
     end)
 
     local label = Instance.new("TextLabel", popup)
-    label.Size = UDim2.new(1, -30, 0, 76)
+    label.Size = UDim2.new(1, -30, 0, 105)
     label.Position = UDim2.new(0, 15, 0, 18)
     label.BackgroundTransparency = 1
     label.TextColor3 = Color3.fromRGB(255,255,255)
     label.TextStrokeTransparency = 0.7
-    label.TextSize = 21
+    label.TextSize = 19
     label.Font = Enum.Font.GothamBlack
     label.TextWrapped = true
-    label.Text = "Click below to join our discord!"
+    label.Text = "Click below to join our discord!\nThe first 20 people to join the Discord server will get Premium for 3 months!"
     label.TextXAlignment = Enum.TextXAlignment.Center
     label.ZIndex = 1002
     local gradLabel = Instance.new("UIGradient", label)
@@ -225,7 +225,7 @@ local function loadingScreen()
     local grad = Instance.new("UIGradient", uiStroke)
     grad.Color = ColorSequence.new{
         ColorSequenceKeypoint.new(0, orange),
-        ColorSequenceKeypoint.new(0.5, purple),
+        ColorSequenceKeypoint.new(0.5, yellowOrange),
         ColorSequenceKeypoint.new(1, orange)
     }
     spawn(function()
@@ -274,7 +274,7 @@ local function loadingScreen()
     percentLabel.ZIndex = 6
 
     local gradPercent = Instance.new("UIGradient", percentLabel)
-    gradPercent.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, orange), ColorSequenceKeypoint.new(1, purple)})
+    gradPercent.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, orange), ColorSequenceKeypoint.new(1, yellowOrange)})
     spawn(function()
         local t0 = tick()
         while gradPercent.Parent do
@@ -330,7 +330,7 @@ function showLanguageSelector(onShow)
     local grad = Instance.new("UIGradient", uiStroke)
     grad.Color = ColorSequence.new{
         ColorSequenceKeypoint.new(0, orange),
-        ColorSequenceKeypoint.new(0.5, purple),
+        ColorSequenceKeypoint.new(0.5, yellowOrange),
         ColorSequenceKeypoint.new(1, orange)
     }
     spawn(function()
@@ -421,7 +421,7 @@ function showLanguageSelector(onShow)
         local grad = Instance.new("UIGradient", uiStroke)
         grad.Color = ColorSequence.new{
             ColorSequenceKeypoint.new(0, orange),
-            ColorSequenceKeypoint.new(1, purple)
+            ColorSequenceKeypoint.new(1, yellowOrange)
         }
         spawn(function()
             local t0 = tick()
@@ -443,7 +443,7 @@ function showLanguageSelector(onShow)
         local gradLabel = Instance.new("UIGradient", label)
         gradLabel.Color = ColorSequence.new{
             ColorSequenceKeypoint.new(0, orange),
-            ColorSequenceKeypoint.new(0.5, purple),
+            ColorSequenceKeypoint.new(0.5, yellowOrange),
             ColorSequenceKeypoint.new(1, orange)
         }
         spawn(function()
