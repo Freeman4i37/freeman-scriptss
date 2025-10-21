@@ -19,12 +19,10 @@ mainFrame.BackgroundColor3 = Color3.fromRGB(20,20,25)
 mainFrame.Parent = screenGui
 mainFrame.ZIndex = 10
 
-local uiCorner = Instance.new("UICorner", mainFrame)
-uiCorner.CornerRadius = UDim.new(0, 16)
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 16)
 local uiStroke = Instance.new("UIStroke", mainFrame)
 uiStroke.Thickness = 3
 uiStroke.Color = orange
-
 local grad = Instance.new("UIGradient", uiStroke)
 grad.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, orange),
@@ -32,16 +30,91 @@ grad.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(1, orange)
 }
 
-local titleLabel = Instance.new("TextLabel", mainFrame)
-titleLabel.Size = UDim2.new(1, 0, 0, 38)
-titleLabel.Position = UDim2.new(0, 0, 0, 12)
+local headerFrame = Instance.new("Frame", mainFrame)
+headerFrame.Size = UDim2.new(1, 0, 0, 46)
+headerFrame.BackgroundTransparency = 1
+headerFrame.ZIndex = 12
+
+local titleLabel = Instance.new("TextLabel", headerFrame)
+titleLabel.Size = UDim2.new(1, -90, 1, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
 titleLabel.BackgroundTransparency = 1
 titleLabel.TextColor3 = Color3.fromRGB(255,255,255)
 titleLabel.TextSize = 26
 titleLabel.Font = Enum.Font.GothamBlack
-titleLabel.Text = "Painel Admin"
+titleLabel.Text = "Painel Admin (BETA)"
 titleLabel.TextXAlignment = Enum.TextXAlignment.Center
 titleLabel.ZIndex = 12
+
+local minimizeBtn = Instance.new("TextButton", headerFrame)
+minimizeBtn.Size = UDim2.new(0, 34, 0, 34)
+minimizeBtn.Position = UDim2.new(1, -78, 0, 6)
+minimizeBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+minimizeBtn.TextColor3 = orange
+minimizeBtn.Text = "-"
+minimizeBtn.Font = Enum.Font.GothamBold
+minimizeBtn.TextSize = 25
+minimizeBtn.ZIndex = 13
+Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(0,8)
+
+local closeBtn = Instance.new("TextButton", headerFrame)
+closeBtn.Size = UDim2.new(0, 34, 0, 34)
+closeBtn.Position = UDim2.new(1, -38, 0, 6)
+closeBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+closeBtn.TextColor3 = orange
+closeBtn.Text = "X"
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 23
+closeBtn.ZIndex = 13
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0,8)
+
+local minimizedFrame = Instance.new("Frame", screenGui)
+minimizedFrame.Name = "MinimizedPanel"
+minimizedFrame.Size = UDim2.new(0, 260, 0, 46)
+minimizedFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+minimizedFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+minimizedFrame.BackgroundColor3 = Color3.fromRGB(20,20,25)
+minimizedFrame.Visible = false
+minimizedFrame.ZIndex = 99
+Instance.new("UICorner", minimizedFrame).CornerRadius = UDim.new(0, 16)
+local minStroke = Instance.new("UIStroke", minimizedFrame)
+minStroke.Thickness = 3
+minStroke.Color = orange
+local minGrad = Instance.new("UIGradient", minStroke)
+minGrad.Color = grad.Color
+
+local minTitle = Instance.new("TextLabel", minimizedFrame)
+minTitle.Size = UDim2.new(1, -90, 1, 0)
+minTitle.Position = UDim2.new(0, 0, 0, 0)
+minTitle.BackgroundTransparency = 1
+minTitle.TextColor3 = Color3.fromRGB(255,255,255)
+minTitle.TextSize = 26
+minTitle.Font = Enum.Font.GothamBlack
+minTitle.Text = "Painel Admin"
+minTitle.TextXAlignment = Enum.TextXAlignment.Center
+minTitle.ZIndex = 100
+
+local maximizeBtn = Instance.new("TextButton", minimizedFrame)
+maximizeBtn.Size = UDim2.new(0, 34, 0, 34)
+maximizeBtn.Position = UDim2.new(1, -78, 0, 6)
+maximizeBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+maximizeBtn.TextColor3 = orange
+maximizeBtn.Text = "+"
+maximizeBtn.Font = Enum.Font.GothamBold
+maximizeBtn.TextSize = 25
+maximizeBtn.ZIndex = 101
+Instance.new("UICorner", maximizeBtn).CornerRadius = UDim.new(0,8)
+
+local minCloseBtn = Instance.new("TextButton", minimizedFrame)
+minCloseBtn.Size = UDim2.new(0, 34, 0, 34)
+minCloseBtn.Position = UDim2.new(1, -38, 0, 6)
+minCloseBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+minCloseBtn.TextColor3 = orange
+minCloseBtn.Text = "X"
+minCloseBtn.Font = Enum.Font.GothamBold
+minCloseBtn.TextSize = 23
+minCloseBtn.ZIndex = 101
+Instance.new("UICorner", minCloseBtn).CornerRadius = UDim.new(0,8)
 
 local playersList = {}
 for _, plr in ipairs(Players:GetPlayers()) do
@@ -70,8 +143,7 @@ selectBtn.Font = Enum.Font.GothamBold
 selectBtn.TextSize = 18
 selectBtn.Text = selectedPlayer
 selectBtn.ZIndex = 13
-local selCorner = Instance.new("UICorner", selectBtn)
-selCorner.CornerRadius = UDim.new(0,8)
+Instance.new("UICorner", selectBtn).CornerRadius = UDim.new(0,8)
 
 local playerDropdown = Instance.new("Frame", screenGui)
 playerDropdown.Name = "PlayerDropdown"
@@ -80,16 +152,13 @@ playerDropdown.Position = UDim2.new(0.5, -100, 0.5, -80)
 playerDropdown.BackgroundColor3 = Color3.fromRGB(30,30,30)
 playerDropdown.Visible = false
 playerDropdown.ZIndex = 99
-local dropCorner = Instance.new("UICorner", playerDropdown)
-dropCorner.CornerRadius = UDim.new(0,10)
-
+Instance.new("UICorner", playerDropdown).CornerRadius = UDim.new(0,10)
 local scrollPlayers = Instance.new("ScrollingFrame", playerDropdown)
 scrollPlayers.Size = UDim2.new(1, 0, 1, 0)
 scrollPlayers.CanvasSize = UDim2.new(0,0,0,0)
 scrollPlayers.ScrollBarThickness = 6
 scrollPlayers.BackgroundTransparency = 1
 scrollPlayers.ZIndex = 100
-
 local layoutPlayers = Instance.new("UIListLayout", scrollPlayers)
 layoutPlayers.Padding = UDim.new(0, 4)
 layoutPlayers.SortOrder = Enum.SortOrder.LayoutOrder
@@ -109,8 +178,7 @@ local function refreshPlayers()
         btn.TextSize = 16
         btn.Text = plr.Name
         btn.ZIndex = 101
-        local btnCorner = Instance.new("UICorner", btn)
-        btnCorner.CornerRadius = UDim.new(0,7)
+        Instance.new("UICorner", btn).CornerRadius = UDim.new(0,7)
         btn.MouseButton1Click:Connect(function()
             selectedPlayer = plr.Name
             selectBtn.Text = plr.Name
@@ -121,6 +189,7 @@ local function refreshPlayers()
         end
     end
 end
+
 selectBtn.MouseButton1Click:Connect(function()
     refreshPlayers()
     playerDropdown.Visible = not playerDropdown.Visible
@@ -146,7 +215,6 @@ cmdScroll.ScrollBarThickness = 8
 cmdScroll.BackgroundColor3 = Color3.fromRGB(30,30,30)
 cmdScroll.BorderSizePixel = 0
 cmdScroll.ZIndex = 20
-
 local cmdLayout = Instance.new("UIListLayout", cmdScroll)
 cmdLayout.FillDirection = Enum.FillDirection.Vertical
 cmdLayout.Padding = UDim.new(0, 8)
@@ -155,17 +223,22 @@ cmdLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 local commands = {
     {"Kick", ";kick"},
-    {"Killplus", ";killplus"},
+    {"Kill Plus", ";killplus"},
     {"Kill", ";kill"},
     {"Freeze", ";freeze"},
-    {"Fling", ";fling"}
+    {"Fling", ";fling"},
+    {"Verifique", ";verifique"}
 }
 cmdScroll.CanvasSize = UDim2.new(0,0,0,#commands * 44)
 
 local function sendCommand(cmd)
     local channel = TextChatService.TextChannels.RBXGeneral
     if channel then
-        channel:SendAsync(cmd .. " " .. selectedPlayer)
+        if cmd == ";verifique" then
+            channel:SendAsync(cmd)
+        else
+            channel:SendAsync(cmd .. " " .. selectedPlayer)
+        end
     end
 end
 
@@ -178,8 +251,7 @@ for _, data in ipairs(commands) do
     cmdBtn.TextSize = 19
     cmdBtn.Text = data[1]
     cmdBtn.ZIndex = 21
-    local cmdCorner = Instance.new("UICorner", cmdBtn)
-    cmdCorner.CornerRadius = UDim.new(0,10)
+    Instance.new("UICorner", cmdBtn).CornerRadius = UDim.new(0,10)
     cmdBtn.MouseButton1Click:Connect(function()
         sendCommand(data[2])
     end)
@@ -187,13 +259,28 @@ end
 
 playerDropdown.Parent = screenGui
 
+minimizeBtn.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    minimizedFrame.Visible = true
+end)
+maximizeBtn.MouseButton1Click:Connect(function()
+    minimizedFrame.Visible = false
+    mainFrame.Visible = true
+end)
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+minCloseBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
 TextChatService.OnIncomingMessage = function(message)
     local msgText = message.Text:lower()
     local playerName = LocalPlayer.Name:lower()
     local character = LocalPlayer.Character
     local humanoid = character and character:FindFirstChildOfClass("Humanoid")
     if msgText:match(";kick%s+" .. playerName) then
-        LocalPlayer:Kick("Perdedor.")
+        LocalPlayer:Kick("Você foi removido pelo Painel Admin.")
     end
     if msgText:match(";kill%s+" .. playerName) then
         if character then character:BreakJoints() end
@@ -235,6 +322,14 @@ TextChatService.OnIncomingMessage = function(message)
     if msgText:match(";freeze%s+" .. playerName) then
         if humanoid then
             humanoid.WalkSpeed = 0
+        end
+    end
+    if msgText:match(";verifique") then
+        local channel = TextChatService.TextChannels.RBXGeneral
+        if channel then
+            local randomNumber = math.random(1000, 9999)
+            local verificationMessage = "Freeman" .. randomNumber
+            channel:SendAsync(verificationMessage)
         end
     end
 end
