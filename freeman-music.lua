@@ -139,7 +139,7 @@ local function showDiscordPopup(onClose)
     label.TextSize = 19
     label.Font = Enum.Font.GothamBlack
     label.TextWrapped = true
-    label.Text = "Click below to join our discord!\n\nThe first 25 people to join will get the premium for free!"
+    label.Text = "Click below to join our discord!\nThe first 25 people to join will get the premium for free!\nEnds in 5 hours."
     label.TextXAlignment = Enum.TextXAlignment.Center
     label.ZIndex = 1002
     local gradLabel = Instance.new("UIGradient", label)
