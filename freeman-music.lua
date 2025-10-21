@@ -498,7 +498,7 @@ function showLanguageSelector(onShow)
             miniOpenBtn.Position = UDim2.new(0.5, -61, 0.93, 0)
             miniOpenBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
             miniOpenBtn.TextColor3 = orange
-            miniOpenBtn.TextSize = 21
+            miniOpenBtn.TextSize = 20
             miniOpenBtn.Font = Enum.Font.GothamBold
             miniOpenBtn.Text = "Open"
             miniOpenBtn.Parent = screenGui
