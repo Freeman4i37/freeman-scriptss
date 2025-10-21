@@ -136,10 +136,10 @@ local function showDiscordPopup(onClose)
     label.BackgroundTransparency = 1
     label.TextColor3 = Color3.fromRGB(255,255,255)
     label.TextStrokeTransparency = 0.7
-    label.TextSize = 24
+    label.TextSize = 19
     label.Font = Enum.Font.GothamBlack
     label.TextWrapped = true
-    label.Text = "Click below to join our discord!"
+    label.Text = "Click below to join our discord!\n\nThe first 25 people to join will get the premium for free!"
     label.TextXAlignment = Enum.TextXAlignment.Center
     label.ZIndex = 1002
     local gradLabel = Instance.new("UIGradient", label)
@@ -164,7 +164,7 @@ local function showDiscordPopup(onClose)
     discordBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     discordBtn.TextColor3 = orange
     discordBtn.Font = Enum.Font.GothamBold
-    discordBtn.TextSize = 20
+    discordBtn.TextSize = 19
     discordBtn.Text = "COPY DISCORD"
     discordBtn.ZIndex = 1004
     local discordCorner = Instance.new("UICorner", discordBtn)
@@ -176,7 +176,7 @@ local function showDiscordPopup(onClose)
     closeBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     closeBtn.TextColor3 = orange
     closeBtn.Font = Enum.Font.GothamBold
-    closeBtn.TextSize = 20
+    closeBtn.TextSize = 19
     closeBtn.Text = "CLOSE"
     closeBtn.ZIndex = 1004
     local closeCorner = Instance.new("UICorner", closeBtn)
