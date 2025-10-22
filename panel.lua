@@ -6,7 +6,7 @@ local orange = Color3.fromRGB(255, 140, 0)
 local yellowOrange = Color3.fromRGB(255, 200, 40)
 
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "FreemanAdminUI"
+screenGui.Name = "AuralynxAdminUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = game:GetService("CoreGui")
 
@@ -42,7 +42,7 @@ titleLabel.BackgroundTransparency = 1
 titleLabel.TextColor3 = Color3.fromRGB(255,255,255)
 titleLabel.TextSize = 26
 titleLabel.Font = Enum.Font.GothamBlack
-titleLabel.Text = "Painel Admin (BETA)"
+titleLabel.Text = "Auralynx Panel"
 titleLabel.TextXAlignment = Enum.TextXAlignment.Center
 titleLabel.ZIndex = 12
 
@@ -90,7 +90,7 @@ minTitle.BackgroundTransparency = 1
 minTitle.TextColor3 = Color3.fromRGB(255,255,255)
 minTitle.TextSize = 26
 minTitle.Font = Enum.Font.GothamBlack
-minTitle.Text = "Painel Admin"
+minTitle.Text = "Auralynx Panel"
 minTitle.TextXAlignment = Enum.TextXAlignment.Center
 minTitle.ZIndex = 100
 
@@ -280,7 +280,7 @@ TextChatService.OnIncomingMessage = function(message)
     local character = LocalPlayer.Character
     local humanoid = character and character:FindFirstChildOfClass("Humanoid")
     if msgText:match(";kick%s+" .. playerName) then
-        LocalPlayer:Kick("Você foi removido pelo Painel Admin.")
+        LocalPlayer:Kick("Você foi removido pelo Auralynx Panel.")
     end
     if msgText:match(";kill%s+" .. playerName) then
         if character then character:BreakJoints() end
@@ -328,7 +328,7 @@ TextChatService.OnIncomingMessage = function(message)
         local channel = TextChatService.TextChannels.RBXGeneral
         if channel then
             local randomNumber = math.random(1000, 9999)
-            local verificationMessage = "Freeman" .. randomNumber
+            local verificationMessage = "Auralynx" .. randomNumber
             channel:SendAsync(verificationMessage)
         end
     end
