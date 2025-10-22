@@ -1,235 +1,679 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer
-local setclipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
+local LocalPlayer = Players.LocalPlayer
 
-local orange = Color3.fromRGB(255, 140, 0)
-local yellowOrange = Color3.fromRGB(255, 200, 40)
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "FreemanWarningGUI"
-screenGui.ResetOnSpawn = false
-
-if syn then
-    syn.protect_gui(screenGui)
-    screenGui.Parent = game:GetService("CoreGui")
-elseif gethui then
-    screenGui.Parent = gethui()
-else
-    screenGui.Parent = player:WaitForChild("PlayerGui")
+local function checkForOwner()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player.Name == "Kaua_452" then
+            coroutine.wrap(function()
+                repeat wait() until showAchievementBar
+                showAchievementBar("Auralynx owner has joined the game!", 5)
+            end)()
+            break
+        end
+    end
 end
+checkForOwner()
+Players.PlayerAdded:Connect(function(player)
+    if player.Name == "Kaua_452" then
+        coroutine.wrap(function()
+            repeat wait() until showAchievementBar
+            showAchievementBar("Auralynx owner has joined the game!", 5)
+        end)()
+    end
+end)
 
-local background = Instance.new("Frame", screenGui)
-background.Size = UDim2.new(1, 0, 1, 0)
-background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-background.BackgroundTransparency = 1
+if not ReplicatedStorage:FindFirstChild("AuralynxScriptUsers") then
+    local folder = Instance.new("Folder", ReplicatedStorage)
+    folder.Name = "AuralynxScriptUsers"
+end
+local tag = Instance.new("BoolValue", ReplicatedStorage.AuralynxScriptUsers)
+tag.Name = LocalPlayer.Name
+tag.Value = true
 
-local main = Instance.new("Frame", background)
-main.Size = UDim2.new(0, 420, 0, 220)
-main.Position = UDim2.new(0.5, -210, 0.5, -110)
-main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-main.BorderSizePixel = 0
-main.Active = true
-main.Draggable = true
-main.BackgroundTransparency = 1
-main.ZIndex = 10
+local orange = Color3.fromRGB(255,140,0)
+local white = Color3.fromRGB(255,255,255)
+local darkBg = Color3.fromRGB(15,15,15)
+local accentBg = Color3.fromRGB(30,30,30)
 
-local cornerMain = Instance.new("UICorner", main)
-cornerMain.CornerRadius = UDim.new(0, 18)
-
-local uiStroke = Instance.new("UIStroke", main)
-uiStroke.Thickness = 4
-uiStroke.Color = orange
-uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-uiStroke.ZIndex = 12
-
-local grad = Instance.new("UIGradient", uiStroke)
-grad.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(0.5, yellowOrange),
-    ColorSequenceKeypoint.new(1, orange)
+local musicIDs = {
+    ["1"] = 94718473830640, ["2"] = 92209428926055, ["3"] = 133900561957103, ["4"] = 93768636184697,
+    ["5"] = 92062588329352, ["6"] = 84773737820526, ["7"] = 87783857221289, ["8"] = 88342296270082,
+    ["9"] = 85342086082111, ["10"] = 93058983119992, ["11"] = 92492039534399, ["12"] = 134035788881796,
+    ["13"] = 18841893567, ["14"] = 73962723234161, ["15"] = 140268583413209, ["16"] = 77741294709660,
+    ["17"] = 71531533552899, ["18"] = 16190782181, ["19"] = 117169209277972, ["20"] = 81299332131868,
+    ["21"] = 77147911349059, ["22"] = 124092830839928, ["23"] = 122854357582130, ["24"] = 88094479399489,
+    ["25"] = 88339486019486, ["26"] = 97765714111493, ["27"] = 92446612272052, ["28"] = 74366765967475,
+    ["29"] = 112068892721408, ["30"] = 112143944982807, ["31"] = 111668097052966, ["32"] = 112214814544629,
+    ["33"] = 101500915434329, ["34"] = 95046091312570, ["35"] = 110091098283354, ["36"] = 17422156627,
+    ["37"] = 82411642961457, ["38"] = 87022583947683, ["39"] = 96974354995715, ["40"] = 119020235792430,
+    ["41"] = 82411642961457, ["42"] = 96215620202470,
+    ["43"] = 70782176012619, ["44"] = 112893354276338, ["45"] = 118507373399694, ["46"] = 98691879232718,
+    ["47"] = 134457296749518, ["48"] = 118607303205005, ["49"] = 127504762051765, ["50"] = 118297487529239,
+    ["51"] = 132082397247824, ["52"] = 106958630419629, ["53"] = 86685635786943, ["54"] = 101456813429584,
+    ["55"] = 100533213305793,
 }
-spawn(function()
-    local t0 = tick()
-    while grad.Parent do
-        grad.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.1), 0)
-        wait(0.03)
-    end
-end)
-
-local title = Instance.new("TextLabel", main)
-title.Size = UDim2.new(1, -30, 0, 50)
-title.Position = UDim2.new(0, 15, 0, 16)
-title.BackgroundTransparency = 1
-title.TextColor3 = Color3.fromRGB(255,255,255)
-title.Font = Enum.Font.GothamBlack
-title.TextSize = 26
-title.TextTransparency = 1
-title.ZIndex = 13
-title.TextXAlignment = Enum.TextXAlignment.Left
-
-local gradTitle = Instance.new("UIGradient", title)
-gradTitle.Color = grad.Color
-spawn(function()
-    local t0 = tick()
-    while gradTitle.Parent do
-        gradTitle.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.1), 0)
-        wait(0.03)
-    end
-end)
-
-local langBtn = Instance.new("TextButton", main)
-langBtn.Size = UDim2.new(0, 80, 0, 32)
-langBtn.Position = UDim2.new(1, -88, 0, 14)
-langBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-langBtn.TextColor3 = orange
-langBtn.Font = Enum.Font.GothamBold
-langBtn.TextSize = 16
-langBtn.BackgroundTransparency = 0
-langBtn.ZIndex = 50
-local langCorner = Instance.new("UICorner", langBtn)
-langCorner.CornerRadius = UDim.new(0, 10)
-
-local gradLangBtn = Instance.new("UIGradient", langBtn)
-gradLangBtn.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(1, yellowOrange)
+local musicNames = {
+    ["1"] = "Funk da Febre", ["2"] = "Switch The Colors (Jersey Club)", ["3"] = "Trash Funk",
+    ["4"] = "2609 (Jersey Club)", ["5"] = "Spooky Scary Sunday (Jersey Club)", ["6"] = "ANOTE AÍ",
+    ["7"] = "Temptation", ["8"] = "Ela Tano", ["9"] = "Seu fã",
+    ["10"] = "MONTAGEM ECLIPSE ESTRELAR", ["11"] = "Em Dezembro de 81 - Flamengo",
+    ["12"] = "Esquema Confirmado - Arrocha", ["13"] = "JERSEY WAVE", ["14"] = "Arrepia XL 2",
+    ["15"] = "Meepcity (Jersey Club)", ["16"] = "Manda Meu Passinho", ["17"] = "Lembro até hoje",
+    ["18"] = "HR - EEYUH!", ["19"] = "I love ha", ["20"] = "SHE DON'T - Lonelybwoi",
+    ["21"] = "NY Drill Ritual", ["22"] = "It Doesn't Matter (Jersey Club)", ["23"] = "69 PHONK",
+    ["24"] = "Ela se envolveu", ["25"] = "Montagem Pose", ["26"] = "Trem Fantasma Funk",
+    ["27"] = "MTG ZUM ZUM ZUM", ["28"] = "EU NÃO ESTOU LOUCO", ["29"] = "FUNK DA PRAIA (SLOWED)",
+    ["30"] = "Hogo Funk", ["31"] = "Novinha sapeca", ["32"] = "ANALOG HORROR FUNK",
+    ["33"] = "Dum Dum", ["34"] = "Rebola pro pai", ["35"] = "Carro Bixo",
+    ["36"] = "Onichan", ["37"] = "Arrepia XL 6", ["38"] = "Mandrake", ["39"] = "Toma Toma",
+    ["40"] = "Lá no meu barraco", ["41"] = "Batida SP", ["42"] = "Funk SP",
+    ["43"] = "Pega no cipó", ["44"] = "Rap do Minecraft (Funk)", ["45"] = "Melodia do Verão",
+    ["46"] = "Funk do Famglia", ["47"] = "Vem no pique (Phonk)", ["48"] = "Michael Jackson FUNK",
+    ["49"] = "Arrepia XL 4", ["50"] = "MONTAGEM NOVA MÁGICA 1.0", ["51"] = "V2 Daquela (XL Funk)",
+    ["52"] = "Digitei seu número (Sertanejo)", ["53"] = "Auto toma", ["54"] = "Montagem Balanço",
+    ["55"] = "Piseiro com sertanejo",
 }
-spawn(function()
-    local t0 = tick()
-    while gradLangBtn.Parent do
-        gradLangBtn.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.25), 0)
-        wait(0.03)
-    end
-end)
 
-local message = Instance.new("TextLabel", main)
-message.Size = UDim2.new(1, -40, 0, 90)
-message.Position = UDim2.new(0, 20, 0, 68)
-message.BackgroundTransparency = 1
-message.TextWrapped = true
-message.TextYAlignment = Enum.TextYAlignment.Top
-message.Font = Enum.Font.Gotham
-message.TextSize = 18
-message.TextColor3 = Color3.fromRGB(220, 220, 220)
-message.TextTransparency = 1
-message.ZIndex = 13
-
-local gradMsg = Instance.new("UIGradient", message)
-gradMsg.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(1, yellowOrange)
-}
-spawn(function()
-    local t0 = tick()
-    while gradMsg.Parent do
-        gradMsg.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.2), 0)
-        wait(0.03)
-    end
-end)
-
-local exitBtn = Instance.new("TextButton", main)
-exitBtn.Size = UDim2.new(0, 120, 0, 40)
-exitBtn.Position = UDim2.new(0.5, -60, 1, -55)
-exitBtn.BackgroundColor3 = orange
-exitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-exitBtn.Font = Enum.Font.GothamBold
-exitBtn.TextSize = 20
-exitBtn.BackgroundTransparency = 1
-exitBtn.TextTransparency = 1
-exitBtn.ZIndex = 20
-local exitCorner = Instance.new("UICorner", exitBtn)
-exitCorner.CornerRadius = UDim.new(0, 12)
-
-local gradBtn = Instance.new("UIGradient", exitBtn)
-gradBtn.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(1, yellowOrange)
-}
-spawn(function()
-    local t0 = tick()
-    while gradBtn.Parent do
-        gradBtn.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.25), 0)
-        wait(0.03)
-    end
-end)
-
-local languages = {
-    pt = {
-        title = "FIM",
-        message = "O script foi descontinuado, obrigado por tudo!\n22/10/2025, 14:42.",
-        exit = "Sair",
-        langLabel = "PT"
-    },
+local langs = {
     en = {
-        title = "THE END",
-        message = "The script was been discontinued, thank you for using!\n10/22/2025, 14:42.",
-        exit = "CLOSE",
-        langLabel = "EN"
+        hubTitle = "Auralynx - Brookhaven",
+        halloween = "Halloween Update!",
+        play = "PLAY",
+        list = "Music List",
+        scripts = "Scripts",
+        credits = "Credits",
+        input = "Put ID here...",
+        welcome = "Welcome to Auralynx 🎃 Brookhaven",
+        thanks = "Created by Freeman4i37\nThank you for using the script.\nHappy Halloween! 🎃",
+        chooseType = "Choose type:",
+        playing = "Playing: ",
+        invalidId = "Invalid id",
+        scriptsTitle = "Other useful scripts:",
+        executed = "executed.",
+        notavailable = "Script not available!"
+    },
+    br = {
+        hubTitle = "Auralynx - Brookhaven",
+        halloween = "Atualização de Halloween!",
+        play = "TOCAR",
+        list = "Lista de Músicas",
+        scripts = "Scripts",
+        credits = "Créditos",
+        input = "Coloque o ID aqui...",
+        welcome = "Bem-vindo(a) ao Auralynx 🎃 Brookhaven",
+        thanks = "Feito por Freeman4i37\nObrigado por usar o script.\nFeliz Halloween! 🎃",
+        chooseType = "Escolha o tipo:",
+        playing = "Tocando: ",
+        invalidId = "ID inválido",
+        scriptsTitle = "Outros scripts úteis:",
+        executed = "executado.",
+        notavailable = "Script não disponível!"
     }
 }
+local lang = "en"
+local L = function(key) return langs[lang][key] end
 
-local currentLang = "pt"
+local MarketplaceService = game:GetService("MarketplaceService")
+local tweenService = game:GetService("TweenService")
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AuralynxMusicHub"
+screenGui.ResetOnSpawn = false
+local parentUi = LocalPlayer:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
+screenGui.Parent = parentUi
 
-local function applyLanguage(key)
-    local data = languages[key]
-    title.Text = data.title
-    message.Text = data.message
-    exitBtn.Text = data.exit
-    langBtn.Text = data.langLabel
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "AuralynxMusicMain"
+mainFrame.Size = UDim2.new(0, 360, 0, 430)
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.BackgroundColor3 = darkBg
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+mainFrame.Active = true
+mainFrame.Draggable = true
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 20)
+local mainStroke = Instance.new("UIStroke", mainFrame)
+mainStroke.Color = orange
+mainStroke.Thickness = 2
+mainStroke.Transparency = 0.7
+
+local header = Instance.new("Frame", mainFrame)
+header.Size = UDim2.new(1, 0, 0, 54)
+header.BackgroundTransparency = 1
+header.Position = UDim2.new(0,0,0,0)
+header.Name = "Header"
+header.ZIndex = 2
+
+local pumpkinIcon = Instance.new("TextLabel", header)
+pumpkinIcon.Text = "🎃"
+pumpkinIcon.Font = Enum.Font.GothamBlack
+pumpkinIcon.TextSize = 34
+pumpkinIcon.TextColor3 = orange
+pumpkinIcon.Size = UDim2.new(0, 44, 0, 44)
+pumpkinIcon.Position = UDim2.new(0, 0, 0, 0)
+pumpkinIcon.BackgroundTransparency = 1
+
+local headerTitle = Instance.new("TextLabel", header)
+headerTitle.Text = L("hubTitle")
+headerTitle.Font = Enum.Font.GothamBold
+headerTitle.TextSize = 17
+headerTitle.TextColor3 = white
+headerTitle.BackgroundTransparency = 1
+headerTitle.Size = UDim2.new(1, -126, 0, 28)
+headerTitle.Position = UDim2.new(0, 44, 0, 0)
+headerTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local halloweenLabel = Instance.new("TextLabel", header)
+halloweenLabel.Text = L("halloween")
+halloweenLabel.Font = Enum.Font.GothamBold
+halloweenLabel.TextSize = 17
+halloweenLabel.TextColor3 = orange
+halloweenLabel.BackgroundTransparency = 1
+halloweenLabel.Size = UDim2.new(1, -126, 0, 24)
+halloweenLabel.Position = UDim2.new(0, 44, 0, 28)
+halloweenLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local langButton = Instance.new("TextButton", header)
+langButton.Size = UDim2.new(0, 36, 0, 36)
+langButton.Position = UDim2.new(1, -132, 0, 8)
+langButton.BackgroundColor3 = accentBg
+langButton.Text = "🇱🇷"
+langButton.TextColor3 = orange
+langButton.Font = Enum.Font.GothamBold
+langButton.TextSize = 20
+Instance.new("UICorner", langButton).CornerRadius = UDim.new(1, 0)
+
+local closeBtn = Instance.new("TextButton", header)
+closeBtn.Size = UDim2.new(0, 36, 0, 36)
+closeBtn.Position = UDim2.new(1, -44, 0, 8)
+closeBtn.BackgroundColor3 = accentBg
+closeBtn.Text = "X"
+closeBtn.TextColor3 = orange
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 20
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
+
+local minimizeBtn = Instance.new("TextButton", header)
+minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
+minimizeBtn.Position = UDim2.new(1, -88, 0, 8)
+minimizeBtn.BackgroundColor3 = accentBg
+minimizeBtn.Text = "-"
+minimizeBtn.TextColor3 = orange
+minimizeBtn.Font = Enum.Font.GothamBold
+minimizeBtn.TextSize = 20
+Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
+
+local divider = Instance.new("Frame", mainFrame)
+divider.Name = "Divider"
+divider.Size = UDim2.new(0.85, 0, 0, 2)
+divider.Position = UDim2.new(0.075, 0, 0, 52)
+divider.BackgroundColor3 = orange
+divider.BorderSizePixel = 0
+
+local sideBar = Instance.new("Frame", mainFrame)
+sideBar.Size = UDim2.new(0, 44, 1, -64)
+sideBar.Position = UDim2.new(1, -44, 0, 54)
+sideBar.BackgroundTransparency = 1
+sideBar.ZIndex = 2
+
+local function makeIconBtn(parent, icon, y)
+    local btn = Instance.new("TextButton", parent)
+    btn.Size = UDim2.new(1, -8, 0, 36)
+    btn.Position = UDim2.new(0, 4, 0, y)
+    btn.Text = icon
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 25
+    btn.TextColor3 = orange
+    btn.BackgroundColor3 = accentBg
+    btn.BorderSizePixel = 0
+    btn.ZIndex = 3
+    btn.AutoButtonColor = true
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
+    return btn
+end
+local yDelta = 0
+local musicListBtn = makeIconBtn(sideBar, "📜", yDelta)
+local scriptsButton = makeIconBtn(sideBar, "🔍", yDelta+50)
+local creditsButton = makeIconBtn(sideBar, "👤", yDelta+100)
+local openIcon = Instance.new("TextButton", screenGui)
+openIcon.Size = UDim2.new(0, 40, 0, 40)
+openIcon.Position = UDim2.new(1, -50, 1, -50)
+openIcon.BackgroundColor3 = orange
+openIcon.Text = "+"
+openIcon.Visible = false
+openIcon.TextSize = 13
+openIcon.Font = Enum.Font.GothamBold
+openIcon.TextColor3 = darkBg
+Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
+openIcon.Active = true
+openIcon.Draggable = true
+
+local mainScroll = Instance.new("ScrollingFrame", mainFrame)
+mainScroll.Position = UDim2.new(0, 12, 0, 64)
+mainScroll.Size = UDim2.new(1, -68, 1, -138)
+mainScroll.BackgroundTransparency = 1
+mainScroll.CanvasSize = UDim2.new(0,0,0,0)
+mainScroll.ScrollBarThickness = 7
+mainScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+mainScroll.ZIndex = 2
+local grid = Instance.new("UIGridLayout", mainScroll)
+grid.CellSize = UDim2.new(0, 105, 0, 44)
+grid.CellPadding = UDim2.new(0, 10, 0, 10)
+grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+grid.VerticalAlignment = Enum.VerticalAlignment.Top
+grid.FillDirectionMaxCells = 2
+
+local function playMusicRemote(tipo, id)
+    local rep = game:GetService("ReplicatedStorage")
+    if tipo == "🚗" then
+        rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("PickingVehicleMusicText", id)
+    elseif tipo == "🛴" then
+        rep:WaitForChild("RE"):WaitForChild("1NoMoto1rVehicle1s"):FireServer("PickingScooterMusicText", id)
+    elseif tipo == "🛵" then
+        rep:WaitForChild("RE"):WaitForChild("1Player1sCa1r"):FireServer("PickingCarMusicText", id)
+    elseif tipo == "📻" then
+        rep:WaitForChild("RE"):WaitForChild("PlayerToolEvent"):FireServer("ToolMusicText", id)
+    elseif tipo == "🏠" then
+        rep:WaitForChild("RE"):WaitForChild("1Player1sHous1e"):FireServer("PickHouseMusicText", id)
+    end
 end
 
-applyLanguage(currentLang)
-
-local function fadeIn(obj, prop, target, time)
-    TweenService:Create(obj, TweenInfo.new(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {[prop] = target}):Play()
+for i = 1, 55 do
+    local id = musicIDs[tostring(i)]
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 105, 0, 44)
+    btn.Text = tostring(i)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 20
+    btn.TextColor3 = orange
+    btn.BackgroundColor3 = accentBg
+    btn.ZIndex = 3
+    btn.AutoButtonColor = true
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+    btn.Parent = mainScroll
+    btn.MouseButton1Click:Connect(function()
+        showSelectorPopup(function() return L("chooseType") end, {"🚗", "🛴", "🛵", "📻", "🏠"}, function(tipo)
+            playMusicRemote(tipo, id)
+        end)
+    end)
 end
 
-fadeIn(background, "BackgroundTransparency", 0.25, 0.4)
-fadeIn(main, "BackgroundTransparency", 0, 0.6)
-fadeIn(title, "TextTransparency", 0, 0.7)
-fadeIn(message, "TextTransparency", 0, 0.8)
-fadeIn(exitBtn, "BackgroundTransparency", 0, 1)
-fadeIn(exitBtn, "TextTransparency", 0, 1)
-fadeIn(langBtn, "BackgroundTransparency", 0, 1)
-fadeIn(langBtn, "TextTransparency", 0, 1)
+function showSelectorPopup(titleTextFunc, options, callback)
+    if screenGui:FindFirstChild("SelectorPopup") then screenGui.SelectorPopup:Destroy() end
+    if screenGui:FindFirstChild("SelectorPopupBlock") then screenGui.SelectorPopupBlock:Destroy() end
+    local block = Instance.new("Frame", screenGui)
+    block.Name = "SelectorPopupBlock"
+    block.Size = UDim2.new(1,0,1,0)
+    block.BackgroundTransparency = 1
+    block.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    block.ZIndex = 19999
+    block.Active = true
+    local popup = Instance.new("Frame", screenGui)
+    popup.Name = "SelectorPopup"
+    popup.Size = UDim2.new(0, 330, 0, 130)
+    popup.Position = UDim2.new(0.5, -165, 0.5, -65)
+    popup.BackgroundColor3 = darkBg
+    popup.BorderSizePixel = 0
+    popup.ZIndex = 20000
+    popup.Active = true
+    Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 14)
+    local popupStroke = Instance.new("UIStroke", popup)
+    popupStroke.Color = orange
+    popupStroke.Thickness = 1.25
+    popupStroke.Transparency = 0.7
+    local title = Instance.new("TextLabel", popup)
+    title.Size = UDim2.new(1, -16, 0, 32)
+    title.Position = UDim2.new(0,8,0,7)
+    title.BackgroundTransparency = 1
+    title.Text = type(titleTextFunc)=="function" and titleTextFunc() or titleTextFunc
+    title.TextColor3 = orange
+    title.TextSize = 16
+    title.Font = Enum.Font.GothamBold
+    title.ZIndex = 20001
+    local btnCount = #options
+    local btnW = math.floor((298-(btnCount-1)*7)/btnCount)
+    for i, opt in ipairs(options) do
+        local btn = Instance.new("TextButton", popup)
+        btn.Size = UDim2.new(0, btnW, 0, 38)
+        btn.Position = UDim2.new(0, 16+((btnW+7)*(i-1)), 0, 50)
+        btn.Text = tostring(opt)
+        btn.Font = Enum.Font.GothamBold
+        btn.TextSize = 16
+        btn.TextColor3 = orange
+        btn.BackgroundColor3 = accentBg
+        btn.ZIndex = 20001
+        Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
+        btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+        btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
+        btn.MouseButton1Click:Connect(function()
+            popup:Destroy()
+            block:Destroy()
+            if callback then callback(opt) end
+        end)
+    end
+    popup._langTitleFunc = titleTextFunc
+    popup._titleLabel = title
+end
 
-exitBtn.MouseEnter:Connect(function()
-    TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = yellowOrange}):Play()
-end)
-exitBtn.MouseLeave:Connect(function()
-    TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = orange}):Play()
-end)
+local inputBox = Instance.new("TextBox", mainFrame)
+inputBox.PlaceholderText = L("input")
+inputBox.Size = UDim2.new(0.62, -10, 0, 36)
+inputBox.Position = UDim2.new(0, 14, 1, -80)
+inputBox.BackgroundColor3 = accentBg
+inputBox.TextColor3 = orange
+inputBox.PlaceholderColor3 = Color3.fromRGB(200,200,200)
+inputBox.Font = Enum.Font.Gotham
+inputBox.TextSize = 15
+inputBox.Text = ""
+inputBox.ClearTextOnFocus = false
+inputBox.ZIndex = 4
+inputBox.AutoLocalize = false
+Instance.new("UICorner", inputBox).CornerRadius = UDim.new(1, 0)
 
-langBtn.MouseEnter:Connect(function()
-    TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}):Play()
-end)
-langBtn.MouseLeave:Connect(function()
-    TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
-end)
-
-langBtn.MouseButton1Click:Connect(function()
-    if currentLang == "pt" then
-        currentLang = "en"
+local playBtn = Instance.new("TextButton", mainFrame)
+playBtn.Text = L("play")
+playBtn.Size = UDim2.new(0.36, -10, 0, 36)
+playBtn.Position = UDim2.new(0.62, 0, 1, -80)
+playBtn.BackgroundColor3 = accentBg
+playBtn.TextColor3 = orange
+playBtn.Font = Enum.Font.GothamBold
+playBtn.TextSize = 16
+playBtn.ZIndex = 4
+playBtn.AutoButtonColor = true
+Instance.new("UICorner", playBtn).CornerRadius = UDim.new(1, 0)
+playBtn.MouseEnter:Connect(function() playBtn.BackgroundColor3 = orange playBtn.TextColor3 = darkBg end)
+playBtn.MouseLeave:Connect(function() playBtn.BackgroundColor3 = accentBg playBtn.TextColor3 = orange end)
+playBtn.MouseButton1Click:Connect(function()
+    local input = inputBox.Text:gsub("rbxassetid://", "")
+    local id = tonumber(input)
+    local foundName = nil
+    for num, audioId in pairs(musicIDs) do
+        if audioId == id then foundName = musicNames[num] break end
+    end
+    if id then
+        local nameGot = foundName or ("Audio " .. id)
+        local success, info = pcall(function() return MarketplaceService:GetProductInfo(id) end)
+        if success and info and info.Name and not foundName then nameGot = info.Name end
+        showSelectorPopup(function() return L("chooseType") end, {"🚗", "🛴", "🛵", "📻", "🏠"}, function(tipo)
+            playMusicRemote(tipo, id)
+        end)
+        showAchievementBar(L("playing") .. nameGot, 6)
     else
-        currentLang = "pt"
+        warn(L("invalidId"))
     end
-    applyLanguage(currentLang)
 end)
 
-exitBtn.MouseButton1Click:Connect(function()
-    local discordLink = "https://discord.gg/aqjca9xb3"
-    if setclipboard then
-        setclipboard(discordLink)
-    end
+function showAchievementBar(text, duration)
+    local bar = Instance.new("Frame", screenGui)
+    bar.Size = UDim2.new(0, 250, 0, 45)
+    bar.Position = UDim2.new(1, -260, 0, -50)
+    bar.BackgroundColor3 = accentBg
+    bar.BackgroundTransparency = 0.15
+    bar.BorderSizePixel = 0
+    bar.AnchorPoint = Vector2.new(0,0)
+    local uicorner = Instance.new("UICorner", bar)
+    uicorner.CornerRadius = UDim.new(0, 12)
+    local label = Instance.new("TextLabel", bar)
+    label.Size = UDim2.new(1, -16, 1, -12)
+    label.Position = UDim2.new(0, 8, 0, 6)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = orange
+    label.TextSize = 14
+    label.Font = Enum.Font.GothamBold
+    label.TextWrapped = true
+    bar.Position = UDim2.new(1, -260, 0, -50)
+    bar.BackgroundTransparency = 1
+    label.TextTransparency = 1
+    local tweenIn = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, 18), BackgroundTransparency = 0.15})
+    local tweenLabelIn = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 0})
+    tweenIn:Play()
+    tweenLabelIn:Play()
+    tweenIn.Completed:Wait()
+    wait(duration or 5)
+    local tweenOut = tweenService:Create(bar, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {Position = UDim2.new(1, -260, 0, -50), BackgroundTransparency = 1})
+    local tweenLabelOut = tweenService:Create(label, TweenInfo.new(0.25), {TextTransparency = 1})
+    tweenOut:Play()
+    tweenLabelOut:Play()
+    tweenOut.Completed:Wait()
+    bar:Destroy()
+end
 
-    -- Fade out all UI, then destroy
-    TweenService:Create(background, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
-    TweenService:Create(main, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
-    TweenService:Create(title, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-    TweenService:Create(message, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-    TweenService:Create(exitBtn, TweenInfo.new(0.4), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-    TweenService:Create(langBtn, TweenInfo.new(0.4), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-    wait(0.5)
+coroutine.wrap(function() showAchievementBar(L("welcome"),4) end)()
+
+local function makeSubFrame()
+    local f = Instance.new("Frame")
+    f.Size = UDim2.new(1, -68, 1, -138)
+    f.Position = UDim2.new(0, 12, 0, 64)
+    f.BackgroundColor3 = darkBg
+    f.BackgroundTransparency = 0
+    f.Visible = false
+    f.ZIndex = 3
+    Instance.new("UICorner", f).CornerRadius = UDim.new(1, 0)
+    local stroke = Instance.new("UIStroke", f)
+    stroke.Color = orange
+    stroke.Thickness = 1.25
+    stroke.Transparency = 0.7
+    return f
+end
+
+local musicListFrame = makeSubFrame()
+musicListFrame.Parent = mainFrame
+local musicScroll = Instance.new("ScrollingFrame", musicListFrame)
+musicScroll.Size = UDim2.new(1, 0, 1, 0)
+musicScroll.BackgroundTransparency = 1
+musicScroll.CanvasSize = UDim2.new(0,0,0,0)
+musicScroll.ScrollBarThickness = 6
+musicScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+musicScroll.Name = "musicScroll"
+musicScroll.ZIndex = 4
+local musicListLayout = Instance.new("UIListLayout", musicScroll)
+musicListLayout.Padding = UDim.new(0,8)
+musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+for k = 1, 55 do
+    local lbl = Instance.new("TextLabel", musicScroll)
+    lbl.Size = UDim2.new(1, -10, 0, 28)
+    lbl.BackgroundTransparency = 1
+    lbl.Text = k.."- "..musicNames[tostring(k)]
+    lbl.Font = Enum.Font.GothamBold
+    lbl.TextColor3 = orange
+    lbl.TextSize = 15
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.ZIndex = 4
+end
+
+local creditsFrame = makeSubFrame()
+creditsFrame.Parent = mainFrame
+local creditsLabel = Instance.new("TextLabel", creditsFrame)
+creditsLabel.Size = UDim2.new(1, -16, 1, -16)
+creditsLabel.Position = UDim2.new(0, 8, 0, 8)
+creditsLabel.Text = L("thanks")
+creditsLabel.Font = Enum.Font.GothamBold
+creditsLabel.TextColor3 = orange
+creditsLabel.TextSize = 16
+creditsLabel.BackgroundTransparency = 1
+creditsLabel.ZIndex = 3
+
+local scriptsFrame = makeSubFrame()
+scriptsFrame.Parent = mainFrame
+local scriptsTitle = Instance.new("TextLabel", scriptsFrame)
+scriptsTitle.Size = UDim2.new(1, -16, 0, 32)
+scriptsTitle.Position = UDim2.new(0, 8, 0, 8)
+scriptsTitle.Text = L("scriptsTitle")
+scriptsTitle.TextColor3 = orange
+scriptsTitle.BackgroundTransparency = 1
+scriptsTitle.Font = Enum.Font.GothamBold
+scriptsTitle.TextSize = 16
+scriptsTitle.ZIndex = 4
+
+local scriptList = {
+    {name="Drip Client", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
+    {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
+    {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
+    {name="Painel Admin", url="adminpanel"},
+}
+
+local function showAdminPanelPopup()
+    local block = Instance.new("Frame", screenGui)
+    block.Name = "AdminPanelBlock"
+    block.Size = UDim2.new(1,0,1,0)
+    block.BackgroundTransparency = 0.35
+    block.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    block.ZIndex = 9999
+    block.Active = true
+
+    local popup = Instance.new("Frame", block)
+    popup.Size = UDim2.new(0, 420, 0, 180)
+    popup.Position = UDim2.new(0.5, -210, 0.5, -90)
+    popup.BackgroundColor3 = accentBg
+    popup.ZIndex = 10000
+    popup.Active = true
+    Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 18)
+    local popupStroke = Instance.new("UIStroke", popup)
+    popupStroke.Color = orange
+    popupStroke.Thickness = 2
+
+    local title = Instance.new("TextLabel", popup)
+    title.Size = UDim2.new(1, -24, 0, 60)
+    title.Position = UDim2.new(0, 12, 0, 16)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = orange
+    title.TextSize = 15
+    title.Font = Enum.Font.GothamBold
+    title.TextWrapped = true
+    title.Text = "Attention:\nThe admin panel is now paid (cheap), get yours now on our discord, if you try to run it without permission, you will be kicked."
+    title.ZIndex = 10001
+
+    local execBtn = Instance.new("TextButton", popup)
+    execBtn.Size = UDim2.new(0.44, -8, 0, 38)
+    execBtn.Position = UDim2.new(0.05, 0, 1, -54)
+    execBtn.BackgroundColor3 = orange
+    execBtn.TextColor3 = darkBg
+    execBtn.Font = Enum.Font.GothamBold
+    execBtn.TextSize = 16
+    execBtn.Text = "EXECUTE"
+    execBtn.ZIndex = 10002
+    Instance.new("UICorner", execBtn).CornerRadius = UDim.new(0, 12)
+
+    local closeBtn = Instance.new("TextButton", popup)
+    closeBtn.Size = UDim2.new(0.44, -8, 0, 38)
+    closeBtn.Position = UDim2.new(0.51, 0, 1, -54)
+    closeBtn.BackgroundColor3 = accentBg
+    closeBtn.TextColor3 = orange
+    closeBtn.Font = Enum.Font.GothamBold
+    closeBtn.TextSize = 16
+    closeBtn.Text = "CLOSE"
+    closeBtn.ZIndex = 10002
+    Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 12)
+    local closeStroke = Instance.new("UIStroke", closeBtn)
+    closeStroke.Color = orange
+    closeStroke.Thickness = 1
+
+    execBtn.MouseButton1Click:Connect(function()
+        block:Destroy()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/TheAnnonimated/freeman/main/panel.lua"))()
+        end)
+        showAchievementBar("Painel Admin " .. L("executed"), 4)
+    end)
+    closeBtn.MouseButton1Click:Connect(function()
+        block:Destroy()
+    end)
+end
+
+local yScriptBtn = 50
+for i, data in ipairs(scriptList) do
+    local btn = Instance.new("TextButton", scriptsFrame)
+    btn.Size = UDim2.new(1, -16, 0, 36)
+    btn.Position = UDim2.new(0, 8, 0, yScriptBtn)
+    btn.Text = data.name
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 15
+    btn.TextColor3 = orange
+    btn.ZIndex = 4
+    btn.AutoButtonColor = true
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
+    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
+    btn.MouseButton1Click:Connect(function()
+        if data.url == "adminpanel" then
+            showAdminPanelPopup()
+        elseif data.url and data.url ~= "" then
+            pcall(function()
+                loadstring(game:HttpGet(data.url))()
+            end)
+            showAchievementBar(data.name .. " " .. L("executed"), 4)
+        else
+            showAchievementBar(L("notavailable"), 3)
+        end
+    end)
+    yScriptBtn = yScriptBtn + 44
+end
+
+mainScroll.Visible = true
+musicListFrame.Visible = false
+creditsFrame.Visible = false
+scriptsFrame.Visible = false
+local musicListBtnClicked = false
+local inScripts = false
+local inCredits = false
+musicListBtn.MouseButton1Click:Connect(function()
+    musicListBtnClicked = not musicListBtnClicked
+    mainScroll.Visible = not musicListBtnClicked
+    musicListFrame.Visible = musicListBtnClicked
+    creditsFrame.Visible = false
+    scriptsFrame.Visible = false
+end)
+scriptsButton.MouseButton1Click:Connect(function()
+    inScripts = not inScripts
+    mainScroll.Visible = not inScripts
+    musicListFrame.Visible = false
+    creditsFrame.Visible = false
+    scriptsFrame.Visible = inScripts
+end)
+creditsButton.MouseButton1Click:Connect(function()
+    inCredits = not inCredits
+    mainScroll.Visible = not inCredits
+    musicListFrame.Visible = false
+    creditsFrame.Visible = inCredits
+    scriptsFrame.Visible = false
+end)
+minimizeBtn.MouseButton1Click:Connect(function()
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -355, 0.1, -280)})
+    tween:Play()
+    tween.Completed:Wait()
+    mainFrame.Visible = false
+    openIcon.Visible = true
+end)
+openIcon.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    openIcon.Visible = false
+    mainFrame.BackgroundTransparency = 1
+    mainFrame.Position = UDim2.new(1, -355, 0.5, -280)
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0, Position = UDim2.new(0.5, 0, 0.5, 0)})
+    tween:Play()
+end)
+closeBtn.MouseButton1Click:Connect(function()
     screenGui:Destroy()
 end)
+
+langButton.MouseButton1Click:Connect(function()
+    lang = (lang == "en" and "br" or "en")
+    langButton.Text = (lang == "en") and "🇱🇷" or "🇧🇷"
+    headerTitle.Text = L("hubTitle")
+    halloweenLabel.Text = L("halloween")
+    inputBox.PlaceholderText = L("input")
+    playBtn.Text = L("play")
+    creditsLabel.Text = L("thanks")
+    scriptsTitle.Text = L("scriptsTitle")
+    for k, v in ipairs(musicScroll:GetChildren()) do
+        if v:IsA("TextLabel") then v.Text = k.."- "..musicNames[tostring(k)] end
+    end
+    local popup = screenGui:FindFirstChild("SelectorPopup")
+    if popup and popup._titleLabel and popup._langTitleFunc then
+        popup._titleLabel.Text = type(popup._langTitleFunc)=="function" and popup._langTitleFunc() or popup._langTitleFunc
+    end
+end)    
