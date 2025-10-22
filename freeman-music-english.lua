@@ -45,7 +45,7 @@ local musicNames = {
 
 local langs = {
     en = {
-        hubTitle = "Freeman Hub - Music",
+        hubTitle = "Auralynx",
         halloween = "Halloween Update!",
         play = "PLAY",
         loop = "Loop: NO",
@@ -61,7 +61,7 @@ local langs = {
         pitch = "Pitch",
         selectVolume = "Choose Volume:",
         selectPitch = "Choose Pitch:",
-        welcome = "Welcome to Freeman Hub 🎵🎃 V16!",
+        welcome = "Welcome to Auralynx!",
         thanks = "Made by Freeman4i37\nThanks for using the script.\n🎃",
         invalidId = "INVALID ID.",
         listening = "Listening: ",
@@ -69,7 +69,7 @@ local langs = {
         clientAudio = "Client Audio"
     },
     br = {
-        hubTitle = "Freeman Hub - Música",
+        hubTitle = "Auralynx",
         halloween = "Atualização de Halloween!",
         play = "TOCAR",
         loop = "Loop: NÃO",
@@ -85,7 +85,7 @@ local langs = {
         pitch = "Tom",
         selectVolume = "Escolha o Volume:",
         selectPitch = "Escolha o Tom:",
-        welcome = "Bem-vindo(a) ao Freeman Hub 🎵🎃 V16!",
+        welcome = "Bem-vindo(a) ao Auralynx Hub 🎵🎃 V16!",
         thanks = "Feito por Freeman4i37\nObrigado por usar o script.\n🎃",
         invalidId = "ID INVÁLIDO.",
         listening = "Escutando: ",
@@ -98,19 +98,19 @@ local L = function(key) return langs[lang][key] end
 
 local player = game:GetService("Players").LocalPlayer
 local MarketplaceService = game:GetService("MarketplaceService")
-local soundFolder = workspace:FindFirstChild("FreemanClientSounds") or Instance.new("Folder", workspace)
-soundFolder.Name = "FreemanClientSounds"
+local soundFolder = workspace:FindFirstChild("AuralynxClientSounds") or Instance.new("Folder", workspace)
+soundFolder.Name = "AuralynxClientSounds"
 local runService = game:GetService("RunService")
 local tweenService = game:GetService("TweenService")
 
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "FreemanMusicHub"
+screenGui.Name = "AuralynxMusicHub"
 screenGui.ResetOnSpawn = false
 local parentUi = player:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
 screenGui.Parent = parentUi
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Name = "FreemanMusicMain"
+mainFrame.Name = "AuralynxMusicMain"
 mainFrame.Size = UDim2.new(0, 360, 0, 490)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
@@ -772,9 +772,9 @@ function showAchievementBar(text, duration)
     bar:Destroy()
 end
 coroutine.wrap(function() showAchievementBar(L("welcome"),4) end)()
-if not _G.FreemanAdminUsers then _G.FreemanAdminUsers = {} end
+if not _G.AuralynxAdminUsers then _G.AuralynxAdminUsers = {} end
 local plr = player
-if not table.find(_G.FreemanAdminUsers, plr.Name) then table.insert(_G.FreemanAdminUsers, plr.Name) end
+if not table.find(_G.AuralynxAdminUsers, plr.Name) then table.insert(_G.AuralynxAdminUsers, plr.Name) end
 local musicListBtnClicked = false
 musicListBtn.MouseButton1Click:Connect(function()
     musicListBtnClicked = not musicListBtnClicked
