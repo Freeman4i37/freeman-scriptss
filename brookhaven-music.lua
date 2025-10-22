@@ -183,10 +183,6 @@ langButton.TextColor3 = orange
 langButton.Font = Enum.Font.GothamBold
 langButton.TextSize = 20
 Instance.new("UICorner", langButton).CornerRadius = UDim.new(1, 0)
-local langBtnStroke = Instance.new("UIStroke", langButton)
-langBtnStroke.Color = orange
-langBtnStroke.Thickness = 1.25
-langBtnStroke.Transparency = 0.7
 
 local closeBtn = Instance.new("TextButton", header)
 closeBtn.Size = UDim2.new(0, 36, 0, 36)
@@ -197,10 +193,6 @@ closeBtn.TextColor3 = orange
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.TextSize = 20
 Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(1, 0)
-local closeBtnStroke = Instance.new("UIStroke", closeBtn)
-closeBtnStroke.Color = orange
-closeBtnStroke.Thickness = 1.25
-closeBtnStroke.Transparency = 0.7
 
 local minimizeBtn = Instance.new("TextButton", header)
 minimizeBtn.Size = UDim2.new(0, 36, 0, 36)
@@ -211,10 +203,6 @@ minimizeBtn.TextColor3 = orange
 minimizeBtn.Font = Enum.Font.GothamBold
 minimizeBtn.TextSize = 20
 Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
-local minimizeBtnStroke = Instance.new("UIStroke", minimizeBtn)
-minimizeBtnStroke.Color = orange
-minimizeBtnStroke.Thickness = 1.25
-minimizeBtnStroke.Transparency = 0.7
 
 local divider = Instance.new("Frame", mainFrame)
 divider.Name = "Divider"
@@ -222,12 +210,6 @@ divider.Size = UDim2.new(0.85, 0, 0, 2)
 divider.Position = UDim2.new(0.075, 0, 0, 52)
 divider.BackgroundColor3 = orange
 divider.BorderSizePixel = 0
-local dividerGradient = Instance.new("UIGradient", divider)
-dividerGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(0.5, white),
-    ColorSequenceKeypoint.new(1, orange)
-})
 
 local sideBar = Instance.new("Frame", mainFrame)
 sideBar.Size = UDim2.new(0, 44, 1, -64)
@@ -248,10 +230,6 @@ local function makeIconBtn(parent, icon, y)
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
-    local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = orange
-    btnStroke.Thickness = 1.25
-    btnStroke.Transparency = 0.7
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     return btn
@@ -315,12 +293,6 @@ for i = 1, 55 do
     btn.ZIndex = 3
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
-    local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = orange
-    btnStroke.Thickness = 1.25
-    btnStroke.Transparency = 0.7
-    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
-    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     btn.Parent = mainScroll
     btn.MouseButton1Click:Connect(function()
         showSelectorPopup(function() return L("chooseType") end, {"🚗", "🛴", "🛵", "📻", "🏠"}, function(tipo)
@@ -341,8 +313,8 @@ function showSelectorPopup(titleTextFunc, options, callback)
     block.Active = true
     local popup = Instance.new("Frame", screenGui)
     popup.Name = "SelectorPopup"
-    popup.Size = UDim2.new(0, 30, 0, 30)
-    popup.Position = UDim2.new(0.5, -15, 0.5, -15)
+    popup.Size = UDim2.new(0, 330, 0, 130)
+    popup.Position = UDim2.new(0.5, -165, 0.5, -65)
     popup.BackgroundColor3 = darkBg
     popup.BorderSizePixel = 0
     popup.ZIndex = 20000
@@ -363,14 +335,6 @@ function showSelectorPopup(titleTextFunc, options, callback)
     title.ZIndex = 20001
     local btnCount = #options
     local btnW = math.floor((298-(btnCount-1)*7)/btnCount)
-    local popupTargetSize = UDim2.new(0, 330, 0, 130)
-    popup.Size = UDim2.new(0, 30, 0, 30)
-    popup.Position = UDim2.new(0.5, -15, 0.5, -15)
-    local tweenIn = tweenService:Create(popup, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = popupTargetSize, Position = UDim2.new(0.5, -165, 0.5, -65)})
-    local tweenBlockIn = tweenService:Create(block, TweenInfo.new(0.19), {BackgroundTransparency = 0.35})
-    tweenIn:Play()
-    tweenBlockIn:Play()
-    tweenIn.Completed:Wait()
     for i, opt in ipairs(options) do
         local btn = Instance.new("TextButton", popup)
         btn.Size = UDim2.new(0, btnW, 0, 38)
@@ -382,29 +346,14 @@ function showSelectorPopup(titleTextFunc, options, callback)
         btn.BackgroundColor3 = accentBg
         btn.ZIndex = 20001
         Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
-        local btnStroke = Instance.new("UIStroke", btn)
-        btnStroke.Color = orange
-        btnStroke.Thickness = 1.25
-        btnStroke.Transparency = 0.7
         btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
         btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
         btn.MouseButton1Click:Connect(function()
-            local tweenOut = tweenService:Create(popup, TweenInfo.new(0.17, Enum.EasingStyle.Quad), {Size = UDim2.new(0, 30, 0, 30), Position = UDim2.new(0.5, -15, 0.5, -15)})
-            local tweenBlockOut = tweenService:Create(block, TweenInfo.new(0.13), {BackgroundTransparency = 1})
-            tweenOut:Play()
-            tweenBlockOut:Play()
-            tweenOut.Completed:Wait()
             popup:Destroy()
             block:Destroy()
             if callback then callback(opt) end
         end)
     end
-    popup:GetPropertyChangedSignal("Parent"):Connect(function()
-        if not popup.Parent then block:Destroy() end
-    end)
-    popup:GetPropertyChangedSignal("Visible"):Connect(function()
-        if not popup.Visible then block.Visible = false end
-    end)
     popup._langTitleFunc = titleTextFunc
     popup._titleLabel = title
 end
@@ -423,10 +372,6 @@ inputBox.ClearTextOnFocus = false
 inputBox.ZIndex = 4
 inputBox.AutoLocalize = false
 Instance.new("UICorner", inputBox).CornerRadius = UDim.new(1, 0)
-local inputBoxStroke = Instance.new("UIStroke", inputBox)
-inputBoxStroke.Color = orange
-inputBoxStroke.Thickness = 1.25
-inputBoxStroke.Transparency = 0.7
 
 local playBtn = Instance.new("TextButton", mainFrame)
 playBtn.Text = L("play")
@@ -439,13 +384,8 @@ playBtn.TextSize = 16
 playBtn.ZIndex = 4
 playBtn.AutoButtonColor = true
 Instance.new("UICorner", playBtn).CornerRadius = UDim.new(1, 0)
-local playBtnStroke = Instance.new("UIStroke", playBtn)
-playBtnStroke.Color = orange
-playBtnStroke.Thickness = 1.25
-playBtnStroke.Transparency = 0.7
 playBtn.MouseEnter:Connect(function() playBtn.BackgroundColor3 = orange playBtn.TextColor3 = darkBg end)
 playBtn.MouseLeave:Connect(function() playBtn.BackgroundColor3 = accentBg playBtn.TextColor3 = orange end)
-
 playBtn.MouseButton1Click:Connect(function()
     local input = inputBox.Text:gsub("rbxassetid://", "")
     local id = tonumber(input)
@@ -568,12 +508,83 @@ scriptsTitle.BackgroundTransparency = 1
 scriptsTitle.Font = Enum.Font.GothamBold
 scriptsTitle.TextSize = 16
 scriptsTitle.ZIndex = 4
-local yScriptBtn = 50
+
 local scriptList = {
     {name="Drip Client", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
     {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
     {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
+    {name="Painel Admin", url="adminpanel"},
 }
+
+local function showAdminPanelPopup()
+    local block = Instance.new("Frame", screenGui)
+    block.Name = "AdminPanelBlock"
+    block.Size = UDim2.new(1,0,1,0)
+    block.BackgroundTransparency = 0.35
+    block.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    block.ZIndex = 9999
+    block.Active = true
+
+    local popup = Instance.new("Frame", block)
+    popup.Size = UDim2.new(0, 420, 0, 180)
+    popup.Position = UDim2.new(0.5, -210, 0.5, -90)
+    popup.BackgroundColor3 = accentBg
+    popup.ZIndex = 10000
+    popup.Active = true
+    Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 18)
+    local popupStroke = Instance.new("UIStroke", popup)
+    popupStroke.Color = orange
+    popupStroke.Thickness = 2
+
+    local title = Instance.new("TextLabel", popup)
+    title.Size = UDim2.new(1, -24, 0, 60)
+    title.Position = UDim2.new(0, 12, 0, 16)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = orange
+    title.TextSize = 15
+    title.Font = Enum.Font.GothamBold
+    title.TextWrapped = true
+    title.Text = "Attention, the admin panel is still beta (free access), make sure you have someone running the same panel on the server, otherwise it will not work."
+    title.ZIndex = 10001
+
+    local execBtn = Instance.new("TextButton", popup)
+    execBtn.Size = UDim2.new(0.44, -8, 0, 38)
+    execBtn.Position = UDim2.new(0.05, 0, 1, -54)
+    execBtn.BackgroundColor3 = orange
+    execBtn.TextColor3 = darkBg
+    execBtn.Font = Enum.Font.GothamBold
+    execBtn.TextSize = 16
+    execBtn.Text = "EXECUTE"
+    execBtn.ZIndex = 10002
+    Instance.new("UICorner", execBtn).CornerRadius = UDim.new(0, 12)
+
+    local closeBtn = Instance.new("TextButton", popup)
+    closeBtn.Size = UDim2.new(0.44, -8, 0, 38)
+    closeBtn.Position = UDim2.new(0.51, 0, 1, -54)
+    closeBtn.BackgroundColor3 = accentBg
+    closeBtn.TextColor3 = orange
+    closeBtn.Font = Enum.Font.GothamBold
+    closeBtn.TextSize = 16
+    closeBtn.Text = "CLOSE"
+    closeBtn.ZIndex = 10002
+    Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 12)
+    local closeStroke = Instance.new("UIStroke", closeBtn)
+    closeStroke.Color = orange
+    closeStroke.Thickness = 1
+
+    execBtn.MouseButton1Click:Connect(function()
+        block:Destroy()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Freeman7829/freemanscripts/main/wrapper-panel.lua"))()
+        end)
+        showAchievementBar("Painel Admin " .. L("executed"), 4)
+    end)
+    closeBtn.MouseButton1Click:Connect(function()
+        block:Destroy()
+    end)
+end
+
+local yScriptBtn = 50
 for i, data in ipairs(scriptList) do
     local btn = Instance.new("TextButton", scriptsFrame)
     btn.Size = UDim2.new(1, -16, 0, 36)
@@ -585,14 +596,12 @@ for i, data in ipairs(scriptList) do
     btn.ZIndex = 4
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
-    local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = orange
-    btnStroke.Thickness = 1.25
-    btnStroke.Transparency = 1
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     btn.MouseButton1Click:Connect(function()
-        if data.url and data.url ~= "" then
+        if data.url == "adminpanel" then
+            showAdminPanelPopup()
+        elseif data.url and data.url ~= "" then
             pcall(function()
                 loadstring(game:HttpGet(data.url))()
             end)
@@ -603,6 +612,7 @@ for i, data in ipairs(scriptList) do
     end)
     yScriptBtn = yScriptBtn + 44
 end
+
 mainScroll.Visible = true
 musicListFrame.Visible = false
 creditsFrame.Visible = false
@@ -667,9 +677,3 @@ langButton.MouseButton1Click:Connect(function()
         popup._titleLabel.Text = type(popup._langTitleFunc)=="function" and popup._langTitleFunc() or popup._langTitleFunc
     end
 end)
-
-if not _G.FreemanAdminUsers then _G.FreemanAdminUsers = {} end
-local plr = game:GetService("Players").LocalPlayer
-if not table.find(_G.FreemanAdminUsers, plr.Name) then
-    table.insert(_G.FreemanAdminUsers, plr.Name)
-end
