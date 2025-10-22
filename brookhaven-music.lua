@@ -122,56 +122,6 @@ screenGui.ResetOnSpawn = false
 local parentUi = LocalPlayer:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
 screenGui.Parent = parentUi
 
-local function showInitialDashboardNotice()
-    local block = Instance.new("Frame", screenGui)
-    block.Name = "DashboardNoticeBlock"
-    block.Size = UDim2.new(1,0,1,0)
-    block.BackgroundTransparency = 0.45
-    block.BackgroundColor3 = Color3.fromRGB(0,0,0)
-    block.ZIndex = 9999
-    block.Active = true
-
-    local popup = Instance.new("Frame", block)
-    popup.Size = UDim2.new(0, 410, 0, 130)
-    popup.Position = UDim2.new(0.5, -205, 0.5, -65)
-    popup.BackgroundColor3 = accentBg
-    popup.ZIndex = 10000
-    popup.Active = true
-    Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 16)
-    local popupStroke = Instance.new("UIStroke", popup)
-    popupStroke.Color = orange
-    popupStroke.Thickness = 2
-
-    local title = Instance.new("TextLabel", popup)
-    title.Size = UDim2.new(1, -32, 0, 70)
-    title.Position = UDim2.new(0, 16, 0, 12)
-    title.BackgroundTransparency = 1
-    title.TextColor3 = orange
-    title.TextSize = 16
-    title.Font = Enum.Font.GothamBold
-    title.TextWrapped = true
-    title.TextXAlignment = Enum.TextXAlignment.Center
-    title.TextYAlignment = Enum.TextYAlignment.Center
-    title.Text = 'Freeman Hub now has a admin panel, find out by clicking on 🔍!'
-    title.ZIndex = 10001
-
-    local closeBtn = Instance.new("TextButton", popup)
-    closeBtn.Size = UDim2.new(0.5, -12, 0, 38)
-    closeBtn.Position = UDim2.new(0.25, 0, 1, -48)
-    closeBtn.BackgroundColor3 = orange
-    closeBtn.TextColor3 = darkBg
-    closeBtn.Font = Enum.Font.GothamBold
-    closeBtn.TextSize = 17
-    closeBtn.Text = "CLOSE"
-    closeBtn.ZIndex = 10002
-    Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 11)
-    closeBtn.MouseButton1Click:Connect(function()
-        block:Destroy()
-    end)
-end
-
-showInitialDashboardNotice()
-
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "FreemanMusicMain"
 mainFrame.Size = UDim2.new(0, 360, 0, 430)
