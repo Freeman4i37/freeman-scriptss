@@ -155,14 +155,14 @@ end)
 
 local languages = {
     pt = {
-        title = "FIM",
-        message = "O script foi descontinuado, obrigado por tudo!\n22/10/2025, 14:42.",
+        title = "EM BREVE",
+        message = "Em breve.",
         exit = "Sair",
         langLabel = "PT"
     },
     en = {
-        title = "THE END",
-        message = "The script was been discontinued, thank you for using!\n10/22/2025, 14:42.",
+        title = "SOON",
+        message = "Soon.",
         exit = "CLOSE",
         langLabel = "EN"
     }
