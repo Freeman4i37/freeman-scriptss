@@ -1,7 +1,6 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
-local setclipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
 local orange = Color3.fromRGB(255, 140, 0)
 local yellowOrange = Color3.fromRGB(255, 200, 40)
@@ -218,10 +217,6 @@ langBtn.MouseButton1Click:Connect(function()
 end)
 
 exitBtn.MouseButton1Click:Connect(function()
-    local discordLink = "https://discord.gg/aqjca9xb3"
-    if setclipboard then
-        setclipboard(discordLink)
-    end
 
     -- Fade out all UI, then destroy
     TweenService:Create(background, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
