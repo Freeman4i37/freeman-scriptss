@@ -1,4 +1,4 @@
--- Freeman Audio Logger - Premium GOLD Edition (Correção: IDs não somem e lixeira funcional)
+-- Auralynx Audio Logger - Premium GOLD Edition (Correção: IDs não somem e lixeira funcional)
 
 local gold = Color3.fromRGB(255,215,0)
 local darkBg = Color3.fromRGB(20,20,20)
@@ -11,12 +11,12 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local tweenService = game:GetService("TweenService")
 
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "FreemanAudioLogger"
+screenGui.Name = "AuralynxAudioLogger"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = player:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Name = "FreemanAudioLoggerMain"
+mainFrame.Name = "AuralynxAudioLoggerMain"
 mainFrame.Size = UDim2.new(0, 600, 0, 340)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
@@ -52,7 +52,7 @@ dividerGradient.Color = ColorSequence.new({
 })
 
 local headerTitle = Instance.new("TextLabel", header)
-headerTitle.Text = "Freeman Hub - Audio Logger 💎"
+headerTitle.Text = "Auralynx - Audio Logger 💎"
 headerTitle.Font = Enum.Font.GothamBold
 headerTitle.TextSize = 16
 headerTitle.TextColor3 = gold
