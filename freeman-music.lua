@@ -183,7 +183,7 @@ local function showDiscordPopup(onClose)
     closeCorner.CornerRadius = UDim.new(0, 13)
 
     discordBtn.MouseButton1Click:Connect(function()
-        local url = "https://discord.gg/MWP6gUbCu"
+        local url = "https://discord.gg/GxYksq7ZR"
         setclipboard(url)
         if syn and syn.openurl then
             syn.openurl(url)
@@ -245,7 +245,7 @@ local function loadingScreen()
     title.TextStrokeTransparency = 0.67
     title.TextSize = 27
     title.Font = Enum.Font.GothamBlack
-    title.Text = "Auralynx is loading..."
+    title.Text = "Auralynx is loading, just wait."
     title.TextWrapped = true
     title.TextXAlignment = Enum.TextXAlignment.Center
     title.ZIndex = 6
