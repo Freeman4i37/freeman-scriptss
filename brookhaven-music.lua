@@ -513,6 +513,7 @@ local scriptList = {
     {name="Drip Client", url="https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"},
     {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
     {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
+}
 
 local yScriptBtn = 50
 for i, data in ipairs(scriptList) do
