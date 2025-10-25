@@ -128,5 +128,5 @@ spawn(function()
         halloweenSound:Stop()
     end
     mainFrame:Destroy()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music-english.lua"))()
+    loadstring(game:HttpGet("https://cdn.jsdelivr.net/gh/Freeman4i37/freeman-scriptss@main/freeman-music-english.lua"))()
 end)
