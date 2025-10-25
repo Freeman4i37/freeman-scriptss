@@ -530,7 +530,7 @@ for i, data in ipairs(scriptList) do
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     btn.MouseButton1Click:Connect(function()
-        elseif data.url and data.url ~= "" then
+        if data.url and data.url ~= "" then
             pcall(function()
                 loadstring(game:HttpGet(data.url))()
             end)
@@ -605,4 +605,4 @@ langButton.MouseButton1Click:Connect(function()
     if popup and popup._titleLabel and popup._langTitleFunc then
         popup._titleLabel.Text = type(popup._langTitleFunc)=="function" and popup._langTitleFunc() or popup._langTitleFunc
     end
-end)    
+end)
