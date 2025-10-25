@@ -245,7 +245,7 @@ local function loadingScreen()
     title.TextStrokeTransparency = 0.67
     title.TextSize = 27
     title.Font = Enum.Font.GothamBlack
-    title.Text = "Auralynx is loading, just wait."
+    title.Text = "Auralynx is loading."
     title.TextWrapped = true
     title.TextXAlignment = Enum.TextXAlignment.Center
     title.ZIndex = 6
