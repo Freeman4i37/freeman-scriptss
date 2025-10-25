@@ -1,14 +1,6 @@
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer
-
-local red = Color3.fromRGB(220, 40, 40)
-local yellow = Color3.fromRGB(255, 240, 60)
-local darkRed = Color3.fromRGB(180, 14, 14)
-local textGray = Color3.fromRGB(230, 230, 230)
-
+local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "AuralynxAnnouncementGUI"
+screenGui.Name = "AuralynxLoaderGUI"
 screenGui.ResetOnSpawn = false
 
 if syn then
@@ -17,264 +9,124 @@ if syn then
 elseif gethui then
     screenGui.Parent = gethui()
 else
-    screenGui.Parent = player:WaitForChild("PlayerGui")
+    screenGui.Parent = player.PlayerGui
 end
 
-local background = Instance.new("Frame", screenGui)
-background.Size = UDim2.new(1, 0, 1, 0)
-background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-background.BackgroundTransparency = 1
+local orange = Color3.fromRGB(255, 140, 0)
+local darkGreen = Color3.fromRGB(35, 85, 35)
+local brightGreen = Color3.fromRGB(60, 255, 80)
 
-local main = Instance.new("Frame", background)
-main.Size = UDim2.new(0, 620, 0, 400)
-main.Position = UDim2.new(0.5, -310, 0.5, -200)
-main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-main.BorderSizePixel = 0
-main.Active = true
-main.Draggable = true
-main.BackgroundTransparency = 1
-main.ZIndex = 10
+local halloweenSound = Instance.new("Sound")
+halloweenSound.Name = "HalloweenTheme"
+halloweenSound.SoundId = "rbxassetid://111631783838916"
+halloweenSound.Volume = 1
+halloweenSound.Looped = false
+halloweenSound.Parent = screenGui
+halloweenSound:Play()
 
-local cornerMain = Instance.new("UICorner", main)
-cornerMain.CornerRadius = UDim.new(0, 18)
-
-local uiStroke = Instance.new("UIStroke", main)
-uiStroke.Thickness = 4
-uiStroke.Color = red
-uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-uiStroke.ZIndex = 12
-
-local gradStroke = Instance.new("UIGradient", uiStroke)
-gradStroke.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, red),
-    ColorSequenceKeypoint.new(0.5, yellow),
-    ColorSequenceKeypoint.new(1, red)
+local mainFrame = Instance.new("Frame")
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.Size = UDim2.new(0, 480, 0, 210)
+mainFrame.BackgroundTransparency = 0.1
+mainFrame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+mainFrame.Parent = screenGui
+mainFrame.BorderSizePixel = 0
+local mainCorner = Instance.new("UICorner", mainFrame)
+mainCorner.CornerRadius = UDim.new(0, 30)
+local uiStroke = Instance.new("UIStroke", mainFrame)
+uiStroke.Thickness = 5
+uiStroke.Color = orange
+local grad = Instance.new("UIGradient", uiStroke)
+grad.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.5, brightGreen),
+    ColorSequenceKeypoint.new(1, orange)
 }
 spawn(function()
     local t0 = tick()
-    while gradStroke.Parent do
-        gradStroke.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.1), 0)
-        wait(0.03)
-    end
-end)
-spawn(function()
-    while uiStroke and uiStroke.Parent do
-        uiStroke.Color = red
-        gradStroke.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, red),
-            ColorSequenceKeypoint.new(0.5, yellow),
-            ColorSequenceKeypoint.new(1, red)
-        }
-        wait(0.38)
-        uiStroke.Color = yellow
-        gradStroke.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, yellow),
-            ColorSequenceKeypoint.new(0.5, red),
-            ColorSequenceKeypoint.new(1, yellow)
-        }
-        wait(0.38)
-    end
-end)
-
-local title = Instance.new("TextLabel", main)
-title.Size = UDim2.new(1, -40, 0, 70)
-title.Position = UDim2.new(0, 20, 0, 20)
-title.BackgroundTransparency = 1
-title.TextColor3 = textGray
-title.Font = Enum.Font.GothamBlack
-title.TextSize = 26
-title.TextTransparency = 1
-title.ZIndex = 13
-title.TextXAlignment = Enum.TextXAlignment.Center
-title.TextYAlignment = Enum.TextYAlignment.Center
-
-local gradTitle = Instance.new("UIGradient", title)
-gradTitle.Color = gradStroke.Color
-spawn(function()
-    local t0 = tick()
-    while gradTitle.Parent do
-        gradTitle.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.1), 0)
+    while grad.Parent do
+        grad.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.12),0)
         wait(0.03)
     end
 end)
 
-local langBtn = Instance.new("TextButton", main)
-langBtn.Size = UDim2.new(0, 80, 0, 32)
-langBtn.Position = UDim2.new(1, -88, 0, 24)
-langBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-langBtn.TextColor3 = yellow
-langBtn.Font = Enum.Font.GothamBold
-langBtn.TextSize = 16
-langBtn.BackgroundTransparency = 0
-langBtn.ZIndex = 50
-local langCorner = Instance.new("UICorner", langBtn)
-langCorner.CornerRadius = UDim.new(0, 10)
+local container = Instance.new("Frame", mainFrame)
+container.Size = UDim2.new(0, 380, 0, 90)
+container.Position = UDim2.new(0.5, -190, 0, 34)
+container.BackgroundTransparency = 1
 
-local gradLangBtn = Instance.new("UIGradient", langBtn)
-gradLangBtn.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, red),
-    ColorSequenceKeypoint.new(1, yellow)
+local auralynxLabel = Instance.new("TextLabel", container)
+auralynxLabel.Size = UDim2.new(0, 310, 1, 0)
+auralynxLabel.Position = UDim2.new(0, 0, 0, 0)
+auralynxLabel.BackgroundTransparency = 1
+auralynxLabel.Text = "Auralynx"
+auralynxLabel.Font = Enum.Font.GothamBlack
+auralynxLabel.TextSize = 72
+auralynxLabel.TextColor3 = orange
+auralynxLabel.ZIndex = 21
+auralynxLabel.TextXAlignment = Enum.TextXAlignment.Left
+local gradText = Instance.new("UIGradient", auralynxLabel)
+gradText.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.5, darkGreen),
+    ColorSequenceKeypoint.new(1, brightGreen)
 }
 spawn(function()
     local t0 = tick()
-    while gradLangBtn.Parent do
-        gradLangBtn.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.25), 0)
+    while gradText.Parent do
+        gradText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.25),0)
         wait(0.03)
     end
 end)
 
-local divider = Instance.new("Frame", main)
-divider.Size = UDim2.new(1, -80, 0, 2)
-divider.Position = UDim2.new(0, 40, 0, 110)
-divider.BackgroundColor3 = yellow
-divider.BackgroundTransparency = 0
-divider.BorderSizePixel = 0
-divider.ZIndex = 13
+local pumpkinLabel = Instance.new("TextLabel", container)
+pumpkinLabel.Size = UDim2.new(0, 70, 1, 0)
+pumpkinLabel.Position = UDim2.new(0, 310, 0, 0)
+pumpkinLabel.BackgroundTransparency = 1
+pumpkinLabel.Text = "🎃"
+pumpkinLabel.Font = Enum.Font.GothamBlack
+pumpkinLabel.TextSize = 72
+pumpkinLabel.TextColor3 = Color3.fromRGB(255, 120, 10)
+pumpkinLabel.ZIndex = 22
+pumpkinLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local dividerGrad = Instance.new("UIGradient", divider)
-dividerGrad.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, red),
-    ColorSequenceKeypoint.new(1, yellow)
-}
-dividerGrad.Transparency = NumberSequence.new(0.15)
-
-local message = Instance.new("TextLabel", main)
-message.Size = UDim2.new(1, -80, 0, 120)
-message.Position = UDim2.new(0, 40, 0, 130)
-message.BackgroundTransparency = 1
-message.TextWrapped = true
-message.TextYAlignment = Enum.TextYAlignment.Top
-message.Font = Enum.Font.Gotham
-message.TextSize = 18
-message.TextColor3 = textGray
-message.TextTransparency = 1
-message.ZIndex = 13
-
-local gradMsg = Instance.new("UIGradient", message)
-gradMsg.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, red),
-    ColorSequenceKeypoint.new(1, yellow)
+local percentLabel = Instance.new("TextLabel", mainFrame)
+percentLabel.Size = UDim2.new(1, 0, 0, 42)
+percentLabel.Position = UDim2.new(0, 0, 1, -60)
+percentLabel.BackgroundTransparency = 1
+percentLabel.Text = "0%"
+percentLabel.Font = Enum.Font.GothamBold
+percentLabel.TextSize = 38
+percentLabel.TextColor3 = brightGreen
+percentLabel.ZIndex = 24
+local gradPercent = Instance.new("UIGradient", percentLabel)
+gradPercent.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.5, brightGreen),
+    ColorSequenceKeypoint.new(1, orange)
 }
 spawn(function()
     local t0 = tick()
-    while gradMsg.Parent do
-        gradMsg.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.2), 0)
+    while gradPercent.Parent do
+        gradPercent.Offset = Vector2.new(0.5+0.5*math.cos((tick()-t0)*1.6),0)
         wait(0.03)
     end
 end)
 
-local exitBtn = Instance.new("TextButton", main)
-exitBtn.Size = UDim2.new(0, 140, 0, 44)
-exitBtn.Position = UDim2.new(0.5, -70, 1, -90)
-exitBtn.BackgroundColor3 = red
-exitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-exitBtn.Font = Enum.Font.GothamBold
-exitBtn.TextSize = 20
-exitBtn.BackgroundTransparency = 1
-exitBtn.TextTransparency = 1
-exitBtn.ZIndex = 20
-local exitCorner = Instance.new("UICorner", exitBtn)
-exitCorner.CornerRadius = UDim.new(0, 12)
-
-local gradBtn = Instance.new("UIGradient", exitBtn)
-gradBtn.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, red),
-    ColorSequenceKeypoint.new(1, yellow)
-}
+local loadingTime = 5
+local steps = 150
 spawn(function()
-    local t0 = tick()
-    while gradBtn.Parent do
-        gradBtn.Offset = Vector2.new(0.5 + 0.5 * math.sin((tick() - t0) * 1.25), 0)
-        wait(0.03)
+    for i = 0, steps do
+        local percent = i/steps
+        percentLabel.Text = string.format("%d%%", math.floor(percent*100))
+        wait(loadingTime/steps)
     end
-end)
-
-exitBtn.MouseEnter:Connect(function()
-    TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = yellow}):Play()
-end)
-exitBtn.MouseLeave:Connect(function()
-    TweenService:Create(exitBtn, TweenInfo.new(0.15), {BackgroundColor3 = red}):Play()
-end)
-
-langBtn.MouseEnter:Connect(function()
-    TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(55, 55, 55)}):Play()
-end)
-langBtn.MouseLeave:Connect(function()
-    TweenService:Create(langBtn, TweenInfo.new(0.12), {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}):Play()
-end)
-
-local credit = Instance.new("TextLabel", main)
-credit.Size = UDim2.new(1, -40, 0, 22)
-credit.Position = UDim2.new(0, 20, 1, -32)
-credit.BackgroundTransparency = 1
-credit.Font = Enum.Font.Gotham
-credit.TextSize = 14
-credit.TextColor3 = Color3.fromRGB(200, 200, 200)
-credit.TextTransparency = 1
-credit.ZIndex = 13
-credit.Text = "Alert given by Lynxdev."
-credit.TextXAlignment = Enum.TextXAlignment.Center
-credit.TextYAlignment = Enum.TextYAlignment.Center
-
-local languages = {
-    pt = {
-        title = "Informação",
-        message = "Atenção! A atualização do Auralynx chegará em breve, fique ligado.",
-        exit = "SAIR",
-        langLabel = "PT"
-    },
-    en = {
-        title = "Information",
-        message = "Attention! The Auralynx update is coming soon, stay tuned.",
-        exit = "CLOSE",
-        langLabel = "EN"
-    }
-}
-local currentLang = "en"
-
-local function applyLanguage(key)
-    local data = languages[key]
-    title.Text = data.title
-    message.Text = data.message
-    exitBtn.Text = data.exit
-    langBtn.Text = data.langLabel
-end
-
-applyLanguage(currentLang)
-
-local function fadeIn(obj, prop, target, time)
-    TweenService:Create(obj, TweenInfo.new(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {[prop] = target}):Play()
-end
-
-fadeIn(background, "BackgroundTransparency", 0.35, 0.45)
-fadeIn(main, "BackgroundTransparency", 0, 0.65)
-fadeIn(title, "TextTransparency", 0, 0.75)
-fadeIn(message, "TextTransparency", 0, 0.85)
-fadeIn(exitBtn, "BackgroundTransparency", 0, 1)
-fadeIn(exitBtn, "TextTransparency", 0, 1)
-fadeIn(langBtn, "BackgroundTransparency", 0, 1)
-fadeIn(langBtn, "TextTransparency", 0, 1)
-fadeIn(credit, "TextTransparency", 0, 1)
-
-langBtn.MouseButton1Click:Connect(function()
-    if currentLang == "en" then
-        currentLang = "pt"
-    else
-        currentLang = "en"
+    percentLabel.Text = "100%"
+    wait(0.2)
+    if halloweenSound and halloweenSound.IsPlaying then
+        halloweenSound:Stop()
     end
-    applyLanguage(currentLang)
-end)
-
-exitBtn.MouseButton1Click:Connect(function()
-    TweenService:Create(background, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
-    TweenService:Create(main, TweenInfo.new(0.45), {BackgroundTransparency = 1}):Play()
-    TweenService:Create(title, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-    TweenService:Create(message, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-    TweenService:Create(exitBtn, TweenInfo.new(0.4), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-    TweenService:Create(langBtn, TweenInfo.new(0.4), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-    TweenService:Create(credit, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-    wait(0.5)
-    if screenGui and screenGui.Parent then
-        screenGui:Destroy()
-    end
+    mainFrame:Destroy()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music-english.lua"))()
 end)
