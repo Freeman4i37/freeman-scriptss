@@ -529,8 +529,6 @@ for i, data in ipairs(scriptList) do
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = darkBg end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = accentBg btn.TextColor3 = orange end)
     btn.MouseButton1Click:Connect(function()
-        if data.url == "adminpanel" then
-            showAdminPanelPopup()
         elseif data.url and data.url ~= "" then
             pcall(function()
                 loadstring(game:HttpGet(data.url))()
