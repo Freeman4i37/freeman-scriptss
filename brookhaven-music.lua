@@ -557,10 +557,10 @@ do
     brookBtn.Font = Enum.Font.GothamBold
     brookBtn.TextSize = 15
     brookBtn.ZIndex = 17
-    brookBtn.Text = "Drip Client"
+    brookBtn.Text = "Brutus Hub"
     Instance.new("UICorner", brookBtn).CornerRadius = UDim.new(1, 0)
     brookBtn.MouseButton1Click:Connect(function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Drip-Client-51784"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/codenixstudios/brutus-hub/BRUTUS_TEAM/Games/brookhaven.lua"))()
     end)
     local afemBtn = Instance.new("TextButton", scriptsFrame)
     afemBtn.Size = UDim2.new(1, -20, 0, 38)
