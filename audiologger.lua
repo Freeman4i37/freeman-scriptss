@@ -1,14 +1,42 @@
--- Auralynx Audio Logger - Premium GOLD Edition (Correção: IDs não somem e lixeira funcional)
+-- Auralynx Audio Logger - Premium GOLD Edition (IDs salvos nunca somem, lixeira funcional)
 
-local gold = Color3.fromRGB(255,215,0)
+local tagMap = {
+    ["Kaua_452"] = {colors={Color3.fromRGB(212,175,55),Color3.fromRGB(5,5,5),Color3.fromRGB(255,0,0)}},
+    ["Itz_Mariena"] = {colors={Color3.fromRGB(160,0,200),Color3.fromRGB(75,0,110)}},
+    ["pedro312jee"] = {colors={Color3.fromRGB(0,15,85),Color3.fromRGB(0,60,255)}},
+    ["UserModerator"] = {colors={Color3.fromRGB(255,90,0),Color3.fromRGB(255,215,0)}},
+    ["UserStaff"] = {colors={Color3.fromRGB(0,80,255),Color3.fromRGB(120,120,130)}},
+}
+local player = game:GetService("Players").LocalPlayer
+local tagColors = tagMap[player.Name] and tagMap[player.Name].colors or {Color3.fromRGB(255,215,0),Color3.fromRGB(50,50,50)}
+local gold = tagColors[1]
+local gold2 = tagColors[2] or gold
+local gold3 = tagColors[3] or gold
 local darkBg = Color3.fromRGB(20,20,20)
 local accentBg = Color3.fromRGB(40,40,20)
 local white = Color3.fromRGB(255,255,255)
 local grayBtn = Color3.fromRGB(70,70,70)
-
-local player = game:GetService("Players").LocalPlayer
 local MarketplaceService = game:GetService("MarketplaceService")
 local tweenService = game:GetService("TweenService")
+
+-- Nome do arquivo fixo por usuário (mude se quiser)
+local saveFile = ("AuralynxAudioLogger_"..player.Name..".txt")
+
+local function makeGradient(obj, colors)
+    local seq = {}
+    for i,c in ipairs(colors) do
+        table.insert(seq, ColorSequenceKeypoint.new((i-1)/(#colors-1), c))
+    end
+    local grad = Instance.new("UIGradient", obj)
+    grad.Color = ColorSequence.new(seq)
+    spawn(function()
+        local t0 = tick()
+        while grad.Parent do
+            grad.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.1),0)
+            wait(0.03)
+        end
+    end)
+end
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AuralynxAudioLogger"
@@ -44,12 +72,7 @@ divider.Size = UDim2.new(0.85, 0, 0, 2)
 divider.Position = UDim2.new(0.075, 0, 0, 36)
 divider.BackgroundColor3 = gold
 divider.BorderSizePixel = 0
-local dividerGradient = Instance.new("UIGradient", divider)
-dividerGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, gold),
-    ColorSequenceKeypoint.new(0.5, white),
-    ColorSequenceKeypoint.new(1, gold)
-})
+makeGradient(divider, {gold,gold2,gold3,gold,gold2})
 
 local headerTitle = Instance.new("TextLabel", header)
 headerTitle.Text = "Auralynx - Audio Logger 💎"
@@ -109,9 +132,10 @@ local function makeActionBtn(parent, text, posX, sizX)
     btn.AutoButtonColor = true
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = gold
+    btnStroke.Color = gold2
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
+    makeGradient(btn, {gold,gold2,gold3})
     return btn
 end
 
@@ -161,9 +185,10 @@ local function makeSideBtn(text)
     btn.ZIndex = 4
     Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", btn)
-    btnStroke.Color = gold
+    btnStroke.Color = gold2
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
+    makeGradient(btn, {gold,gold2,gold3})
     btnY = btnY + 32
     return btn
 end
@@ -202,7 +227,7 @@ loadedClose.ZIndex = 51
 loadedClose.AutoButtonColor = true
 Instance.new("UICorner", loadedClose).CornerRadius = UDim.new(1, 0)
 local loadedCloseStroke = Instance.new("UIStroke", loadedClose)
-loadedCloseStroke.Color = gold
+loadedCloseStroke.Color = gold2
 loadedCloseStroke.Thickness = 1.25
 loadedCloseStroke.Transparency = 0.7
 
@@ -264,7 +289,6 @@ local function addLog(sound)
     local id = sound.SoundId
     local assetName = nil
     local foundName = false
-
     local numberId = id:match("%d+")
     if numberId then
         local success, info = pcall(function()
@@ -278,7 +302,6 @@ local function addLog(sound)
     if not foundName or not assetName or assetName == "" then
         assetName = sound.Name or "(Unknown)"
     end
-
     local displayText = assetName .. " - " .. (numberId or id)
     local audioBtn = Instance.new("TextButton")
     audioBtn.Size = UDim2.new(1, -6, 0, 30)
@@ -296,9 +319,10 @@ local function addLog(sound)
     audioBtn.Parent = logsFrame
     Instance.new("UICorner", audioBtn).CornerRadius = UDim.new(1, 0)
     local btnStroke = Instance.new("UIStroke", audioBtn)
-    btnStroke.Color = gold
+    btnStroke.Color = gold2
     btnStroke.Thickness = 1.25
     btnStroke.Transparency = 0.7
+    makeGradient(audioBtn, {gold,gold2,gold3})
 
     local selected = false
     audioBtn.MouseButton1Click:Connect(function()
@@ -323,6 +347,24 @@ local function scanAudios(place)
         end
     end
 end
+
+-- Carregar IDs salvos do arquivo fixo ao iniciar
+local function loadSavedIDs()
+    if not isfile or not readfile then return end
+    if not isfile(saveFile) then writefile(saveFile, "") end
+    local lines = readfile(saveFile):split("\n")
+    for _,line in ipairs(lines) do
+        local name,id,parent = line:match("^(.-)|(.-)|(.*)$")
+        if id and id ~= "" then
+            local fakeSound = Instance.new("Sound")
+            fakeSound.Name = name or "(Saved)"
+            fakeSound.SoundId = id
+            addLog(fakeSound)
+            fakeSound:Destroy()
+        end
+    end
+end
+loadSavedIDs()
 
 scanGameBtn.MouseButton1Click:Connect(function() scanAudios(game) end)
 scanWorkspaceBtn.MouseButton1Click:Connect(function() scanAudios(workspace) end)
@@ -393,6 +435,7 @@ copyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
+-- Salvar IDs selecionados no arquivo fixo, nunca perde!
 saveBtn.MouseButton1Click:Connect(function()
     if not writefile then
         game:GetService('StarterGui'):SetCore('SendNotification', {
@@ -409,16 +452,24 @@ saveBtn.MouseButton1Click:Connect(function()
         end
     end
     if #lines == 0 then return end
-    local filename = "FmanAudioLogger"..os.time()..".txt"
-    writefile(filename, table.concat(lines, "\n"))
+    local allLines = {}
+    if isfile(saveFile) then
+        allLines = readfile(saveFile):split("\n")
+    end
+    for _, line in ipairs(lines) do
+        local found = false
+        for _, l in ipairs(allLines) do if l == line then found = true break end end
+        if not found then table.insert(allLines, line) end
+    end
+    writefile(saveFile, table.concat(allLines, "\n"))
     game:GetService('StarterGui'):SetCore('SendNotification', {
         Title = 'Audio Logger',
-        Text = 'Saved IDs: '..filename,
+        Text = 'IDs adicionados ao arquivo: '..saveFile,
         Duration = 5,
     })
 end)
 
--- CARREGAR IDS SALVOS + LIXEIRA FUNCIONAL
+-- Carregar IDs salvos + lixeira funcional
 loadSavedBtn.MouseButton1Click:Connect(function()
     loadedIdsFrame.Visible = true
     for _,v in pairs(loadedIdsFrame:GetChildren()) do
@@ -426,58 +477,52 @@ loadSavedBtn.MouseButton1Click:Connect(function()
             v:Destroy()
         end
     end
-    local files = listfiles and listfiles("") or {}
-    for _,file in ipairs(files) do
-        if file:match("^FmanAudioLogger%d+%.txt$") or file:match("FmanAudioLogger%d+%.txt$") then
-            local lines = readfile(file):split("\n")
-            for idx,line in ipairs(lines) do
-                local name,id,parent = line:match("^(.-)|(.-)|(.*)$")
-                if id and id ~= "" then
-                    local btn = Instance.new("TextButton", loadedIdsFrame)
-                    btn.Size = UDim2.new(1, -12, 0, 30)
-                    btn.Text = (name or "?").." - "..id.."   "
-                    btn.BackgroundColor3 = accentBg
-                    btn.TextColor3 = gold
-                    btn.Font = Enum.Font.GothamBold
-                    btn.TextSize = 14
-                    btn.ZIndex = 52
-                    btn.AutoButtonColor = true
-                    btn.TextXAlignment = Enum.TextXAlignment.Left
-                    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
-                    local btnStroke = Instance.new("UIStroke", btn)
-                    btnStroke.Color = gold
-                    btnStroke.Thickness = 1.25
-                    btnStroke.Transparency = 0.7
+    if not isfile or not readfile then return end
+    if not isfile(saveFile) then writefile(saveFile, "") end
+    local lines = readfile(saveFile):split("\n")
+    for idx,line in ipairs(lines) do
+        local name,id,parent = line:match("^(.-)|(.-)|(.*)$")
+        if id and id ~= "" then
+            local btn = Instance.new("TextButton", loadedIdsFrame)
+            btn.Size = UDim2.new(1, -12, 0, 30)
+            btn.Text = (name or "?").." - "..id.."   "
+            btn.BackgroundColor3 = accentBg
+            btn.TextColor3 = gold
+            btn.Font = Enum.Font.GothamBold
+            btn.TextSize = 14
+            btn.ZIndex = 52
+            btn.AutoButtonColor = true
+            btn.TextXAlignment = Enum.TextXAlignment.Left
+            Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+            local btnStroke = Instance.new("UIStroke", btn)
+            btnStroke.Color = gold2
+            btnStroke.Thickness = 1.25
+            btnStroke.Transparency = 0.7
+            makeGradient(btn, {gold,gold2,gold3})
 
-                    -- Botão de copiar (texto principal)
-                    btn.MouseButton1Click:Connect(function()
-                        if setclipboard then setclipboard(id) end
-                        btn.Text = "Copied!"
-                        wait(1)
-                        btn.Text = (name or "?").." - "..id.."   "
-                    end)
-
-                    -- Botão de lixeira embutido (TextButton dentro do btn)
-                    local trashBtn = Instance.new("TextButton", btn)
-                    trashBtn.Size = UDim2.new(0,24,0,24)
-                    trashBtn.Position = UDim2.new(1, -28, 0.5, -12)
-                    trashBtn.BackgroundTransparency = 1
-                    trashBtn.Text = "🗑"
-                    trashBtn.TextColor3 = gold
-                    trashBtn.Font = Enum.Font.GothamBold
-                    trashBtn.TextSize = 18
-                    trashBtn.ZIndex = 53
-                    trashBtn.AutoButtonColor = true
-
-                    trashBtn.MouseButton1Click:Connect(function()
-                        -- Remove só esse id do arquivo
-                        local allLines = readfile(file):split("\n")
-                        table.remove(allLines, idx)
-                        writefile(file, table.concat(allLines, "\n"))
-                        btn:Destroy()
-                    end)
-                end
-            end
+            btn.MouseButton1Click:Connect(function()
+                if setclipboard then setclipboard(id) end
+                btn.Text = "Copied!"
+                wait(1)
+                btn.Text = (name or "?").." - "..id.."   "
+            end)
+            -- Lixeira
+            local trashBtn = Instance.new("TextButton", btn)
+            trashBtn.Size = UDim2.new(0,24,0,24)
+            trashBtn.Position = UDim2.new(1, -28, 0.5, -12)
+            trashBtn.BackgroundTransparency = 1
+            trashBtn.Text = "🗑"
+            trashBtn.TextColor3 = gold
+            trashBtn.Font = Enum.Font.GothamBold
+            trashBtn.TextSize = 18
+            trashBtn.ZIndex = 53
+            trashBtn.AutoButtonColor = true
+            trashBtn.MouseButton1Click:Connect(function()
+                local allLines = readfile(saveFile):split("\n")
+                table.remove(allLines, idx)
+                writefile(saveFile, table.concat(allLines, "\n"))
+                btn:Destroy()
+            end)
         end
     end
 end)
