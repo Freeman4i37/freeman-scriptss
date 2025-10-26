@@ -549,46 +549,63 @@ do
 end
 do
     local scriptsFrame = tabFrames[4]
-    local brookBtn = Instance.new("TextButton", scriptsFrame)
-    brookBtn.Size = UDim2.new(1, -20, 0, 38)
-    brookBtn.Position = UDim2.new(0, 10, 0, 28)
-    brookBtn.BackgroundColor3 = accentBg
-    brookBtn.TextColor3 = orange
-    brookBtn.Font = Enum.Font.GothamBold
-    brookBtn.TextSize = 15
-    brookBtn.ZIndex = 17
-    brookBtn.Text = "Brutus Hub"
-    Instance.new("UICorner", brookBtn).CornerRadius = UDim.new(1, 0)
-    brookBtn.MouseButton1Click:Connect(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/codenixstudios/brutus-hub/BRUTUS_TEAM/Games/brookhaven.lua"))()
-    end)
-    local afemBtn = Instance.new("TextButton", scriptsFrame)
-    afemBtn.Size = UDim2.new(1, -20, 0, 38)
-    afemBtn.Position = UDim2.new(0, 10, 0, 78)
-    afemBtn.BackgroundColor3 = accentBg
-    afemBtn.TextColor3 = orange
-    afemBtn.Font = Enum.Font.GothamBold
-    afemBtn.TextSize = 15
-    afemBtn.ZIndex = 17
-    afemBtn.Text = "AFEM"
-    Instance.new("UICorner", afemBtn).CornerRadius = UDim.new(1, 0)
-    afemBtn.MouseButton1Click:Connect(function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()
-    end)
-    local namelessBtn = Instance.new("TextButton", scriptsFrame)
-    namelessBtn.Size = UDim2.new(1, -20, 0, 38)
-    namelessBtn.Position = UDim2.new(0, 10, 0, 128)
-    namelessBtn.BackgroundColor3 = accentBg
-    namelessBtn.TextColor3 = orange
-    namelessBtn.Font = Enum.Font.GothamBold
-    namelessBtn.TextSize = 15
-    namelessBtn.ZIndex = 17
-    namelessBtn.Text = "Nameless Admin"
-    Instance.new("UICorner", namelessBtn).CornerRadius = UDim.new(1, 0)
-    namelessBtn.MouseButton1Click:Connect(function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"))()
-    end)
-    -- Painel Admin removido completamente
+
+local brookBtn = Instance.new("TextButton", scriptsFrame)
+brookBtn.Size = UDim2.new(1, -20, 0, 38)
+brookBtn.Position = UDim2.new(0, 10, 0, 28)
+brookBtn.BackgroundColor3 = accentBg
+brookBtn.TextColor3 = orange
+brookBtn.Font = Enum.Font.GothamBold
+brookBtn.TextSize = 15
+brookBtn.ZIndex = 17
+brookBtn.Text = "Brutus Hub"
+Instance.new("UICorner", brookBtn).CornerRadius = UDim.new(1, 0)
+brookBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/codenixstudios/brutus-hub/BRUTUS_TEAM/Games/brookhaven.lua"))()
+end)
+
+-- Coquette Hub (abaixo do Brutus Hub)
+local coquetteBtn = Instance.new("TextButton", scriptsFrame)
+coquetteBtn.Size = UDim2.new(1, -20, 0, 38)
+coquetteBtn.Position = UDim2.new(0, 10, 0, 68)
+coquetteBtn.BackgroundColor3 = accentBg
+coquetteBtn.TextColor3 = orange
+coquetteBtn.Font = Enum.Font.GothamBold
+coquetteBtn.TextSize = 15
+coquetteBtn.ZIndex = 17
+coquetteBtn.Text = "Coquette Hub"
+Instance.new("UICorner", coquetteBtn).CornerRadius = UDim.new(1, 0)
+coquetteBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://ghostbin.axel.org/paste/vkhh2/raw"))()
+end)
+
+local afemBtn = Instance.new("TextButton", scriptsFrame)
+afemBtn.Size = UDim2.new(1, -20, 0, 38)
+afemBtn.Position = UDim2.new(0, 10, 0, 108)
+afemBtn.BackgroundColor3 = accentBg
+afemBtn.TextColor3 = orange
+afemBtn.Font = Enum.Font.GothamBold
+afemBtn.TextSize = 15
+afemBtn.ZIndex = 17
+afemBtn.Text = "AFEM"
+Instance.new("UICorner", afemBtn).CornerRadius = UDim.new(1, 0)
+afemBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"))()
+end)
+
+local namelessBtn = Instance.new("TextButton", scriptsFrame)
+namelessBtn.Size = UDim2.new(1, -20, 0, 38)
+namelessBtn.Position = UDim2.new(0, 10, 0, 148)
+namelessBtn.BackgroundColor3 = accentBg
+namelessBtn.TextColor3 = orange
+namelessBtn.Font = Enum.Font.GothamBold
+namelessBtn.TextSize = 15
+namelessBtn.ZIndex = 17
+namelessBtn.Text = "Nameless Admin"
+Instance.new("UICorner", namelessBtn).CornerRadius = UDim.new(1, 0)
+namelessBtn.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"))()
+end)
 end
 do
     local creditsFrame = tabFrames[5]
