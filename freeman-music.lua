@@ -16,6 +16,8 @@ local orange = Color3.fromRGB(255, 140, 0)
 local darkGreen = Color3.fromRGB(35, 85, 35)
 local brightGreen = Color3.fromRGB(60, 255, 80)
 local discordBlue = Color3.fromRGB(88, 101, 242)
+local neonPink = Color3.fromRGB(255, 0, 180)
+local neonYellow = Color3.fromRGB(255,255,60)
 
 local halloweenSound = Instance.new("Sound")
 halloweenSound.Name = "HalloweenTheme"
@@ -28,88 +30,97 @@ halloweenSound:Play()
 local mainFrame = Instance.new("Frame")
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-mainFrame.Size = UDim2.new(0, 480, 0, 300)
-mainFrame.BackgroundTransparency = 0.1
+mainFrame.Size = UDim2.new(0, 640, 0, 400)
+mainFrame.BackgroundTransparency = 0.05
 mainFrame.BackgroundColor3 = Color3.fromRGB(0,0,0)
 mainFrame.Parent = screenGui
 mainFrame.BorderSizePixel = 0
 local mainCorner = Instance.new("UICorner", mainFrame)
-mainCorner.CornerRadius = UDim.new(0, 30)
+mainCorner.CornerRadius = UDim.new(0, 38)
+
 local uiStroke = Instance.new("UIStroke", mainFrame)
-uiStroke.Thickness = 5
+uiStroke.Thickness = 7
 uiStroke.Color = orange
 local grad = Instance.new("UIGradient", uiStroke)
 grad.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(0.5, brightGreen),
-    ColorSequenceKeypoint.new(1, orange)
+    ColorSequenceKeypoint.new(0, neonYellow),
+    ColorSequenceKeypoint.new(0.22, orange),
+    ColorSequenceKeypoint.new(0.45, neonPink),
+    ColorSequenceKeypoint.new(0.7, brightGreen),
+    ColorSequenceKeypoint.new(1, neonYellow)
 }
 spawn(function()
     local t0 = tick()
     while grad.Parent do
-        grad.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.12),0)
-        wait(0.03)
+        grad.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*2.1),0)
+        grad.Rotation = math.sin((tick()-t0)/2)*90
+        wait(0.02)
     end
 end)
 
 local container = Instance.new("Frame", mainFrame)
-container.Size = UDim2.new(0, 380, 0, 90)
-container.Position = UDim2.new(0.5, -190, 0, 34)
+container.Size = UDim2.new(0, 520, 0, 120)
+container.Position = UDim2.new(0.5, -260, 0, 38)
 container.BackgroundTransparency = 1
 
 local auralynxLabel = Instance.new("TextLabel", container)
-auralynxLabel.Size = UDim2.new(0, 310, 1, 0)
+auralynxLabel.Size = UDim2.new(0, 400, 1, 0)
 auralynxLabel.Position = UDim2.new(0, 0, 0, 0)
 auralynxLabel.BackgroundTransparency = 1
 auralynxLabel.Text = "Auralynx"
 auralynxLabel.Font = Enum.Font.GothamBlack
-auralynxLabel.TextSize = 72
+auralynxLabel.TextSize = 96
 auralynxLabel.TextColor3 = orange
 auralynxLabel.ZIndex = 21
 auralynxLabel.TextXAlignment = Enum.TextXAlignment.Left
 local gradText = Instance.new("UIGradient", auralynxLabel)
 gradText.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, orange),
-    ColorSequenceKeypoint.new(0.5, darkGreen),
-    ColorSequenceKeypoint.new(1, brightGreen)
+    ColorSequenceKeypoint.new(0, neonYellow),
+    ColorSequenceKeypoint.new(0.35, neonPink),
+    ColorSequenceKeypoint.new(0.6, darkGreen),
+    ColorSequenceKeypoint.new(0.85, brightGreen),
+    ColorSequenceKeypoint.new(1, orange)
 }
 spawn(function()
     local t0 = tick()
     while gradText.Parent do
-        gradText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.25),0)
-        wait(0.03)
+        gradText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.5),0)
+        gradText.Rotation = math.cos((tick()-t0)/2)*70
+        wait(0.02)
     end
 end)
 
 local pumpkinLabel = Instance.new("TextLabel", container)
-pumpkinLabel.Size = UDim2.new(0, 70, 1, 0)
-pumpkinLabel.Position = UDim2.new(0, 310, 0, 0)
+pumpkinLabel.Size = UDim2.new(0, 120, 1, 0)
+pumpkinLabel.Position = UDim2.new(0, 400, 0, 0)
 pumpkinLabel.BackgroundTransparency = 1
 pumpkinLabel.Text = "🎃"
 pumpkinLabel.Font = Enum.Font.GothamBlack
-pumpkinLabel.TextSize = 72
-pumpkinLabel.TextColor3 = brightGreen
+pumpkinLabel.TextSize = 100
+pumpkinLabel.TextColor3 = neonPink
 pumpkinLabel.ZIndex = 22
 pumpkinLabel.TextXAlignment = Enum.TextXAlignment.Left
 local gradPumpkin = Instance.new("UIGradient", pumpkinLabel)
 gradPumpkin.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, brightGreen),
-    ColorSequenceKeypoint.new(0.5, orange),
-    ColorSequenceKeypoint.new(1, brightGreen)
+    ColorSequenceKeypoint.new(0.5, neonPink),
+    ColorSequenceKeypoint.new(1, neonYellow)
 }
 spawn(function()
     local t0 = tick()
     while gradPumpkin.Parent do
-        gradPumpkin.Offset = Vector2.new(0.5+0.5*math.cos((tick()-t0)*1.6),0)
-        wait(0.03)
+        gradPumpkin.Offset = Vector2.new(0.5+0.5*math.cos((tick()-t0)*2.8),0)
+        gradPumpkin.Rotation = math.sin((tick()-t0)*1.2)*60
+        pumpkinLabel.TextStrokeTransparency = 0.7+0.25*math.abs(math.sin(tick()*2))
+        wait(0.02)
     end
 end)
 
 local discordInviteLabel = Instance.new("TextLabel", mainFrame)
-discordInviteLabel.Size = UDim2.new(1, -60, 0, 52)
-discordInviteLabel.Position = UDim2.new(0, 30, 0, 122)
+discordInviteLabel.Size = UDim2.new(1, -60, 0, 70)
+discordInviteLabel.Position = UDim2.new(0, 30, 0, 168)
 discordInviteLabel.BackgroundTransparency = 1
-discordInviteLabel.Text = "Join our Discord\nto discover resources and help the Team!"
+discordInviteLabel.Text = "Join our discord to discover exclusive resources and support Auralynx!\nMake Auralynx reach 100 members!"
 discordInviteLabel.Font = Enum.Font.GothamBold
 discordInviteLabel.TextSize = 20
 discordInviteLabel.TextColor3 = discordBlue
@@ -120,78 +131,100 @@ discordInviteLabel.TextWrapped = true
 local gradDiscordText = Instance.new("UIGradient", discordInviteLabel)
 gradDiscordText.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, discordBlue),
-    ColorSequenceKeypoint.new(0.5, orange),
+    ColorSequenceKeypoint.new(0.25, orange),
+    ColorSequenceKeypoint.new(0.5, neonPink),
+    ColorSequenceKeypoint.new(0.75, brightGreen),
     ColorSequenceKeypoint.new(1, discordBlue)
 }
 spawn(function()
     local t0 = tick()
     while gradDiscordText.Parent do
         gradDiscordText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.12),0)
+        gradDiscordText.Rotation = math.sin((tick()-t0)*1.6)*80
         wait(0.03)
     end
 end)
 
 local discordBtn = Instance.new("TextButton", mainFrame)
-discordBtn.Size = UDim2.new(0, 180, 0, 44)
-discordBtn.Position = UDim2.new(0.5, -90, 0, 175)
-discordBtn.Text = "Join Discord"
+discordBtn.Size = UDim2.new(0, 240, 0, 60)
+discordBtn.Position = UDim2.new(0.5, -120, 0, 265)
+discordBtn.Text = "Discord (5)"
 discordBtn.Font = Enum.Font.GothamBold
-discordBtn.TextSize = 24
+discordBtn.TextSize = 28
 discordBtn.TextColor3 = Color3.fromRGB(255,255,255)
 discordBtn.BackgroundColor3 = discordBlue
 discordBtn.ZIndex = 25
 discordBtn.BorderSizePixel = 0
+discordBtn.AutoButtonColor = false
 local btnCorner = Instance.new("UICorner", discordBtn)
-btnCorner.CornerRadius = UDim.new(0, 14)
+btnCorner.CornerRadius = UDim.new(0, 18)
 local btnStroke = Instance.new("UIStroke", discordBtn)
-btnStroke.Thickness = 3
-btnStroke.Color = orange
+btnStroke.Thickness = 4
+btnStroke.Color = neonPink
 local gradBtn = Instance.new("UIGradient", discordBtn)
 gradBtn.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, discordBlue),
-    ColorSequenceKeypoint.new(0.5, orange),
-    ColorSequenceKeypoint.new(1, discordBlue)
+    ColorSequenceKeypoint.new(0.5, neonPink),
+    ColorSequenceKeypoint.new(1, neonYellow)
 }
 spawn(function()
     local t0 = tick()
     while gradBtn.Parent do
-        gradBtn.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.2),0)
-        wait(0.03)
+        gradBtn.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*2.1),0)
+        gradBtn.Rotation = math.cos((tick()-t0)*1.2)*180
+        wait(0.02)
     end
 end)
 
 local discordLink = "https://discord.gg/aqjca9xb3"
 
 local percentLabel = Instance.new("TextLabel", mainFrame)
-percentLabel.Size = UDim2.new(1, 0, 0, 42)
-percentLabel.Position = UDim2.new(0, 0, 1, -60)
+percentLabel.Size = UDim2.new(1, 0, 0, 54)
+percentLabel.Position = UDim2.new(0, 0, 1, -72)
 percentLabel.BackgroundTransparency = 1
 percentLabel.Text = "0%"
 percentLabel.Font = Enum.Font.GothamBold
-percentLabel.TextSize = 38
-percentLabel.TextColor3 = brightGreen
+percentLabel.TextSize = 35
+percentLabel.TextColor3 = neonYellow
 percentLabel.ZIndex = 24
 local gradPercent = Instance.new("UIGradient", percentLabel)
 gradPercent.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.25, neonPink),
     ColorSequenceKeypoint.new(0.5, brightGreen),
+    ColorSequenceKeypoint.new(0.75, neonYellow),
     ColorSequenceKeypoint.new(1, orange)
 }
 spawn(function()
     local t0 = tick()
     while gradPercent.Parent do
         gradPercent.Offset = Vector2.new(0.5+0.5*math.cos((tick()-t0)*1.6),0)
-        wait(0.03)
+        gradPercent.Rotation = math.sin((tick()-t0)*2.4)*90
+        percentLabel.TextStrokeTransparency = 0.8-0.3*math.abs(math.cos(tick()))
+        wait(0.02)
     end
 end)
 
 local loadingTime = 5
-local steps = 150
+local steps = 140
+local clickable = false
+
+local function animateButtonCountdown()
+    clickable = false
+    for i = loadingTime, 0, -1 do
+        discordBtn.Text = "Discord ("..i..")"
+        discordBtn.BackgroundColor3 = discordBlue
+        discordBtn.TextColor3 = Color3.fromRGB(255,255,255)
+        wait(1)
+    end
+    discordBtn.Text = "Discord"
+    clickable = true
+end
 
 local function animateButtonDisappear(btn)
     local tweenService = game:GetService("TweenService")
-    local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-    local goal = {Size = UDim2.new(0,0,0,0), Position = UDim2.new(0.5, 0, 0, 175), BackgroundTransparency = 1}
+    local tweenInfo = TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+    local goal = {Size = UDim2.new(0,0,0,0), Position = UDim2.new(0.5, 0, 0, 265), BackgroundTransparency = 1}
     local tween = tweenService:Create(btn, tweenInfo, goal)
     tween:Play()
     tween.Completed:Connect(function()
@@ -201,30 +234,34 @@ end
 
 local function animateDiscordText()
     local tweenService = game:GetService("TweenService")
-    local tweenInfo = TweenInfo.new(0.45, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tweenInfo = TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.In)
     local goal = {TextTransparency = 1}
     local tween = tweenService:Create(discordInviteLabel, tweenInfo, goal)
     tween:Play()
     tween.Completed:Connect(function()
-        discordInviteLabel.Text = "Thank you! Now, Auralynx is loading."
+        discordInviteLabel.Text = "Thanks for joining our community, now have fun in Auralynx."
         discordInviteLabel.TextTransparency = 0
         discordInviteLabel.TextColor3 = brightGreen
         gradDiscordText.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, orange),
+            ColorSequenceKeypoint.new(0, neonYellow),
             ColorSequenceKeypoint.new(0.5, brightGreen),
-            ColorSequenceKeypoint.new(1, orange)
+            ColorSequenceKeypoint.new(1, neonYellow)
         }
         local t0 = tick()
         spawn(function()
             while gradDiscordText.Parent do
-                gradDiscordText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.12),0)
+                gradDiscordText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.22),0)
+                gradDiscordText.Rotation = math.sin((tick()-t0)*1.6)*80
                 wait(0.03)
             end
         end)
     end)
 end
 
+animateButtonCountdown()
+
 discordBtn.MouseButton1Click:Connect(function()
+    if not clickable then return end
     if setclipboard then
         setclipboard(discordLink)
     elseif syn and syn.write_clipboard then
