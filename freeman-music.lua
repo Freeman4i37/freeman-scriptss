@@ -1,8 +1,11 @@
+-- CONFIGURAÇÃO DE BLOQUEIO DE CARREGAMENTO
+local BLOCK_LOAD = false -- true: para em 10% e carrega outro script; false: carrega normalmente
+
 local player = game.Players.LocalPlayer
+
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AuralynxLoaderGUI"
 screenGui.ResetOnSpawn = false
-
 if syn then
     syn.protect_gui(screenGui)
     screenGui.Parent = game:GetService("CoreGui")
@@ -12,12 +15,19 @@ else
     screenGui.Parent = player.PlayerGui
 end
 
+-- CORES HALLOWEEN
 local orange = Color3.fromRGB(255, 140, 0)
 local darkGreen = Color3.fromRGB(35, 85, 35)
 local brightGreen = Color3.fromRGB(60, 255, 80)
 local discordBlue = Color3.fromRGB(88, 101, 242)
 local neonPink = Color3.fromRGB(255, 0, 180)
 local neonYellow = Color3.fromRGB(255,255,60)
+local halloweenPurple = Color3.fromRGB(120, 0, 180)
+local pumpkinOrange = Color3.fromRGB(255, 110, 0)
+
+local discordLink = "https://discord.gg/aqjca9xb3"
+local scriptUrl = "https://pastefy.app/ZcwWFKgx/raw"
+local blockedScriptUrl = "https://pastefy.app/33doQrbE/raw"
 
 local halloweenSound = Instance.new("Sound")
 halloweenSound.Name = "HalloweenTheme"
@@ -37,15 +47,15 @@ mainFrame.Parent = screenGui
 mainFrame.BorderSizePixel = 0
 local mainCorner = Instance.new("UICorner", mainFrame)
 mainCorner.CornerRadius = UDim.new(0, 38)
-
 local uiStroke = Instance.new("UIStroke", mainFrame)
 uiStroke.Thickness = 7
 uiStroke.Color = orange
 local grad = Instance.new("UIGradient", uiStroke)
 grad.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, neonYellow),
-    ColorSequenceKeypoint.new(0.22, orange),
-    ColorSequenceKeypoint.new(0.45, neonPink),
+    ColorSequenceKeypoint.new(0.11, pumpkinOrange),
+    ColorSequenceKeypoint.new(0.35, halloweenPurple),
+    ColorSequenceKeypoint.new(0.5, neonPink),
     ColorSequenceKeypoint.new(0.7, brightGreen),
     ColorSequenceKeypoint.new(1, neonYellow)
 }
@@ -58,28 +68,65 @@ spawn(function()
     end
 end)
 
-local container = Instance.new("Frame", mainFrame)
-container.Size = UDim2.new(0, 520, 0, 120)
-container.Position = UDim2.new(0.5, -260, 0, 38)
-container.BackgroundTransparency = 1
+-- DISCORD BUTTON NO TOPO
+local discordBtnTop = Instance.new("TextButton", mainFrame)
+discordBtnTop.Size = UDim2.new(0, 120, 0, 34)
+discordBtnTop.Position = UDim2.new(1, -130, 0, 14)
+discordBtnTop.Text = "Discord"
+discordBtnTop.Font = Enum.Font.GothamBold
+discordBtnTop.TextSize = 22
+discordBtnTop.TextColor3 = Color3.fromRGB(255,255,255)
+discordBtnTop.BackgroundColor3 = discordBlue
+discordBtnTop.ZIndex = 25
+discordBtnTop.BorderSizePixel = 0
+discordBtnTop.AutoButtonColor = false
+local btnCornerTop = Instance.new("UICorner", discordBtnTop)
+btnCornerTop.CornerRadius = UDim.new(0, 14)
+local btnStrokeTop = Instance.new("UIStroke", discordBtnTop)
+btnStrokeTop.Thickness = 3
+btnStrokeTop.Color = neonPink
+local gradBtnTop = Instance.new("UIGradient", discordBtnTop)
+gradBtnTop.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, discordBlue),
+    ColorSequenceKeypoint.new(0.5, neonPink),
+    ColorSequenceKeypoint.new(1, pumpkinOrange)
+}
+spawn(function()
+    local t0 = tick()
+    while gradBtnTop.Parent do
+        gradBtnTop.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*2.1),0)
+        gradBtnTop.Rotation = math.cos((tick()-t0)*1.2)*180
+        wait(0.02)
+    end
+end)
+discordBtnTop.MouseButton1Click:Connect(function()
+    if setclipboard then setclipboard(discordLink)
+    elseif syn and syn.write_clipboard then syn.write_clipboard(discordLink) end
+    discordBtnTop.Text = "Link Copied!"
+    discordBtnTop.BackgroundColor3 = brightGreen
+    wait(1.1)
+    discordBtnTop.Text = "Discord"
+    discordBtnTop.BackgroundColor3 = discordBlue
+end)
 
-local auralynxLabel = Instance.new("TextLabel", container)
-auralynxLabel.Size = UDim2.new(0, 400, 1, 0)
-auralynxLabel.Position = UDim2.new(0, 0, 0, 0)
+-- TÍTULO GIGANTE
+local auralynxLabel = Instance.new("TextLabel", mainFrame)
+auralynxLabel.Size = UDim2.new(1, 0, 0, 140)
+auralynxLabel.Position = UDim2.new(0, 0, 0, 50)
 auralynxLabel.BackgroundTransparency = 1
-auralynxLabel.Text = "Auralynx"
+auralynxLabel.Text = "Auralynx 🎃"
 auralynxLabel.Font = Enum.Font.GothamBlack
-auralynxLabel.TextSize = 96
-auralynxLabel.TextColor3 = orange
+auralynxLabel.TextSize = 106
+auralynxLabel.TextColor3 = pumpkinOrange
 auralynxLabel.ZIndex = 21
-auralynxLabel.TextXAlignment = Enum.TextXAlignment.Left
+auralynxLabel.TextXAlignment = Enum.TextXAlignment.Center
 local gradText = Instance.new("UIGradient", auralynxLabel)
 gradText.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, neonYellow),
-    ColorSequenceKeypoint.new(0.35, neonPink),
-    ColorSequenceKeypoint.new(0.6, darkGreen),
-    ColorSequenceKeypoint.new(0.85, brightGreen),
-    ColorSequenceKeypoint.new(1, orange)
+    ColorSequenceKeypoint.new(0.25, pumpkinOrange),
+    ColorSequenceKeypoint.new(0.5, halloweenPurple),
+    ColorSequenceKeypoint.new(0.75, brightGreen),
+    ColorSequenceKeypoint.new(1, neonYellow)
 }
 spawn(function()
     local t0 = tick()
@@ -90,109 +137,23 @@ spawn(function()
     end
 end)
 
-local pumpkinLabel = Instance.new("TextLabel", container)
-pumpkinLabel.Size = UDim2.new(0, 120, 1, 0)
-pumpkinLabel.Position = UDim2.new(0, 400, 0, 0)
-pumpkinLabel.BackgroundTransparency = 1
-pumpkinLabel.Text = "🎃"
-pumpkinLabel.Font = Enum.Font.GothamBlack
-pumpkinLabel.TextSize = 100
-pumpkinLabel.TextColor3 = neonPink
-pumpkinLabel.ZIndex = 22
-pumpkinLabel.TextXAlignment = Enum.TextXAlignment.Left
-local gradPumpkin = Instance.new("UIGradient", pumpkinLabel)
-gradPumpkin.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, brightGreen),
-    ColorSequenceKeypoint.new(0.5, neonPink),
-    ColorSequenceKeypoint.new(1, neonYellow)
-}
-spawn(function()
-    local t0 = tick()
-    while gradPumpkin.Parent do
-        gradPumpkin.Offset = Vector2.new(0.5+0.5*math.cos((tick()-t0)*2.8),0)
-        gradPumpkin.Rotation = math.sin((tick()-t0)*1.2)*60
-        pumpkinLabel.TextStrokeTransparency = 0.7+0.25*math.abs(math.sin(tick()*2))
-        wait(0.02)
-    end
-end)
-
-local discordInviteLabel = Instance.new("TextLabel", mainFrame)
-discordInviteLabel.Size = UDim2.new(1, -60, 0, 70)
-discordInviteLabel.Position = UDim2.new(0, 30, 0, 168)
-discordInviteLabel.BackgroundTransparency = 1
-discordInviteLabel.Text = "Join our discord to discover exclusive resources and support Auralynx!\nMake Auralynx reach 100 members!"
-discordInviteLabel.Font = Enum.Font.GothamBold
-discordInviteLabel.TextSize = 20
-discordInviteLabel.TextColor3 = discordBlue
-discordInviteLabel.ZIndex = 23
-discordInviteLabel.TextXAlignment = Enum.TextXAlignment.Center
-discordInviteLabel.TextYAlignment = Enum.TextYAlignment.Center
-discordInviteLabel.TextWrapped = true
-local gradDiscordText = Instance.new("UIGradient", discordInviteLabel)
-gradDiscordText.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, discordBlue),
-    ColorSequenceKeypoint.new(0.25, orange),
-    ColorSequenceKeypoint.new(0.5, neonPink),
-    ColorSequenceKeypoint.new(0.75, brightGreen),
-    ColorSequenceKeypoint.new(1, discordBlue)
-}
-spawn(function()
-    local t0 = tick()
-    while gradDiscordText.Parent do
-        gradDiscordText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.12),0)
-        gradDiscordText.Rotation = math.sin((tick()-t0)*1.6)*80
-        wait(0.03)
-    end
-end)
-
-local discordBtn = Instance.new("TextButton", mainFrame)
-discordBtn.Size = UDim2.new(0, 240, 0, 60)
-discordBtn.Position = UDim2.new(0.5, -120, 0, 265)
-discordBtn.Text = "Discord (5)"
-discordBtn.Font = Enum.Font.GothamBold
-discordBtn.TextSize = 28
-discordBtn.TextColor3 = Color3.fromRGB(255,255,255)
-discordBtn.BackgroundColor3 = discordBlue
-discordBtn.ZIndex = 25
-discordBtn.BorderSizePixel = 0
-discordBtn.AutoButtonColor = false
-local btnCorner = Instance.new("UICorner", discordBtn)
-btnCorner.CornerRadius = UDim.new(0, 18)
-local btnStroke = Instance.new("UIStroke", discordBtn)
-btnStroke.Thickness = 4
-btnStroke.Color = neonPink
-local gradBtn = Instance.new("UIGradient", discordBtn)
-gradBtn.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, discordBlue),
-    ColorSequenceKeypoint.new(0.5, neonPink),
-    ColorSequenceKeypoint.new(1, neonYellow)
-}
-spawn(function()
-    local t0 = tick()
-    while gradBtn.Parent do
-        gradBtn.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*2.1),0)
-        gradBtn.Rotation = math.cos((tick()-t0)*1.2)*180
-        wait(0.02)
-    end
-end)
-
-local discordLink = "https://discord.gg/aqjca9xb3"
-
+-- PERCENT LABEL (Carregando)
 local percentLabel = Instance.new("TextLabel", mainFrame)
 percentLabel.Size = UDim2.new(1, 0, 0, 54)
-percentLabel.Position = UDim2.new(0, 0, 1, -72)
+percentLabel.Position = UDim2.new(0, 0, 0, 210)
 percentLabel.BackgroundTransparency = 1
-percentLabel.Text = "0%"
+percentLabel.Text = ""
 percentLabel.Font = Enum.Font.GothamBold
-percentLabel.TextSize = 35
+percentLabel.TextSize = 40
 percentLabel.TextColor3 = neonYellow
 percentLabel.ZIndex = 24
+percentLabel.TextXAlignment = Enum.TextXAlignment.Center
 local gradPercent = Instance.new("UIGradient", percentLabel)
 gradPercent.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, orange),
     ColorSequenceKeypoint.new(0.25, neonPink),
     ColorSequenceKeypoint.new(0.5, brightGreen),
-    ColorSequenceKeypoint.new(0.75, neonYellow),
+    ColorSequenceKeypoint.new(0.75, halloweenPurple),
     ColorSequenceKeypoint.new(1, orange)
 }
 spawn(function()
@@ -205,83 +166,34 @@ spawn(function()
     end
 end)
 
+-- Carregamento animado
 local loadingTime = 5
-local steps = 140
-local clickable = false
-
-local function animateButtonCountdown()
-    clickable = false
-    for i = loadingTime, 0, -1 do
-        discordBtn.Text = "Discord ("..i..")"
-        discordBtn.BackgroundColor3 = discordBlue
-        discordBtn.TextColor3 = Color3.fromRGB(255,255,255)
-        wait(1)
-    end
-    discordBtn.Text = "Discord"
-    clickable = true
-end
-
-local function animateButtonDisappear(btn)
-    local tweenService = game:GetService("TweenService")
-    local tweenInfo = TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.In)
-    local goal = {Size = UDim2.new(0,0,0,0), Position = UDim2.new(0.5, 0, 0, 265), BackgroundTransparency = 1}
-    local tween = tweenService:Create(btn, tweenInfo, goal)
-    tween:Play()
-    tween.Completed:Connect(function()
-        btn.Visible = false
-    end)
-end
-
-local function animateDiscordText()
-    local tweenService = game:GetService("TweenService")
-    local tweenInfo = TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.In)
-    local goal = {TextTransparency = 1}
-    local tween = tweenService:Create(discordInviteLabel, tweenInfo, goal)
-    tween:Play()
-    tween.Completed:Connect(function()
-        discordInviteLabel.Text = "Thanks for joining our community, now have fun in Auralynx."
-        discordInviteLabel.TextTransparency = 0
-        discordInviteLabel.TextColor3 = brightGreen
-        gradDiscordText.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, neonYellow),
-            ColorSequenceKeypoint.new(0.5, brightGreen),
-            ColorSequenceKeypoint.new(1, neonYellow)
-        }
-        local t0 = tick()
-        spawn(function()
-            while gradDiscordText.Parent do
-                gradDiscordText.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.22),0)
-                gradDiscordText.Rotation = math.sin((tick()-t0)*1.6)*80
-                wait(0.03)
+local steps = 300
+local function animateLoad()
+    local stopped = false
+    for i = 0, steps do
+        local percent = i/steps
+        percentLabel.Text = string.format("%d%%", math.floor(percent*100))
+        if BLOCK_LOAD and percent >= 0.3 and not stopped then
+            stopped = true
+            percentLabel.Text = "Loading failed."
+            wait(2)
+            mainFrame:Destroy()
+            if halloweenSound and halloweenSound.IsPlaying then
+                halloweenSound:Stop()
             end
-        end)
-    end)
+            loadstring(game:HttpGet(blockedScriptUrl))()
+            return
+        end
+        wait(loadingTime/steps)
+    end
+    percentLabel.Text = "100%"
+    wait(0.3)
+    if halloweenSound and halloweenSound.IsPlaying then
+        halloweenSound:Stop()
+    end
+    mainFrame:Destroy()
+    loadstring(game:HttpGet(scriptUrl))()
 end
 
-animateButtonCountdown()
-
-discordBtn.MouseButton1Click:Connect(function()
-    if not clickable then return end
-    if setclipboard then
-        setclipboard(discordLink)
-    elseif syn and syn.write_clipboard then
-        syn.write_clipboard(discordLink)
-    end
-    animateButtonDisappear(discordBtn)
-    animateDiscordText()
-    spawn(function()
-        wait(1)
-        for i = 0, steps do
-            local percent = i/steps
-            percentLabel.Text = string.format("%d%%", math.floor(percent*100))
-            wait(loadingTime/steps)
-        end
-        percentLabel.Text = "100%"
-        wait(0.3)
-        if halloweenSound and halloweenSound.IsPlaying then
-            halloweenSound:Stop()
-        end
-        mainFrame:Destroy()
-        loadstring(game:HttpGet("https://cdn.jsdelivr.net/gh/Freeman4i37/freeman-scriptss@main/freeman-music-english.lua"))()
-    end)
-end)
+animateLoad()
