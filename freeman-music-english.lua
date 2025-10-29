@@ -1,8 +1,12 @@
 local orange = Color3.fromRGB(255,140,0)
 
+local black = Color3.fromRGB(0,0,0)
+
+local red = Color3.fromRGB(255,0,0)
+
 local green = Color3.fromRGB(60,255,80)
 
-local black = Color3.fromRGB(0,0,0)
+local purple = Color3.fromRGB(128,0,128)
 
 local accentBg = Color3.fromRGB(32,32,32)
 
@@ -26,10 +30,37 @@ local runService = game:GetService("RunService")
 
 local tweenService = game:GetService("TweenService")
 
-local musicIDs = {["1"]=94718473830640,["2"]=92209428926055,["3"]=133900561957103,["4"]=93768636184697,["5"]=92062588329352,["6"]=84773737820526,["7"]=87783857221289,["8"]=88342296270082,["9"]=85342086082111,["10"]=93058983119992,["11"]=92492039534399,["12"]=134035788881796,["13"]=18841893567,["14"]=73962723234161,["15"]=140268583413209,["16"]=77741294709660,["17"]=71531533552899,["18"]=16190782181,["19"]=117169209277972,["20"]=81299332131868,["21"]=77147911349059,["22"]=124092830839928,["23"]=122854357582130,["24"]=88094479399489,["25"]=88339486019486,["26"]=97765714111493,["27"]=92446612272052,["28"]=74366765967475,["29"]=112068892721408,["30"]=112143944982807,["31"]=111668097052966,["32"]=112214814544629,["33"]=101500915434329,["34"]=95046091312570,["35"]=110091098283354,["36"]=17422156627,["37"]=82411642961457,["38"]=87022583947683,["39"]=96974354995715,["40"]=119020235792430,["41"]=82411642961457,["42"]=96215620202470,["43"]=70782176012619,["44"]=112893354276338,["45"]=118507373399694,["46"]=98691879232718,["47"]=134457296749518,["48"]=118607303205005,["49"]=127504762051765,["50"]=118297487529239,["51"]=132082397247824,["52"]=106958630419629,["53"]=86685635786943,["54"]=101456813429584,["55"]=100533213305793}
-
-local musicNames = {["1"]="Funk da Febre",["2"]="Switch The Colors (Jersey Club)",["3"]="Trash Funk",["4"]="2609 (Jersey Club)",["5"]="Spooky Scary Sunday (Jersey Club)",["6"]="ANOTE AÍ",["7"]="Temptation",["8"]="Ela Tano",["9"]="Seu fã",["10"]="MONTAGEM ECLIPSE ESTRELAR",["11"]="Em Dezembro de 81 - Flamengo",["12"]="Esquema Confirmado - Arrocha",["13"]="JERSEY WAVE",["14"]="Arrepia XL 2",["15"]="Meepcity (Jersey Club)",["16"]="Manda Meu Passinho",["17"]="Lembro até hoje",["18"]="HR - EEYUH!",["19"]="I love ha",["20"]="SHE DON'T - Lonelybwoi",["21"]="NY Drill Ritual",["22"]="It Doesn't Matter (Jersey Club)",["23"]="69 PHONK",["24"]="Ela se envolveu",["25"]="Montagem Pose",["26"]="Trem Fantasma Funk",["27"]="MTG ZUM ZUM ZUM",["28"]="EU NÃO ESTOU LOUCO",["29"]="FUNK DA PRAIA (SLOWED)",["30"]="Hogo Funk",["31"]="Novinha sapeca",["32"]="ANALOG HORROR FUNK",["33"]="Dum Dum",["34"]="Rebola pro pai",["35"]="Carro Bixo",["36"]="Onichan",["37"]="Arrepia XL 6",["38"]="Mandrake",["39"]="Toma Toma",["40"]="Lá no meu barraco",["41"]="Batida SP",["42"]="Funk SP",["43"]="Pega no cipó",["44"]="Rap do Minecraft (Funk)",["45"]="Melodia do Verão",["46"]="Funk do Famglia",["47"]="Vem no pique (Phonk)",["48"]="Michael Jackson FUNK",["49"]="Arrepia XL 4",["50"]="MONTAGEM NOVA MÁGICA 1.0",["51"]="V2 Daquela (XL Funk)",["52"]="Digitei seu número (Sertanejo)",["53"]="Auto toma",["54"]="Montagem Balanço",["55"]="Piseiro com sertanejo"}
-
+local musicIDs = {
+    ["1"]=94718473830640,["2"]=92209428926055,["3"]=133900561957103,["4"]=93768636184697,["5"]=92062588329352,
+    ["6"]=84773737820526,["7"]=87783857221289,["8"]=88342296270082,["9"]=85342086082111,["10"]=93058983119992,
+    ["11"]=92492039534399,["12"]=134035788881796,["13"]=18841893567,["14"]=73962723234161,["15"]=140268583413209,
+    ["16"]=77741294709660,["17"]=71531533552899,["18"]=16190782181,["19"]=117169209277972,["20"]=81299332131868,
+    ["21"]=77147911349059,["22"]=124092830839928,["23"]=122854357582130,["24"]=88094479399489,["25"]=88339486019486,
+    ["26"]=97765714111493,["27"]=92446612272052,["28"]=74366765967475,["29"]=112068892721408,["30"]=112143944982807,
+    ["31"]=111668097052966,["32"]=112214814544629,["33"]=101500915434329,["34"]=95046091312570,["35"]=110091098283354,
+    ["36"]=17422156627,["37"]=82411642961457,["38"]=87022583947683,["39"]=96974354995715,["40"]=119020235792430,
+    ["41"]=82411642961457,["42"]=96215620202470,["43"]=70782176012619,["44"]=112893354276338,["45"]=118507373399694,
+    ["46"]=98691879232718,["47"]=134457296749518,["48"]=118607303205005,["49"]=127504762051765,["50"]=118297487529239,
+    ["51"]=132082397247824,["52"]=106958630419629,["53"]=86685635786943,["54"]=101456813429584,["55"]=100533213305793,
+    ["56"]=112930367758222,["57"]=100828050594137,["58"]=124085422276732,["59"]=122114766584918
+}
+local musicNames = {
+    ["1"]="Funk da Febre",["2"]="Switch The Colors (Jersey Club)",["3"]="Trash Funk",["4"]="2609 (Jersey Club)",
+    ["5"]="Spooky Scary Sunday (Jersey Club)",["6"]="ANOTE AÍ",["7"]="Temptation",["8"]="Ela Tano",["9"]="Seu fã",
+    ["10"]="MONTAGEM ECLIPSE ESTRELAR",["11"]="Em Dezembro de 81 - Flamengo",["12"]="Esquema Confirmado - Arrocha",
+    ["13"]="JERSEY WAVE",["14"]="Arrepia XL 2",["15"]="Meepcity (Jersey Club)",["16"]="Manda Meu Passinho",
+    ["17"]="Lembro até hoje",["18"]="HR - EEYUH!",["19"]="I love ha",["20"]="SHE DON'T - Lonelybwoi",
+    ["21"]="NY Drill Ritual",["22"]="It Doesn't Matter (Jersey Club)",["23"]="69 PHONK",["24"]="Ela se envolveu",
+    ["25"]="Montagem Pose",["26"]="Trem Fantasma Funk",["27"]="MTG ZUM ZUM ZUM",["28"]="EU NÃO ESTOU LOUCO",
+    ["29"]="FUNK DA PRAIA (SLOWED)",["30"]="Hogo Funk",["31"]="Novinha sapeca",["32"]="ANALOG HORROR FUNK",
+    ["33"]="Dum Dum",["34"]="Rebola pro pai",["35"]="Carro Bixo",["36"]="Onichan",["37"]="Arrepia XL 6",
+    ["38"]="Mandrake",["39"]="Toma Toma",["40"]="Lá no meu barraco",["41"]="Batida SP",["42"]="Funk SP",
+    ["43"]="Pega no cipó",["44"]="Rap do Minecraft (Funk)",["45"]="Melodia do Verão",["46"]="Funk do Famglia",
+    ["47"]="Vem no pique (Phonk)",["48"]="Michael Jackson FUNK",["49"]="Arrepia XL 4",["50"]="MONTAGEM NOVA MÁGICA 1.0",
+    ["51"]="V2 Daquela (XL Funk)",["52"]="Digitei seu número (Sertanejo)",["53"]="Auto toma",["54"]="Montagem Balanço",
+    ["55"]="Piseiro com sertanejo",["56"]="Montagem Vozes Talentinho",["57"]="Spooky Scary (Funk)",
+    ["58"]="SENTA (NGL x XL)",["59"]="Haha (NGL)"
+}
 local function createGradientAnim(obj, colorSeq, speed)
 
     local grad = Instance.new("UIGradient", obj)
@@ -44,7 +75,7 @@ local function createGradientAnim(obj, colorSeq, speed)
 
             grad.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*speed),0)
 
-            wait(0.03)
+            wait(0.01)
 
         end
 
@@ -54,16 +85,15 @@ local function createGradientAnim(obj, colorSeq, speed)
 
 end
 
+
 local function styleButton(btn)
 
     createGradientAnim(btn, ColorSequence.new{
-
-        ColorSequenceKeypoint.new(0, orange),
-
-        ColorSequenceKeypoint.new(0.5, green),
-
-        ColorSequenceKeypoint.new(1, orange)
-
+    ColorSequenceKeypoint.new(0, orange),
+    ColorSequenceKeypoint.new(0.33, black),
+    ColorSequenceKeypoint.new(0.66, red),
+    ColorSequenceKeypoint.new(1, purple)
+    
     }, 1.5)
 
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = orange btn.TextColor3 = black end)
@@ -117,11 +147,12 @@ local gradMainBorder = Instance.new("UIGradient", mainStroke)
 gradMainBorder.Color = ColorSequence.new{
 
     ColorSequenceKeypoint.new(0, orange),
-
-    ColorSequenceKeypoint.new(0.5, green),
-
-    ColorSequenceKeypoint.new(1, orange)
-
+    
+    ColorSequenceKeypoint.new(0.33, black),
+    
+    ColorSequenceKeypoint.new(0.66, red),
+    
+    ColorSequenceKeypoint.new(1, purple)
 }
 
 spawn(function()
@@ -175,10 +206,12 @@ headerTitle.ZIndex = 11
 createGradientAnim(headerTitle, ColorSequence.new{
 
     ColorSequenceKeypoint.new(0, orange),
-
-    ColorSequenceKeypoint.new(0.5, green),
-
-    ColorSequenceKeypoint.new(1, orange)
+    
+    ColorSequenceKeypoint.new(0.33, black),
+    
+    ColorSequenceKeypoint.new(0.66, red),
+    
+    ColorSequenceKeypoint.new(1, purple)
 
 }, 1.5)
 
@@ -398,7 +431,7 @@ local function showMusicNotification(musicName, duration, isLoop, sound)
 
     notificationBar.Size = UDim2.new(0, 340, 0, 64)
 
-    notificationBar.Position = UDim2.new(0.5, -170, 0, 10)
+    notificationBar.Position = UDim2.new(0, 705, 0, 10)
 
     notificationBar.BackgroundColor3 = black
 
@@ -424,12 +457,13 @@ local function showMusicNotification(musicName, duration, isLoop, sound)
 
     gradStroke.Color = ColorSequence.new{
 
-        ColorSequenceKeypoint.new(0, green),
-
-        ColorSequenceKeypoint.new(0.5, orange),
-
-        ColorSequenceKeypoint.new(1, green)
-
+        ColorSequenceKeypoint.new(0, orange),
+    
+        ColorSequenceKeypoint.new(0.33, black),
+    
+        ColorSequenceKeypoint.new(0.66, red),
+    
+        ColorSequenceKeypoint.new(1, purple)
     }
 
     spawn(function()
@@ -469,10 +503,12 @@ local function showMusicNotification(musicName, duration, isLoop, sound)
     createGradientAnim(nameLabel, ColorSequence.new{
 
         ColorSequenceKeypoint.new(0, orange),
-
-        ColorSequenceKeypoint.new(0.5, green),
-
-        ColorSequenceKeypoint.new(1, orange)
+    
+        ColorSequenceKeypoint.new(0.33, black),
+    
+        ColorSequenceKeypoint.new(0.66, red),
+    
+        ColorSequenceKeypoint.new(1, purple)
 
     }, 1.5)
 
@@ -496,11 +532,13 @@ local function showMusicNotification(musicName, duration, isLoop, sound)
 
     createGradientAnim(durLabel, ColorSequence.new{
 
-        ColorSequenceKeypoint.new(0, green),
-
-        ColorSequenceKeypoint.new(0.5, orange),
-
-        ColorSequenceKeypoint.new(1, green)
+        ColorSequenceKeypoint.new(0, orange),
+    
+        ColorSequenceKeypoint.new(0.33, black),
+    
+        ColorSequenceKeypoint.new(0.66, red),
+    
+        ColorSequenceKeypoint.new(1, purple)
 
     }, 1.5)
 
@@ -684,7 +722,7 @@ do
 
     grid.FillDirectionMaxCells = 2
 
-    for i = 1, 55 do
+    for i = 1, 59 do
 
         local btn = Instance.new("TextButton")
 
@@ -789,10 +827,12 @@ do
                     createGradientAnim(titleLabel, ColorSequence.new{
 
                         ColorSequenceKeypoint.new(0, orange),
-
-                        ColorSequenceKeypoint.new(0.5, green),
-
-                        ColorSequenceKeypoint.new(1, orange)
+    
+                        ColorSequenceKeypoint.new(0.33, black),
+    
+                        ColorSequenceKeypoint.new(0.66, red),
+    
+                        ColorSequenceKeypoint.new(1, purple)
 
                     }, 1.5)
 
@@ -1025,10 +1065,12 @@ do
                 createGradientAnim(titleLabel, ColorSequence.new{
 
                     ColorSequenceKeypoint.new(0, orange),
-
-                    ColorSequenceKeypoint.new(0.5, green),
-
-                    ColorSequenceKeypoint.new(1, orange)
+    
+                    ColorSequenceKeypoint.new(0.33, black),
+    
+                    ColorSequenceKeypoint.new(0.66, red),
+    
+                    ColorSequenceKeypoint.new(1, purple)
 
                 }, 1.5)
 
@@ -1152,7 +1194,7 @@ do
 
     musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-    for k = 1, 55 do
+    for k = 1, 59 do
 
         local lbl = Instance.new("TextLabel", musicScroll)
 
@@ -1175,10 +1217,12 @@ do
         createGradientAnim(lbl, ColorSequence.new{
 
             ColorSequenceKeypoint.new(0, orange),
-
-            ColorSequenceKeypoint.new(0.5, green),
-
-            ColorSequenceKeypoint.new(1, orange)
+    
+            ColorSequenceKeypoint.new(0.33, black),
+    
+            ColorSequenceKeypoint.new(0.66, red),
+    
+            ColorSequenceKeypoint.new(1, purple)
 
         }, 1.5)
 
@@ -1241,10 +1285,12 @@ do
     createGradientAnim(descLbl, ColorSequence.new{
 
         ColorSequenceKeypoint.new(0, orange),
-
-        ColorSequenceKeypoint.new(0.5, green),
-
-        ColorSequenceKeypoint.new(1, orange)
+    
+        ColorSequenceKeypoint.new(0.33, black),
+    
+        ColorSequenceKeypoint.new(0.66, red),
+    
+        ColorSequenceKeypoint.new(1, purple)
 
     }, 1.5)
 
@@ -1443,7 +1489,9 @@ do
         {name="Execute Coquette Hub", url="https://ghostbin.axel.org/paste/vkhh2/raw"},
 
         {name="Execute AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
-
+        
+        {name="Execute Demon Hub", url="https://coderawv2.vercel.app/api/raw?id=-Occqcmh7oi1MB0Wccg8"},
+        
         {name="Execute Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"}
 
     }
@@ -1507,11 +1555,13 @@ do
     createGradientAnim(creditsLabel, ColorSequence.new{
 
         ColorSequenceKeypoint.new(0, orange),
-
-        ColorSequenceKeypoint.new(0.5, green),
-
-        ColorSequenceKeypoint.new(1, orange)
-
+    
+        ColorSequenceKeypoint.new(0.33, black),
+    
+        ColorSequenceKeypoint.new(0.66, red),
+    
+        ColorSequenceKeypoint.new(1, purple)
+    
     }, 1.5)
 
     local discordBtn = Instance.new("TextButton", creditsFrame)
