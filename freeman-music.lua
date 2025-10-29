@@ -26,8 +26,8 @@ local halloweenPurple = Color3.fromRGB(120, 0, 180)
 local pumpkinOrange = Color3.fromRGB(255, 110, 0)
 
 local discordLink = "https://discord.gg/aqjca9xb3"
-local scriptUrl = "https://pastefy.app/ZcwWFKgx/raw"
-local blockedScriptUrl = "https://pastefy.app/33doQrbE/raw"
+local scriptUrl = "https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music-english.lua"
+local blockedScriptUrl = "https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/advise.lua"
 
 local halloweenSound = Instance.new("Sound")
 halloweenSound.Name = "HalloweenTheme"
