@@ -418,207 +418,194 @@ closeBtn.MouseButton1Click:Connect(function()
 end)
 
 local notificationBar = nil
-
 local notificationConn = nil
+local lastNotifType = 0
+local notifTimer = nil
 
 local function showMusicNotification(musicName, duration, isLoop, sound)
-
     if notificationConn then notificationConn:Disconnect() end
-
     if notificationBar then notificationBar:Destroy() end
-
     notificationBar = Instance.new("Frame", screenGui)
-
     notificationBar.Size = UDim2.new(0, 340, 0, 64)
-
     notificationBar.Position = UDim2.new(0, 705, 0, 10)
-
     notificationBar.BackgroundColor3 = black
-
     notificationBar.BorderSizePixel = 0
-
     notificationBar.ZIndex = 9999
-
     local corner = Instance.new("UICorner", notificationBar)
-
     corner.CornerRadius = UDim.new(0,16)
-
     local stroke = Instance.new("UIStroke", notificationBar)
-
     stroke.Thickness = 3
-
     stroke.Transparency = 0.1
-
     stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
     stroke.Color = orange
-
     local gradStroke = Instance.new("UIGradient", stroke)
-
     gradStroke.Color = ColorSequence.new{
-
         ColorSequenceKeypoint.new(0, orange),
-    
         ColorSequenceKeypoint.new(0.33, black),
-    
         ColorSequenceKeypoint.new(0.66, red),
-    
         ColorSequenceKeypoint.new(1, purple)
     }
-
     spawn(function()
-
         local t0 = tick()
-
         while gradStroke.Parent do
-
             gradStroke.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.8),0)
-
             wait(0.03)
-
         end
-
     end)
-
     local nameLabel = Instance.new("TextLabel", notificationBar)
-
     nameLabel.Size = UDim2.new(1, -10, 0, 34)
-
     nameLabel.Position = UDim2.new(0,5,0,5)
-
     nameLabel.BackgroundTransparency = 1
-
     nameLabel.Text = musicName
-
     nameLabel.TextColor3 = orange
-
     nameLabel.TextSize = 22
-
     nameLabel.Font = Enum.Font.GothamBold
-
     nameLabel.ZIndex = 9999
-
     nameLabel.TextWrapped = true
-
     createGradientAnim(nameLabel, ColorSequence.new{
-
         ColorSequenceKeypoint.new(0, orange),
-    
         ColorSequenceKeypoint.new(0.33, black),
-    
         ColorSequenceKeypoint.new(0.66, red),
-    
         ColorSequenceKeypoint.new(1, purple)
-
     }, 1.5)
-
     local durLabel = Instance.new("TextLabel", notificationBar)
-
     durLabel.Size = UDim2.new(1, -10, 0, 22)
-
     durLabel.Position = UDim2.new(0,5,0,38)
-
     durLabel.BackgroundTransparency = 1
-
     durLabel.TextColor3 = orange
-
     durLabel.TextSize = 16
-
     durLabel.Font = Enum.Font.Gotham
-
     durLabel.ZIndex = 9999
-
     durLabel.TextWrapped = true
-
     createGradientAnim(durLabel, ColorSequence.new{
-
         ColorSequenceKeypoint.new(0, orange),
-    
         ColorSequenceKeypoint.new(0.33, black),
-    
         ColorSequenceKeypoint.new(0.66, red),
-    
         ColorSequenceKeypoint.new(1, purple)
-
     }, 1.5)
-
     notificationBar.BackgroundTransparency = 1
-
     nameLabel.TextTransparency = 1
-
     durLabel.TextTransparency = 1
-
     tweenService:Create(notificationBar, TweenInfo.new(0.25,Enum.EasingStyle.Quart),{BackgroundTransparency=0.09}):Play()
-
     tweenService:Create(nameLabel, TweenInfo.new(0.25,Enum.EasingStyle.Quart),{TextTransparency=0}):Play()
-
     tweenService:Create(durLabel, TweenInfo.new(0.25,Enum.EasingStyle.Quart),{TextTransparency=0}):Play()
-
     local function sec2str(sec)
-
         sec = math.floor(sec)
-
         local m = math.floor(sec/60)
-
         local s = sec%60
-
         return string.format("%02d:%02d",m,s)
-
     end
-
     local total = math.floor(duration)
-
     local function updateDur()
-
         if sound and sound.IsLoaded then
-
             local pos = math.floor(sound.TimePosition)
-
             durLabel.Text = sec2str(pos).." - "..sec2str(total)
-
         else
-
             durLabel.Text = "00:00 - "..sec2str(total)
-
         end
-
     end
-
     updateDur()
-
     notificationConn = runService.RenderStepped:Connect(function()
-
         if not notificationBar or not durLabel or not sound then return end
-
         updateDur()
-
     end)
-
     if not isLoop then
-
         sound.Ended:Connect(function()
-
             if notificationConn then notificationConn:Disconnect() end
-
             tweenService:Create(notificationBar, TweenInfo.new(0.22,Enum.EasingStyle.Quart),{BackgroundTransparency=1}):Play()
-
             for _,v in ipairs(notificationBar:GetChildren()) do
-
                 if v:IsA("TextLabel") then tweenService:Create(v, TweenInfo.new(0.18,Enum.EasingStyle.Quart),{TextTransparency=1}):Play() end
-
             end
-
             wait(0.3)
-
             if notificationBar then notificationBar:Destroy() end
-
             notificationBar = nil
-
         end)
-
     end
-
 end
+
+local function getMusicNotificationActive()
+    return notificationBar and notificationBar.Parent
+end
+
+local function showCustomNotification(msg, gradColors)
+    local position = getMusicNotificationActive() and UDim2.new(0,705,0,84) or UDim2.new(0,705,0,10)
+    local alertBar = Instance.new("Frame", screenGui)
+    alertBar.Size = UDim2.new(0,340,0,64)
+    alertBar.Position = position
+    alertBar.BackgroundColor3 = black
+    alertBar.BorderSizePixel = 0
+    alertBar.ZIndex = 9998
+    Instance.new("UICorner", alertBar).CornerRadius = UDim.new(0,16)
+    local stroke = Instance.new("UIStroke", alertBar)
+    stroke.Thickness = 3
+    stroke.Transparency = 0.1
+    stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    stroke.Color = white
+    local gradStroke = Instance.new("UIGradient", stroke)
+    gradStroke.Color = gradColors
+    spawn(function()
+        local t0 = tick()
+        while gradStroke.Parent do
+            gradStroke.Offset = Vector2.new(0.5+0.5*math.sin((tick()-t0)*1.8),0)
+            wait(0.03)
+        end
+    end)
+    local msgLabel = Instance.new("TextLabel", alertBar)
+    msgLabel.Size = UDim2.new(1,-10,1,-10)
+    msgLabel.Position = UDim2.new(0,5,0,5)
+    msgLabel.BackgroundTransparency = 1
+    msgLabel.Text = msg
+    msgLabel.TextColor3 = white
+    msgLabel.TextSize = 17
+    msgLabel.Font = Enum.Font.GothamBold
+    msgLabel.ZIndex = 9998
+    msgLabel.TextWrapped = true
+    local gradMsg = Instance.new("UIGradient", msgLabel)
+    gradMsg.Color = gradColors
+    alertBar.BackgroundTransparency = 1
+    msgLabel.TextTransparency = 1
+    tweenService:Create(alertBar, TweenInfo.new(0.25,Enum.EasingStyle.Quart),{BackgroundTransparency=0.09}):Play()
+    tweenService:Create(msgLabel, TweenInfo.new(0.25,Enum.EasingStyle.Quart),{TextTransparency=0}):Play()
+    delay(7,function()
+        tweenService:Create(alertBar, TweenInfo.new(0.22,Enum.EasingStyle.Quart),{BackgroundTransparency=1}):Play()
+        tweenService:Create(msgLabel, TweenInfo.new(0.18,Enum.EasingStyle.Quart),{TextTransparency=1}):Play()
+        wait(0.3)
+        if alertBar then alertBar:Destroy() end
+    end)
+end
+
+local greenWhiteSeq = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(60,255,80)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
+}
+local yellowPinkSeq = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255,220,30)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255,60,180))
+}
+
+local function periodicNotifications()
+    if notifTimer then notifTimer:Disconnect() end
+    local function notify()
+        lastNotifType = lastNotifType % 2 + 1
+        if lastNotifType == 1 then
+            showCustomNotification("Do you want your favorite IDs added?\nGo to our Discord server and ask!", greenWhiteSeq)
+        else
+            showCustomNotification("Get your Premium subscription now on our Discord server!", yellowPinkSeq)
+        end
+    end
+    notify()
+    notifTimer = runService.RenderStepped:Connect(function()
+        if not screenGui.Parent then notifTimer:Disconnect() notifTimer = nil return end
+    end)
+    spawn(function()
+        while screenGui.Parent do
+            wait(120)
+            notify()
+        end
+    end)
+end
+
+periodicNotifications()
 
 local playingSound = nil
 
