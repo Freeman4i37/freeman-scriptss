@@ -12,7 +12,7 @@ local blue = Color3.fromRGB(40, 90, 255)
 
 local textGray = Color3.fromRGB(230, 230, 230)
 
-local discordLink = "No discord link, sorry hehe"
+local discordLink = "https://discord.gg/aqjca9xb3"
 
 local screenGui = Instance.new("ScreenGui")
 
