@@ -12,7 +12,7 @@ local blue = Color3.fromRGB(40, 90, 255)
 
 local textGray = Color3.fromRGB(230, 230, 230)
 
-local discordLink = "https://discord.gg/aqjca9xb3"
+local discordLink = "No discord link, sorry hehe"
 
 local screenGui = Instance.new("ScreenGui")
 
@@ -420,9 +420,9 @@ local languages = {
 
         title = "Dono do Auralynx informa:",
 
-        message = "VÁ PARA O NOSSO DISCORD PARA SABER O QUE ACONTECEU.",
+        message = "O script parou de funcionar por causa do GITHUB\nSeja Paciente que tudo irá voltar.",
 
-        exit = "SAIR",
+        exit = "Certo.",
 
         langLabel = "PT"
 
@@ -432,9 +432,9 @@ local languages = {
 
         title = "Auralynx Owner informs:",
 
-        message = "GO TO OUR DISCORD TO SEE WHAT HAPPENED.",
+        message = "Script stopped working due github issues.\nJust be patient and wait.",
 
-        exit = "CLOSE",
+        exit = "Alright.",
 
         langLabel = "EN"
 
