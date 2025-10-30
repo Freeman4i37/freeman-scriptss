@@ -12,7 +12,7 @@ local accentBg = Color3.fromRGB(32,32,32)
 
 local white = Color3.fromRGB(255,255,255)
 
-local discordInvite = "https://discord.gg/zZcaCTH9J"
+local discordInvite = "https://discord.gg/aqjca9xb3"
 
 local player = game:GetService("Players").LocalPlayer
 
