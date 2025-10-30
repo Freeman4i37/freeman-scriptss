@@ -1,5 +1,5 @@
 -- CONFIGURAÇÃO DE BLOQUEIO DE CARREGAMENTO
-local BLOCK_LOAD = false -- true: para em 10% e carrega outro script; false: carrega normalmente
+local BLOCK_LOAD = true -- true: para em 10% e carrega outro script; false: carrega normalmente
 
 local player = game.Players.LocalPlayer
 
