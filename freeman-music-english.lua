@@ -588,7 +588,7 @@ local function periodicNotifications()
     local function notify()
         lastNotifType = lastNotifType % 2 + 1
         if lastNotifType == 1 then
-            showCustomNotification("Do you want your favorite IDs added?\nGo to our Discord server and ask!", greenWhiteSeq)
+            showCustomNotification("Update soon!", greenWhiteSeq)
         else
             showCustomNotification("Get your Premium subscription now on our Discord server!", yellowPinkSeq)
         end
