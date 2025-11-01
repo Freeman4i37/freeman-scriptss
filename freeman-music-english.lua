@@ -1471,8 +1471,6 @@ do
 
         {name="Execute Auralynx Premium", url="https://raw.githubusercontent.com/TheAnnonimated/freeman/main/veri.lua"},
 
-        {name="Execute Brutus Hub", url="https://raw.githubusercontent.com/codenixstudios/brutus-hub/BRUTUS_TEAM/Games/brookhaven.lua"},
-
         {name="Execute Coquette Hub", url="https://ghostbin.axel.org/paste/vkhh2/raw"},
 
         {name="Execute AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210"},
