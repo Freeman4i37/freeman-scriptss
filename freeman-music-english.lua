@@ -1477,7 +1477,9 @@ do
         
         {name="Execute Demon Hub", url="https://coderawv2.vercel.app/api/raw?id=-Occqcmh7oi1MB0Wccg8"},
         
-        {name="Execute Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"}
+        {name="Execute Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502"},
+
+        {name="Execute Shadow Hub", url="https://ghostbin.axel.org/paste/xbqpv/raw"}
 
     }
 
