@@ -443,7 +443,7 @@ local function periodicNotifications()
     local function notify()
         lastNotifType = lastNotifType % 2 + 1
         if lastNotifType == 1 then
-            showCustomNotification("Thank you for using Auralynx 💜!")
+            showCustomNotification("Thank you for using Auralynx 💜")
         else
             showCustomNotification("💎 Get your Premium subscription now on our Discord server!")
         end
