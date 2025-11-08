@@ -724,7 +724,7 @@ local redzlib = {
 			["scroll"] = "rbxassetid://10734943448",
 			["search"] = "rbxassetid://10734943674",
 			["send"] = "rbxassetid://10734943902",
-			["separatorhorizontal"] = "rbxassetid://10734944115",
+			["segtorhorizontal"] = "rbxassetid://10734944115",
 			["separatorvertical"] = "rbxassetid://10734944326",
 			["server"] = "rbxassetid://10734949856",
 			["servercog"] = "rbxassetid://10734944444",
@@ -1303,7 +1303,7 @@ local function ButtonFrame(Instance, Title, Description, HolderSize)
 	
 	local DescL = InsertTheme(Create("TextLabel", {
 		Font = Enum.Font.Gotham,
-		TextColor3 = Theme["Color Dark Text"],
+		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Size = UDim2.new(1, -20),
 		AutomaticSize = "Y",
 		Position = UDim2.new(0, 12, 0, 15),
@@ -3043,7 +3043,7 @@ function Tab:AddDiscordInvite(Configs)
 				TextSize = 7,
 				Text = text,
 				Font = Enum.Font.Gotham,
-				TextColor3 = Theme["Color Dark Text"]
+				TextColor3 = Color3.fromRGB(255, 255, 255)
 			}), "DarkText")
 		end
 		
@@ -3196,7 +3196,7 @@ end
 				TextWrapped = "Y",
 				AutomaticSize = "Y",
 				Font = Enum.Font.Gotham,
-				TextColor3 = Theme["Color Dark Text"],
+				TextColor3 = Color3.fromRGB(255, 255, 255),
 				TextXAlignment = "Left",
 				BackgroundTransparency = 1,
 				TextSize = 8,
