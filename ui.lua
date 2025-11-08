@@ -2214,7 +2214,7 @@ end
 			local SectionLabel = InsertTheme(Create("TextLabel", SectionFrame, {
 				Font = Enum.Font.BuilderSansExtraBold,--GothamBold
 				Text = SectionName,
-				TextColor3 = Theme["Color Dark Purple"],
+				TextColor3 = Color3.fromRGB(255, 255, 255),
 				Size = UDim2.new(1, -25, 1, 0),
 				Position = UDim2.new(0, 30),
 				BackgroundTransparency = 1,
@@ -3067,7 +3067,7 @@ function Tab:AddDiscordInvite(Configs)
 		Text = Description,
 		TextWrapped = true,
 		Font = Enum.Font.Gotham,
-		TextColor3 = Theme["Color Dark Text"]
+		TextColor3 = Color3.fromRGB(255, 255, 255)
 	}), "DarkText")
 	
 
