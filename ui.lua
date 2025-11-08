@@ -1850,62 +1850,65 @@ end
 		Name = "Close"
 	})
 	
-	local MinimizeButton = SetProps(CloseButton:Clone(), {
-		Position = UDim2.new(1, -35, 0.5),
-		Image = "rbxassetid://124763544238873",
-		Name = "Minimize"
+	local MinimizeButton = CloseButton:Clone()
+MinimizeButton.Name = "Minimize"
+MinimizeButton.Position = UDim2.new(1, -35, 0.5)
+MinimizeButton.Image = "rbxassetid://124763544238873"
+
+SetChildren(ButtonsFolder, {
+	CloseButton,
+	MinimizeButton
+})
+
+local Minimized, SaveSize, WaitClick
+local Window, FirstTab = {}, false
+
+function Window:CloseBtn()
+	local Dialog = Window:Dialog({
+		Title = "⚠️︱Information",
+		Text = "Do you want to close the Auralynx Hub?",
+		Options = {
+			{"Yes", function()
+				ScreenGui:Destroy()
+			end},
+			{"No"}
+		}
 	})
+end
+
+function Window:MinimizeBtn()
+	if WaitClick then return end
+	WaitClick = true
 	
-	SetChildren(ButtonsFolder, {
-		CloseButton,
-		MinimizeButton
-	})
-	
-	local Minimized, SaveSize, WaitClick
-	local Window, FirstTab = {}, false
-	function Window:CloseBtn()
-		local Dialog = Window:Dialog({
-			Title = "⚠️︱Information",
-			Text = "Do you want to close the Auralynx Hub?",
-			Options = {
-				{"Yes", function()
-					ScreenGui:Destroy()
-				end},
-				{"No"}
-			}
-		})
-	end
-	function Window:MinimizeBtn()
-		if WaitClick then return end
-		WaitClick = true
-		
-		if Minimized then
-			MinimizeButton.Image = "rbxassetid://124763544238873"
-			CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
-			ControlSize1.Visible = true
-			ControlSize2.Visible = true
-			for _, particle in pairs(ActiveParticles) do
-				if particle.Frame and particle.Frame.Parent then
-					particle.Frame.Visible = true
-				end
+	if Minimized then
+		MinimizeButton.Image = "rbxassetid://124763544238873"
+		CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
+		ControlSize1.Visible = true
+		ControlSize2.Visible = true
+		for _, particle in pairs(ActiveParticles) do
+			if particle.Frame and particle.Frame.Parent then
+				particle.Frame.Visible = true
 			end
-			Minimized = false
-		else
-			MinimizeButton.Image = "rbxassetid://70730990868313"
-			SaveSize = MainFrame.Size
-			ControlSize1.Visible = false
-			ControlSize2.Visible = false
-			for _, particle in pairs(ActiveParticles) do
-				if particle.Frame and particle.Frame.Parent then
-					particle.Frame.Visible = false
-				end
-			end
-			CreateTween({MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true})
-			Minimized = true
 		end
-		
-		WaitClick = false
+		Minimized = false
+	else
+		MinimizeButton.Image = "rbxassetid://70730990868313"
+		SaveSize = MainFrame.Size
+		ControlSize1.Visible = false
+		ControlSize2.Visible = false
+		for _, particle in pairs(ActiveParticles) do
+			if particle.Frame and particle.Frame.Parent then
+				particle.Frame.Visible = false
+			end
+		end
+		CreateTween({MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true})
+		Minimized = true
 	end
+
+	task.delay(0.25, function()
+		WaitClick = false
+	end)
+end
 	function Window:Minimize()
 		MainFrame.Visible = not MainFrame.Visible
 	end
