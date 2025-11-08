@@ -1845,7 +1845,7 @@ end
 		Position = UDim2.new(1, -10, 0.5),
 		AnchorPoint = Vector2.new(1, 0.5),
 		BackgroundTransparency = 1,
-		Image = "rbxassetid://89330809611769",
+		Image = "rbxassetid://10747384394",
 		AutoButtonColor = false,
 		Name = "Close"
 	})
