@@ -420,7 +420,7 @@ local languages = {
 
         title = "Dono do Auralynx informa:",
 
-        message = "O script parou de funcionar por causa do GITHUB\nSeja Paciente que tudo irá voltar.",
+        message = "O script agora possui seu script para Brookhaven, vá executá-lo.",
 
         exit = "Certo.",
 
@@ -432,7 +432,7 @@ local languages = {
 
         title = "Auralynx Owner informs:",
 
-        message = "Script stopped working due github issues.\nJust be patient and wait.",
+        message = "The script now has its own script for Brookhaven, go run it.",
 
         exit = "Alright.",
 
