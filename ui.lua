@@ -1880,7 +1880,7 @@ end
 		WaitClick = true
 		
 		if Minimized then
-			MinimizeButton.Image = "rbxassetid://109649067038081"
+			MinimizeButton.Image = "rbxassetid://124763544238873"
 			CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
 			ControlSize1.Visible = true
 			ControlSize2.Visible = true
