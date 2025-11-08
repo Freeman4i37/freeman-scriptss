@@ -90,8 +90,8 @@ local function createLoadingScreen()
     sound:Play()
 
     task.spawn(function()
-        local loadingTime = 1
-        local steps = 45
+        local loadingTime = 2
+        local steps = 100
         for i = 0, steps do
             local percent = i / steps
             percentLabel.Text = string.format("%d%%", math.floor(percent * 100))
@@ -149,7 +149,7 @@ local Window = Libary:MakeWindow({
     Flags = "Auralynx_Flags"
 })
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://87151754202634", BackgroundTransparency = 0 },
+    Button = { Image = "rbxassetid://96608621818164", BackgroundTransparency = 0 },
     Corner = { CornerRadius = UDim.new(35, 1) },
 })
 
