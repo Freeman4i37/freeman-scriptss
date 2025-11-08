@@ -46,7 +46,7 @@ local redzlib = {
 			["Color Hub 2"] = Color3.fromRGB(80, 0, 130),
 			["Color Stroke"] = Color3.fromRGB(0, 0, 0),
 			["Color Theme"] = Color3.fromRGB(255, 255, 255),
-			["Color Text"] = Color3.fromRGB(255, 255, 255),
+			["Color Text"] = Color3.fromRGB(128, 0, 128),
 			["Color Dark Violet"] = Color3.fromRGB(110, 0, 180),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
 			["Color Dark Blue"] = Color3.fromRGB(0, 85, 255)
@@ -1632,7 +1632,7 @@ function redzlib:MakeWindow(Configs)
 			AnchorPoint = Vector2.new(0, 1),
 			Position = UDim2.new(1, 5, 0.9),
 			Text = WMiniText,
-			TextColor3 = Theme["Color Dark Greem"],
+			TextColor3 = Theme["Color Dark Blue"],
 			BackgroundTransparency = 1,
 			TextXAlignment = "Left",
 			TextYAlignment = "Bottom",
