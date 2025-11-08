@@ -1850,10 +1850,11 @@ end
 		Name = "Close"
 	})
 	
-	local MinimizeButton = CloseButton:Clone()
-MinimizeButton.Name = "Minimize"
-MinimizeButton.Position = UDim2.new(1, -35, 0.5)
-MinimizeButton.Image = "rbxassetid://124763544238873"
+	local MinimizeButton = SetProps(CloseButton:Clone(), {
+		Position = UDim2.new(1, -35, 0.5),
+		Image = "rbxassetid://10734896206",
+		Name = "Minimize"
+	})
 
 SetChildren(ButtonsFolder, {
 	CloseButton,
@@ -1877,38 +1878,36 @@ function Window:CloseBtn()
 end
 
 function Window:MinimizeBtn()
-	if WaitClick then return end
-	WaitClick = true
-	
-	if Minimized then
-		MinimizeButton.Image = "rbxassetid://124763544238873"
-		CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
-		ControlSize1.Visible = true
-		ControlSize2.Visible = true
-		for _, particle in pairs(ActiveParticles) do
-			if particle.Frame and particle.Frame.Parent then
-				particle.Frame.Visible = true
+		if WaitClick then return end
+		WaitClick = true
+		
+		if Minimized then
+			MinimizeButton.Image = "rbxassetid://10734896206"
+			CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
+			ControlSize1.Visible = true
+			ControlSize2.Visible = true
+			for _, particle in pairs(ActiveParticles) do
+				if particle.Frame and particle.Frame.Parent then
+					particle.Frame.Visible = true
+				end
 			end
-		end
-		Minimized = false
-	else
-		MinimizeButton.Image = "rbxassetid://70730990868313"
-		SaveSize = MainFrame.Size
-		ControlSize1.Visible = false
-		ControlSize2.Visible = false
-		for _, particle in pairs(ActiveParticles) do
-			if particle.Frame and particle.Frame.Parent then
-				particle.Frame.Visible = false
+			Minimized = false
+		else
+			MinimizeButton.Image = "rbxassetid://10734924532"
+			SaveSize = MainFrame.Size
+			ControlSize1.Visible = false
+			ControlSize2.Visible = false
+			for _, particle in pairs(ActiveParticles) do
+				if particle.Frame and particle.Frame.Parent then
+					particle.Frame.Visible = false
+				end
 			end
+			CreateTween({MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true})
+			Minimized = true
 		end
-		CreateTween({MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true})
-		Minimized = true
-	end
-
-	task.delay(0.25, function()
+		
 		WaitClick = false
-	end)
-end
+	end
 	function Window:Minimize()
 		MainFrame.Visible = not MainFrame.Visible
 	end
