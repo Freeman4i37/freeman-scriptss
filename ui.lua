@@ -1288,7 +1288,7 @@ end)
 local function ButtonFrame(Instance, Title, Description, HolderSize)
 	local TitleL = InsertTheme(Create("TextLabel", {
 		Font = Enum.Font.FredokaOne, --GothamMedium
-		TextColor3 = Theme["Color Text"],
+		TextColor3 = Color3.fromRGB(255, 255, 255),
 		Size = UDim2.new(1, -20),
 		AutomaticSize = "Y",
 		Position = UDim2.new(0, 0, 0.5),
