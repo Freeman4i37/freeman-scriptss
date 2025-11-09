@@ -23,7 +23,11 @@ local musicIDs = {
     ["41"]=82411642961457,["42"]=96215620202470,["43"]=70782176012619,["44"]=112893354276338,["45"]=118507373399694,
     ["46"]=98691879232718,["47"]=134457296749518,["48"]=118607303205005,["49"]=127504762051765,["50"]=118297487529239,
     ["51"]=132082397247824,["52"]=106958630419629,["53"]=86685635786943,["54"]=101456813429584,["55"]=100533213305793,
-    ["56"]=112930367758222,["57"]=100828050594137,["58"]=124085422276732,["59"]=122114766584918
+    ["56"]=112930367758222,["57"]=100828050594137,["58"]=124085422276732,["59"]=122114766584918,
+    ["60"]=17422173467,["61"]=119936139925486,["62"]=90831015975861,["63"]=139240201618302,["64"]=94524508448994,
+    ["65"]=137007722054586,["66"]=140232102557882,["67"]=79707296077226,["68"]=122877987525890,["69"]=110846165697274,
+    ["70"]=82150659389900,["71"]=98498858576401,["72"]=126397167396751,["73"]=76348639434772,["74"]=94612460784490,
+    ["75"]=89575475455920,["76"]=104537048277666
 }
 local musicNames = {
     ["1"]="Funk da Febre",["2"]="Switch The Colors (Jersey Club)",["3"]="Trash Funk",["4"]="2609 (Jersey Club)",
@@ -40,7 +44,11 @@ local musicNames = {
     ["47"]="Vem no pique (Phonk)",["48"]="Michael Jackson FUNK",["49"]="Arrepia XL 4",["50"]="MONTAGEM NOVA MÁGICA 1.0",
     ["51"]="V2 Daquela (XL Funk)",["52"]="Digitei seu número (Sertanejo)",["53"]="Auto toma",["54"]="Montagem Balanço",
     ["55"]="Piseiro com sertanejo",["56"]="Montagem Vozes Talentinho",["57"]="Spooky Scary (Funk)",
-    ["58"]="SENTA (NGL x XL)",["59"]="Haha (NGL)"
+    ["58"]="SENTA (NGL x XL)",["59"]="Haha (NGL)",
+    ["60"]="AB4T",["61"]="Passo bem solto",["62"]="ILWU",["63"]="The One",["64"]="Clingy",["65"]="Remyboyz 2",
+    ["66"]="Burning Blue",["67"]="Cloud 9",["68"]="RIGHT NOW",["69"]="Catch",["70"]="Tail Jersey",
+    ["71"]="She Keeps on Textin me",["72"]="Stay with me",["73"]="Notion",["74"]="Bad Habit",
+    ["75"]="Triple Red",["76"]="Choppa Shotta Flow"
 }
 local function createGradientAnim(obj, colorSeq, speed)
     local grad = Instance.new("UIGradient", obj)
@@ -101,7 +109,7 @@ header.Position = UDim2.new(0,0,0,0)
 header.Active = true
 Instance.new("UICorner", header).CornerRadius = UDim.new(0, 20)
 local headerTitle = Instance.new("TextLabel", header)
-headerTitle.Text = "Auralynx"
+headerTitle.Text = "Auralynx Music"
 headerTitle.Font = Enum.Font.GothamBold
 headerTitle.TextSize = 21
 headerTitle.TextColor3 = white
@@ -443,9 +451,9 @@ local function periodicNotifications()
     local function notify()
         lastNotifType = lastNotifType % 2 + 1
         if lastNotifType == 1 then
-            showCustomNotification("Thank you for using Auralynx 💜")
+            showCustomNotification("💜︱Thank you for using Auralynx!")
         else
-            showCustomNotification("💎 Get your Premium subscription now on our Discord server!")
+            showCustomNotification("🏡︱Auralynx has now a hub for Brookhaven RP!")
         end
     end
     notify()
@@ -508,7 +516,7 @@ do
     grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
     grid.VerticalAlignment = Enum.VerticalAlignment.Top
     grid.FillDirectionMaxCells = 2
-    for i = 1, 59 do
+    for i = 1, 76 do
         local btn = Instance.new("TextButton")
         btn.Size = UDim2.new(0, 105, 0, 44)
         btn.Text = tostring(i)
@@ -739,7 +747,7 @@ do
     local musicListLayout = Instance.new("UIListLayout", musicScroll)
     musicListLayout.Padding = UDim.new(0,8)
     musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    for k = 1, 59 do
+    for k = 1, 76 do
         local lbl = Instance.new("TextLabel", musicScroll)
         lbl.Size = UDim2.new(1, -10, 0, 28)
         lbl.BackgroundTransparency = 1
@@ -884,15 +892,10 @@ do
     scriptListLayout.Padding = UDim.new(0,8)
     scriptListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     local scripts = {
-        {name="Execute Auralynx Premium", url="https://raw.githubusercontent.com/TheAnnonimated/freeman/main/veri.lua", dc="https://discord.gg/aqjca9xb3", color=nil},
-        {name="Execute Coquette Hub", url="https://ghostbin.axel.org/paste/vkhh2/raw", dc="https://discord.gg/9w4UQp9y", color=nil},
-        {name="Execute Demon Hub", url="https://coderawv2.vercel.app/api/raw?id=-Ocx9Pwtsl7r3vfy_Per", dc="https://discord.gg/9WfeEcr2J", color=nil},
-        {name="Execute Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502", dc="https://discord.gg/nfGKK4QF", color=nil},
-        {name="Execute Shadow Hub", url="https://coderawv2.vercel.app/api/raw?id=-Od4Bqe0_QJoDQEel04h", dc="https://discord.gg/vFZtvBBk", color=ColorSequence.new{
-            ColorSequenceKeypoint.new(0, pink),
-            ColorSequenceKeypoint.new(1, purple)
-        }, isShadow=true},
-        {name="Execute AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210", dc="https://discord.gg/notfound", color=nil}
+        {name="(NEW) Auralynx Hub", url="https://raw.githubusercontent.com/lynx782/lynxwrappers/main/auralynxwrapper.lua", dc="https://discord.gg/aqjca9xb3", color=nil},
+        {name="Coquette Hub", url="https://ghostbin.axel.org/paste/vkhh2/raw", dc="https://discord.gg/9w4UQp9y", color=nil},
+        {name="Nameless Admin", url="https://rawscripts.net/raw/Universal-Script-Nameless-admin-REWORKED-43502", dc="https://discord.gg/nfGKK4QF", color=nil},
+        {name="AFEM", url="https://rawscripts.net/raw/Universal-Script-AFEM-Max-Open-Alpha-50210", dc="https://discord.gg/notfound", color=nil}
     }
     local helpFrame = nil
     local function showHelp(dcLink, customColor, isShadow)
@@ -961,7 +964,7 @@ do
     local creditsLabel = Instance.new("TextLabel", creditsFrame)
     creditsLabel.Size = UDim2.new(1, -16, 1, -60)
     creditsLabel.Position = UDim2.new(0, 8, 0, 8)
-    creditsLabel.Text = "Made by Lynxdev.\nAuralynx © 2025."
+    creditsLabel.Text = "Made by Lynxdevv.\nAuralynx © 2025."
     creditsLabel.Font = Enum.Font.GothamBold
     creditsLabel.TextColor3 = violet
     creditsLabel.TextSize = 16
