@@ -1936,7 +1936,7 @@ function Window:MinimizeBtn()
 	end
 function Window:AddMinimizeButton(Configs)
 	local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-		Size = UDim2.fromOffset(30, 30),
+		Size = UDim2.fromOffset(45, 45),
 		Position = UDim2.fromScale(0.15, 0.15),
 		BackgroundTransparency = 1,
 		AutoButtonColor = false
