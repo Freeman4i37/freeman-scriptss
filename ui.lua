@@ -1593,7 +1593,7 @@ function redzlib:MakeWindow(Configs)
 	local MainFrame = InsertTheme(Create("ImageButton", ScreenGui, {
 		Size = UDim2.fromOffset(UISizeX, UISizeY),
 		Position = UDim2.new(0.5, -UISizeX/2, 0.5, -UISizeY/2),
-		BackgroundTransparency = 0.15,
+		BackgroundTransparency = 0,
 		Name = "Hub"
 }), "Main")
 	Make("Gradient", MainFrame, {
@@ -1684,8 +1684,8 @@ function redzlib:MakeWindow(Configs)
 	})
 	
 	local ParticleConfig = {
-		MaxParticles = 12,
-		SpawnRate = 0.1,
+		MaxParticles = 1,
+		SpawnRate = 0,
 		ParticleSize = {Min = 6, Max = 10},
 		ParticleSpeed = {Min = 15, Max = 50},
 		ParticleLifetime = 3
