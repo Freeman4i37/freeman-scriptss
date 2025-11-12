@@ -4,7 +4,7 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
-local CoreGui = game:GetService("CoreG.")
+local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
@@ -1675,6 +1675,126 @@ function redzlib:MakeWindow(Configs)
 		Name = "Containers"
 	})
 
+	local ParticleContainer = Create("Frame", Containers, {
+		Size = UDim2.new(1, 0, 1, 0),
+		BackgroundTransparency = 1,
+		Name = "ThemeParticles",
+		ZIndex = -5,
+		ClipsDescendants = true
+	})
+	
+	local ParticleConfig = {
+		MaxParticles = 12,
+		SpawnRate = 0.1,
+		ParticleSize = {Min = 6, Max = 10},
+		ParticleSpeed = {Min = 15, Max = 50},
+		ParticleLifetime = 3
+	}
+
+local ActiveParticles = {}
+local LastSpawn = 0
+
+local function CreateCyberpunkParticle()
+	if #ActiveParticles >= ParticleConfig.MaxParticles then return end
+	
+	local containerSize = ParticleContainer.AbsoluteSize
+	local startX = math.random(10, containerSize.X - 10)
+	local startY = containerSize.Y + 20
+	
+	local size = math.random(ParticleConfig.ParticleSize.Min, ParticleConfig.ParticleSize.Max)
+	local speed = math.random(ParticleConfig.ParticleSpeed.Min, ParticleConfig.ParticleSpeed.Max)
+	
+	local particleColor = Theme["Color Theme"]
+	
+	local Particle = Create("Frame", ParticleContainer, {
+		Size = UDim2.fromOffset(size, size),
+		Position = UDim2.fromOffset(startX, startY),
+		BackgroundColor3 = particleColor,
+		BackgroundTransparency = 0.2,
+		BorderSizePixel = 0
+	})
+	
+	Create("UICorner", Particle, {
+		CornerRadius = UDim.new(0.5, 0)
+	})
+	
+	local Glow = Create("Frame", Particle, {
+		Size = UDim2.new(1, 6, 1, 6),
+		Position = UDim2.new(0.5, 0, 0.5, 0),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundColor3 = particleColor,
+		BackgroundTransparency = 0.7,
+		ZIndex = -1
+	})
+	
+	Create("UICorner", Glow, {
+		CornerRadius = UDim.new(0.5, 0)
+	})
+	
+	local ParticleData = {
+		Frame = Particle,
+		Glow = Glow,
+		StartTime = tick(),
+		Speed = speed,
+		Direction = Vector2.new(0, -speed),
+		OriginalColor = particleColor
+	}
+	
+	Particle.BackgroundTransparency = 1
+	Glow.BackgroundTransparency = 1
+	CreateTween({Particle, "BackgroundTransparency", 0.2, 0.8})
+	CreateTween({Glow, "BackgroundTransparency", 0.7, 0.8})
+	
+	table.insert(ActiveParticles, ParticleData)
+end
+
+local function UpdateCyberpunkParticles()
+	local containerSize = ParticleContainer.AbsoluteSize
+	
+	for i = #ActiveParticles, 1, -1 do
+		local particle = ActiveParticles[i]
+		local elapsed = tick() - particle.StartTime
+		if elapsed >= ParticleConfig.ParticleLifetime or 
+		   particle.Frame.Position.Y.Offset < -20 then
+
+			CreateTween({particle.Frame, "BackgroundTransparency", 1, 0.5})
+			CreateTween({particle.Glow, "BackgroundTransparency", 1, 0.5})
+			
+			task.spawn(function()
+				task.wait(0.5)
+				if particle.Frame and particle.Frame.Parent then
+					particle.Frame:Destroy()
+				end
+			end)
+			
+			table.remove(ActiveParticles, i)
+		else
+			local currentPos = particle.Frame.Position
+			local newY = currentPos.Y.Offset + particle.Direction.Y * 0.016
+			
+			particle.Frame.Position = UDim2.fromOffset(currentPos.X.Offset, newY)
+			local lifeRatio = elapsed / ParticleConfig.ParticleLifetime
+			if lifeRatio > 0.8 then
+				local fadeAlpha = 0.2 * (1 - ((lifeRatio - 0.8) / 0.2))
+				particle.Frame.BackgroundTransparency = math.max(1 - fadeAlpha, 0.95)
+			end
+		end
+	end
+end
+
+local function SpawnCyberpunkSystem()
+	if tick() - LastSpawn >= ParticleConfig.SpawnRate and MainFrame.Visible then
+		CreateCyberpunkParticle()
+		LastSpawn = tick()
+	end
+end
+
+
+	local ParticleConnection = RunService.Heartbeat:Connect(function()
+		UpdateCyberpunkParticles()
+		SpawnCyberpunkSystem()
+	end)
+
 	local ControlSize1, ControlSize2 = MakeDrag(Create("ImageButton", MainFrame, {
 		Size = UDim2.new(0, 35, 0, 35),
 		Position = MainFrame.Size,
@@ -1758,30 +1878,57 @@ function Window:CloseBtn()
 end
 
 function Window:MinimizeBtn()
-	if WaitClick then return end
-	WaitClick = true
-	
-	if Minimized then
-		MinimizeButton.Image = "rbxassetid://10734896206"
-		CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
-		ControlSize1.Visible = true
-		ControlSize2.Visible = true
-		Minimized = false
-	else
-		MinimizeButton.Image = "rbxassetid://10734924532"
-		SaveSize = MainFrame.Size
-		ControlSize1.Visible = false
-		ControlSize2.Visible = false
-		CreateTween({MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true})
-		Minimized = true
+		if WaitClick then return end
+		WaitClick = true
+		
+		if Minimized then
+			MinimizeButton.Image = "rbxassetid://10734896206"
+			CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
+			ControlSize1.Visible = true
+			ControlSize2.Visible = true
+			for _, particle in pairs(ActiveParticles) do
+				if particle.Frame and particle.Frame.Parent then
+					particle.Frame.Visible = true
+				end
+			end
+			Minimized = false
+		else
+			MinimizeButton.Image = "rbxassetid://10734924532"
+			SaveSize = MainFrame.Size
+			ControlSize1.Visible = false
+			ControlSize2.Visible = false
+			for _, particle in pairs(ActiveParticles) do
+				if particle.Frame and particle.Frame.Parent then
+					particle.Frame.Visible = false
+				end
+			end
+			CreateTween({MainFrame, "Size", UDim2.fromOffset(MainFrame.Size.X.Offset, 28), 0.25, true})
+			Minimized = true
+		end
+		
+		WaitClick = false
+	end
+	function Window:Minimize()
+		MainFrame.Visible = not MainFrame.Visible
 	end
 	
-	WaitClick = false
-end
-
-function Window:Minimize()
-	MainFrame.Visible = not MainFrame.Visible
-end
+	function Window:SetThemeParticles(enabled)
+		if enabled then
+			if not ParticleConnection then
+				ParticleConnection = RunService.Heartbeat:Connect(function()
+					UpdateParticles()
+					SpawnSystem()
+				end)
+			end
+			ParticleContainer.Visible = true
+		else
+			if ParticleConnection then
+				ParticleConnection:Disconnect()
+				ParticleConnection = nil
+			end
+			ParticleContainer.Visible = false
+		end
+	end
 
 
 	function Window:Minimize()
