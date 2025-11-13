@@ -26,8 +26,7 @@ local musicIDs = {
     ["56"]=112930367758222,["57"]=100828050594137,["58"]=124085422276732,["59"]=122114766584918,
     ["60"]=17422173467,["61"]=119936139925486,["62"]=90831015975861,["63"]=139240201618302,["64"]=94524508448994,
     ["65"]=137007722054586,["66"]=140232102557882,["67"]=79707296077226,["68"]=122877987525890,["69"]=110846165697274,
-    ["70"]=82150659389900,["71"]=98498858576401,["72"]=126397167396751,["73"]=76348639434772,["74"]=94612460784490,
-    ["75"]=89575475455920,["76"]=104537048277666
+    ["70"]=82150659389900,
 }
 local musicNames = {
     ["1"]="Funk da Febre",["2"]="Switch The Colors (Jersey Club)",["3"]="Trash Funk",["4"]="2609 (Jersey Club)",
@@ -47,8 +46,6 @@ local musicNames = {
     ["58"]="SENTA (NGL x XL)",["59"]="Haha (NGL)",
     ["60"]="AB4T",["61"]="Passo bem solto",["62"]="ILWU",["63"]="The One",["64"]="Clingy",["65"]="Remyboyz 2",
     ["66"]="Burning Blue",["67"]="Cloud 9",["68"]="RIGHT NOW",["69"]="Catch",["70"]="Tail Jersey",
-    ["71"]="She Keeps on Textin me",["72"]="Stay with me",["73"]="Notion",["74"]="Bad Habit",
-    ["75"]="Triple Red",["76"]="Choppa Shotta Flow"
 }
 local function createGradientAnim(obj, colorSeq, speed)
     local grad = Instance.new("UIGradient", obj)
@@ -109,7 +106,7 @@ header.Position = UDim2.new(0,0,0,0)
 header.Active = true
 Instance.new("UICorner", header).CornerRadius = UDim.new(0, 20)
 local headerTitle = Instance.new("TextLabel", header)
-headerTitle.Text = "Auralynx Music"
+headerTitle.Text = "Auralynx — Music"
 headerTitle.Font = Enum.Font.GothamBold
 headerTitle.TextSize = 21
 headerTitle.TextColor3 = white
@@ -139,7 +136,7 @@ local roundMinBtn = Instance.new("ImageButton")
 roundMinBtn.Size = UDim2.new(0,42,0,42)
 roundMinBtn.Position = UDim2.new(0, 34, 0, 66)
 roundMinBtn.BackgroundTransparency = 1
-roundMinBtn.Image = "rbxassetid://87151754202634"
+roundMinBtn.Image = "rbxassetid://96947084764965"
 roundMinBtn.ZIndex = 10000
 roundMinBtn.Parent = screenGui
 
@@ -516,7 +513,7 @@ do
     grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
     grid.VerticalAlignment = Enum.VerticalAlignment.Top
     grid.FillDirectionMaxCells = 2
-    for i = 1, 76 do
+    for i = 1, 70 do
         local btn = Instance.new("TextButton")
         btn.Size = UDim2.new(0, 105, 0, 44)
         btn.Text = tostring(i)
@@ -747,7 +744,7 @@ do
     local musicListLayout = Instance.new("UIListLayout", musicScroll)
     musicListLayout.Padding = UDim.new(0,8)
     musicListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    for k = 1, 76 do
+    for k = 1, 70 do
         local lbl = Instance.new("TextLabel", musicScroll)
         lbl.Size = UDim2.new(1, -10, 0, 28)
         lbl.BackgroundTransparency = 1
