@@ -6,7 +6,7 @@ local StarterGui = game:GetService("StarterGui")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 
-local scriptUrl = "https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/freeman-music-english.lua"
+local scriptUrl = "https://scriptsbinsauth.vercel.app/api/scripts/c723481e-7ffa-4523-a015-f961553aeb91/raw"
 local blockedScriptUrl = "https://raw.githubusercontent.com/Freeman4i37/freeman-scriptss/main/advise.lua"
 
 local screenGui = Instance.new("ScreenGui")
