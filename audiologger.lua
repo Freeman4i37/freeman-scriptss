@@ -1,28 +1,26 @@
--- Auralynx Audio Logger - Premium GOLD Edition (IDs saved permanently, trash functional)
+-- Auralynx Audio Logger - Premium GOLD Edition (IDs salvos nunca somem, lixeira funcional)
 
+local tagMap = {
+    ["Kaua_452"] = {colors={Color3.fromRGB(212,175,55),Color3.fromRGB(5,5,5),Color3.fromRGB(255,0,0)}},
+    ["Itz_Mariena"] = {colors={Color3.fromRGB(160,0,200),Color3.fromRGB(75,0,110)}},
+    ["pedro312jee"] = {colors={Color3.fromRGB(0,15,85),Color3.fromRGB(0,60,255)}},
+    ["UserModerator"] = {colors={Color3.fromRGB(255,90,0),Color3.fromRGB(255,215,0)}},
+    ["UserStaff"] = {colors={Color3.fromRGB(0,80,255),Color3.fromRGB(120,120,130)}},
+}
 local player = game:GetService("Players").LocalPlayer
-local MarketplaceService = game:GetService("MarketplaceService")
-local tweenService = game:GetService("TweenService")
-local StarterGui = game:GetService("StarterGui")
-
-local gold = Color3.fromRGB(255,215,0)
-local gold2 = Color3.fromRGB(50,50,50)
-local gold3 = gold
+local tagColors = tagMap[player.Name] and tagMap[player.Name].colors or {Color3.fromRGB(255,215,0),Color3.fromRGB(50,50,50)}
+local gold = tagColors[1]
+local gold2 = tagColors[2] or gold
+local gold3 = tagColors[3] or gold
 local darkBg = Color3.fromRGB(20,20,20)
 local accentBg = Color3.fromRGB(40,40,20)
 local white = Color3.fromRGB(255,255,255)
 local grayBtn = Color3.fromRGB(70,70,70)
+local MarketplaceService = game:GetService("MarketplaceService")
+local tweenService = game:GetService("TweenService")
 
--- Fixed filename per user
+-- Nome do arquivo fixo por usuário (mude se quiser)
 local saveFile = ("AuralynxAudioLogger_"..player.Name..".txt")
-
-local function SendNotif(text)
-    StarterGui:SetCore("SendNotification", {
-        Title = "Auralynx HUB",
-        Text = text,
-        Duration = 6
-    })
-end
 
 local function makeGradient(obj, colors)
     local seq = {}
@@ -40,7 +38,6 @@ local function makeGradient(obj, colors)
     end)
 end
 
--- GUI setup
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AuralynxAudioLogger"
 screenGui.ResetOnSpawn = false
@@ -57,13 +54,11 @@ mainFrame.Parent = screenGui
 mainFrame.Active = true
 mainFrame.Draggable = true
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 16)
-
 local mainStroke = Instance.new("UIStroke", mainFrame)
 mainStroke.Color = gold
 mainStroke.Thickness = 2
 mainStroke.Transparency = 0.7
 
--- Header
 local header = Instance.new("Frame", mainFrame)
 header.Size = UDim2.new(1, 0, 0, 38)
 header.BackgroundTransparency = 1
@@ -80,7 +75,7 @@ divider.BorderSizePixel = 0
 makeGradient(divider, {gold,gold2,gold3,gold,gold2})
 
 local headerTitle = Instance.new("TextLabel", header)
-headerTitle.Text = "Auralynx HUB — Audio Logger (beta)"
+headerTitle.Text = "Auralynx HUB — Audio Logger"
 headerTitle.Font = Enum.Font.GothamBold
 headerTitle.TextSize = 16
 headerTitle.TextColor3 = gold
@@ -117,7 +112,6 @@ minimizeBtnStroke.Color = gold
 minimizeBtnStroke.Thickness = 1.25
 minimizeBtnStroke.Transparency = 0.7
 
--- Action bar
 local actionBar = Instance.new("Frame", mainFrame)
 actionBar.Position = UDim2.new(0, 0, 0, 46)
 actionBar.Size = UDim2.new(1, 0, 0, 32)
@@ -145,14 +139,13 @@ local function makeActionBtn(parent, text, posX, sizX)
     return btn
 end
 
-local scanGameBtn = makeActionBtn(actionBar, "Scan Game", 8, 130)
-local scanWorkspaceBtn = makeActionBtn(actionBar, "Scan Workspace", 146, 130)
-local autoScanBtn = makeActionBtn(actionBar, "Auto Scan", 284, 86)
+local scanGameBtn = makeActionBtn(actionBar, "Scan — Game", 8, 130)
+local scanWorkspaceBtn = makeActionBtn(actionBar, "Scan — Workspace", 146, 130)
+local autoScanBtn = makeActionBtn(actionBar, "Autoscan", 284, 86)
 autoScanBtn.BackgroundColor3 = grayBtn
-local loadSavedBtn = makeActionBtn(actionBar, "Saved IDs", 380, 86)
+local loadSavedBtn = makeActionBtn(actionBar, "View saved IDs", 380, 86)
 loadSavedBtn.BackgroundColor3 = accentBg
 
--- Logs frame
 local logsFrame = Instance.new("ScrollingFrame", mainFrame)
 logsFrame.Name = "Logs"
 logsFrame.Position = UDim2.new(0, 14, 0, 80)
@@ -169,7 +162,6 @@ local logsLayout = Instance.new("UIListLayout", logsFrame)
 logsLayout.Padding = UDim.new(0,4)
 logsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
--- Sidebar buttons
 local logSideBar = Instance.new("Frame", mainFrame)
 logSideBar.Position = UDim2.new(0, 360, 0, 80)
 logSideBar.Size = UDim2.new(0, 220, 1, -124)
@@ -207,7 +199,42 @@ local saveBtn = makeSideBtn("SAVE SELECTED IDs")
 local clearUnselectedBtn = makeSideBtn("CLEAR UNSELECTED")
 local clearSelectedBtn = makeSideBtn("CLEAR SELECTED")
 
--- Details label
+local loadedIdsFrame = Instance.new("ScrollingFrame", mainFrame)
+loadedIdsFrame.Name = "LoadedIds"
+loadedIdsFrame.Position = UDim2.new(0.5, -210, 0.5, -120)
+loadedIdsFrame.Size = UDim2.new(0, 420, 0, 240)
+loadedIdsFrame.BackgroundColor3 = darkBg
+loadedIdsFrame.Visible = false
+loadedIdsFrame.ZIndex = 50
+loadedIdsFrame.BorderSizePixel = 0
+loadedIdsFrame.CanvasSize = UDim2.new(0,0,0,0)
+loadedIdsFrame.ScrollBarThickness = 6
+loadedIdsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+Instance.new("UICorner", loadedIdsFrame).CornerRadius = UDim.new(0, 10)
+local loadedIdsLayout = Instance.new("UIListLayout", loadedIdsFrame)
+loadedIdsLayout.Padding = UDim.new(0,5)
+loadedIdsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+local loadedClose = Instance.new("TextButton", loadedIdsFrame)
+loadedClose.Text = "Close"
+loadedClose.Size = UDim2.new(1, -12, 0, 28)
+loadedClose.Position = UDim2.new(0, 6, 0, 6)
+loadedClose.BackgroundColor3 = accentBg
+loadedClose.TextColor3 = gold
+loadedClose.Font = Enum.Font.GothamBold
+loadedClose.TextSize = 16
+loadedClose.ZIndex = 51
+loadedClose.AutoButtonColor = true
+Instance.new("UICorner", loadedClose).CornerRadius = UDim.new(1, 0)
+local loadedCloseStroke = Instance.new("UIStroke", loadedClose)
+loadedCloseStroke.Color = gold2
+loadedCloseStroke.Thickness = 1.25
+loadedCloseStroke.Transparency = 0.7
+
+loadedClose.MouseButton1Click:Connect(function()
+    loadedIdsFrame.Visible = false
+end)
+
 local detailsLabel = Instance.new("TextLabel", logSideBar)
 detailsLabel.Name = "Details"
 detailsLabel.Position = UDim2.new(0, 12, 0, btnY + 8)
@@ -220,7 +247,6 @@ detailsLabel.TextWrapped = true
 detailsLabel.TextYAlignment = Enum.TextYAlignment.Top
 detailsLabel.Font = Enum.Font.Gotham
 
--- Ignored sounds
 local ignore = {
     "rbxasset://sounds/action_get_up.mp3",
     "rbxasset://sounds/uuhhh.mp3",
@@ -236,12 +262,10 @@ local function FindTable(Table, Name)
     for i,v in pairs(Table) do
         if v == Name then
             return true
-        end
-    end
+        end end
     return false
 end
 
--- Audio logs
 local AudioLogs = {}
 local Selected = {}
 
@@ -255,7 +279,6 @@ local function clearLogs(onlySelected)
     end
     Selected = {}
 end
-
 local function refreshLogs()
     logsFrame.CanvasSize = UDim2.new(0,0,0,math.max(#AudioLogs * 36,220))
 end
@@ -263,11 +286,23 @@ end
 local function addLog(sound)
     if FindTable(ignore, sound.SoundId) then return end
     for _,log in pairs(AudioLogs) do if log[1] == sound.SoundId then return end end
-
     local id = sound.SoundId
-    local assetName = sound.Name or "(Unknown)"
-    local displayText = assetName .. " - " .. (id:match("%d+") or id)
-
+    local assetName = nil
+    local foundName = false
+    local numberId = id:match("%d+")
+    if numberId then
+        local success, info = pcall(function()
+            return MarketplaceService:GetProductInfo(tonumber(numberId))
+        end)
+        if success and info and info.Name and info.Name ~= "" then
+            assetName = info.Name
+            foundName = true
+        end
+    end
+    if not foundName or not assetName or assetName == "" then
+        assetName = sound.Name or "(Unknown)"
+    end
+    local displayText = assetName .. " - " .. (numberId or id)
     local audioBtn = Instance.new("TextButton")
     audioBtn.Size = UDim2.new(1, -6, 0, 30)
     audioBtn.Position = UDim2.new(0, 0, 0, 0)
@@ -301,12 +336,10 @@ local function addLog(sound)
         end
         detailsLabel.Text = "Name: "..assetName.."\nID: "..id.."\nParent: "..(sound.Parent and sound.Parent.Name or "Unknown")
     end)
-
     AudioLogs[#AudioLogs+1] = {id, assetName, sound.Parent and sound.Parent.Name or "", audioBtn, sound}
     refreshLogs()
 end
 
--- Scan audios
 local function scanAudios(place)
     for _, child in pairs(place:GetDescendants()) do
         if child:IsA("Sound") and not FindTable(ignore,child.SoundId) then
@@ -315,7 +348,7 @@ local function scanAudios(place)
     end
 end
 
--- Load saved IDs
+-- Carregar IDs salvos do arquivo fixo ao iniciar
 local function loadSavedIDs()
     if not isfile or not readfile then return end
     if not isfile(saveFile) then writefile(saveFile, "") end
@@ -331,12 +364,11 @@ local function loadSavedIDs()
         end
     end
 end
-
 loadSavedIDs()
+
 scanGameBtn.MouseButton1Click:Connect(function() scanAudios(game) end)
 scanWorkspaceBtn.MouseButton1Click:Connect(function() scanAudios(workspace) end)
 
--- Autoscan
 local autoscan = false
 autoScanBtn.MouseButton1Click:Connect(function()
     autoscan = not autoscan
@@ -349,7 +381,37 @@ game.DescendantAdded:Connect(function(obj)
     end
 end)
 
--- Listen, copy, save, clear buttons
+local brookhavenEventNames = {
+    ["1Player1sCa1r"] = { "VehicleMusicPlay", "PickingCarMusicText" },
+    ["1NoMoto1rVehicle1s"] = { "PickingScooterMusicText" },
+    ["PlayerToolEvent"] = { "ToolMusicText" },
+    ["1Player1sHous1e"] = { "PickHouseMusicText" },
+}
+
+for eventName, triggers in pairs(brookhavenEventNames) do
+    local eventFolder = game:GetService("ReplicatedStorage"):FindFirstChild("RE")
+    if eventFolder and eventFolder:FindFirstChild(eventName) then
+        eventFolder[eventName].OnClientEvent:Connect(function(trigger, id)
+            if autoscan and typeof(id) == "string" and id:match("%d+") then
+                local fakeSound = Instance.new("Sound")
+                fakeSound.SoundId = "rbxassetid://"..id
+                fakeSound.Name = "[Brookhaven] "..trigger
+                addLog(fakeSound)
+                fakeSound:Destroy()
+            end
+        end)
+    end
+end
+
+clearSelectedBtn.MouseButton1Click:Connect(function()
+    clearLogs(true)
+    refreshLogs()
+end)
+clearUnselectedBtn.MouseButton1Click:Connect(function()
+    clearLogs(false)
+    refreshLogs()
+end)
+
 local sampleSound
 listenBtn.MouseButton1Click:Connect(function()
     for _, v in pairs(AudioLogs) do
@@ -365,7 +427,6 @@ listenBtn.MouseButton1Click:Connect(function()
         end
     end
 end)
-
 copyBtn.MouseButton1Click:Connect(function()
     for _, v in pairs(AudioLogs) do
         if Selected[v[1]] then
@@ -374,9 +435,14 @@ copyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
+-- Salvar IDs selecionados no arquivo fixo, nunca perde!
 saveBtn.MouseButton1Click:Connect(function()
     if not writefile then
-        SendNotif("Your exploit does not support writefile.")
+        game:GetService('StarterGui'):SetCore('SendNotification', {
+            Title = 'Audio Logger',
+            Text = 'Your exploit doesnt support writefile.',
+            Duration = 5,
+        })
         return
     end
     local lines = {}
@@ -396,15 +462,101 @@ saveBtn.MouseButton1Click:Connect(function()
         if not found then table.insert(allLines, line) end
     end
     writefile(saveFile, table.concat(allLines, "\n"))
-    SendNotif("IDs added to file: "..saveFile)
+    game:GetService('StarterGui'):SetCore('SendNotification', {
+        Title = 'Audio Logger',
+        Text = 'IDs added to: '..saveFile,
+        Duration = 5,
+    })
 end)
 
-clearSelectedBtn.MouseButton1Click:Connect(function()
-    clearLogs(true)
-    refreshLogs()
+-- Carregar IDs salvos + lixeira funcional
+loadSavedBtn.MouseButton1Click:Connect(function()
+    loadedIdsFrame.Visible = true
+    for _,v in pairs(loadedIdsFrame:GetChildren()) do
+        if v:IsA("TextButton") and v ~= loadedClose then
+            v:Destroy()
+        end
+    end
+    if not isfile or not readfile then return end
+    if not isfile(saveFile) then writefile(saveFile, "") end
+    local lines = readfile(saveFile):split("\n")
+    for idx,line in ipairs(lines) do
+        local name,id,parent = line:match("^(.-)|(.-)|(.*)$")
+        if id and id ~= "" then
+            local btn = Instance.new("TextButton", loadedIdsFrame)
+            btn.Size = UDim2.new(1, -12, 0, 30)
+            btn.Text = (name or "?").." - "..id.."   "
+            btn.BackgroundColor3 = accentBg
+            btn.TextColor3 = gold
+            btn.Font = Enum.Font.GothamBold
+            btn.TextSize = 14
+            btn.ZIndex = 52
+            btn.AutoButtonColor = true
+            btn.TextXAlignment = Enum.TextXAlignment.Left
+            Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+            local btnStroke = Instance.new("UIStroke", btn)
+            btnStroke.Color = gold2
+            btnStroke.Thickness = 1.25
+            btnStroke.Transparency = 0.7
+            makeGradient(btn, {gold,gold2,gold3})
+
+            btn.MouseButton1Click:Connect(function()
+                if setclipboard then setclipboard(id) end
+                btn.Text = "Copied!"
+                wait(1)
+                btn.Text = (name or "?").." - "..id.."   "
+            end)
+            -- Lixeira
+            local trashBtn = Instance.new("TextButton", btn)
+            trashBtn.Size = UDim2.new(0,24,0,24)
+            trashBtn.Position = UDim2.new(1, -28, 0.5, -12)
+            trashBtn.BackgroundTransparency = 1
+            trashBtn.Text = "🗑"
+            trashBtn.TextColor3 = gold
+            trashBtn.Font = Enum.Font.GothamBold
+            trashBtn.TextSize = 18
+            trashBtn.ZIndex = 53
+            trashBtn.AutoButtonColor = true
+            trashBtn.MouseButton1Click:Connect(function()
+                local allLines = readfile(saveFile):split("\n")
+                table.remove(allLines, idx)
+                writefile(saveFile, table.concat(allLines, "\n"))
+                btn:Destroy()
+            end)
+        end
+    end
 end)
 
-clearUnselectedBtn.MouseButton1Click:Connect(function()
-    clearLogs(false)
-    refreshLogs()
+local openIcon = Instance.new("TextButton", screenGui)
+openIcon.Size = UDim2.new(0, 38, 0, 38)
+openIcon.Position = UDim2.new(1, -50, 1, -50)
+openIcon.BackgroundColor3 = gold
+openIcon.Text = "⛶"
+openIcon.TextSize = 14
+openIcon.Font = Enum.Font.GothamBold
+openIcon.TextColor3 = darkBg
+Instance.new("UICorner", openIcon).CornerRadius = UDim.new(1, 0)
+openIcon.Visible = false
+openIcon.Active = true
+openIcon.Draggable = true
+
+minimizeBtn.MouseButton1Click:Connect(function()
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1, Position = UDim2.new(1, -600, 0.1, -180)})
+    tween:Play()
+    tween.Completed:Wait()
+    mainFrame.Visible = false
+    openIcon.Visible = true
+end)
+openIcon.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    openIcon.Visible = false
+    mainFrame.BackgroundTransparency = 1
+    mainFrame.Position = UDim2.new(1, -600, 0.5, -180)
+    local tween = tweenService:Create(mainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0, Position = UDim2.new(0.5, 0, 0.5, 0)})
+    tween:Play()
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    if sampleSound then sampleSound:Destroy() end
+    screenGui:Destroy()
 end)
