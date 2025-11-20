@@ -2118,7 +2118,7 @@ end
 		
 		local LabelIcon = InsertTheme(Create("ImageLabel", TabSelect, {
 			Position = UDim2.new(0, 8, 0.5),
-			Size = UDim2.new(0, 26, 0, 26),
+			Size = UDim2.new(0, 18, 0, 18),
 			AnchorPoint = Vector2.new(0, 0.5),
 			Image = TIcon or "",
 			BackgroundTransparency = 1,
