@@ -1593,7 +1593,7 @@ function redzlib:MakeWindow(Configs)
 	local MainFrame = InsertTheme(Create("ImageButton", ScreenGui, {
 		Size = UDim2.fromOffset(UISizeX, UISizeY),
 		Position = UDim2.new(0.5, -UISizeX/2, 0.5, -UISizeY/2),
-		BackgroundTransparency = 0,
+		BackgroundTransparency = 0.15,
 		Name = "Hub"
 }), "Main")
 	Make("Gradient", MainFrame, {
@@ -1684,11 +1684,11 @@ function redzlib:MakeWindow(Configs)
 	})
 	
 	local ParticleConfig = {
-		MaxParticles = 1,
-		SpawnRate = 0,
+		MaxParticles = 30,
+		SpawnRate = 0.1,
 		ParticleSize = {Min = 6, Max = 10},
-		ParticleSpeed = {Min = 15, Max = 50},
-		ParticleLifetime = 3
+		ParticleSpeed = {Min = 15, Max = 25},
+		ParticleLifetime = 6
 	}
 
 local ActiveParticles = {}
@@ -1936,7 +1936,7 @@ function Window:MinimizeBtn()
 	end
 function Window:AddMinimizeButton(Configs)
 	local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-		Size = UDim2.fromOffset(30, 30),
+		Size = UDim2.fromOffset(60, 60),
 		Position = UDim2.fromScale(0.15, 0.15),
 		BackgroundTransparency = 1,
 		AutoButtonColor = false
@@ -2118,7 +2118,7 @@ end
 		
 		local LabelIcon = InsertTheme(Create("ImageLabel", TabSelect, {
 			Position = UDim2.new(0, 8, 0.5),
-			Size = UDim2.new(0, 13, 0, 13),
+			Size = UDim2.new(0, 26, 0, 26),
 			AnchorPoint = Vector2.new(0, 0.5),
 			Image = TIcon or "",
 			BackgroundTransparency = 1,
@@ -3248,4 +3248,4 @@ end
 	return Window
 end
 
-return redzlib  
+return redzlib
