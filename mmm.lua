@@ -476,7 +476,7 @@ local function kame()
     _G.KameAtaqueLoop = true
 
     if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-        TextChatService.TextChannels.RBXGeneral:SendAsync("KAMEHAMEHAAAAAAAAAAAAAAAA!!!!!!!!!!!!")
+        TextChatService.TextChannels.RBXGeneral:SendAsync("KAMEHAMEHAAAAAAA!!!!!!!!!!!!")
     end
 
     local char = Player.Character or Player.CharacterAdded:Wait()
@@ -727,7 +727,7 @@ local function chidori()
 
     local som = Instance.new("Sound", orb)
     som.SoundId = "rbxassetid://95448989248744"
-    som.Volume = 20
+    som.Volume = 2
     som:Play()
     _G.ChidoriSound = som
 
@@ -1082,30 +1082,6 @@ local function doSharingan()
     som:Play()
     _G.SharinganSound = som
 
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local char = Player.Character or Player.CharacterAdded:Wait()
-local hrp = char:WaitForChild("HumanoidRootPart")
-
--- Criar a BillboardGui
-local bill = Instance.new("BillboardGui")
-bill.Adornee = hrp
-bill.Size = UDim2.new(0, 300, 0, 300)
-bill.StudsOffset = Vector3.new(0, 3, 0) -- posição na frente dos olhos
-bill.AlwaysOnTop = true
-bill.Parent = char
-
-local img = Instance.new("ImageLabel")
-img.Size = UDim2.new(1, 0, 1, 0)
-img.BackgroundTransparency = 1
-img.Image = "rbxassetid://1678777280"
-img.Parent = bill
-
--- Destruir após 2 segundos
-task.delay(2, function()
-    bill:Destroy()
-end)
-
     local skyOld = Lighting:FindFirstChildOfClass("Sky")
     if skyOld then skyOld:Destroy() end
     local newSky = Instance.new("Sky", Lighting)
@@ -1445,4 +1421,5 @@ makeBtn(panel, "Tornado", doTornado)
 makeBtn(panel, "Cancel Tornado", cancelTornado)
 makeBtn(panel, "Enable bug All", bugAllOn)
 makeBtn(panel, "Disable bug All", bugAllOff)
+
 end
