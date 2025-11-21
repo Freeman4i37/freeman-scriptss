@@ -1751,7 +1751,7 @@ end
 local function UpdateCyberpunkParticles()
 	local containerSize = ParticleContainer.AbsoluteSize
 	
-	for i = #ActiveParticles, 1, -1 do
+	for i = #ActiveParticles, 0, 0 do
 		local particle = ActiveParticles[i]
 		local elapsed = tick() - particle.StartTime
 		if elapsed >= ParticleConfig.ParticleLifetime or 
