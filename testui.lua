@@ -1775,7 +1775,7 @@ local function UpdateCyberpunkParticles()
 			
 			particle.Frame.Position = UDim2.fromOffset(currentPos.X.Offset, newY)
 			local lifeRatio = elapsed / ParticleConfig.ParticleLifetime
-			if lifeRatio > 0.01) then
+			if lifeRatio > 0.01 then
 				local fadeAlpha = 0.2 * (1 - ((lifeRatio - 0.01) / 0.2))
 				particle.Frame.BackgroundTransparency = math.max(1 - fadeAlpha, 0.95)
 			end
@@ -2393,7 +2393,7 @@ end
 				Position = UDim2.new(1, -10, 0.5),
 				AnchorPoint = Vector2.new(1, 0.5),
 				BackgroundColor3 = Theme["Color Drop"]
-			}), "Stroke")Make("Corner", SelectedFrame, UDim.new(0, 4))
+			}), "Drop")Make("Corner", SelectedFrame, UDim.new(0, 4))
 			
 			local ActiveLabel = InsertTheme(Create("TextLabel", SelectedFrame, {
 				Size = UDim2.new(0.85, 0, 0.85, 0),
