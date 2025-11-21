@@ -1752,7 +1752,7 @@ end
 local function UpdateCyberpunkParticles()
 	local containerSize = ParticleContainer.AbsoluteSize
 	
-	for i = #ActiveParticles, 0, 0 do
+	for i = #ActiveParticles, 1, -1 do
 		local particle = ActiveParticles[i]
 		local elapsed = tick() - particle.StartTime
 		if elapsed >= ParticleConfig.ParticleLifetime or 
@@ -1762,7 +1762,7 @@ local function UpdateCyberpunkParticles()
 			CreateTween({particle.Glow, "BackgroundTransparency", 1, 0.5})
 			
 			task.spawn(function()
-				task.wait(0.5)
+				task.wait(5)
 				if particle.Frame and particle.Frame.Parent then
 					particle.Frame:Destroy()
 				end
@@ -1775,8 +1775,8 @@ local function UpdateCyberpunkParticles()
 			
 			particle.Frame.Position = UDim2.fromOffset(currentPos.X.Offset, newY)
 			local lifeRatio = elapsed / ParticleConfig.ParticleLifetime
-			if lifeRatio > 0.8 then
-				local fadeAlpha = 0.2 * (1 - ((lifeRatio - 0.8) / 0.2))
+			if lifeRatio > 0.01) then
+				local fadeAlpha = 0.2 * (1 - ((lifeRatio - 0.01) / 0.2))
 				particle.Frame.BackgroundTransparency = math.max(1 - fadeAlpha, 0.95)
 			end
 		end
@@ -2393,7 +2393,7 @@ end
 				Position = UDim2.new(1, -10, 0.5),
 				AnchorPoint = Vector2.new(1, 0.5),
 				BackgroundColor3 = Theme["Color Drop"]
-			}), "Drop")Make("Corner", SelectedFrame, UDim.new(0, 4))
+			}), "Stroke")Make("Corner", SelectedFrame, UDim.new(0, 4))
 			
 			local ActiveLabel = InsertTheme(Create("TextLabel", SelectedFrame, {
 				Size = UDim2.new(0.85, 0, 0.85, 0),
