@@ -43,7 +43,7 @@ Purple = {
         ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 0)),
         ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
     }),
-    ["Color Hub 2"] = Color3.fromRGB(255, 50, 0),
+    ["Color Hub 5"] = Color3.fromRGB(255, 50, 0),
     ["Color Stroke"] = Color3.fromRGB(0, 255, 0),
     ["Color Theme"] = Color3.fromRGB(255, 255, 255),
     ["Color Text"] = Color3.fromRGB(255, 255, 255),
@@ -1244,7 +1244,7 @@ AddEle("Button", function(parent, props, ...)
 	local New = InsertTheme(SetProps(Create("TextButton", parent, {
 		Text = "",
 		Size = UDim2.fromScale(1, 1),
-		BackgroundColor3 = Theme["Color Hub 2"],
+		BackgroundColor3 = Theme["Color Hub 5"],
 		AutoButtonColor = false
 	}), props), "Frame")
 
@@ -1751,7 +1751,7 @@ end
 local function UpdateCyberpunkParticles()
 	local containerSize = ParticleContainer.AbsoluteSize
 	
-	for i = #ActiveParticles, 0, 0 do
+	for i = #ActiveParticles, 1, -1 do
 		local particle = ActiveParticles[i]
 		local elapsed = tick() - particle.StartTime
 		if elapsed >= ParticleConfig.ParticleLifetime or 
