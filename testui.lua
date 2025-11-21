@@ -13,43 +13,43 @@ local redzlib = {
 	Themes = {
 		Darker = {
     ["Color Hub 1"] = ColorSequence.new({
-        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(50, 10, 35)),  -- adicionei vermelho
-        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(60, 40, 45)),  -- mistura vermelho + verde
-        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(50, 10, 35))
+        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)),
+        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 0)),
+        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
     }),
-    ["Color Hub 2"] = Color3.fromRGB(120, 60, 110), -- vermelho + verde
-    ["Color Stroke"] = Color3.fromRGB(150, 80, 150),
+    ["Color Hub 2"] = Color3.fromRGB(200, 50, 0),
+    ["Color Stroke"] = Color3.fromRGB(0, 200, 0),
     ["Color Theme"] = Color3.fromRGB(255, 255, 255),
     ["Color Text"] = Color3.fromRGB(255, 255, 255),
-    ["Color Dark Text"] = Color3.fromRGB(220, 180, 200)
+    ["Color Dark Text"] = Color3.fromRGB(150, 255, 150)
 },
 
 Dark = {
     ["Color Hub 1"] = ColorSequence.new({
-        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(65, 25, 65)), -- vermelho + verde
-        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(85, 40, 85)),
-        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(65, 25, 65))
+        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(200, 50, 0)),
+        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 200, 50)),
+        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(200, 50, 0))
     }),
-    ["Color Hub 2"] = Color3.fromRGB(150, 70, 150),
-    ["Color Stroke"] = Color3.fromRGB(180, 90, 200),
+    ["Color Hub 2"] = Color3.fromRGB(255, 100, 0),
+    ["Color Stroke"] = Color3.fromRGB(0, 255, 50),
     ["Color Theme"] = Color3.fromRGB(255, 255, 255),
     ["Color Text"] = Color3.fromRGB(255, 255, 255),
-    ["Color Dark Text"] = Color3.fromRGB(210, 160, 200)
+    ["Color Dark Text"] = Color3.fromRGB(100, 255, 100)
 },
 
 Purple = {
     ["Color Hub 1"] = ColorSequence.new({
-        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(35, 15, 25)), -- leve vermelho + verde
-        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(50, 30, 40)),
-        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(35, 15, 25))
+        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 0)),
+        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 0)),
+        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
     }),
-    ["Color Hub 2"] = Color3.fromRGB(110, 40, 130),
-    ["Color Stroke"] = Color3.fromRGB(20, 40, 0),  -- verde escuro
+    ["Color Hub 2"] = Color3.fromRGB(255, 50, 0),
+    ["Color Stroke"] = Color3.fromRGB(0, 255, 0),
     ["Color Theme"] = Color3.fromRGB(255, 255, 255),
-    ["Color Text"] = Color3.fromRGB(186, 85, 211),
-    ["Color Dark Violet"] = Color3.fromRGB(130, 30, 180),
-    ["Color Hub 9"] = Color3.fromRGB(20, 50, 0),
-    ["Color Dark Blue"] = Color3.fromRGB(40, 100, 60)
+    ["Color Text"] = Color3.fromRGB(255, 255, 255),
+    ["Color Dark Violet"] = Color3.fromRGB(0, 255, 0),   -- Verde no lugar do roxo
+    ["Color Hub 9"] = Color3.fromRGB(255, 0, 0),        -- Vermelho
+    ["Color Dark Blue"] = Color3.fromRGB(0, 200, 0)     -- Verde escuro
 }
 	},
 	Info = {
@@ -1288,7 +1288,7 @@ end)
 local function ButtonFrame(Instance, Title, Description, HolderSize)
 	local TitleL = InsertTheme(Create("TextLabel", {
 		Font = Enum.Font.FredokaOne, --GothamMedium
-		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextColor3 = Color3.fromRGB(0, 255, 0),
 		Size = UDim2.new(1, -20),
 		AutomaticSize = "Y",
 		Position = UDim2.new(0, 0, 0.5),
@@ -1303,7 +1303,7 @@ local function ButtonFrame(Instance, Title, Description, HolderSize)
 	
 	local DescL = InsertTheme(Create("TextLabel", {
 		Font = Enum.Font.Gotham,
-		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextColor3 = Color3.fromRGB(0, 255, 0),
 		Size = UDim2.new(1, -20),
 		AutomaticSize = "Y",
 		Position = UDim2.new(0, 12, 0, 15),
@@ -1486,7 +1486,7 @@ function redzlib:Notify(Configs)
 		Position = UDim2.new(0, 44, 0, 4),
 		BackgroundTransparency = 1,
 		Text = Title,
-		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextColor3 = Color3.fromRGB(0, 255, 0),
 		TextSize = 11,
 		Font = Enum.Font.GothamBold,
 		TextXAlignment = "Left",
@@ -1498,7 +1498,7 @@ function redzlib:Notify(Configs)
 		Position = UDim2.new(0, 44, 0, 15), 
 		BackgroundTransparency = 1,
 		Text = Description,
-		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextColor3 = Color3.fromRGB(0, 255, 0),
 		TextSize = 9,
 		Font = Enum.Font.Gotham,
 		TextXAlignment = "Left",
@@ -1751,7 +1751,7 @@ end
 local function UpdateCyberpunkParticles()
 	local containerSize = ParticleContainer.AbsoluteSize
 	
-	for i = #ActiveParticles, 1, -1 do
+	for i = #ActiveParticles, 0, 0 do
 		local particle = ActiveParticles[i]
 		local elapsed = tick() - particle.StartTime
 		if elapsed >= ParticleConfig.ParticleLifetime or 
