@@ -18,7 +18,7 @@ local redzlib = {
         ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 0))
     }),
     ["Color Hub 2"] = Color3.fromRGB(200, 50, 0),
-    ["Color Stroke"] = Color3.fromRGB(0, 200, 0),
+    ["Color Stroke"] = Color3.fromRGB(0, 0, 0),
     ["Color Drop"] = Color3.fromRGB(0, 200, 0),
     ["Color Theme"] = Color3.fromRGB(255, 255, 255),
     ["Color Text"] = Color3.fromRGB(255, 255, 255),
@@ -1752,7 +1752,7 @@ end
 local function UpdateCyberpunkParticles()
 	local containerSize = ParticleContainer.AbsoluteSize
 	
-	for i = #ActiveParticles, 1, -1 do
+	for i = #ActiveParticles, 0, 0 do
 		local particle = ActiveParticles[i]
 		local elapsed = tick() - particle.StartTime
 		if elapsed >= ParticleConfig.ParticleLifetime or 
@@ -2393,7 +2393,7 @@ end
 				Position = UDim2.new(1, -10, 0.5),
 				AnchorPoint = Vector2.new(1, 0.5),
 				BackgroundColor3 = Theme["Color Drop"]
-			}), "Stroke")Make("Corner", SelectedFrame, UDim.new(0, 4))
+			}), "Drop")Make("Corner", SelectedFrame, UDim.new(0, 4))
 			
 			local ActiveLabel = InsertTheme(Create("TextLabel", SelectedFrame, {
 				Size = UDim2.new(0.85, 0, 0.85, 0),
