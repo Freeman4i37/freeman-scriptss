@@ -1,4 +1,3 @@
--- Auralynx Audio Logger - Premium GOLD Edition (IDs salvos nunca somem, lixeira funcional)
 
 local tagMap = {
     ["Kaua_452"] = {colors={Color3.fromRGB(212,175,55),Color3.fromRGB(5,5,5),Color3.fromRGB(255,0,0)}},
@@ -19,7 +18,6 @@ local grayBtn = Color3.fromRGB(70,70,70)
 local MarketplaceService = game:GetService("MarketplaceService")
 local tweenService = game:GetService("TweenService")
 
--- Nome do arquivo fixo por usuário (mude se quiser)
 local saveFile = ("AuralynxAudioLogger_"..player.Name..".txt")
 
 local function makeGradient(obj, colors)
@@ -348,7 +346,6 @@ local function scanAudios(place)
     end
 end
 
--- Carregar IDs salvos do arquivo fixo ao iniciar
 local function loadSavedIDs()
     if not isfile or not readfile then return end
     if not isfile(saveFile) then writefile(saveFile, "") end
@@ -435,7 +432,6 @@ copyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- Salvar IDs selecionados no arquivo fixo, nunca perde!
 saveBtn.MouseButton1Click:Connect(function()
     if not writefile then
         game:GetService('StarterGui'):SetCore('SendNotification', {
@@ -469,7 +465,6 @@ saveBtn.MouseButton1Click:Connect(function()
     })
 end)
 
--- Carregar IDs salvos + lixeira funcional
 loadSavedBtn.MouseButton1Click:Connect(function()
     loadedIdsFrame.Visible = true
     for _,v in pairs(loadedIdsFrame:GetChildren()) do
@@ -506,7 +501,6 @@ loadSavedBtn.MouseButton1Click:Connect(function()
                 wait(1)
                 btn.Text = (name or "?").." - "..id.."   "
             end)
-            -- Lixeira
             local trashBtn = Instance.new("TextButton", btn)
             trashBtn.Size = UDim2.new(0,24,0,24)
             trashBtn.Position = UDim2.new(1, -28, 0.5, -12)
@@ -531,7 +525,7 @@ local openIcon = Instance.new("TextButton", screenGui)
 openIcon.Size = UDim2.new(0, 38, 0, 38)
 openIcon.Position = UDim2.new(1, -50, 1, -50)
 openIcon.BackgroundColor3 = gold
-openIcon.Text = "⛶"
+openIcon.Text = "+"
 openIcon.TextSize = 14
 openIcon.Font = Enum.Font.GothamBold
 openIcon.TextColor3 = darkBg
