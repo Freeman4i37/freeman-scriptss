@@ -7,7 +7,7 @@ allowedUsers = {
     ----------///// TEMPORARIOS /////-------------
 
    ----------///// PERMANENTE ACESS /////------------
-    ["Kaua_452"]           = false,
+    ["Kaua_452"]           = true,
     ["kayke_nvconta2"]         = true,
             
 }
