@@ -20,7 +20,7 @@ local topButton = Instance.new("ImageButton")
 topButton.Size = UDim2.new(0,36,0,36)
 topButton.BackgroundColor3 = Color3.fromRGB(30,30,30)
 topButton.BorderSizePixel = 0
-topButton.Image = "rbxassetid://88317614019211"
+topButton.Image = "rbxassetid://91835615552530"
 topButton.Parent = gui
 Instance.new("UICorner", topButton).CornerRadius = UDim.new(1,0)
 
