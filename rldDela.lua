@@ -729,19 +729,8 @@ alertEntitiesButton.MouseButton1Click:Connect(function()
     alertEntitiesButton.Text = alertEntitiesEnabled and "Alertar Entidades: ON" or "Alertar Entidades: OFF"
 end)
 
-local backToDeathButton = CreateButton("Clique se você morreu", 176)
-
-backToDeathButton.MouseButton1Click:Connect(function()
-	if deathCFrame then
-		local character = getChar()
-		if character and getRoot(character) then
-			getRoot(character).CFrame = deathCFrame
-		end
-	end
-end)
-
 local credit = Instance.new("TextLabel")
-credit.Text = "😙❤"
+credit.Text = "ti amo 😙❤"
 credit.Size = UDim2.new(1, 0, 0, 22)
 credit.Position = UDim2.new(0, 0, 1, -28)
 credit.BackgroundTransparency = 1
