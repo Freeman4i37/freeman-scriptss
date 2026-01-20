@@ -1177,7 +1177,7 @@ task.spawn(function()
     while true do
         local success, source = pcall(function()
             return game:HttpGet(
-                "https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/chat.lua"
+                "https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/chatt.lua"
             )
         end)
 
