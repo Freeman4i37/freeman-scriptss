@@ -12,18 +12,7 @@ local workspace = game:GetService("Workspace")
 local ProximityPromptService = game:GetService("ProximityPromptService")
 local PlayerGui = player:WaitForChild("PlayerGui")
 
-local entitiesFolder
-if workspace:FindFirstChild("Entities") then
-    entitiesFolder = workspace.Entities
-else
-    workspace.ChildAdded:Connect(function(obj)
-        if obj.Name == "Entities" and obj:IsA("Folder") then
-            entitiesFolder = obj
-        end
-    end)
-    repeat wait(0.5) until workspace:FindFirstChild("Entities")
-    entitiesFolder = workspace:FindFirstChild("Entities")
-end
+local entitiesFolder = workspace:FindFirstChild("Entities") or workspace:WaitForChild("Entities")
 
 local function getAllEntities()
     local list = {}
@@ -40,7 +29,7 @@ end
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AuralynxInterminableHub"
 screenGui.ResetOnSpawn = false
-screenGui.Parent = player:FindFirstChildOfClass("PlayerGui") or game:GetService("CoreGui")
+screenGui.Parent = PlayerGui or game:GetService("CoreGui")
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "AuralynxMain"
@@ -115,7 +104,7 @@ tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
 local tabs = {
     {name = "ESP", label = "ESP"},
     {name = "Others", label = "Others"},
-    {name = "Credits", label = "Credits"}
+    {name = "Credits", label = "Olha isso meu amor"}
 }
 
 local tabFrames = {}
@@ -166,8 +155,12 @@ local function setMinimized(m)
     tweenService:Create(mainFrame, TweenInfo.new(0.27, Enum.EasingStyle.Quart), {Size = goal}):Play()
 end
 
+local espEnabled = false
+local espObjects = {}
+
 local function removeAllESP()
-    for obj,esp in pairs(espObjects) do
+    espObjects = espObjects or {}
+    for obj, esp in pairs(espObjects) do
         if esp.billboard and esp.billboard.Parent then
             esp.billboard:Destroy()
         end
@@ -175,20 +168,18 @@ local function removeAllESP()
     espObjects = {}
 end
 
-minimizeBtn.MouseButton1Click:Connect(function()
-    setMinimized(not minimized)
-end)
-
-closeBtn.MouseButton1Click:Connect(function()
-    removeAllESP()
-    if connectionDoors then connectionDoors:Disconnect() end
-    if connectionCrates then connectionCrates:Disconnect() end
-    if connectionJumpscare then connectionJumpscare:Disconnect() end
-    screenGui:Destroy()
-end)
-
-local espEnabled = false
-local espObjects = {}
+local function setESPEnabled(enabled)
+    espObjects = espObjects or {}
+    espEnabled = enabled
+    for _, esp in pairs(espObjects) do
+        if esp.billboard then
+            esp.billboard.Enabled = enabled
+        end
+    end
+    if not enabled then
+        removeAllESP()
+    end
+end
 
 local function getEntityPart(obj)
     if obj:IsA("BasePart") then return obj end
@@ -198,6 +189,7 @@ local function getEntityPart(obj)
 end
 
 local function createESP(obj)
+    espObjects = espObjects or {}
     if espObjects[obj] then return end
     local adornee = getEntityPart(obj)
     if not adornee then return end
@@ -220,6 +212,7 @@ local function createESP(obj)
 end
 
 local function removeESP(obj)
+    espObjects = espObjects or {}
     if espObjects[obj] then
         if espObjects[obj].billboard and espObjects[obj].billboard.Parent then
             espObjects[obj].billboard:Destroy()
@@ -229,6 +222,7 @@ local function removeESP(obj)
 end
 
 local function refreshESPEntities()
+    espObjects = espObjects or {}
     for obj,_ in pairs(espObjects) do
         if not obj.Parent or obj.Parent ~= entitiesFolder then
             removeESP(obj)
@@ -241,19 +235,8 @@ local function refreshESPEntities()
     end
 end
 
-local function setESPEnabled(enabled)
-    espEnabled = enabled
-    for _, esp in pairs(espObjects) do
-        if esp.billboard then
-            esp.billboard.Enabled = enabled
-        end
-    end
-    if not enabled then
-        removeAllESP()
-    end
-end
-
 local function updateESP()
+    espObjects = espObjects or {}
     refreshESPEntities()
     for _, esp in pairs(espObjects) do
         if esp.billboard then
@@ -266,8 +249,10 @@ local function updateESP()
                     local dist = (esp.adornee.Position - hrp.Position).Magnitude
                     studs = tostring(math.floor(dist)).." studs"
                 end
-                esp.txt.Text = esp.obj.Name.."\n"..studs
-                esp.txt.TextColor3 = orange
+                if esp.obj then
+                    esp.txt.Text = esp.obj.Name.."\n"..studs
+                    esp.txt.TextColor3 = orange
+                end
             end
         end
     end
@@ -296,6 +281,7 @@ runService.RenderStepped:Connect(function()
     updateESP()
 end)
 
+-- Notification function permanece igual
 local notificationBar = nil
 local notificationConn = nil
 function showNotification(text, color)
@@ -339,8 +325,11 @@ function showNotification(text, color)
     end)
 end
 
+-- ABA ESP
 do
     local espFrame = tabFrames[1]
+
+    -- Botão de ligar/desligar ESP
     local espToggle = Instance.new("TextButton", espFrame)
     espToggle.Size = UDim2.new(1, -20, 0, 36)
     espToggle.Position = UDim2.new(0, 10, 0, 12)
@@ -351,21 +340,25 @@ do
     espToggle.ZIndex = 12
     espToggle.Text = "ESP: OFF"
     Instance.new("UICorner", espToggle).CornerRadius = UDim.new(1, 0)
-    espToggle.MouseEnter:Connect(function() espToggle.BackgroundColor3 = orange espToggle.TextColor3 = black end)
-    espToggle.MouseLeave:Connect(function() espToggle.BackgroundColor3 = accentBg espToggle.TextColor3 = orange end)
+
+    espToggle.MouseEnter:Connect(function()
+        espToggle.BackgroundColor3 = orange
+        espToggle.TextColor3 = black
+    end)
+    espToggle.MouseLeave:Connect(function()
+        espToggle.BackgroundColor3 = accentBg
+        espToggle.TextColor3 = orange
+    end)
+
     espToggle.MouseButton1Click:Connect(function()
         setESPEnabled(not espEnabled)
         espToggle.Text = "ESP: "..(espEnabled and "ON" or "OFF")
     end)
-end
-
-do
-    local espFrame = tabFrames[1]
 
     -- Botão TP para o dono
     local tpButton = Instance.new("TextButton", espFrame)
     tpButton.Size = UDim2.new(1, -20, 0, 36)
-    tpButton.Position = UDim2.new(0, 10, 0, 60) -- posição abaixo do botão ESP
+    tpButton.Position = UDim2.new(0, 10, 0, 60)
     tpButton.BackgroundColor3 = accentBg
     tpButton.TextColor3 = orange
     tpButton.Font = Enum.Font.GothamBold
@@ -400,8 +393,11 @@ do
     end)
 end
 
+-- ABA OTHERS
 do
     local othersFrame = tabFrames[2]
+
+    -- Botão Notificar entidades
     local notifyToggle = Instance.new("TextButton", othersFrame)
     notifyToggle.Size = UDim2.new(1, -20, 0, 36)
     notifyToggle.Position = UDim2.new(0, 10, 0, 12)
@@ -412,69 +408,23 @@ do
     notifyToggle.ZIndex = 12
     notifyToggle.Text = "Notificar Entidades: OFF"
     Instance.new("UICorner", notifyToggle).CornerRadius = UDim.new(1, 0)
-    notifyToggle.MouseEnter:Connect(function() notifyToggle.BackgroundColor3 = orange notifyToggle.TextColor3 = black end)
-    notifyToggle.MouseLeave:Connect(function() notifyToggle.BackgroundColor3 = accentBg notifyToggle.TextColor3 = orange end)
+
+    notifyToggle.MouseEnter:Connect(function()
+        notifyToggle.BackgroundColor3 = orange
+        notifyToggle.TextColor3 = black
+    end)
+    notifyToggle.MouseLeave:Connect(function()
+        notifyToggle.BackgroundColor3 = accentBg
+        notifyToggle.TextColor3 = orange
+    end)
+
     notifyToggle.MouseButton1Click:Connect(function()
         _G.AuralynxNotifyEntitiesOn = not _G.AuralynxNotifyEntitiesOn
         notifyToggle.Text = "Notificar Entidades: "..(_G.AuralynxNotifyEntitiesOn and "ON" or "OFF")
     end)
+end
 
-    local doorsOn, cratesOn = false, false
-    local connectionDoors, connectionCrates, connectionJumpscare
-    local jumpscareSounds = {}
-
-    local function getAllDoors()
-        local doors = {}
-        local R = workspace:FindFirstChild("Rooms")
-        if not R then return doors end
-        local paths = {
-            {"TableRoom","Door","Door"},
-            {"TwoLockerRoom","Door","Door"},
-            {"OddLockerRoom","Door","Door"},
-            {"LockerRoom","Door","Door"},
-            {"MetalRoom","Door","Door"},
-            {"PrettyOddRoom","Door","Door"},
-            {"KitchenRoom","Door","Door"},
-        }
-        for _,path in ipairs(paths) do
-            local obj = R
-            for _,p in ipairs(path) do obj = obj and obj:FindFirstChild(p) end
-            if obj then table.insert(doors, obj) end
-        end
-        return doors
-    end
-
-    local function getAllCrates()
-        local crates = {}
-        local R = workspace:FindFirstChild("Rooms")
-        if not R then return crates end
-        local obj = R:FindFirstChild("PrettyOddRoom")
-        obj = obj and obj:FindFirstChild("CrateHolder")
-        obj = obj and obj:FindFirstChild("Crate")
-        obj = obj and obj:FindFirstChild("OpenableCrate")
-        obj = obj and obj:FindFirstChild("Top")
-        if obj then table.insert(crates, obj) end
-        return crates
-    end
-
-    local function isPromptOnDoors(prompt)
-        for _,door in ipairs(getAllDoors()) do
-            if prompt:IsDescendantOf(door) then
-                return true
-            end
-        end
-        return false
-    end
-
-    local function isPromptOnCrates(prompt)
-        for _,crate in ipairs(getAllCrates()) do
-            if prompt:IsDescendantOf(crate) then
-                return true
-            end
-        end
-        return false
-    end
-
+-- ABA CREDITS
 do
     local creditsFrame = tabFrames[3]
     local creditsLabel = Instance.new("TextLabel", creditsFrame)
@@ -488,4 +438,5 @@ do
     creditsLabel.ZIndex = 18
 end
 
+-- Inicializa mostrando a primeira aba
 showTab(1)
