@@ -32,9 +32,6 @@ local lightColorTable = {
 local currentLightColor = "white"
 local playerLight
 local lightEnabled = false
-local chatAlertEnabled = false
-
-local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local function getAlertMessage(entityName)
@@ -72,26 +69,6 @@ local function getAlertMessage(entityName)
     return 'apareceu, esconda-se.'
 end
 
-local function sendChatAlert(entity)
-    if not chatAlertEnabled then return end
-    if not entity or not entity.Name then return end
-
-    if isIgnoredAlertEntity(entity.Name) then
-        return
-    end
-
-    local msg = '"' .. tostring(entity.Name or "???") .. '" ' .. getAlertMessage(entity.Name)
-
-    if TextChatService:FindFirstChild("TextChannels") then
-        pcall(function()
-            TextChatService.TextChannels.RBXGeneral:SendAsync(msg)
-        end)
-    else
-        pcall(function()
-            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
-        end)
-    end
-end
 
 local function UpdatePlayerLight()
     if not lightEnabled then
@@ -142,6 +119,7 @@ local ignoredAlertEntities = {
     tallman = true,
     mournfulman = true,
     joyfulman = true,
+    sadman = true,
 
     ["cb-1"] = true,
     ["c-1"] = true,
@@ -153,6 +131,7 @@ local ignoredAlertEntities = {
 
     amon = true,
     amon2 = true,
+   
 
     yzz = true,
     zzx = true,
@@ -548,7 +527,7 @@ local function CreateESP(part, entity)
     Label.TextStrokeTransparency = 0
     Label.TextScaled = true
     Label.Font = Enum.Font.GothamBold
-    Label.Text = entity.Name .. " — --"
+    Label.Text = entity.Name .. " | --"
     Label.Parent = Billboard
 
     Billboard.Parent = ESPFolder
@@ -564,9 +543,9 @@ local function CreateESP(part, entity)
             local distance = (hrp.Position - Billboard.Adornee.Position).Magnitude
 
             if distance == distance then
-                Label.Text = entity.Name .. " — " .. math.floor(distance) .. "M"
+                Label.Text = entity.Name .. " | " .. math.floor(distance) .. "M"
             else
-                Label.Text = entity.Name .. " — --"
+                Label.Text = entity.Name .. " | --"
             end
 
             Label.TextColor3 = getEntityColor(entity)
@@ -743,16 +722,22 @@ if not getgenv().RLD_AutoDoorsLock then
 end
 
 local spawnedEntitiesButton = CreateButton("Entidades Spawnadas", 88)
-local alertChatButton = CreateButton("Alertar no Chat: OFF", 176)
-alertChatButton.MouseButton1Click:Connect(function()
-    chatAlertEnabled = not chatAlertEnabled
-    alertChatButton.Text = chatAlertEnabled and "Alertar no Chat: ON" or "Alertar no Chat: OFF"
-end)
 local alertEntitiesButton = CreateButton("Alertar Entidades: OFF", 132)
 local alertEntitiesEnabled = false
 alertEntitiesButton.MouseButton1Click:Connect(function()
     alertEntitiesEnabled = not alertEntitiesEnabled
     alertEntitiesButton.Text = alertEntitiesEnabled and "Alertar Entidades: ON" or "Alertar Entidades: OFF"
+end)
+
+local backToDeathButton = CreateButton("Clique se você morreu", 176)
+
+backToDeathButton.MouseButton1Click:Connect(function()
+	if deathCFrame then
+		local character = getChar()
+		if character and getRoot(character) then
+			getRoot(character).CFrame = deathCFrame
+		end
+	end
 end)
 
 local credit = Instance.new("TextLabel")
@@ -842,9 +827,6 @@ task.spawn(function()
                                 end
                             end)
                         end
-
-                   
-                        sendChatAlert(entity)
                     end
                 end
             end
@@ -1096,7 +1078,7 @@ local function buildEntitiesList()
             viewBtn.Parent = itemFrame
             Instance.new("UICorner", viewBtn).CornerRadius = UDim.new(0, 5)
             local distLabel = Instance.new("TextLabel")
-            distLabel.Text = "0 studs away"
+            distLabel.Text = "0 metros de distância"
             distLabel.Size = UDim2.new(0.32, 0, 1, 0)
             distLabel.Position = UDim2.new(0.69, 0, 0, 0)
             distLabel.BackgroundTransparency = 1
@@ -1127,7 +1109,7 @@ local function updateEntityRows()
                 local part = row.Entity.PrimaryPart or row.Entity:FindFirstChildWhichIsA("BasePart")
                 local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
                 if hrp and part and part.Parent then dist = (hrp.Position - part.Position).Magnitude end
-                row.DistLabel.Text = math.floor(dist) .. " studs away"
+                row.DistLabel.Text = math.floor(dist) .. " metros de distância"
                 row.NameLabel.TextColor3 = getEntityColor(row.Entity)
             else if row.Frame then row.Frame:Destroy() end end
         end
