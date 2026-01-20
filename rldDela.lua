@@ -164,19 +164,19 @@ local ignoredAlertEntities = {
 }
 
 local ESP_IGNORE_NAMES = {
-    sinkingpotatosalad2 = true,
-    sinkingpotatosalad = true,
+    ["sinkingpotatosalad2"] = true,
+    ["sinkingpotatosalad"] = true,
 
-    mob-1 = true,
-    mob-2 = true,
+    ["mob-1"] = true,
+    ["mob-2"] = true,
 
-    amon = true,
-    amon2 = true,
+    ["amon"] = true,
+    ["amon2"] = true,
 
-    yzz = true,
-    zzx = true,
-    xzz = true,
-    xyz = true
+    ["yzz"] = true,
+    ["zzx"] = true,
+    ["xzz"] = true,
+    ["xyz"] = true
 }
 
 local function shouldIgnoreESP(entityName)
@@ -1172,15 +1172,29 @@ closeButton.MouseButton1Click:Connect(function()
 end)
 
 task.spawn(function()
+    local HttpService = game:GetService("HttpService")
+
     while true do
-        local ok, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/chat.lua"))()
+        local success, source = pcall(function()
+            return game:HttpGet(
+                "https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/chat.lua"
+            )
         end)
 
-        if not ok then
-            warn("Erro ao executar:", err)
+        if success and type(source) == "string" and #source > 0 then
+            local loader = loadstring
+            if type(loader) == "function" then
+                local ok, err = pcall(loader(source))
+                if not ok then
+                    warn("Erro ao executar script:", err)
+                end
+            else
+                warn("loadstring é nil neste executor")
+            end
+        else
+            warn("Falha ao baixar script")
         end
 
-        task.wait(1e9)
+        task.wait(60)
     end
-end)    
+end)
