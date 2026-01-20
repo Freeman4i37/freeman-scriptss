@@ -112,13 +112,20 @@ local function fetchMessages()
         local res = game:HttpGet(SERVER_URL .. "?since=" .. lastId)
         return HttpService:JSONDecode(res)
     end)
-    if success and data then
+    if not success then
+        warn("Erro ao buscar mensagens:", data)
+        return
+    end
+    if data then
         for _,msg in ipairs(data) do
             addMessage(msg.name, msg.text)
             lastId = math.max(lastId, msg.id)
         end
     end
 end
+
+-- Forçar fetch inicial para ver mensagens já existentes
+fetchMessages()
 
 local function sendMessage(msgText)
     if msgText == "" then return end
