@@ -37,10 +37,45 @@ local chatAlertEnabled = false
 local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local function getAlertMessage(entityName)
+    local name = entityName:lower()
+
+    if name == "b-15" or name == "a-120" or name == "g-3" or name == "g-300" then
+        return 'apareceu, não precisa esconder.'
+    end
+
+    if name == "b-120" or name == "a-200" or name == "g-140" then
+        return 'apareceu, esconda-se em armários.'
+    end
+
+    if name == "b-140" then
+        return '"B-140" apareceu, esconda-se em lugares NÃO marcados em verde.'
+    end
+
+    if name == "a-105" or name == "c-105" or name == "b-40"
+    or name == "b-170" or name == "g-55" or name == "cg-55" then
+        return 'apareceu, esconda-se em mesa.'
+    end
+    
+    if name == "g-159" then
+        return '"G-159" apareceu, preste atenção em onde ele vai matar.'
+    end
+        
+    if name == "g-100" then
+        return '"G-100" apareceu, vai matar em mesas e depois em armários!'
+    end
+    
+    if name == "g-60" or name == "g-200" then
+        return 'apareceu, NÃO SE MOVA.'
+    end
+
+    return 'apareceu, esconda-se.'
+end
+
 local function sendChatAlert(entity)
     if not chatAlertEnabled then return end
 
-    local msg = '' .. tostring(entity.Name or "???") .. ' apareceu, esconda-se!'
+    local msg = '"' .. tostring(entity.Name or "???") .. '" ' .. getAlertMessage(entity.Name)
 
     if TextChatService:FindFirstChild("TextChannels") then
         pcall(function()
@@ -55,17 +90,28 @@ end
 
 local function UpdatePlayerLight()
     if not lightEnabled then
-        if playerLight then playerLight:Destroy(); playerLight = nil end
+        if playerLight then
+            playerLight:Destroy()
+            playerLight = nil
+        end
         return
     end
-    if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
-    if not playerLight then
+
+    local character = player.Character
+    if not character then return end
+
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    if not playerLight or playerLight.Parent ~= hrp then
+        if playerLight then playerLight:Destroy() end
         playerLight = Instance.new("PointLight")
         playerLight.Name = "RLD_Light"
-        playerLight.Parent = player.Character.HumanoidRootPart
-        playerLight.Range = 130
-        playerLight.Brightness = 2
+        playerLight.Parent = hrp
+        playerLight.Range = 800
+        playerLight.Brightness = 3
     end
+
     playerLight.Color = lightColorTable[currentLightColor] or lightColorTable.white
 end
 player.CharacterAdded:Connect(function() wait(1) UpdatePlayerLight() end)
@@ -99,11 +145,18 @@ local ignoredAlertEntities = {
     ["m-122"] = true,
     ["amon"] = true,
     ["amon2"] = true,
-    ["YZZ"] = true,
-    ["ZZX"] = true,
-    ["XZZ"] = true,
-    ["XYZ"] = true,
+    ["yzz"] = true,
+    ["zzx"] = true,
+    ["xzz"] = true,
+    ["xyz"] = true,
     ["joyfulman"] = true,
+    ["sinkingpotatosalad2"] = true,
+    ["sinkingpotatosalad"] = true,
+}
+
+local ESP_IGNORE_NAMES = {
+    sinkingpotatosalad2 = true,
+    sinkingpotatosalad = true
 }
 
 local function shouldShowForEntity(entName)
@@ -112,7 +165,6 @@ local function shouldShowForEntity(entName)
 end
 
 local colorTable = {
-    -- Antigas
     ["happyman"] = Color3.fromRGB(255, 0, 0),
     ["sadman"] = Color3.fromRGB(255, 0, 0),
     ["angryman"] = Color3.fromRGB(255, 0, 0),
@@ -134,7 +186,6 @@ local colorTable = {
     ["a-120"] = Color3.fromRGB(255, 255, 0),
     ["a-275"] = Color3.fromRGB(255, 255, 0),
     ["glee"] = Color3.fromRGB(0, 150, 255),
-
     ["a-1"] = "graywhite",
     ["c-1"] = "rainbow",
     ["sn-1"] = Color3.fromRGB(48, 0, 64),
@@ -149,7 +200,6 @@ local colorTable = {
     ["a-300"] = "orangered",
     ["cv-300"] = "whiteorange",
     ["wideglee"] = Color3.fromRGB(255, 65, 195),
-
     ["b-5"] = Color3.fromRGB(0, 255, 0),
     ["b-15"] = Color3.fromRGB(44, 74, 188),
     ["b-25"] = Color3.fromRGB(0, 255, 255),
@@ -166,7 +216,6 @@ local colorTable = {
     ["b-244"] = Color3.fromRGB(255, 0, 0),
     ["b-270"] = Color3.fromRGB(128, 0, 255),
     ["b-300"] = Color3.fromRGB(50, 255, 90),
-
     ["g-3"] = Color3.fromRGB(0, 80, 0),
     ["g-26"] = "g26bw",
     ["g-55"] = "g55wgb",
@@ -185,7 +234,6 @@ local colorTable = {
     ["g-235"] = Color3.fromRGB(255, 255, 40),
     ["g-250"] = Color3.fromRGB(255, 165, 0),
     ["g-300"] = "g300multi",
-
     ["c-45"] = Color3.fromRGB(128, 0, 255),
     ["cc-45"] = Color3.fromRGB(0, 255, 255),
     ["c-105"] = "shadesofblue",
@@ -196,9 +244,7 @@ local colorTable = {
     ["bagc-60"] = "bagc60multi",
     ["cc-60"] = Color3.fromRGB(190, 0, 255),
     ["ccc-60"] = "greencyan",
-
-    -- Novas
-    ["?-27"] = Color3.fromRGB(245, 245, 220), -- Beige
+    ["?-27"] = Color3.fromRGB(245, 245, 220),
     ["widowed sleeper"] = Color3.fromRGB(255, 165, 0),
     ["cg-200"] = Color3.fromRGB(255, 120, 40),
     ["c-200"] = Color3.fromRGB(128, 128, 128),
@@ -236,7 +282,6 @@ local colorTable = {
 }
 local function getEntityColor(entity)
     local name = entity.Name:lower()
-    -- CG-55 e CGTA-55 usam o efeito g55wgb
     if name == "cg-55" or name == "cgta-55" then
         return getMultiTransitionColor({
             Color3.fromRGB(255,255,255),
@@ -254,8 +299,7 @@ local function getEntityColor(entity)
         end
     end
     if not color then return Color3.fromRGB(255,255,255) end
-
-    -- EFEITOS DINÂMICOS PADRÃO
+    
     if color == "graywhite" then
         local v = math.abs(math.sin(tick()*2))
         return Color3.new(v,v,v)
@@ -304,8 +348,6 @@ local function getEntityColor(entity)
             Color3.fromRGB(0,255,0), strongYellow
         }, 2, 1)
 
-    -- ----------- EFEITOS NOVOS/ESPECIAIS -------------
-    -- Tons de azul
     elseif color == "shadesofblue" then
         return getMultiTransitionColor({
             Color3.fromRGB(80,150,255),
@@ -313,20 +355,20 @@ local function getEntityColor(entity)
             Color3.fromRGB(0,120,255),
             Color3.fromRGB(0,200,255)
         }, 2, 1)
-    -- Tons de laranja
+        
     elseif color == "orangetones" then
         return getMultiTransitionColor({
             Color3.fromRGB(255,150,0),
             Color3.fromRGB(255,200,80),
             Color3.fromRGB(255,120,30)
         }, 2, 1)
-    -- Azul e vermelho juntos
+        
     elseif color == "bluered" then
         return getTransitionColor(Color3.fromRGB(0,120,255), Color3.fromRGB(255,0,0), 6)
-    -- Preto + cinza
+        
     elseif color == "bwgray" then
         return getTransitionColor(Color3.fromRGB(0,0,0), Color3.fromRGB(150,150,150), 2)
-    -- Mistura roxo, ciano, vermelho, verde
+
     elseif color == "bagc60multi" then
         return getMultiTransitionColor({
             Color3.fromRGB(160,0,255),
@@ -334,28 +376,25 @@ local function getEntityColor(entity)
             Color3.fromRGB(255,0,0),
             Color3.fromRGB(0,255,0),
         }, 2, 1)
-    -- Verde com tons de ciano
+        
     elseif color == "greencyan" then
         return getTransitionColor(Color3.fromRGB(0,255,0), Color3.fromRGB(0,255,255), 2)
 
-    -- ==== NOVOS EFEITOS DINÂMICOS ====
-
-    -- G-88: OrangeT, PinkT, RedT, YellowT transition
     elseif color == "g88transition" then
         return getMultiTransitionColor({
-            Color3.fromRGB(255, 120, 30), -- OrangeT
-            Color3.fromRGB(255, 65, 195), -- PinkT
-            Color3.fromRGB(255, 0, 0),    -- RedT
-            Color3.fromRGB(255, 255, 40), -- YellowT
+            Color3.fromRGB(255, 120, 30), 
+            Color3.fromRGB(255, 65, 195), 
+            Color3.fromRGB(255, 0, 0),    
+            Color3.fromRGB(255, 255, 40), 
         }, 2.5, 1)
-    -- G-Eighty Eight: PinkT, RedT, YellowT
+
     elseif color == "g88nopink" then
         return getMultiTransitionColor({
-            Color3.fromRGB(255, 65, 195), -- PinkT
-            Color3.fromRGB(255, 0, 0),    -- RedT
-            Color3.fromRGB(255, 255, 40), -- YellowT
+            Color3.fromRGB(255, 65, 195), 
+            Color3.fromRGB(255, 0, 0),    
+            Color3.fromRGB(255, 255, 40), 
         }, 2.5, 1)
-    -- Billy-140: blue and purple tones, mix
+    
     elseif color == "billy140mix" then
         return getMultiTransitionColor({
             Color3.fromRGB(80, 150, 255),
@@ -363,14 +402,27 @@ local function getEntityColor(entity)
             Color3.fromRGB(128, 0, 255),
             Color3.fromRGB(200, 60, 180)
         }, 2, 1)
-    -- G-140: Orange tones, fire type
+    
     elseif color == "g140fire" then
-        return getMultiTransitionColor({
-            Color3.fromRGB(255, 120, 30),
-            Color3.fromRGB(255, 165, 0),
-            Color3.fromRGB(255, 60, 0)
-        }, 3, 1)
-    -- Omg-40: All colors, crazy transition every 0.5s
+    local t = tick() * 3
+    local colors = {
+        Color3.fromRGB(255, 120, 30),
+        Color3.fromRGB(255, 165, 0),
+        Color3.fromRGB(255, 60, 0)
+    }
+
+    local i = math.floor(t) % #colors + 1
+    local n = i % #colors + 1
+    local f = t - math.floor(t)
+
+    local c1, c2 = colors[i], colors[n]
+
+    return Color3.new(
+        c1.R + (c2.R - c1.R) * f,
+        c1.G + (c2.G - c1.G) * f,
+        c1.B + (c2.B - c1.B) * f
+    )
+    
     elseif color == "crazyall" then
         return getMultiTransitionColor({
             Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 127, 0),
@@ -378,14 +430,14 @@ local function getEntityColor(entity)
             Color3.fromRGB(0, 0, 255), Color3.fromRGB(75, 0, 130),
             Color3.fromRGB(148, 0, 211), Color3.fromRGB(255,255,255)
         }, 12, 0.5)
-    -- GUH: White, then orange every 1s
+    
     elseif color == "guhwhiteorange" then
         if math.floor(tick()) % 2 == 0 then
             return Color3.fromRGB(255,255,255)
         else
             return Color3.fromRGB(255, 120, 30)
         end
-    -- Holay Molay.. : White for 5s, then Purple flashing for 5s
+    
     elseif color == "holaymolay" then
         local t = math.floor(tick() / 5) % 2
         if t == 0 then
@@ -400,9 +452,35 @@ local function getEntityColor(entity)
         end
     end
 
-    -- Cores fixas
+    
     return color
 end
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local SPEED_VALUE = 25
+
+local function ApplySpeed(character)
+    local humanoid = character:WaitForChild("Humanoid", 5)
+    if not humanoid then return end
+
+    humanoid.WalkSpeed = SPEED_VALUE
+
+    humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+        if humanoid.WalkSpeed ~= SPEED_VALUE then
+            humanoid.WalkSpeed = SPEED_VALUE
+        end
+    end)
+end
+
+if player.Character then
+    ApplySpeed(player.Character)
+end
+
+player.CharacterAdded:Connect(function(character)
+    ApplySpeed(character)
+end)
 
 local ESPFolder = Instance.new("Folder", game.CoreGui)
 ESPFolder.Name = "RLD_ESP"
@@ -410,6 +488,8 @@ local espEnabled = true
 local espBlocked = {}
 
 local function CreateESP(part, entity)
+    if not entity or not entity.Name then return end
+    if ESP_IGNORE_NAMES[entity.Name] then return end
     if part:FindFirstChild("ESP_Billboard") then return end
     if espBlocked[entity] then return end
 
@@ -468,13 +548,16 @@ task.spawn(function()
             local folder = workspace:FindFirstChild("SpawnedEnitites")
             if folder then
                 for _, entity in pairs(folder:GetChildren()) do
-                    if not espBlocked[entity] then
-                        local part = entity.PrimaryPart or entity:FindFirstChildWhichIsA("BasePart")
-                        if part then
-                            CreateESP(part, entity)
-                        end
-                    end
-                end
+    if entity and entity.Name
+        and not espBlocked[entity]
+        and not ESP_IGNORE_NAMES[entity.Name] then
+
+        local part = entity.PrimaryPart or entity:FindFirstChildWhichIsA("BasePart")
+        if part then
+            CreateESP(part, entity)
+        end
+    end
+end
             end
         end
         wait(0.6)
@@ -630,7 +713,7 @@ alertEntitiesButton.MouseButton1Click:Connect(function()
 end)
 
 local credit = Instance.new("TextLabel")
-credit.Text = "ti amo 😙❤"
+credit.Text = "😙❤"
 credit.Size = UDim2.new(1, 0, 0, 22)
 credit.Position = UDim2.new(0, 0, 1, -28)
 credit.BackgroundTransparency = 1
@@ -670,7 +753,7 @@ task.spawn(function()
                             local label = Instance.new("TextLabel")
                             label.Size = UDim2.new(1,0,1,0)
                             label.BackgroundTransparency = 1
-                            label.Text = '"' .. tostring(entity.Name or "???") .. '" apareceu, esconda-se.'
+                            label.Text = '"' .. tostring(entity.Name or "???") .. '" ' .. getAlertMessage(entity.Name)
                             label.Font = Enum.Font.GothamBold
                             label.TextScaled = true
                             label.ZIndex = 1001
