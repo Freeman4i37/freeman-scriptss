@@ -115,7 +115,7 @@ tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
 local tabs = {
     {name = "ESP", label = "ESP"},
     {name = "Others", label = "Others"},
-    {name = "meu amor clique aqui", label = "Credits"}
+    {name = "Credits", label = "Credits"}
 }
 
 local tabFrames = {}
