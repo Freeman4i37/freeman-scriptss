@@ -602,7 +602,7 @@ task.spawn(function()
                 end
             end
         end
-        wait(0.1)
+        wait(2)
     end
 end)
 
@@ -827,7 +827,7 @@ task.spawn(function()
 
             lastEntities = current
         end
-        task.wait(0.5)
+        task.wait(1)
     end
 end)
 
