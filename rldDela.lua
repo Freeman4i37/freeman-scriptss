@@ -696,15 +696,15 @@ espButton.MouseButton1Click:Connect(function()
     espButton.Text = espEnabled and "ESP: ON" or "ESP: OFF"
 end)
 
-local spawnedEntitiesButton = CreateButton("Entidades Spawnadas", 88)
-local alertEntitiesButton = CreateButton("Alertar Entidades: OFF", 132)
+local spawnedEntitiesButton = CreateButton("Entidades Spawnadas", 44)
+local alertEntitiesButton = CreateButton("Alertar Entidades: OFF", 88)
 local alertEntitiesEnabled = false
 alertEntitiesButton.MouseButton1Click:Connect(function()
     alertEntitiesEnabled = not alertEntitiesEnabled
     alertEntitiesButton.Text = alertEntitiesEnabled and "Alertar Entidades: ON" or "Alertar Entidades: OFF"
 end)
 
-local tpFreemanButton = CreateButton("Teleportar para Freeman", 176)
+local tpFreemanButton = CreateButton("Teleportar para Freeman", 132)
 
 tpFreemanButton.MouseButton1Click:Connect(function()
 	local Players = game:GetService("Players")
