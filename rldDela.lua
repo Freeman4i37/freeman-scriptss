@@ -56,11 +56,11 @@ local function getAlertMessage(entityName)
     end
     
     if name == "g-159" then
-        return '"G-159" apareceu, preste atenção em onde ele vai matar.'
+        return 'apareceu, preste atenção em onde ele vai matar.'
     end
         
     if name == "g-100" then
-        return '"G-100" apareceu, vai matar em mesas e depois em armários!'
+        return 'apareceu, vai matar em mesas e depois em armários!'
     end
     
     if name == "g-60" or name == "g-200" then
@@ -132,7 +132,6 @@ local ignoredAlertEntities = {
 
     amon = true,
     amon2 = true,
-   
 
     yzz = true,
     zzx = true,
@@ -141,6 +140,15 @@ local ignoredAlertEntities = {
 
     sinkingpotatosalad = true,
     sinkingpotatosalad2 = true,
+
+    -- entidades da imagem
+    ["fa-122"] = true,
+    ["gw-122"] = true,
+    ["je-122"] = true,
+    ["gb-122"] = true,
+    ["ms-122"] = true,
+    ["bg-122"] = true,
+    ["ungoggleflong-122"] = true,
 }
 
 local ESP_IGNORE_NAMES = {
@@ -156,7 +164,15 @@ local ESP_IGNORE_NAMES = {
     ["yzz"] = true,
     ["zzx"] = true,
     ["xzz"] = true,
-    ["xyz"] = true
+    ["xyz"] = true,
+
+    ["fa-122"] = true,
+    ["gw-122"] = true,
+    ["je-122"] = true,
+    ["gb-122"] = true,
+    ["ms-122"] = true,
+    ["bg-122"] = true,
+    ["ungoggleflong-122"] = true,
 }
 
 local function shouldIgnoreESP(entityName)
@@ -527,7 +543,7 @@ local function CreateESP(part, entity)
     local Billboard = Instance.new("BillboardGui")
     Billboard.Name = "ESP_Billboard"
     Billboard.Adornee = part
-    Billboard.Size = UDim2.new(0, 120, 0, 38)
+    Billboard.Size = UDim2.new(0, 128, 0, 40)
     Billboard.AlwaysOnTop = true
 
     local Label = Instance.new("TextLabel")
@@ -586,7 +602,7 @@ task.spawn(function()
                 end
             end
         end
-        wait(2)
+        wait(0.1)
     end
 end)
 
