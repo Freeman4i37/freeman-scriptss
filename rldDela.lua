@@ -8,7 +8,8 @@ gui.ResetOnSpawn = false
 
 local mainColor = Color3.fromRGB(18, 18, 18)
 local borderColor = Color3.fromRGB(30, 30, 30)
-local accentColor = Color3.fromRGB(40, 120, 255)
+local accentColor = Color3.fromRGB(255, 0, 0)
+local accentColor2 = Color3.fromRGB(0, 0, 0)
 local buttonColor = Color3.fromRGB(30, 30, 30)
 local textColor = Color3.fromRGB(255,255,255)
 local closeColor = Color3.fromRGB(180,30,30)
@@ -240,6 +241,7 @@ local colorTable = {
     ["cv-300"] = "whiteorange",
     ["cg-18"] = Color3.fromRGB(0, 255, 255),
     ["cg-55"] = "g55wgb",
+    ["cg-26"] = "cg26wb",
     ["cg-200"] = Color3.fromRGB(255, 120, 40),
     ["cgta-55"] = "g55wgb",
     ["cfo-300"] = Color3.fromRGB(0, 255, 255),
@@ -373,6 +375,22 @@ local function getEntityColor(entity)
             Color3.fromRGB(180,180,180),
             Color3.fromRGB(0,0,0)
         }, 7, 1)
+        
+    elseif color == "cg26wb" then
+    return getMultiTransitionColor({
+        Color3.fromRGB(0,0,0),
+        Color3.fromRGB(25,25,25),
+        Color3.fromRGB(50,50,50),
+        Color3.fromRGB(75,75,75),
+        Color3.fromRGB(100,100,100),
+        Color3.fromRGB(125,125,125),
+        Color3.fromRGB(150,150,150),
+        Color3.fromRGB(175,175,175),
+        Color3.fromRGB(200,200,200),
+        Color3.fromRGB(225,225,225),
+        Color3.fromRGB(255,255,255)
+    }, 11, 1)
+    
     elseif color == "g300multi" then
         return getMultiTransitionColor({
             strongRed, strongOrange, Color3.fromRGB(0,30,80),
@@ -470,7 +488,7 @@ end
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local SPEED_VALUE = 25
+local SPEED_VALUE = 30
 
 local function ApplySpeed(character)
     local humanoid = character:WaitForChild("Humanoid", 5)
@@ -498,6 +516,8 @@ ESPFolder.Name = "RLD_ESP"
 local espEnabled = true
 local espBlocked = {}
 
+local TweenService = game:GetService("TweenService")
+
 local function CreateESP(part, entity)
     if not entity or not entity.Name then return end
     if ESP_IGNORE_NAMES[string.lower(entity.Name)] then return end
@@ -507,7 +527,7 @@ local function CreateESP(part, entity)
     local Billboard = Instance.new("BillboardGui")
     Billboard.Name = "ESP_Billboard"
     Billboard.Adornee = part
-    Billboard.Size = UDim2.new(0, 140, 0, 50)
+    Billboard.Size = UDim2.new(0, 120, 0, 38)
     Billboard.AlwaysOnTop = true
 
     local Label = Instance.new("TextLabel")
@@ -601,7 +621,7 @@ title.TextXAlignment = Enum.TextXAlignment.Left
 title.Parent = titleBar
 
 local closeButton = Instance.new("TextButton")
-closeButton.Text = "X"
+closeButton.Text = " X "
 closeButton.Size = UDim2.new(0,36,0,32)
 closeButton.Position = UDim2.new(1, -44, 0, 3)
 closeButton.BackgroundColor3 = closeColor
@@ -613,7 +633,7 @@ closeButton.Parent = titleBar
 Instance.new("UICorner", closeButton).CornerRadius = UDim.new(0, 6)
 
 local minimizeButton = Instance.new("TextButton")
-minimizeButton.Text = "-"
+minimizeButton.Text = " – "
 minimizeButton.Size = UDim2.new(0,32,0,32)
 minimizeButton.Position = UDim2.new(1, -80, 0, 3)
 minimizeButton.BackgroundColor3 = minimizeColor
@@ -625,7 +645,7 @@ minimizeButton.Parent = titleBar
 Instance.new("UICorner", minimizeButton).CornerRadius = UDim.new(0, 6)
 
 local configButton = Instance.new("TextButton")
-configButton.Text = "⚙️"
+configButton.Text = " ⚙️ "
 configButton.Size = UDim2.new(0,32,0,32)
 configButton.Position = UDim2.new(1, -116, 0, 3)
 configButton.BackgroundColor3 = Color3.fromRGB(32,32,32)
@@ -640,7 +660,7 @@ local miniButton = Instance.new("TextButton")
 miniButton.Size = UDim2.new(0, 38, 0, 38)
 miniButton.Position = UDim2.new(0, 8, 0, 8)
 miniButton.BackgroundColor3 = mainColor
-miniButton.Text = "+"
+miniButton.Text = " + "
 miniButton.TextColor3 = textColor
 miniButton.Font = Enum.Font.GothamBold
 miniButton.TextScaled = true
@@ -675,35 +695,6 @@ espButton.MouseButton1Click:Connect(function()
     espEnabled = not espEnabled
     espButton.Text = espEnabled and "ESP: ON" or "ESP: OFF"
 end)
-
-local autoDoorsButton = CreateButton("Abrir Portas: OFF", 44)
-autoDoorsButton.MouseButton1Click:Connect(function()
-    getgenv().RLD_AutoDoorsEnabled = not getgenv().RLD_AutoDoorsEnabled
-    autoDoorsButton.Text = getgenv().RLD_AutoDoorsEnabled and "Abrir Portas: ON" or "Auto Doors: OFF"
-end)
-if not getgenv().RLD_AutoDoorsLock then
-    getgenv().RLD_AutoDoorsLock = true
-    task.spawn(function()
-        while true do
-            if getgenv().RLD_AutoDoorsEnabled then
-                for _, section in pairs({"CurrentRoomsA", "CurrentRoomsB", "CurrentRoomsG"}) do
-                    local folder = workspace:FindFirstChild(section)
-                    if folder then
-                        for _, room in pairs(folder:GetChildren()) do
-                            for _, obj in pairs(room:GetDescendants()) do
-                                if obj:IsA("ProximityPrompt") and obj.ActionText == "Open" and obj.MaxActivationDistance >= 0 then
-                                    fireproximityprompt(obj)
-                                    wait(0.01)
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-            wait(0.01)
-        end
-    end)
-end
 
 local spawnedEntitiesButton = CreateButton("Entidades Spawnadas", 88)
 local alertEntitiesButton = CreateButton("Alertar Entidades: OFF", 132)
@@ -801,7 +792,7 @@ task.spawn(function()
 
                             currentGuiAlert = guiAlert
 
-                            delay(5, function()
+                            delay(6, function()
                                 if currentGuiAlert == guiAlert then
                                     if currentHeartbeat then
                                         currentHeartbeat:Disconnect()
@@ -820,7 +811,7 @@ task.spawn(function()
 
             lastEntities = current
         end
-        task.wait(0.1)
+        task.wait(0.5)
     end
 end)
 
@@ -939,6 +930,10 @@ configButton.MouseButton1Click:Connect(function()
     end)
 end)
 
+local function isBlocked(entity)
+    return entity and ESP_IGNORE_NAMES[entity.Name] == true
+end
+
 local entitiesFrame = Instance.new("Frame")
 entitiesFrame.Size = UDim2.new(0, 340, 0, 310)
 entitiesFrame.Position = UDim2.new(0.19, 0, 0.19, 0)
@@ -968,7 +963,7 @@ entitiesScrolling.Parent = entitiesFrame
 entitiesScrolling.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 local minimizeEntitiesButton = Instance.new("TextButton")
-minimizeEntitiesButton.Text = "-"
+minimizeEntitiesButton.Text = " – "
 minimizeEntitiesButton.Size = UDim2.new(0, 30, 0, 30)
 minimizeEntitiesButton.Position = UDim2.new(1, -74, 0, 6)
 minimizeEntitiesButton.BackgroundColor3 = minimizeColor
@@ -979,7 +974,7 @@ minimizeEntitiesButton.Parent = entitiesFrame
 Instance.new("UICorner", minimizeEntitiesButton).CornerRadius = UDim.new(0, 6)
 
 local closeEntitiesButton = Instance.new("TextButton")
-closeEntitiesButton.Text = "X"
+closeEntitiesButton.Text = " X "
 closeEntitiesButton.Size = UDim2.new(0, 30, 0, 30)
 closeEntitiesButton.Position = UDim2.new(1, -38, 0, 6)
 closeEntitiesButton.BackgroundColor3 = closeColor
@@ -993,7 +988,7 @@ local miniEntitiesButton = Instance.new("TextButton")
 miniEntitiesButton.Size = UDim2.new(0, 38, 0, 38)
 miniEntitiesButton.Position = UDim2.new(0.19, 0, 0.19, 0)
 miniEntitiesButton.BackgroundColor3 = mainColor
-miniEntitiesButton.Text = "+"
+miniEntitiesButton.Text = " + "
 miniEntitiesButton.TextColor3 = textColor
 miniEntitiesButton.Font = Enum.Font.GothamBold
 miniEntitiesButton.TextScaled = true
@@ -1004,10 +999,14 @@ Instance.new("UICorner", miniEntitiesButton).CornerRadius = UDim.new(0, 8)
 local unviewButton = nil
 local lastCameraSubject = nil
 local entityRows = {}
+
 local function clearEntitiesList()
-    for _, row in pairs(entityRows) do if row and row.Frame then row.Frame:Destroy() end end
+    for _, row in pairs(entityRows) do 
+        if row and row.Frame then row.Frame:Destroy() end 
+    end
     entityRows = {}
 end
+
 local function startSpectate(part, entity)
     if not (part and part.Parent) then return end
     lastCameraSubject = camera.CameraSubject
@@ -1019,8 +1018,8 @@ local function startSpectate(part, entity)
     unviewButton.Size = UDim2.new(0, 120, 0, 35)
     unviewButton.Position = UDim2.new(0.5, -60, 1, -50)
     unviewButton.AnchorPoint = Vector2.new(0.5, 1)
-    unviewButton.BackgroundColor3 = accentColor
-    unviewButton.Text = "VOLTAR"
+    unviewButton.BackgroundColor3 = accentColor2
+    unviewButton.Text = " VOLTAR "
     unviewButton.TextColor3 = textColor
     unviewButton.Font = Enum.Font.GothamBold
     unviewButton.TextScaled = true
@@ -1032,18 +1031,26 @@ local function startSpectate(part, entity)
         entitiesFrame.Visible = true
     end)
 end
+
 local function buildEntitiesList()
     clearEntitiesList()
     local folder = workspace:FindFirstChild("SpawnedEnitites")
-    if not folder then entitiesTitle.Text = "Spawned Entities (none)"; return else entitiesTitle.Text = "Spawned Entities" end
+    if not folder then 
+        entitiesTitle.Text = "Spawned Entities (none)"
+        return 
+    else 
+        entitiesTitle.Text = "Spawned Entities" 
+    end
+
     local y = 0
     for _, entity in pairs(folder:GetChildren()) do
-        if entity then
+        if entity and not isBlocked(entity) then
             local row, itemFrame = {}, Instance.new("Frame")
             itemFrame.Size = UDim2.new(1, 0, 0, 36)
             itemFrame.Position = UDim2.new(0, 0, 0, y)
             itemFrame.BackgroundTransparency = 1
             itemFrame.Parent = entitiesScrolling
+
             local nameLabel = Instance.new("TextLabel")
             nameLabel.Text = entity.Name
             nameLabel.Size = UDim2.new(0.43, 0, 1, 0)
@@ -1054,6 +1061,7 @@ local function buildEntitiesList()
             nameLabel.TextScaled = true
             nameLabel.TextColor3 = getEntityColor(entity)
             nameLabel.Parent = itemFrame
+
             local viewBtn = Instance.new("TextButton")
             viewBtn.Size = UDim2.new(0.22, 0, 1, -8)
             viewBtn.Position = UDim2.new(0.45, 0, 0, 4)
@@ -1064,6 +1072,7 @@ local function buildEntitiesList()
             viewBtn.TextScaled = true
             viewBtn.Parent = itemFrame
             Instance.new("UICorner", viewBtn).CornerRadius = UDim.new(0, 5)
+
             local distLabel = Instance.new("TextLabel")
             distLabel.Text = "???"
             distLabel.Size = UDim2.new(0.32, 0, 1, 0)
@@ -1074,10 +1083,12 @@ local function buildEntitiesList()
             distLabel.TextScaled = true
             distLabel.TextXAlignment = Enum.TextXAlignment.Right
             distLabel.Parent = itemFrame
+
             viewBtn.MouseButton1Click:Connect(function()
                 local part = entity.PrimaryPart or entity:FindFirstChildWhichIsA("BasePart")
                 if part and part.Parent then startSpectate(part, entity) end
             end)
+
             row.Frame, row.Entity, row.NameLabel, row.DistLabel = itemFrame, entity, nameLabel, distLabel
             table.insert(entityRows, row)
             y = y + 38
@@ -1085,20 +1096,23 @@ local function buildEntitiesList()
     end
     entitiesScrolling.CanvasSize = UDim2.new(0, 0, 0, y)
 end
+
 local function updateEntityRows()
     local folder = workspace:FindFirstChild("SpawnedEnitites")
     if not folder then return end
     if #folder:GetChildren() ~= #entityRows then buildEntitiesList() end
     for i, row in ipairs(entityRows) do
         if row and row.Entity and row.NameLabel and row.DistLabel then
-            if row.Entity.Parent == folder then
+            if row.Entity.Parent == folder and not isBlocked(row.Entity) then
                 local dist = 0
                 local part = row.Entity.PrimaryPart or row.Entity:FindFirstChildWhichIsA("BasePart")
                 local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
                 if hrp and part and part.Parent then dist = (hrp.Position - part.Position).Magnitude end
                 row.DistLabel.Text = math.floor(dist) .. " metros"
                 row.NameLabel.TextColor3 = getEntityColor(row.Entity)
-            else if row.Frame then row.Frame:Destroy() end end
+            else
+                if row.Frame then row.Frame:Destroy() end
+            end
         end
     end
 end
