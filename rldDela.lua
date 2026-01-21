@@ -187,41 +187,30 @@ local function isIgnoredAlertEntity(name)
 end
 
 local colorTable = {
-    ["happyman"] = Color3.fromRGB(255, 0, 0),
-    ["sadman"] = Color3.fromRGB(255, 0, 0),
-    ["angryman"] = Color3.fromRGB(255, 0, 0),
-    ["nerdman"] = Color3.fromRGB(255, 65, 195),
-    ["c-25"] = Color3.fromRGB(255, 65, 195),
-    ["a-75"] = Color3.fromRGB(255, 65, 195),
-    ["smartman"] = Color3.fromRGB(255, 65, 195),
-    ["scaredman"] = Color3.fromRGB(128, 0, 128),
-    ["shortman"] = Color3.fromRGB(0, 0, 255),
-    ["mushman"] = Color3.fromRGB(0, 0, 255),
-    ["bigman"] = Color3.fromRGB(0, 255, 0),
-    ["a-25"] = Color3.fromRGB(0, 255, 0),
-    ["c-60"] = Color3.fromRGB(0, 255, 0),
-    ["a-105"] = Color3.fromRGB(0, 255, 0),
-    ["tallman"] = Color3.fromRGB(255, 165, 0),
-    ["a-45"] = Color3.fromRGB(255, 165, 0),
-    ["1-a"] = Color3.fromRGB(255, 165, 0),
-    ["joyfulman"] = Color3.fromRGB(255, 255, 0),
-    ["a-120"] = Color3.fromRGB(255, 255, 0),
-    ["a-275"] = Color3.fromRGB(255, 255, 0),
-    ["glee"] = Color3.fromRGB(0, 150, 255),
-    ["a-1"] = "graywhite",
-    ["c-1"] = "rainbow",
-    ["sn-1"] = Color3.fromRGB(48, 0, 64),
-    ["jb-1"] = Color3.fromRGB(0, 96, 0),
+    ["?-27"] = "?27bw",
+    ["?-140"] = "g140fire",
+    ["1-a"] = Color3.fromRGB(255,140,0),
+    ["a-10"] = Color3.fromRGB(0, 120, 255),
+    ["a-25"] = Color3.fromRGB(0, 128, 0),
+    ["a-35"] = Color3.fromRGB(0, 255, 0),
+    ["a-45"] = Color3.fromRGB(255,140,0),
+    ["a-50"] = Color3.fromRGB(255, 0, 0),
     ["a-60"] = Color3.fromRGB(255, 0, 0),
-    ["a-150"] = Color3.fromRGB(80, 180, 255),
-    ["a-185"] = Color3.fromRGB(40, 80, 180),
+    ["a-75"] = Color3.fromRGB(255, 182, 193),
+    ["a-100"] = Color3.fromRGB(255,0,255),
+    ["a-105"] = Color3.fromRGB(0, 255, 0),
+    ["a-120"] = Color3.fromRGB(255, 255, 0),
+    ["a-150"] = Color3.fromRGB(127,255,212),
+    ["a-183"] = Color3.fromRGB(255,165,0),
+    ["a-185"] = Color3.fromRGB(0,0,255),
     ["a-200"] = Color3.fromRGB(255, 255, 255),
-    ["a-225"] = Color3.fromRGB(0, 0, 100),
-    ["mournfulman"] = Color3.fromRGB(0, 0, 100),
+    ["a-225"] = Color3.fromRGB(0,0,205),
+    ["a-240"] = Color3.fromRGB(65,105,225),
     ["a-250"] = Color3.fromRGB(120, 0, 0),
-    ["a-300"] = "orangered",
-    ["cv-300"] = "whiteorange",
-    ["wideglee"] = Color3.fromRGB(255, 65, 195),
+    ["a-275"] = Color3.fromRGB(255, 255, 0),
+    ["ae-sixte"] = Color3.fromRGB(255, 0, 0),
+    ["angryman"] = Color3.fromRGB(255, 0, 0),
+    ["bagc-60"] = "bagc60multi",
     ["b-5"] = Color3.fromRGB(0, 255, 0),
     ["b-15"] = Color3.fromRGB(44, 74, 188),
     ["b-25"] = Color3.fromRGB(0, 255, 255),
@@ -231,19 +220,38 @@ local colorTable = {
     ["b-100"] = Color3.fromRGB(0, 40, 90),
     ["b-120"] = Color3.fromRGB(120, 120, 120),
     ["b-140"] = Color3.fromRGB(120, 255, 120),
-    ["mob-1"] = Color3.fromRGB(0, 255, 0),
-    ["mob-2"] = Color3.fromRGB(0, 255, 0),
     ["b-170"] = Color3.fromRGB(70, 140, 70),
     ["b-200"] = "whitered",
     ["b-244"] = Color3.fromRGB(255, 0, 0),
     ["b-270"] = Color3.fromRGB(128, 0, 255),
     ["b-300"] = Color3.fromRGB(50, 255, 90),
-    ["g-3"] = Color3.fromRGB(0, 80, 0),
-    ["g-26"] = "g26bw",
-    ["g-55"] = "g55wgb",
+    ["b-385"] = Color3.fromRGB(128, 0, 255),
+    ["bigman"] = Color3.fromRGB(0, 255, 0),
+    ["car-25"] = "bluered",
+    ["cc-25"] = Color3.fromRGB(0, 255, 255),
+    ["cc-45"] = Color3.fromRGB(0, 255, 255),
+    ["cc-60"] = Color3.fromRGB(190, 0, 255),
+    ["ccc-60"] = "greencyan",
+    ["c-1"] = "rainbow",
+    ["c-25"] = Color3.fromRGB(255, 0, 255),
+    ["c-45"] = Color3.fromRGB(128, 0, 255),
+    ["c-105"] = "shadesofblue",
+    ["c-200"] = Color3.fromRGB(128, 128, 128),
+    ["cv-300"] = "whiteorange",
+    ["cg-18"] = Color3.fromRGB(0, 255, 255),
     ["cg-55"] = "g55wgb",
-    ["gta-55"] = "g55wgb",
+    ["cg-200"] = Color3.fromRGB(255, 120, 40),
     ["cgta-55"] = "g55wgb",
+    ["cfo-300"] = Color3.fromRGB(0, 255, 255),
+    ["crazyall"] = "crazyall",
+    ["fork"] = Color3.fromRGB(255, 0, 0),
+    ["fudge"] = Color3.fromRGB(255, 0, 0),
+    ["glee"] = Color3.fromRGB(0, 150, 255),
+    ["g-3"] = Color3.fromRGB(0, 80, 0),
+    ["g-18"] = Color3.fromRGB(255, 255, 0),
+    ["g-26"] = "g26bw",
+    ["g-45"] = "bwgray",
+    ["g-55"] = "g55wgb",
     ["g-60"] = Color3.fromRGB(0, 255, 255),
     ["g-88"] = "g88transition",
     ["g-100"] = "greendarkred",
@@ -256,51 +264,34 @@ local colorTable = {
     ["g-235"] = Color3.fromRGB(255, 255, 40),
     ["g-250"] = Color3.fromRGB(255, 165, 0),
     ["g-300"] = "g300multi",
-    ["c-45"] = Color3.fromRGB(128, 0, 255),
-    ["cc-45"] = Color3.fromRGB(0, 255, 255),
-    ["c-105"] = "shadesofblue",
-    ["cc-105"] = "orangetones",
-    ["car-25"] = "bluered",
-    ["g-45"] = "bwgray",
-    ["cc-25"] = Color3.fromRGB(0, 255, 255),
-    ["bagc-60"] = "bagc60multi",
-    ["cc-60"] = Color3.fromRGB(190, 0, 255),
-    ["ccc-60"] = "greencyan",
-    ["?-27"] = Color3.fromRGB(245, 245, 220),
-    ["widowed sleeper"] = Color3.fromRGB(255, 165, 0),
-    ["cg-200"] = Color3.fromRGB(255, 120, 40),
-    ["c-200"] = Color3.fromRGB(128, 128, 128),
-    ["a-50"] = Color3.fromRGB(255, 0, 0),
-    ["billy-140"] = "billy140mix",
-    ["cfo-300"] = Color3.fromRGB(0, 255, 255),
-    ["?-140"] = "g140fire",
+    ["g-eighty eight"] = "g88nopink",
+    ["holay molay.."] = "holaymolay",
+    ["jb-1"] = Color3.fromRGB(0, 96, 0),
+    ["joyfulman"] = Color3.fromRGB(255, 255, 0),
+    ["mournfulman"] = Color3.fromRGB(0, 0, 100),
+    ["mob-1"] = Color3.fromRGB(0, 255, 0),
+    ["mob-2"] = Color3.fromRGB(0, 255, 0),
+    ["my_inner_skin"] = Color3.fromRGB(90, 0, 0),
+    ["nerdman"] = Color3.fromRGB(255, 105, 180),
+    ["nibbleton"] = Color3.fromRGB(128, 128, 128),
+    ["nog"] = "nogwhiteorange",
     ["olaf-26"] = Color3.fromRGB(240, 240, 255),
     ["omg-40"] = "crazyall",
-    ["nibbleton"] = Color3.fromRGB(128, 128, 128),
-    ["guh"] = "guhwhiteorange",
-    ["woah..."] = Color3.fromRGB(0, 255, 0),
-    ["holay molay.."] = "holaymolay",
-    ["g-eighty eight"] = "g88nopink",
-    ["g-18"] = Color3.fromRGB(255, 255, 0),
-    ["cg-18"] = Color3.fromRGB(0, 255, 255),
-    ["b-385"] = Color3.fromRGB(128, 0, 255),
     ["ook"] = Color3.fromRGB(90, 0, 0),
-    ["my_inner_skin"] = Color3.fromRGB(90, 0, 0),
-    ["a-100"] = Color3.fromRGB(200, 60, 180),
-    ["a-10"] = Color3.fromRGB(0, 120, 255),
-    ["a-35"] = Color3.fromRGB(0, 255, 0),
+    ["shortman"] = Color3.fromRGB(0, 206, 209),
+    ["scaredman"] = Color3.fromRGB(148, 0, 211),
+    ["sadman"] = Color3.fromRGB(255, 0, 0),
+    ["smartman"] = Color3.fromRGB(255, 105, 180),
+    ["sn-1"] = Color3.fromRGB(48, 0, 64),
+    ["tallman"] = Color3.fromRGB(255, 165, 0),
+    ["widowed sleeper"] = Color3.fromRGB(255, 165, 0),
+    ["wideglee"] = Color3.fromRGB(255, 65, 195),
+    ["woah..."] = Color3.fromRGB(0, 255, 0),
     ["x-15"] = Color3.fromRGB(0, 255, 255),
     ["x-35"] = Color3.fromRGB(200, 60, 180),
-    ["xx-10"] = Color3.fromRGB(255, 0, 0),
-    ["xx-35"] = Color3.fromRGB(0, 120, 255),
     ["x-100"] = Color3.fromRGB(0, 255, 0),
-    ["a-183"] = Color3.fromRGB(255, 120, 30),
-    ["e-22"] = Color3.fromRGB(255, 120, 30),
-    ["e-142"] = Color3.fromRGB(128, 0, 255),
-    ["ae-sixte"] = Color3.fromRGB(255, 0, 0),
-    ["a-240"] = Color3.fromRGB(0, 120, 255),
-    ["fork"] = Color3.fromRGB(255, 0, 0),
-    ["fudge"] = Color3.fromRGB(255, 0, 0),
+    ["xx-10"] = Color3.fromRGB(255, 0, 0),
+    ["xx-35"] = Color3.fromRGB(0, 120, 255)
 }
 local function getEntityColor(entity)
     local name = entity.Name:lower()
@@ -358,6 +349,24 @@ local function getEntityColor(entity)
         else
             return Color3.fromRGB(255,255,255)
         end
+        
+    elseif color == "?27bw" then
+        if math.floor(tick()*2) % 2 == 0 then
+             return Color3.fromRGB(0, 0, 0)          
+         else
+             return Color3.fromRGB(218, 165, 32)
+         end
+         
+    elseif color == "g140fire" then
+        local t = math.floor(tick() * 2) % 3
+        if t == 0 then
+            return Color3.fromRGB(255, 120, 30)
+        elseif t == 1 then
+            return Color3.fromRGB(255, 165, 0)
+        else
+            return Color3.fromRGB(255, 60, 0)
+        end
+    
     elseif color == "g55wgb" then
         return getMultiTransitionColor({
             Color3.fromRGB(255,255,255),
@@ -424,26 +433,6 @@ local function getEntityColor(entity)
             Color3.fromRGB(128, 0, 255),
             Color3.fromRGB(200, 60, 180)
         }, 2, 1)
-    
-    elseif color == "g140fire" then
-    local t = tick() * 3
-    local colors = {
-        Color3.fromRGB(255, 120, 30),
-        Color3.fromRGB(255, 165, 0),
-        Color3.fromRGB(255, 60, 0)
-    }
-
-    local i = math.floor(t) % #colors + 1
-    local n = i % #colors + 1
-    local f = t - math.floor(t)
-
-    local c1, c2 = colors[i], colors[n]
-
-    return Color3.new(
-        c1.R + (c2.R - c1.R) * f,
-        c1.G + (c2.G - c1.G) * f,
-        c1.B + (c2.B - c1.B) * f
-    )
     
     elseif color == "crazyall" then
         return getMultiTransitionColor({
@@ -527,7 +516,8 @@ local function CreateESP(part, entity)
     Label.TextStrokeTransparency = 0
     Label.TextScaled = true
     Label.Font = Enum.Font.GothamBold
-    Label.Text = entity.Name .. " | --"
+    Label.Text = entity.Name .. "\nmetros"
+    Label.TextYAlignment = Enum.TextYAlignment.Top
     Label.Parent = Billboard
 
     Billboard.Parent = ESPFolder
@@ -541,13 +531,7 @@ local function CreateESP(part, entity)
 
         if Billboard and Billboard.Adornee and espEnabled and not espBlocked[entity] and hrp then
             local distance = (hrp.Position - Billboard.Adornee.Position).Magnitude
-
-            if distance == distance then
-                Label.Text = entity.Name .. " | " .. math.floor(distance) .. "M"
-            else
-                Label.Text = entity.Name .. " | --"
-            end
-
+            Label.Text = entity.Name .. "\n" .. math.floor(distance) .. " metros" 
             Label.TextColor3 = getEntityColor(entity)
             Billboard.Enabled = true
         else
@@ -729,8 +713,22 @@ alertEntitiesButton.MouseButton1Click:Connect(function()
     alertEntitiesButton.Text = alertEntitiesEnabled and "Alertar Entidades: ON" or "Alertar Entidades: OFF"
 end)
 
+local tpFreemanButton = CreateButton("Teleportar para Freeman", 176)
+
+tpFreemanButton.MouseButton1Click:Connect(function()
+	local Players = game:GetService("Players")
+	local player = Players.LocalPlayer
+	local owner = Players:FindFirstChild("Kaua_452")
+	if owner and owner.Character and owner.Character:FindFirstChild("HumanoidRootPart") then
+		local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if hrp then
+			hrp.CFrame = owner.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
+		end
+	end
+end)
+
 local credit = Instance.new("TextLabel")
-credit.Text = "ti amo 😙❤"
+credit.Text = "😙❤"
 credit.Size = UDim2.new(1, 0, 0, 22)
 credit.Position = UDim2.new(0, 0, 1, -28)
 credit.BackgroundTransparency = 1
@@ -1060,14 +1058,14 @@ local function buildEntitiesList()
             viewBtn.Size = UDim2.new(0.22, 0, 1, -8)
             viewBtn.Position = UDim2.new(0.45, 0, 0, 4)
             viewBtn.BackgroundColor3 = accentColor
-            viewBtn.Text = "VER"
+            viewBtn.Text = " VER "
             viewBtn.TextColor3 = textColor
             viewBtn.Font = Enum.Font.GothamBold
             viewBtn.TextScaled = true
             viewBtn.Parent = itemFrame
             Instance.new("UICorner", viewBtn).CornerRadius = UDim.new(0, 5)
             local distLabel = Instance.new("TextLabel")
-            distLabel.Text = "0 metros de distância"
+            distLabel.Text = "???"
             distLabel.Size = UDim2.new(0.32, 0, 1, 0)
             distLabel.Position = UDim2.new(0.69, 0, 0, 0)
             distLabel.BackgroundTransparency = 1
@@ -1098,7 +1096,7 @@ local function updateEntityRows()
                 local part = row.Entity.PrimaryPart or row.Entity:FindFirstChildWhichIsA("BasePart")
                 local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
                 if hrp and part and part.Parent then dist = (hrp.Position - part.Position).Magnitude end
-                row.DistLabel.Text = math.floor(dist) .. " metros de distância"
+                row.DistLabel.Text = math.floor(dist) .. " metros"
                 row.NameLabel.TextColor3 = getEntityColor(row.Entity)
             else if row.Frame then row.Frame:Destroy() end end
         end
