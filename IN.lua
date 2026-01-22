@@ -61,8 +61,8 @@ local function getAlertMessage(entityName)
         return 'apareceu, não se esconda.'
     end
     
-    if name == "e-1" or name == "xe-1" or name "xxe-1" then
-        return 'apareceu, não se esconda.'
+    if name == "e-1" or name == "xe-1" then
+        return 'apareceu, não mire a lanterna.'
     end
     
     if name == "bm-1" or name == "cha-1" or name == "dg-1" then
