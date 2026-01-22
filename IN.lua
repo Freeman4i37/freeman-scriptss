@@ -134,8 +134,8 @@ local colorTable = {
     ["a-1"] = Color3.fromRGB(149,6,6),
     ["john"] = Color3.fromRGB(255, 255, 255),
     ["noah"] = Color3.fromRGB(149,6,6),
-    ["a-15"] = Color3.fromRGB(0,0,156),
-    ["x-15"] = Color3.fromRGB(0,255,255),
+    ["a-10"] = Color3.fromRGB(0,0,156),
+    ["x-10"] = Color3.fromRGB(0,255,255),
     ["xx-10"] = Color3.fromRGB(255,0,0),
     ["a-35"] = Color3.fromRGB(0,255,0),
     ["x-35"] = Color3.fromRGB(255,0,255),
@@ -184,6 +184,8 @@ local colorTable = {
     
     -- ESPECIAIS 
     ["a-50"] = Color3.fromRGB(255, 0, 0),
+    ["awesome-60"] = Color3.fromRGB(255, 0, 0),
+    
     ["rainbow-200"] = "rbw",
     ["a-220"] = Color3.fromRGB(0, 255, 0),
     ["x-220"] = Color3.fromRGB(128, 0, 128),
@@ -311,7 +313,7 @@ local function CreateESP(part, entity)
     local Billboard = Instance.new("BillboardGui")
     Billboard.Name = "ESP_Billboard"
     Billboard.Adornee = part
-    Billboard.Size = UDim2.new(0, 140, 0, 50)
+    Billboard.Size = UDim2.new(0, 128, 0, 40)
     Billboard.AlwaysOnTop = true
 
     local Label = Instance.new("TextLabel")
@@ -320,7 +322,8 @@ local function CreateESP(part, entity)
     Label.TextStrokeTransparency = 0
     Label.TextScaled = true
     Label.Font = Enum.Font.GothamBold
-    Label.Text = entity.Name .. " | --"
+    Label.Text = entity.Name .. "\nmetros"
+    Label.TextYAlignment = Enum.TextYAlignment.Top
     Label.Parent = Billboard
 
     Billboard.Parent = ESPFolder
@@ -334,13 +337,7 @@ local function CreateESP(part, entity)
 
         if Billboard and Billboard.Adornee and espEnabled and not espBlocked[entity] and hrp then
             local distance = (hrp.Position - Billboard.Adornee.Position).Magnitude
-
-            if distance == distance then
-                Label.Text = entity.Name .. " | " .. math.floor(distance) .. "M"
-            else
-                Label.Text = entity.Name .. " | --"
-            end
-
+            Label.Text = entity.Name .. "\n" .. math.floor(distance) .. " metros" 
             Label.TextColor3 = getEntityColor(entity)
             Billboard.Enabled = true
         else
@@ -816,7 +813,7 @@ end
 local function buildEntitiesList()
     clearEntitiesList()
     local folder = workspace:FindFirstChild("Entities") or workspace:WaitForChild("Entities")
-    if not folder then entitiesTitle.Text = "Spawned Entities (none)"; return else entitiesTitle.Text = "Spawned Entities" end
+    if not folder then entitiesTitle.Text = "Entidades"; return else entitiesTitle.Text = "Entidades" end
     local y = 0
     for _, entity in pairs(folder:GetChildren()) do
         if entity then
