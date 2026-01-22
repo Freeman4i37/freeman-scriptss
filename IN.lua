@@ -21,13 +21,14 @@ local strongLime = Color3.fromRGB(140, 255, 60)
 local strongYellow = Color3.fromRGB(255, 255, 40)
 
 local lightColorTable = {
-    red    = Color3.fromRGB(255,0,0),
-    yellow = Color3.fromRGB(255,255,0),
-    blue   = Color3.fromRGB(0,150,255),
-    green  = Color3.fromRGB(0,255,0),
-    purple = Color3.fromRGB(150,0,255),
-    pink   = Color3.fromRGB(255, 65, 195),
-    white  = Color3.fromRGB(255,255,255)
+    white = Color3.fromRGB(255,255,255),
+    green = Color3.fromRGB(0,255,0),
+    blue  = Color3.fromRGB(0,150,255),
+    red   = Color3.fromRGB(255,0,0),
+
+    rainbow = function()
+        return Color3.fromHSV((tick() * 0.25) % 1, 1, 1)
+    end
 }
 local currentLightColor = "white"
 local playerLight
@@ -47,7 +48,7 @@ local ESP_IGNORE_NAMES = {
 local function getAlertMessage(entityName)
     local name = entityName:lower()
 
-    if name == "a-1" or name == "john" or name == "noah" or name == "x-200" or name == "a-245" or name == "a-80" or name == "a-258" or name == "ay eight ee" or name == "ay two hundred and fifty eight" then
+    if name == "a-1" or name == "john" or name == "noah" or name == "x-200" or name == "a-245" or name == "a-80" or name == "a-258" or name == "ay eight ee" or name == "ay two hundred and fifty eight" or name == "scary-245" then
         return 'apareceu, não precisa se esconder.'
     end
 
@@ -88,13 +89,25 @@ local function UpdatePlayerLight()
         playerLight = Instance.new("PointLight")
         playerLight.Name = "IR_Light"
         playerLight.Parent = hrp
-        playerLight.Range = 3000
-        playerLight.Brightness = 3
+        playerLight.Range = 300
+        playerLight.Brightness = 4
     end
 
-    playerLight.Color = lightColorTable[currentLightColor] or lightColorTable.white
+    local colorEntry = lightColorTable[currentLightColor] or lightColorTable.white
+    if typeof(colorEntry) == "function" then
+        playerLight.Color = colorEntry()
+    else
+        playerLight.Color = colorEntry
+    end
 end
-player.CharacterAdded:Connect(function() wait(1) UpdatePlayerLight() end)
+
+local RunService = game:GetService("RunService")
+
+RunService.Heartbeat:Connect(function()
+    if lightEnabled and currentLightColor == "rainbow" then
+        UpdatePlayerLight()
+    end
+end)
 
 local function getTransitionColor(a, b, speed)
     local t = math.abs(math.sin(tick()*(speed or 2)))
@@ -206,7 +219,7 @@ local colorTable = {
     ["xxv-5"] = Color3.fromRGB(0, 250, 154),
     ["ay two hundred and fifty eight"] = Color3.fromRGB(255, 165, 0),
     
-    ["scary-15"]  = Color3.fromRGB(255, 0, 0),
+    ["scary-10"]  = Color3.fromRGB(255, 0, 0),
     ["scary-35"]  = Color3.fromRGB(255, 0, 0),
     ["scary-60"]  = Color3.fromRGB(255, 0, 0),
     ["scary-100"] = Color3.fromRGB(255, 0, 0),
@@ -555,6 +568,9 @@ credit.Parent = frame
 local currentGuiAlert = nil
 local currentHeartbeat = nil
 
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
 local lastEntities = {}
 
 task.spawn(function()
@@ -587,8 +603,11 @@ task.spawn(function()
                             local guiAlert = Instance.new("Frame")
                             guiAlert.Name = "EntityAlertPrompt"
                             guiAlert.Size = UDim2.new(0, 350, 0, 60)
-                            guiAlert.AnchorPoint = Vector2.new(0.5, 0)
-                            guiAlert.Position = UDim2.new(0.5, 0, 0.08, 0)
+
+                            
+                            guiAlert.AnchorPoint = Vector2.new(1, 0)
+                            guiAlert.Position = UDim2.new(1, 350, 0.08, 0)
+
                             guiAlert.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
                             guiAlert.BorderSizePixel = 0
                             guiAlert.ZIndex = 1000
@@ -608,7 +627,14 @@ task.spawn(function()
                             label.TextColor3 = Color3.fromRGB(255,255,255)
                             label.Parent = guiAlert
 
-                            currentHeartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+                            
+                            TweenService:Create(
+                                guiAlert,
+                                TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+                                { Position = UDim2.new(1, -20, 0.08, 0) }
+                            ):Play()
+
+                            currentHeartbeat = RunService.Heartbeat:Connect(function()
                                 if label and label.Parent then
                                     label.TextColor3 = getEntityColor(entity)
                                 end
@@ -622,6 +648,16 @@ task.spawn(function()
                                         currentHeartbeat:Disconnect()
                                         currentHeartbeat = nil
                                     end
+
+                                    
+                                    local tweenOut = TweenService:Create(
+                                        guiAlert,
+                                        TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.In),
+                                        { Position = UDim2.new(1, 350, 0.08, 0) }
+                                    )
+                                    tweenOut:Play()
+                                    tweenOut.Completed:Wait()
+
                                     if currentGuiAlert then
                                         currentGuiAlert:Destroy()
                                         currentGuiAlert = nil
@@ -644,7 +680,7 @@ configButton.MouseButton1Click:Connect(function()
     if configFrame and configFrame.Parent then configFrame:Destroy() end
     configFrame = Instance.new("Frame")
     configFrame.Name = "ConfigFrame"
-    configFrame.Size = UDim2.new(0, 260, 0, 180)
+    configFrame.Size = UDim2.new(0, 320, 0, 240)
     configFrame.Position = UDim2.new(0.5, -130, 0.22, 0)
     configFrame.BackgroundColor3 = mainColor
     configFrame.Parent = gui
@@ -729,22 +765,31 @@ configButton.MouseButton1Click:Connect(function()
     colorLabel.ZIndex = 103
     colorLabel.Parent = colorPanel
 
-    local colorNames = {"red","yellow","blue","green","purple","pink","white"}
-    local btnW = 34
-    for i, cname in ipairs(colorNames) do
-        local cbtn = Instance.new("TextButton")
-        cbtn.Size = UDim2.new(0, btnW, 0, btnW)
-        cbtn.Position = UDim2.new(0, (i-1)*(btnW+4)+4, 0, 22)
-        cbtn.BackgroundColor3 = lightColorTable[cname]
-        cbtn.Text = ""
-        cbtn.ZIndex = 104
-        cbtn.Parent = colorPanel
-        Instance.new("UICorner", cbtn).CornerRadius = UDim.new(0, 100)
-        cbtn.MouseButton1Click:Connect(function()
-            currentLightColor = cname
-            UpdatePlayerLight()
-        end)
+    local colorNames = {"white","green","blue","red","rainbow"}
+local btnW = 34
+
+for i, cname in ipairs(colorNames) do
+    local cbtn = Instance.new("TextButton")
+    cbtn.Size = UDim2.new(0, btnW, 0, btnW)
+    cbtn.Position = UDim2.new(0, (i-1)*(btnW+2)+2, 0, 22)
+
+    local colorValue = lightColorTable[cname]
+    if typeof(colorValue) == "function" then
+        cbtn.BackgroundColor3 = colorValue()
+    else
+        cbtn.BackgroundColor3 = colorValue
     end
+
+    cbtn.Text = ""
+    cbtn.ZIndex = 104
+    cbtn.Parent = colorPanel
+    Instance.new("UICorner", cbtn).CornerRadius = UDim.new(0, 100)
+
+    cbtn.MouseButton1Click:Connect(function()
+        currentLightColor = cname
+        UpdatePlayerLight()
+    end)
+end
 
     lightBtn.MouseButton1Click:Connect(function()
         lightEnabled = not lightEnabled
@@ -954,3 +999,4 @@ closeButton.MouseButton1Click:Connect(function()
     gui:Destroy()
     ESPFolder:Destroy()
 end)
+
