@@ -34,6 +34,16 @@ local playerLight
 local lightEnabled = false
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local ignoredAlertEntities = {
+    ["tlab-278"] = true,
+    ["ulb-278"] = true,
+}
+
+local ESP_IGNORE_NAMES = {
+    ["tlab-278"] = true,
+    ["ulb-278"] = true,
+}
+
 local function getAlertMessage(entityName)
     local name = entityName:lower()
 
@@ -120,16 +130,6 @@ local function isIgnoredAlertEntity(name)
     return false
 end
 
-local ignoredAlertEntities = {
-    ["tlab-278"] = true,
-    ["ulb-278"] = true,
-}
-
-local ESP_IGNORE_NAMES = {
-    ["tlab-278"] = true,
-    ["ulb-278"] = true,
-}
-
 local colorTable = {
     ["a-1"] = Color3.fromRGB(149,6,6),
     ["john"] = Color3.fromRGB(255, 255, 255),
@@ -195,6 +195,7 @@ local colorTable = {
 }
 local function getEntityColor(entity)
     local name = entity.Name:lower()
+
     if name == "cg-55" or name == "cgta-55" then
         return getMultiTransitionColor({
             Color3.fromRGB(255,255,255),
@@ -202,103 +203,72 @@ local function getEntityColor(entity)
             Color3.fromRGB(0,0,0)
         }, 7, 1)
     end
-    local color = colorTable[name]
-    if not color then
-        for key, val in pairs(colorTable) do
-            if name == key or entity.Name == key or entity.Name == key:upper() or entity.Name:match("^A%-%d+") or entity.Name:match("^B%-%d+") or entity.Name:match("^G%-%d+") then
-                color = val
-                break
-            end
-        end
-    end
-    if not color then return Color3.fromRGB(255,255,255) end
-    
-    elseif color == "a-350bw" then
-    local t = tick() % 3          -- faz um ciclo de 3 segundos
-    local c1 = Color3.fromRGB(0,255,0)
-    local c2 = Color3.fromRGB(0,0,156)
-    local c3 = Color3.fromRGB(255,0,0)
 
-    if t < 1 then
-        -- verde → azul
-        return c1:Lerp(c2, t/1)
-    elseif t < 2 then
-        -- azul → vermelho
-        return c2:Lerp(c3, (t-1)/1)
-    else
-        -- vermelho → verde
-        return c3:Lerp(c1, (t-2)/1)
-    end
-end
+    local color = colorTable[name]
+
+    if color == "a-350bw" then
+        local t = tick() % 3
+        local c1 = Color3.fromRGB(0,255,0)
+        local c2 = Color3.fromRGB(0,0,156)
+        local c3 = Color3.fromRGB(255,0,0)
+
+        if t < 1 then
+            return c1:Lerp(c2, t)
+        elseif t < 2 then
+            return c2:Lerp(c3, t-1)
+        else
+            return c3:Lerp(c1, t-2)
+        end
 
     elseif color == "e-60bw" then
-    local t = tick() % 1.5         -- faz um ciclo de 3 segundos
-    local c1 = Color3.fromRGB(255,0,0)
-    local c2 = Color3.fromRGB(165,42,42)
-    local c3 = Color3.fromRGB(140,23,23)
-
-    if t < 1 then
-        -- verde → azul
-        return c1:Lerp(c2, t/1)
-    elseif t < 2 then
-        -- azul → vermelho
-        return c2:Lerp(c3, (t-1)/1)
-    else
-        -- vermelho → verde
-        return c3:Lerp(c1, (t-2)/1)
-    end
-end
+        local t = tick() % 2
+        local c1 = Color3.fromRGB(255,0,0)
+        local c2 = Color3.fromRGB(165,42,42)
+        return c1:Lerp(c2, t)
 
     elseif color == "e-142bw" then
-    local t = tick() % 2         -- faz um ciclo de 3 segundos
-    local c1 = Color3.fromRGB(255,28,174)
-    local c2 = Color3.fromRGB(0,0,0)
+        local t = tick() % 2
+        local c1 = Color3.fromRGB(255,28,174)
+        local c2 = Color3.fromRGB(0,0,0)
 
-    if t < 1 then
-        -- verde → azul
-        return c1:Lerp(c2, t/1)
-    elseif t < 2 then
-        -- azul → vermelho
-        return c2:Lerp(c3, (t-1)/1)
-    end
-end
+        if t < 1 then
+            return c1:Lerp(c2, t)
+        else
+            return c2:Lerp(c1, t-1)
+        end
 
     elseif color == "e-144bw" then
-    local t = tick() % 2         -- faz um ciclo de 3 segundos
-    local c1 = Color3.fromRGB(255,255,255)
-    local c2 = Color3.fromRGB(0,255,0)
+        local t = tick() % 2
+        local c1 = Color3.fromRGB(255,255,255)
+        local c2 = Color3.fromRGB(0,255,0)
 
-    if t < 1 then
-        -- verde → azul
-        return c1:Lerp(c2, t/1)
-    elseif t < 2 then
-        -- azul → vermelho
-        return c2:Lerp(c3, (t-1)/1)
+        if t < 1 then
+            return c1:Lerp(c2, t)
+        else
+            return c2:Lerp(c1, t-1)
+        end
+
+    elseif color == "rbw" then
+        local t = tick() % 6
+        local colors = {
+            Color3.fromRGB(255,0,0),
+            Color3.fromRGB(255,127,0),
+            Color3.fromRGB(255,255,0),
+            Color3.fromRGB(0,255,0),
+            Color3.fromRGB(0,0,255),
+            Color3.fromRGB(75,0,130),
+            Color3.fromRGB(148,0,211)
+        }
+
+        local i = math.floor(t)
+        return colors[i+1]:Lerp(colors[(i+1)%#colors+1], t-i)
     end
-end
 
-elseif color == "rbw" then
-    local t = tick() % 6
-    local colors = {
-        Color3.fromRGB(255, 0, 0),
-        Color3.fromRGB(255, 127, 0),
-        Color3.fromRGB(255, 255, 0),
-        Color3.fromRGB(0, 255, 0),
-        Color3.fromRGB(0, 0, 255),
-        Color3.fromRGB(75, 0, 130),
-        Color3.fromRGB(148, 0, 211)
-    }
-
-    local segment = math.floor(t)
-    local nextSegment = (segment + 1) % #colors
-    local progress = t - segment
-
-    return colors[segment + 1]:Lerp(colors[nextSegment + 1], progress)
+    if typeof(color) == "Color3" then
+        return color
     end
-end
 
-
-    return color
+    return Color3.fromRGB(255,255,255)
 end
 
 local Players = game:GetService("Players")
@@ -516,15 +486,15 @@ espButton.MouseButton1Click:Connect(function()
     espButton.Text = espEnabled and "ESP: ON" or "ESP: OFF"
 end)
 
-local spawnedEntitiesButton = CreateButton("Entidades Spawnadas", 88)
-local alertEntitiesButton = CreateButton("Alertar Entidades: OFF", 132)
+local spawnedEntitiesButton = CreateButton("Entidades Spawnadas", 44)
+local alertEntitiesButton = CreateButton("Alertar Entidades: OFF", 88)
 local alertEntitiesEnabled = false
 alertEntitiesButton.MouseButton1Click:Connect(function()
     alertEntitiesEnabled = not alertEntitiesEnabled
     alertEntitiesButton.Text = alertEntitiesEnabled and "Alertar Entidades: ON" or "Alertar Entidades: OFF"
 end)
 
-local tpFreemanButton = CreateButton("Teleportar para Freeman", 176)
+local tpFreemanButton = CreateButton("Teleportar para Freeman", 132)
 
 tpFreemanButton.MouseButton1Click:Connect(function()
 	local Players = game:GetService("Players")
