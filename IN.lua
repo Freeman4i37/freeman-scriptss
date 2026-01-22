@@ -52,8 +52,16 @@ local function getAlertMessage(entityName)
     end
 
     if name == "a-100" or name == "x-100" or name == "a-150"
-    or name == "xx-100" then
+    or name == "xx-100" or name == "scary-100" or name == "scary-150" then
         return 'apareceu, esconda-se em mesa.'
+    end
+    
+    if name == "x-200" then
+        return 'apareceu, não se esconda.'
+    end
+    
+    if name == "a-300" or name == "scare-300" then
+        return 'apareceu, ele só vai spawnar uma entidade.'
     end
     
     return 'apareceu, esconda-se.'
@@ -152,7 +160,7 @@ local colorTable = {
     ["a-150"] = Color3.fromRGB(0,255,255),
     ["a-183"] = Color3.fromRGB(255,165,0),
     ["a-200"] = Color3.fromRGB(255,255,255),
-    ["x-200"] = Color3.fromRGB(0,0,0),
+    ["x-200"] = Color3.fromRGB(255,255,255),
     ["a-221"] = Color3.fromRGB(50,205,50),
     ["a-245"] = Color3.fromRGB(35,142,104),
     ["a-278"] = Color3.fromRGB(147,112,219),
@@ -185,6 +193,9 @@ local colorTable = {
     -- ESPECIAIS 
     ["a-50"] = Color3.fromRGB(255, 0, 0),
     ["awesome-60"] = Color3.fromRGB(255, 0, 0),
+    ["awesome-200"] = Color3.fromRGB(255,255,255),
+    ["a-260"] = Color3.fromRGB(255,0,0),
+    ["a-400"] = Color3.fromRGB(255,255,255),
     
     ["rainbow-200"] = "rbw",
     ["a-220"] = Color3.fromRGB(0, 255, 0),
@@ -194,6 +205,32 @@ local colorTable = {
     ["xxe-22"] = Color3.fromRGB(173, 255, 47),
     ["xxv-5"] = Color3.fromRGB(0, 250, 154),
     ["ay two hundred and fifty eight"] = Color3.fromRGB(255, 165, 0),
+    
+    ["scary-15"]  = Color3.fromRGB(255, 0, 0),
+    ["scary-35"]  = Color3.fromRGB(255, 0, 0),
+    ["scary-60"]  = Color3.fromRGB(255, 0, 0),
+    ["scary-100"] = Color3.fromRGB(255, 0, 0),
+    ["scary-120"] = Color3.fromRGB(255, 0, 0),
+    ["scamy-120"] = Color3.fromRGB(255, 0, 0),
+    ["scary-150"] = Color3.fromRGB(255, 0, 0),
+    ["scary-183"] = Color3.fromRGB(255, 0, 0),
+    ["scary-200"] = Color3.fromRGB(255, 0, 0),
+    ["scary-245"] = Color3.fromRGB(255, 0, 0),
+    ["scary-300"] = Color3.fromRGB(255, 0, 0),
+    ["scary-332"] = Color3.fromRGB(255, 0, 0),
+    ["scary-350"] = Color3.fromRGB(255, 0, 0),
+
+   ["scare-22"]  = Color3.fromRGB(0, 0, 255),      
+   ["scare-42"]  = Color3.fromRGB(180, 0, 0),       
+   ["scare-60"]  = Color3.fromRGB(255, 0, 0),
+   ["scare-142"] = Color3.fromRGB(255, 0, 0),
+   ["scare-144"] = Color3.fromRGB(255, 0, 0),
+   ["scare-200"] = Color3.fromRGB(255, 0, 0),
+
+   ["scarv-5"]   = Color3.fromRGB(255, 0, 0),
+   ["scarv-27"]  = Color3.fromRGB(255, 0, 0),
+   ["scarv-35"]  = Color3.fromRGB(255, 0, 0),
+   ["scarv-50"]  = Color3.fromRGB(255, 0, 0),
 }
 local function getEntityColor(entity)
     local name = entity.Name:lower()
@@ -549,7 +586,7 @@ task.spawn(function()
 
                             local guiAlert = Instance.new("Frame")
                             guiAlert.Name = "EntityAlertPrompt"
-                            guiAlert.Size = UDim2.new(0, 400, 0, 74)
+                            guiAlert.Size = UDim2.new(0, 350, 0, 60)
                             guiAlert.AnchorPoint = Vector2.new(0.5, 0)
                             guiAlert.Position = UDim2.new(0.5, 0, 0.08, 0)
                             guiAlert.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
