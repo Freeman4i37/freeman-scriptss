@@ -747,6 +747,9 @@ credit.Parent = frame
 local currentGuiAlert = nil
 local currentHeartbeat = nil
 
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
 local lastEntities = {}
 
 task.spawn(function()
@@ -778,9 +781,12 @@ task.spawn(function()
 
                             local guiAlert = Instance.new("Frame")
                             guiAlert.Name = "EntityAlertPrompt"
-                            guiAlert.Size = UDim2.new(0, 400, 0, 74)
-                            guiAlert.AnchorPoint = Vector2.new(0.5, 0)
-                            guiAlert.Position = UDim2.new(0.5, 0, 0.08, 0)
+                            guiAlert.Size = UDim2.new(0, 350, 0, 60)
+
+                            
+                            guiAlert.AnchorPoint = Vector2.new(1, 0)
+                            guiAlert.Position = UDim2.new(1, 350, 0.08, 0)
+
                             guiAlert.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
                             guiAlert.BorderSizePixel = 0
                             guiAlert.ZIndex = 1000
@@ -800,7 +806,14 @@ task.spawn(function()
                             label.TextColor3 = Color3.fromRGB(255,255,255)
                             label.Parent = guiAlert
 
-                            currentHeartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+                            
+                            TweenService:Create(
+                                guiAlert,
+                                TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+                                { Position = UDim2.new(1, -20, 0.08, 0) }
+                            ):Play()
+
+                            currentHeartbeat = RunService.Heartbeat:Connect(function()
                                 if label and label.Parent then
                                     label.TextColor3 = getEntityColor(entity)
                                 end
@@ -808,12 +821,22 @@ task.spawn(function()
 
                             currentGuiAlert = guiAlert
 
-                            delay(6, function()
+                            delay(5, function()
                                 if currentGuiAlert == guiAlert then
                                     if currentHeartbeat then
                                         currentHeartbeat:Disconnect()
                                         currentHeartbeat = nil
                                     end
+
+                                    
+                                    local tweenOut = TweenService:Create(
+                                        guiAlert,
+                                        TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.In),
+                                        { Position = UDim2.new(1, 350, 0.08, 0) }
+                                    )
+                                    tweenOut:Play()
+                                    tweenOut.Completed:Wait()
+
                                     if currentGuiAlert then
                                         currentGuiAlert:Destroy()
                                         currentGuiAlert = nil
@@ -827,7 +850,7 @@ task.spawn(function()
 
             lastEntities = current
         end
-        task.wait(1)
+        task.wait(0.1)
     end
 end)
 
