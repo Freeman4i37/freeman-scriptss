@@ -54,7 +54,7 @@ task.wait(11)
 -- ====== Tạo thực thể V2 ======
 local entity = spawner.Create({
 	Entity = {
-		Name = "Hunger",
+		Name = "Hungered",
 		Asset = "rbxassetid://122018108776342",
 		HeightOffset = 0
 	},
