@@ -2,7 +2,7 @@ game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
 
 -- Load Entity Spawner V2
 local spawner = loadstring(game:HttpGet(
-	"https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Entity%20Spawner/V2/Source.lua"
+	"https://raw.githubusercontent.com/lynxxdev/freeman-scriptss/refs/heads/main/freeman.lua"
 	))()
 
 local TweenService = game:GetService("TweenService")
